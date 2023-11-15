@@ -17,6 +17,6 @@ app.use(compression());
 app.use(express.json({ limit: "32mb", verify: verifyRequest }));
 
 // app.use("/webhooks", require("./webhooks"));
-app.use("/api", require("@/backend/routes"));
+app.use("/", require("@/backend/routes"));
 
 module.exports = app;

@@ -7,9 +7,9 @@ const auth = {
       // req.body.email = req.body.email.toLowerCase().trim();
       // const { code, email, first_name, other, promote_option, affiliate_id } =
       //   req.body;
-      console.log("ami anik");
+      console.log(req.body);
 
-      res.status(200).json({ success: true, user });
+      res.status(200).json({ success: true });
     } catch (err) {
       console.error(err);
       res

@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { signup } = require("@/backend/controllers/AuthController");
+const {
+  signupValidation,
+  validationHandler,
+} = require("@/backend/validation/auth");
 // const AffiliateUserController = require("@backend/controllers/AffiliateUserController");
 // const checkAffiliate = require("@backend/middlewares/isAffiliate");
 // const {
@@ -16,12 +20,7 @@ const { signup } = require("@/backend/controllers/AuthController");
 //   validationHandler,
 // } = require("@validation/index");
 
-router.post(
-  "/signup",
-  // signupValidation,
-  // validationHandler,
-  signup
-);
+router.post("/signup", signupValidation, validationHandler, signup);
 
 // router.post(
 //   "/login",

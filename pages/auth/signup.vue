@@ -184,11 +184,13 @@ export default {
       try {
         this.loading = true;
         this.errors = {};
-        await this.$axios.post("auth/signup", this.form);
-        await this.$auth.loginWith("laravelJWT", {
-          data: this.form,
-        });
+        const data = await this.$authApi.signup(this.form);
+        console.log(data);
+        // await this.$auth.loginWith("laravelJWT", {
+        //   data: this.form,
+        // });
       } catch (error) {
+        console.log(error.response);
         this.errors = error.response.data.errors;
       } finally {
         this.loading = false;

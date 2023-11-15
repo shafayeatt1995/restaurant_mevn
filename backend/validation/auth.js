@@ -1,17 +1,9 @@
 const { check, validationResult } = require("express-validator");
-const { User } = require("@models");
+const { User } = require("@/backend/models");
 const bcrypt = require("bcryptjs");
 
 const signupValidation = [
-  check("first_name")
-    .isLength({ min: 1 })
-    .withMessage("First name is required")
-    .trim(),
-
-  check("last_name")
-    .isLength({ min: 1 })
-    .withMessage("Last name is required")
-    .trim(),
+  check("name").isLength({ min: 1 }).withMessage("Name is required").trim(),
 
   check("email")
     .isLength({ min: 1 })
@@ -22,19 +14,10 @@ const signupValidation = [
     .custom(async (value) => {
       try {
         const checkIsUserAllowed = (email) => {
-          const admin_emails = new Set([
-            "vishalbty@gmail.com",
-            "beezeaal@gmail.com",
-            "admin@footyamigo.com",
-            "footyamigo@gmail.com",
-            "presidentialideas@gmail.com",
-            "kspm7@protonmail.com",
-            "daniel@footyamigo.com",
-            "shafayetalanik@gmail.com",
-          ]);
+          const admin_emails = new Set(["shafayetalanik@gmail.com"]);
           return admin_emails.has(email);
         };
-        const user = await AffiliateUser.findOne({ email: value });
+        const user = await User.findOne({ email: value });
         if (user || checkIsUserAllowed(value)) {
           throw new Error("Email already is use!");
         }
@@ -43,12 +26,6 @@ const signupValidation = [
         throw new Error(err.message);
       }
     }),
-
-  check("affiliate_id")
-    .isLength({ min: 1 })
-    .withMessage("Affiliate ID is required")
-    .isLength({ max: 20 })
-    .withMessage(`Affiliate ID should not exceed 20 characters`),
 
   check("password")
     .isLength({ min: 8 })
@@ -63,10 +40,6 @@ const signupValidation = [
       }
       return true;
     }),
-
-  check("country_code")
-    .isLength({ min: 1 })
-    .withMessage("Please select a country"),
 ];
 
 const loginValidation = [
@@ -238,13 +211,13 @@ const validationHandler = function (req, res, next) {
 
 module.exports = {
   signupValidation,
-  loginValidation,
-  changePassword,
-  updatePersonalDetails,
-  paypalDetails,
-  bankDetails,
-  checkEmail,
-  cryptoDetails,
-  checkPassword,
+  // loginValidation,
+  // changePassword,
+  // updatePersonalDetails,
+  // paypalDetails,
+  // bankDetails,
+  // checkEmail,
+  // cryptoDetails,
+  // checkPassword,
   validationHandler,
 };
