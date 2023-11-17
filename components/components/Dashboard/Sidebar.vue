@@ -1,0 +1,74 @@
+<template>
+  <aside
+    id="sidebar"
+    :class="isOpen ? 'translate-x-0 ease-in' : '-translate-x-full ease-out'"
+    class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed inset-y-0 left-0 z-30 min-h-screen space-y-6 text-gray-100 transition duration-200 transform lg:translate-x-0 lg:relative lg:inset-0 border-solid border-1 border-gray-200"
+  >
+    <a href="#" class="mx-auto">
+      <img
+        class="w-auto h-6 sm:h-7"
+        src="https://merakiui.com/images/full-logo.svg"
+        alt=""
+      />
+    </a>
+
+    <div class="flex flex-col items-center mt-6 -mx-2">
+      <img
+        class="object-cover w-24 h-24 mx-2 rounded-full"
+        :src="$auth.user.avatar"
+        alt="avatar"
+      />
+      <h4 class="mx-2 mt-2 font-medium text-gray-800">{{ $auth.user.name }}</h4>
+      <p class="mx-2 mt-1 text-sm font-medium text-gray-600">
+        {{ $auth.user.type }}
+      </p>
+    </div>
+
+    <div class="flex flex-col justify-between flex-1 mt-6">
+      <nav>
+        <nuxt-link
+          v-for="({ name, title, icon }, i) in navLink"
+          :key="i"
+          :to="{ name }"
+          class="flex items-center px-4 py-3 mt-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:text-gray-700 hover:bg-gray-100"
+          :class="check(name)"
+        >
+          <icon :icon="icon" class="w-5 h-5" />
+          <span class="mx-4 font-medium">{{ title }}</span>
+        </nuxt-link>
+      </nav>
+    </div>
+  </aside>
+</template>
+<script>
+export default {
+  name: "Sidebar",
+  props: { isOpen: Boolean },
+  data() {
+    return {};
+  },
+  computed: {
+    navLink() {
+      const nav = [
+        { name: "dashboard", title: "Dashboard", icon: ["fas", "chart-line"] },
+        {
+          name: "dashboard-category",
+          title: "Category",
+          icon: ["fas", "cubes"],
+        },
+        {
+          name: "dashboard-users",
+          title: "Users",
+          icon: ["fas", "users"],
+        },
+      ];
+      return nav;
+    },
+  },
+  methods: {
+    check(name) {
+      return this.$route.name === name ? "bg-gray-100" : "";
+    },
+  },
+};
+</script>

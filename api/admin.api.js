@@ -5,7 +5,19 @@ export class AdminApi extends BaseApi {
     this.api.setBaseURL(`/api/admin/`);
   }
 
+  fetchCategory(params) {
+    return this.api.$get(`category`, { params });
+  }
+
   createCategory(body) {
-    return this.api.$post(`create-category`, body);
+    return this.api.$post(`category`, body);
+  }
+
+  updateCategory(body) {
+    return this.api.$patch(`category`, body);
+  }
+
+  deleteCategory(body) {
+    return this.api.$delete(`category`, body);
   }
 }

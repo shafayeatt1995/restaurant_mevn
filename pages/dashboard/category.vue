@@ -1,25 +1,80 @@
 <template>
   <div>
     <section
-      class="flex flex-col w-full px-6 md:justify-between md:items-center md:flex-row mb-5"
+      class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
       <div>
         <h2 class="text-3xl font-medium text-gray-800">Category</h2>
       </div>
 
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
-        <DashboardCreateButton @click.native.prevent="modal = true">
+        <ButtonPrimary @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
-            <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
+            <icon :icon="['fas', 'plus']" class="mr-2" />
 
             <span class="mx-1 text-sm capitalize">Create new Category</span>
           </div>
-        </DashboardCreateButton>
+        </ButtonPrimary>
       </div>
     </section>
 
-    <section class="px-6">
-      <TableResponsive :fields="fields" />
+    <section class="px-4">
+      <TableResponsive
+        :fields="fields"
+        :items="loading ? 10 : items"
+        :skeleton="loading"
+      >
+        <template #image="{ item }">
+          <img :src="item.photo?.path" class="max-h-16" />
+        </template>
+        <template #created_at="{ value }">{{ value | agoDate }}</template>
+        <template #updated_at="{ value }">{{ value | agoDate }}</template>
+        <template #actions="{ item, index }">
+          <div class="flex gap-2">
+            <ButtonPrimary @click.native.prevent="editItem(item)"
+              ><icon :icon="['far', 'pen-to-square']" /> Edit</ButtonPrimary
+            >
+            <ButtonRed @click.native.prevent="deleteItem(item.id, index)"
+              ><icon :icon="['far', 'trash-can']" />Delete</ButtonRed
+            >
+          </div>
+        </template>
+        <template #empty v-if="items.length === 0 && !loading">
+          <div class="flex items-center text-center h-96 bg-white">
+            <div class="flex flex-col w-full items-center">
+              <div class="p-3 mx-auto text-green-600 bg-green-100 rounded-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
+              </div>
+              <h1 class="mt-3 text-lg text-gray-800">No Category found</h1>
+              <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
+                <ButtonPrimary @click.native.prevent="modal = true">
+                  <icon
+                    :icon="['far', 'circle-xmark']"
+                    class="text-xl rotate-45 mr-2"
+                  />
+                  <span>Add Category</span>
+                </ButtonPrimary>
+              </div>
+            </div>
+          </div>
+        </template>
+      </TableResponsive>
+      <Observer @load="fetchItem" v-if="items.length > 0">
+        <Spinner class="text-green-600 h-7 w-7" v-if="items % perPage === 0" />
+      </Observer>
     </section>
 
     <Modal v-model="modal">
@@ -27,27 +82,29 @@
         class="text-lg font-medium leading-6 text-gray-800 capitalize"
         id="modal-title"
       >
-        Create new Category
+        {{ editMode ? "Edit" : "Create new" }} Category
       </h3>
-
-      <form class="mt-4" @submit.prevent="create">
+      <form class="mt-4" @submit.prevent="submit">
         <input
           type="text"
           placeholder="Category Name"
-          class="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+          class="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-40"
+          v-model="form.name"
         />
         <div
-          @click="anik"
+          @click="imageModal = true"
           class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
         >
-          <font-awesome-icon
-            :icon="['far', 'image']"
-            class="text-8xl text-green-500"
+          <img
+            :src="selected.path"
+            v-if="selected.path"
+            class="object-contain w-full h-full p-3"
           />
-          <p class="text-xl">Select an image</p>
+          <template v-else>
+            <icon :icon="['far', 'image']" class="text-8xl text-green-600" />
+            <p class="text-lg px-10 text-gray-700">Select an Category image</p>
+          </template>
         </div>
-
-        <img :src="preview" class="max-w-80 max-h-80" />
 
         <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
           <button
@@ -60,16 +117,14 @@
 
           <button
             type="submit"
-            class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-green-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+            class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-40"
           >
-            Create Category
+            {{ editMode ? "Update" : "Create" }} Category
           </button>
         </div>
       </form>
     </Modal>
-    <!-- <client-only> -->
-    <ImageModal v-model="imageModal" />
-    <!-- </client-only> -->
+    <ImageModal v-model="imageModal" :selected.sync="selected" />
   </div>
 </template>
 
@@ -82,75 +137,114 @@ export default {
   },
   data() {
     return {
-      isOpen: false,
+      click: true,
       modal: false,
       imageModal: false,
-      preview: "",
       form: {
         name: "",
         image: "",
       },
+      selected: {},
+      editMode: false,
+      items: [],
+      perPage: 50,
+      loading: true,
     };
   },
-
   computed: {
     fields() {
       const fields = [
-        {
-          key: "name",
-          label: "NAME",
-          span: "minmax(165PX, 1fr)",
-          hide_title_mobile: true,
-          col_span_mobile: 2,
-        },
-        {
-          key: "created_at",
-          label: "CREATED",
-          span: "minmax(100PX, .7fr)",
-          hide_title_mobile: true,
-          col_span_mobile: 2,
-        },
-        {
-          key: "updated_at",
-          label: "UPDATED",
-          span: "minmax(100PX, .7fr)",
-          hide_title_mobile: true,
-          col_span_mobile: 2,
-        },
-        {
-          key: "actions",
-          label: "",
-          span: "60px",
-          hide_title_mobile: true,
-        },
+        { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
+        { key: "image", label: "Image", span: "minmax(150PX, 1fr)" },
+        { key: "created_at", label: "CREATED", span: "minmax(120PX, 1fr)" },
+        { key: "updated_at", label: "UPDATED", span: "minmax(120PX, 1fr)" },
+        { key: "actions", label: "Actions", span: "minmax(260PX, 1fr)" },
       ];
-      // if (this.is_mobile) {
-      //   return fields.sort((a, b) => a.order - b.order)
-      // } else {
-      //   return fields
-      // }
       return fields;
     },
   },
-
-  methods: {
-    async create() {
-      // await this.$adminApi.createCategory(this.form);
+  watch: {
+    modal(val) {
+      !val ? this.reset() : "";
     },
-
-    image(event) {
-      if (event.target.files.length > 0) {
-        let file = event.target.files[0];
-        let reader = new FileReader();
-        reader.onloadend = () => {
-          this.preview = reader.result;
+  },
+  mounted() {
+    this.fetchItem();
+  },
+  methods: {
+    async fetchItem() {
+      try {
+        const params = {
+          perPage: this.perPage,
+          page: this.items.length / this.perPage + 1,
         };
-        reader.readAsDataURL(file);
-        this.form.image = file;
+        if (Number.isInteger(params.page)) {
+          const { data } = await this.$axios.get("admin/category", { params });
+          this.items = this.items.concat(data.data);
+        }
+      } catch (error) {
+        this.$nuxt.$emit("apiError", error);
+      } finally {
+        this.loading = false;
       }
     },
-    anik() {
-      this.imageModal = true;
+    async submit() {
+      try {
+        if (this.click) {
+          this.click = false;
+          this.form.image = this.selected.id;
+          if (this.editMode) {
+            await this.$axios.patch("admin/category", this.form);
+          } else {
+            await this.$axios.post("admin/category", this.form);
+          }
+          $nuxt.$emit(
+            "success",
+            `Category ${this.editMode ? "updated" : "created"} successfully`
+          );
+          this.refetch();
+          this.modal = false;
+          this.click = true;
+        }
+      } catch (error) {
+        $nuxt.$emit("apiError", error);
+      } finally {
+        this.click = true;
+      }
+    },
+    reset() {
+      this.form = {
+        name: "",
+        image: "",
+      };
+      this.selected = {};
+      this.editMode = false;
+    },
+    refetch() {
+      this.items = [];
+      this.fetchItem();
+    },
+    editItem({ id, photo_id, name, photo }) {
+      this.form = { id, name };
+      this.selected = { id: photo_id, path: photo.path };
+      this.editMode = true;
+      this.modal = true;
+    },
+    async deleteItem(id, key) {
+      if (confirm("Are you sure, you want to delete?")) {
+        try {
+          if (this.click) {
+            this.click = false;
+            await this.$axios.delete("admin/category", { params: { id } });
+            this.items.splice(key, 1);
+            this.click = true;
+          }
+        } catch (error) {
+          $nuxt.$emit("apiError", error);
+        } finally {
+          this.click = true;
+        }
+      }
     },
   },
 };
