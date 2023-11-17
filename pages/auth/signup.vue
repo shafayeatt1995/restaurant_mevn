@@ -22,95 +22,18 @@
           Create a new Account
         </h1>
 
-        <div class="relative flex items-center mt-8">
-          <span class="absolute">
-            <font-awesome-icon
-              :icon="['far', 'user']"
-              class="w-5 h-5 mx-3 text-gray-300"
-            />
-          </span>
-
-          <input
-            type="text"
-            class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            placeholder="Name"
-            name="name"
-            v-model="form.name"
-          />
-        </div>
-        <p class="text-rose-700" v-if="errors?.name">{{ errors.name[0] }}</p>
-
-        <div class="relative flex items-center mt-4">
-          <span class="absolute">
-            <font-awesome-icon
-              :icon="['far', 'envelope']"
-              class="w-5 h-5 mx-3 text-gray-300"
-            />
-          </span>
-
-          <input
-            type="email"
-            class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            placeholder="Email address"
-            name="email"
-            v-model="form.email"
-          />
-        </div>
-        <p class="text-rose-700" v-if="errors?.email">{{ errors.email[0] }}</p>
-
-        <div class="relative flex items-center mt-4">
-          <span class="absolute">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 mx-3 text-gray-300"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
-          </span>
-
-          <input
-            type="password"
-            class="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            placeholder="Password"
-            name="password"
-            v-model="form.password"
-          />
-        </div>
-        <p class="text-rose-700" v-if="errors?.password">
-          {{ errors.password[0] }}
-        </p>
+        <div class="mt-8" />
+        <Input
+          v-for="(field, i) in fields"
+          :key="i"
+          :field="field"
+          v-model="form"
+          :errors="errors"
+        />
 
         <div class="mt-6">
           <Button class="w-full" type="submit" :disabled="loading">
-            <svg
-              v-if="loading"
-              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
+            <Spinner v-if="loading" />
             Sign Up
           </Button>
 
@@ -165,10 +88,37 @@ export default {
   data() {
     return {
       loading: false,
+      fields: [
+        {
+          type: "text",
+          placeholder: "Name",
+          icon: ["far", "user"],
+          name: "name",
+        },
+        {
+          type: "email",
+          placeholder: "Email",
+          icon: ["far", "envelope"],
+          name: "email",
+        },
+        {
+          type: "password",
+          placeholder: "Password",
+          icon: ["fas", "lock"],
+          name: "password",
+        },
+        {
+          type: "password",
+          placeholder: "Confirm Password",
+          icon: ["fas", "lock"],
+          name: "confirmPassword",
+        },
+      ],
       form: {
         name: "",
         email: "",
         password: "",
+        confirmPassword: "",
       },
       errors: {},
     };
@@ -184,13 +134,9 @@ export default {
       try {
         this.loading = true;
         this.errors = {};
-        const data = await this.$authApi.signup(this.form);
-        console.log(data);
-        // await this.$auth.loginWith("laravelJWT", {
-        //   data: this.form,
-        // });
+        await this.$authApi.signup(this.form);
+        await this.$auth.loginWith("cookie", { data: this.form });
       } catch (error) {
-        console.log(error.response);
         this.errors = error.response.data.errors;
       } finally {
         this.loading = false;

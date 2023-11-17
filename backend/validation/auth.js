@@ -14,7 +14,9 @@ const signupValidation = [
     .custom(async (value) => {
       try {
         const checkIsUserAllowed = (email) => {
-          const admin_emails = new Set(["shafayetalanik@gmail.com"]);
+          const admin_emails = new Set([
+            // "shafayetalanik@gmail.com"
+          ]);
           return admin_emails.has(email);
         };
         const user = await User.findOne({ email: value });
@@ -31,7 +33,7 @@ const signupValidation = [
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
 
-  check("confirm_password")
+  check("confirmPassword")
     .isLength({ min: 8 })
     .withMessage("Confirm password must be at least 8 characters")
     .custom((value, { req }) => {
@@ -49,14 +51,11 @@ const loginValidation = [
     .trim()
     .custom(async (value, { req }) => {
       try {
-        const user = await AffiliateUser.findOne({ email: value }).select(
-          "+password"
-        );
+        const user = await User.findOne({ email: value }).select("+password");
         if (user) {
           const check = await bcrypt.compare(req.body.password, user.password);
           if (check) {
             req.user = user;
-            req.user_id = user._id;
           } else {
             throw new Error(`Login failed. Invalid credentials.`);
           }
@@ -68,6 +67,9 @@ const loginValidation = [
         throw new Error(err.message);
       }
     }),
+  check("password")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
 ];
 
 const changePassword = [
@@ -197,21 +199,9 @@ const cryptoDetails = [
   check("wallet").isLength({ min: 1 }).withMessage("wallet is required"),
 ];
 
-const validationHandler = function (req, res, next) {
-  const errors = validationResult(req);
-  const mappedErrors = errors.mapped();
-  if (Object.keys(mappedErrors).length === 0) {
-    next();
-  } else {
-    res.status(422).json({
-      errors: mappedErrors,
-    });
-  }
-};
-
 module.exports = {
   signupValidation,
-  // loginValidation,
+  loginValidation,
   // changePassword,
   // updatePersonalDetails,
   // paypalDetails,
@@ -219,5 +209,4 @@ module.exports = {
   // checkEmail,
   // cryptoDetails,
   // checkPassword,
-  validationHandler,
 };

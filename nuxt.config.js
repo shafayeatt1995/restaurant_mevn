@@ -17,10 +17,7 @@ export default {
 
   css: [],
 
-  pageTransition: {
-    name: "fade",
-    mode: "out-in",
-  },
+  pageTransition: { name: "fade", mode: "out-in" },
 
   plugins: [
     "~/plugins/api.js",
@@ -52,10 +49,9 @@ export default {
     "nuxt-client-init-module",
   ],
 
-  axios: {
-    baseURL: process.env.APP_URL,
-    proxy: true,
-  },
+  axios: { baseURL: process.env.APP_URL, proxy: true },
+
+  proxy: { "/api/": { target: "/", pathRewrite: { "^/api/": "" } } },
 
   publicRuntimeConfig: {
     axios: {
@@ -69,28 +65,21 @@ export default {
     },
   },
 
-  proxy: {
-    "/laravel": {
-      target: "/",
-      pathRewrite: { "^/laravel": "/" },
-    },
-  },
-
   auth: {
     strategies: {
       cookie: {
+        provider: "laravel/jwt",
         scheme: "refresh",
-        url: "auth/",
+        url: "api/",
         endpoints: {
-          login: { url: "/auth/login", method: "post" },
-          logout: { url: "/auth/logout", method: "get" },
-          user: { url: "/user/profile", method: "get" },
-          // refresh: { url: "/user/refresh-token", method: "get" },
+          login: { url: "auth/login", method: "post" },
+          logout: { url: "auth/logout", method: "get" },
+          user: { url: "user/profile", method: "get" },
         },
         autoLogout: true,
         user: { property: "user" },
         token: {
-          property: "access_token",
+          property: "token",
           maxAge: 60 * 60 * 24 * 30,
           global: true,
           type: "Bearer",
@@ -119,11 +108,9 @@ export default {
     },
   },
 
+  router: { middleware: ["auth"] },
+
   build: {},
 
-  router: {
-    middleware: ["auth"],
-  },
-
-  serverMiddleware: [{ path: "/api", handler: "@/backend/index.js" }],
+  serverMiddleware: [{ path: "/api", handler: "~/backend" }],
 };

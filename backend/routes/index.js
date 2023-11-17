@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-// const {
-//   isAdmin,
-//   isAuthenticated,
-//   isGuestOrAuth,
-// } = require("@backend/middlewares");
+const { isAuthenticated } = require("@/backend/middleware");
 // const { CommonController } = require("@backend/controllers");
 
 router.use("/auth", require("./auth"));
+
+router.use(isAuthenticated);
+router.use("/user", require("./user"));
 // router.use(isGuestOrAuth);
 
 // router.use("/short", require("./short"));

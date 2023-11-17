@@ -1,26 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const { signup } = require("@/backend/controllers/AuthController");
+const {
+  signup,
+  login,
+  logout,
+} = require("@/backend/controllers/AuthController");
 const {
   signupValidation,
-  validationHandler,
+  loginValidation,
 } = require("@/backend/validation/auth");
-// const AffiliateUserController = require("@backend/controllers/AffiliateUserController");
-// const checkAffiliate = require("@backend/middlewares/isAffiliate");
-// const {
-//   signupValidation,
-//   loginValidation,
-//   changePassword,
-//   updatePersonalDetails,
-//   paypalDetails,
-//   bankDetails,
-//   cryptoDetails,
-//   checkEmail,
-//   checkPassword,
-//   validationHandler,
-// } = require("@validation/index");
+const { validationHandler } = require("@/backend/validation/validationHandler");
 
 router.post("/signup", signupValidation, validationHandler, signup);
+router.post("/login", loginValidation, validationHandler, login);
+router.get("/logout", logout);
 
 // router.post(
 //   "/login",

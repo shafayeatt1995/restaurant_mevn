@@ -4,10 +4,10 @@ const { User } = require("@/backend/models");
 const auth = {
   async signup(req, res) {
     try {
-      // req.body.email = req.body.email.toLowerCase().trim();
-      // const { code, email, first_name, other, promote_option, affiliate_id } =
-      //   req.body;
-      console.log(req.body);
+      req.body.email = req.body.email.toLowerCase().trim();
+      const { email, name, password } = req.body;
+
+      await User.create({ email, name, password });
 
       res.status(200).json({ success: true });
     } catch (err) {
@@ -19,12 +19,11 @@ const auth = {
   },
 
   async login(req, res) {
-    const { _id, email, affiliate_id } = req.user;
-    const token = jwt.sign(
-      { _id, email, affiliate_id },
-      process.env.AFFILIATE_AUTH_SECRET,
-      { expiresIn: "30 days" }
-    );
+    const { _id, email } = req.user;
+    const token = jwt.sign({ _id, email }, process.env.AUTH_SECRET, {
+      expiresIn: "30 days",
+    });
+
     res.status(200).json({ success: true, token });
   },
 

@@ -17,6 +17,16 @@ app.use(compression());
 app.use(express.json({ limit: "32mb", verify: verifyRequest }));
 
 // app.use("/webhooks", require("./webhooks"));
+
 app.use("/", require("@/backend/routes"));
+
+app.use((err, req, res, next) => {
+  console.error("Last error:", err.stack);
+  if (err instanceof CustomError) {
+    res.status(400).json({ error: err.message });
+  } else {
+    res.status(500).json({ error: "Something went wrong!" });
+  }
+});
 
 module.exports = app;
