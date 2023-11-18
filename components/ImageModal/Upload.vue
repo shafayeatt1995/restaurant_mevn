@@ -9,13 +9,7 @@
       <template v-slot:dz-preview="previewArgs"> </template>
     </vue-dropzone>
     <div class="flex justify-end mt-3">
-      <button
-        type="button"
-        class="px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:mx-2 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
-        @click="modal = false"
-      >
-        Cancel
-      </button>
+      <ButtonWhite @click.native.prevent="modal = false"> Cancel </ButtonWhite>
     </div>
   </div>
 </template>
@@ -65,7 +59,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("photo", ["reset"]),
+    ...mapActions("image", ["reset"]),
     onSuccess() {
       this.reset();
     },

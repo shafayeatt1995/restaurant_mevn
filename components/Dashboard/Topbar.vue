@@ -37,7 +37,7 @@
             <img
               class="flex-shrink-0 w-10 h-10 overflow-hidden bg-gray-100 rounded-full md:mx-2"
               :src="$auth.user.avatar"
-              alt="user profile photo"
+              alt="user profile image"
             />
           </div>
         </button>

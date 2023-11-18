@@ -25,7 +25,7 @@
         :skeleton="loading"
       >
         <template #image="{ item }">
-          <img :src="item.photo?.path" class="max-h-16" />
+          <img :src="item.image?.path" class="max-h-16" />
         </template>
         <template #created_at="{ value }">{{ value | agoDate }}</template>
         <template #updated_at="{ value }">{{ value | agoDate }}</template>
@@ -44,34 +44,13 @@
         </template>
         <template #empty v-if="items.length === 0 && !loading">
           <div class="flex items-center text-center h-96 bg-white">
-            <div class="flex flex-col w-full items-center">
-              <div class="p-3 mx-auto text-green-600 bg-green-100 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-              </div>
-              <h1 class="mt-3 text-lg text-gray-800">No Category found</h1>
-              <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
-                <ButtonPrimary @click.native.prevent="modal = true">
-                  <font-awesome-icon
-                    :icon="['far', 'circle-xmark']"
-                    class="text-xl rotate-45 mr-2"
-                  />
-                  <span>Add Category</span>
-                </ButtonPrimary>
-              </div>
-            </div>
+            <EmptyMessage
+              @action="modal = true"
+              title="No Category found"
+              buttonText="Add Category"
+              :icon="['far', 'circle-xmark']"
+              iconClass="rotate-45"
+            />
           </div>
         </template>
       </TableResponsive>
@@ -185,10 +164,8 @@ export default {
           page: this.items.length / this.perPage + 1,
         };
         if (Number.isInteger(params.page)) {
-          console.log(params);
-          const data = await this.$adminApi.fetchCategory(params);
-          // this.items = this.items.concat(data.data);
-          console.log(data);
+          const { categories } = await this.$adminApi.fetchCategory(params);
+          this.items = this.items.concat(categories);
         }
       } catch (error) {
         this.$nuxt.$emit("apiError", error);
@@ -232,9 +209,9 @@ export default {
       this.items = [];
       this.fetchItem();
     },
-    editItem({ id, photo_id, name, photo }) {
+    editItem({ id, image_id, name, image }) {
       this.form = { id, name };
-      this.selected = { id: photo_id, path: photo.path };
+      this.selected = { id: image_id, path: image.path };
       this.editMode = true;
       this.modal = true;
     },

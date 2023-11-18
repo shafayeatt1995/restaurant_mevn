@@ -2,16 +2,17 @@
   <div>
     <div
       class="grid grid-cols-2 gap-6 px-6 xl:grid-cols-5 2xl:grid-cols-6 lg:grid-cols-4 mt-3 max-h-96 overflow-y-auto"
+      v-if="images.length > 0"
     >
       <div
         class="relative cursor-pointer text-green-600 flex items-center h-24 lg:h-40"
-        @click="setImage(photo)"
-        v-for="(photo, i) in photos"
+        @click="setImage(image)"
+        v-for="(image, i) in images"
         :key="i"
       >
         <transition name="fade" mode="out-in">
           <div
-            v-if="checkId(photo.id)"
+            v-if="checkId(image.id)"
             class="flex items-center justify-center absolute w-full h-full bg-gray-800 bg-opacity-70"
           >
             <font-awesome-icon
@@ -20,31 +21,33 @@
             />
           </div>
         </transition>
-        <img :src="photo.path" class="object-contain h-full w-full" />
+        <img :src="image.path" class="object-contain h-full w-full" />
       </div>
       <Observer @load="getImages">
         <Spinner class="text-green-600 h-7 w-7" v-if="isLoading" />
       </Observer>
     </div>
+    <div class="flex justify-center items-center w-full py-5" v-else>
+      <EmptyMessage
+        @action="$emit('activeUpload')"
+        title="No Images found"
+        buttonText="Upload Image"
+        :icon="['fas', 'cloud-arrow-up']"
+      />
+    </div>
     <div
-      class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300"
+      class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300 gap-4"
     >
-      <button
-        type="button"
-        class="px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:mx-2 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
-        @click="$emit('update:modal', false)"
-      >
+      <ButtonWhite @click.native.prevent="$emit('update:modal', false)">
         Cancel
-      </button>
-      <button
-        type="button"
-        class="px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-md sm:mt-0 sm:mx-2 hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-40 disabled:cursor-not-allowed disabled:hover:bg-green-300 disabled:bg-green-300"
-        @click="select"
+      </ButtonWhite>
+      <ButtonPrimary
+        @click.native.prevent="select"
         :disabled="selected.length === 0"
       >
         <font-awesome-icon :icon="['fas', 'check']" />
         Select
-      </button>
+      </ButtonPrimary>
     </div>
   </div>
 </template>
@@ -54,7 +57,7 @@ export default {
   name: "SelectImage",
   props: { multiple: Boolean, modal: Boolean, limit: Number },
   computed: {
-    ...mapGetters("photo", ["photos", "isLoading"]),
+    ...mapGetters("image", ["images", "isLoading"]),
     selected: {
       get() {
         return this.$attrs.value;
@@ -68,7 +71,7 @@ export default {
     this.getImages();
   },
   methods: {
-    ...mapActions("photo", ["getImages"]),
+    ...mapActions("image", ["getImages"]),
     select() {
       this.$emit("update:modal", false);
     },

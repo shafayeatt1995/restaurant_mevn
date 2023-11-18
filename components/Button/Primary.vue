@@ -1,6 +1,6 @@
 <template>
   <Button
-    class="text-white bg-green-500 hover:bg-green-600 focus:ring-green-300"
+    class="text-white bg-green-500 hover:bg-green-600 focus:ring-green-300 disabled:hover:bg-green-300 disabled:bg-green-300"
     :loading="loading"
   >
     <slot />

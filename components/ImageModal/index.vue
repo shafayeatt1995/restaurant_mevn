@@ -28,11 +28,12 @@
               />
             </div>
             <transition name="fade" mode="out-in">
-              <ImageModalSelectImage
+              <ImageModalSelect
                 v-if="active === 'Select image'"
                 :modal.sync="modal"
                 :value="selected"
                 @input="update"
+                @activeUpload="active = 'Upload image'"
                 :multiple="multiple"
                 :limit="limit"
               />
@@ -42,6 +43,7 @@
               />
               <ImageModalDelete
                 v-else-if="active === 'Delete image'"
+                @activeUpload="active = 'Upload image'"
                 v-model="modal"
               />
             </transition>

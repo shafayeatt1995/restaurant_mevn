@@ -1,13 +1,13 @@
 export const state = () => ({
-  photos: [],
+  images: [],
   perPage: 50,
   isLoading: true,
   click: true,
 });
 
 export const mutations = {
-  SET_PHOTOS(state, { data }) {
-    state.photos = [...state.photos, ...data];
+  SET_IMAGES(state, payload) {
+    state.images.concat(payload);
   },
   SET_LOADING(state, payload) {
     state.isLoading = payload;
@@ -16,7 +16,7 @@ export const mutations = {
     state.click = payload;
   },
   RESET(state) {
-    state.photos = [];
+    state.images = [];
     state.perPage = 13;
     state.isLoading = true;
     state.click = true;
@@ -25,17 +25,16 @@ export const mutations = {
 
 export const actions = {
   async getImages({ state, commit }) {
-    commit;
-    const { perPage, photos, click } = state;
+    const { perPage, images, click } = state;
     if (click) {
       try {
         commit("SET_CLICK", false);
         commit("SET_LOADING", true);
-        const { data } = await this.$axios.post("user/photos", {
+        const data = await this.$userApi.fetchImage({
           perPage,
-          page: photos.length / perPage + 1,
+          page: images.length / perPage + 1,
         });
-        commit("SET_PHOTOS", data.photos);
+        commit("SET_IMAGES", data.images);
       } catch (error) {
         console.log(error);
       } finally {
@@ -50,6 +49,6 @@ export const actions = {
 };
 
 export const getters = {
-  photos: ({ photos }) => photos,
+  images: ({ images }) => images,
   isLoading: ({ isLoading }) => isLoading,
 };

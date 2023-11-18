@@ -2,16 +2,17 @@
   <div>
     <div
       class="grid grid-cols-2 gap-6 px-6 xl:grid-cols-5 2xl:grid-cols-6 lg:grid-cols-4 mt-3 max-h-96 overflow-y-auto"
+      v-if="images.length > 0"
     >
       <div
         class="relative cursor-pointer text-green-600 flex items-center h-40"
-        @click="setImage(photo)"
-        v-for="(photo, i) in photos"
+        @click="setImage(image)"
+        v-for="(image, i) in images"
         :key="i"
       >
         <transition name="fade" mode="out-in">
           <div
-            v-if="checkId(photo)"
+            v-if="checkId(image)"
             class="flex items-center justify-center absolute w-full h-full bg-gray-800 bg-opacity-70"
           >
             <font-awesome-icon
@@ -20,31 +21,34 @@
             />
           </div>
         </transition>
-        <img :src="photo.path" class="object-contain w-full h-full" />
+        <img :src="image.path" class="object-contain w-full h-full" />
       </div>
-      <div ref="lastPhoto" class="w-full flex justify-center">
+
+      <Observer @load="getImages">
         <Spinner class="text-green-600 h-7 w-7" v-if="isLoading" />
-      </div>
+      </Observer>
+    </div>
+    <div class="flex justify-center items-center w-full py-5" v-else>
+      <EmptyMessage
+        @action="$emit('activeUpload')"
+        title="No Images found"
+        buttonText="Upload Image"
+        :icon="['fas', 'cloud-arrow-up']"
+      />
     </div>
     <div
-      class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300"
+      class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300 gap-4"
     >
-      <button
-        type="button"
-        class="px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:mx-2 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
-        @click="$emit('update:modal', false)"
-      >
+      <ButtonWhite @click.native.prevent="$emit('update:modal', false)">
         Cancel
-      </button>
-      <button
-        type="button"
-        class="px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-rose-500 rounded-md sm:mt-0 sm:mx-2 hover:bg-rose-600 focus:outline-none focus:ring focus:ring-rose-300 focus:ring-opacity-40 disabled:cursor-not-allowed disabled:hover:bg-rose-300 disabled:bg-rose-300"
-        @click="select"
+      </ButtonWhite>
+      <ButtonRed
+        @click.native.prevent="select"
         :disabled="selected.length === 0"
       >
         <font-awesome-icon :icon="['fas', 'trash-can']" />
         Delete Images
-      </button>
+      </ButtonRed>
     </div>
   </div>
 </template>
@@ -61,11 +65,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("photo", ["photos", "isLoading"]),
+    ...mapGetters("image", ["images", "isLoading"]),
   },
   mounted() {
     this.getImages();
-    this.setObserver();
   },
   beforeDestroy() {
     if (this.observer) {
@@ -73,13 +76,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions("photo", ["getImages", "reset"]),
+    ...mapActions("image", ["getImages", "reset"]),
     async select() {
       if (confirm("Are you sure, you want to delete?")) {
         try {
           if (this.click) {
             this.click = false;
-            await this.$axios.post("user/delete-photo", {
+            await this.$axios.post("user/delete-image", {
               pathList: this.selected,
             });
             this.selected = [];
@@ -93,25 +96,6 @@ export default {
           this.click = true;
         }
       }
-    },
-
-    setObserver() {
-      this.observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              this.getImages();
-            }
-          });
-        },
-        {
-          root: null,
-          rootMargin: "0px",
-          threshold: 0.5,
-        }
-      );
-
-      this.observer.observe(this.$refs.lastPhoto);
     },
     setImage({ path }) {
       const index = this.selected.findIndex((val) => val === path);
