@@ -32,10 +32,14 @@
         />
 
         <div class="mt-6">
-          <Button class="w-full" type="submit" :disabled="loading">
-            <Spinner v-if="loading" />
+          <ButtonPrimary
+            class="w-full"
+            type="submit"
+            :disabled="loading"
+            :loading="loading"
+          >
             Sign Up
-          </Button>
+          </ButtonPrimary>
 
           <p class="mt-4 text-center text-gray-600">or sign in with</p>
 

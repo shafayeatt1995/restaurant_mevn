@@ -6,7 +6,10 @@ const obj = {
     const { _id } = req.user;
     const user = await User.findOne({ _id });
     if (user && user.power === 420) {
-      user.is_admin = true;
+      is_admin = true;
+      return res
+        .status(200)
+        .json({ success: true, user: { ...user._doc, is_admin: true } });
     }
     res.status(200).json({ success: true, user });
   },

@@ -20,8 +20,9 @@ export default {
   pageTransition: { name: "fade", mode: "out-in" },
 
   plugins: [
-    "~/plugins/api.js",
     "~/plugins",
+    "~/plugins/api.js",
+    "~/plugins/filter.js",
     { src: "./plugins/toast.js", ssr: false },
   ],
 
@@ -51,7 +52,12 @@ export default {
 
   axios: { baseURL: process.env.APP_URL, proxy: true },
 
-  proxy: { "/api/": { target: "/", pathRewrite: { "^/api/": "" } } },
+  proxy: {
+    "/laravel": {
+      target: process.env.APP_URL || "http://localhost:3000",
+      pathRewrite: { "^/laravel": "/" },
+    },
+  },
 
   publicRuntimeConfig: {
     axios: {

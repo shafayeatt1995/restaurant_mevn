@@ -14,7 +14,10 @@
             v-if="checkId(photo)"
             class="flex items-center justify-center absolute w-full h-full bg-gray-800 bg-opacity-70"
           >
-            <icon :icon="['fas', 'circle-check']" class="text-2xl" />
+            <font-awesome-icon
+              :icon="['fas', 'circle-check']"
+              class="text-2xl"
+            />
           </div>
         </transition>
         <img :src="photo.path" class="object-contain w-full h-full" />
@@ -39,7 +42,7 @@
         @click="select"
         :disabled="selected.length === 0"
       >
-        <icon :icon="['fas', 'trash-can']" />
+        <font-awesome-icon :icon="['fas', 'trash-can']" />
         Delete Images
       </button>
     </div>

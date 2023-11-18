@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const moment = require("moment");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
@@ -13,7 +12,7 @@ const UserSchema = new Schema(
     power: { type: Number, default: 1 },
     type: {
       type: String,
-      enum: ["admin", "owner", "waiter", "user"],
+      enum: ["admin", "owner", "waiter", "chef", "user"],
       default: "user",
     },
     socialAccount: { type: Boolean, default: false },
@@ -34,6 +33,4 @@ UserSchema.pre("save", function (next) {
   next();
 });
 
-const User = mongoose.model("User", UserSchema);
-
-module.exports = User;
+module.exports = mongoose.model("User", UserSchema);

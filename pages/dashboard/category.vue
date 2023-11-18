@@ -10,7 +10,7 @@
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
         <ButtonPrimary @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
-            <icon :icon="['fas', 'plus']" class="mr-2" />
+            <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
             <span class="mx-1 text-sm capitalize">Create new Category</span>
           </div>
@@ -32,10 +32,13 @@
         <template #actions="{ item, index }">
           <div class="flex gap-2">
             <ButtonPrimary @click.native.prevent="editItem(item)"
-              ><icon :icon="['far', 'pen-to-square']" /> Edit</ButtonPrimary
+              ><font-awesome-icon :icon="['far', 'pen-to-square']" />
+              Edit</ButtonPrimary
             >
             <ButtonRed @click.native.prevent="deleteItem(item.id, index)"
-              ><icon :icon="['far', 'trash-can']" />Delete</ButtonRed
+              ><font-awesome-icon
+                :icon="['far', 'trash-can']"
+              />Delete</ButtonRed
             >
           </div>
         </template>
@@ -61,7 +64,7 @@
               <h1 class="mt-3 text-lg text-gray-800">No Category found</h1>
               <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
                 <ButtonPrimary @click.native.prevent="modal = true">
-                  <icon
+                  <font-awesome-icon
                     :icon="['far', 'circle-xmark']"
                     class="text-xl rotate-45 mr-2"
                   />
@@ -101,7 +104,10 @@
             class="object-contain w-full h-full p-3"
           />
           <template v-else>
-            <icon :icon="['far', 'image']" class="text-8xl text-green-600" />
+            <font-awesome-icon
+              :icon="['far', 'image']"
+              class="text-8xl text-green-600"
+            />
             <p class="text-lg px-10 text-gray-700">Select an Category image</p>
           </template>
         </div>
@@ -179,8 +185,10 @@ export default {
           page: this.items.length / this.perPage + 1,
         };
         if (Number.isInteger(params.page)) {
-          const { data } = await this.$axios.get("admin/category", { params });
-          this.items = this.items.concat(data.data);
+          console.log(params);
+          const data = await this.$adminApi.fetchCategory(params);
+          // this.items = this.items.concat(data.data);
+          console.log(data);
         }
       } catch (error) {
         this.$nuxt.$emit("apiError", error);

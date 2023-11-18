@@ -56,6 +56,11 @@ export default {
           title: "Category",
           icon: ["fas", "cubes"],
         },
+        {
+          name: "dashboard-users",
+          title: "Users",
+          icon: ["fas", "users"],
+        },
       ];
       return nav;
     },

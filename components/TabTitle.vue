@@ -9,7 +9,7 @@
       @click="active = title"
       :class="[
         active === title
-          ? 'text-green-500 border-green-500'
+          ? 'text-green-600 border-green-500'
           : 'text-gray-700 border-gray-400',
         fullWidth ? 'flex-1' : '',
       ]"

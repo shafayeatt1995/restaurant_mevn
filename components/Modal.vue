@@ -10,7 +10,7 @@
         key="1"
       >
         <div
-          class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0 modal-bg"
+          class="flex items-center justify-center min-h-screen px-4 pt-4 bg-gray-500 bg-opacity-50"
         >
           <span
             class="hidden sm:inline-block sm:h-screen sm:align-middle"
@@ -43,9 +43,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.modal-bg {
-  background: rgb(51 51 51 / 50%);
-}
-</style>

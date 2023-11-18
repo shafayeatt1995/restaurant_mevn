@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col mt-6">
-    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+    <div class="overflow-x-auto">
+      <div class="inline-block min-w-full align-middle">
         <div class="overflow-hidden border border-gray-200 md:rounded-lg">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -12,7 +12,7 @@
               >
                 <template v-for="(field, index) in fields">
                   <th
-                    class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500"
+                    class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 uppercase"
                     v-if="!field.hide || false"
                     :key="field.key"
                     :class="[
@@ -41,20 +41,15 @@
               <tr
                 v-for="(item, index) in items"
                 :key="index"
-                :class="[
-                  index % 2 === 0
-                    ? gradient
-                      ? 'bg-grey-gradient'
-                      : ''
-                    : 'bg-white',
-                  body_clicked ? 'cursor-pointer' : '',
-                ]"
-                :style="{ '--grid-mobile-template-columns': mobile_grid }"
+                :class="[body_clicked ? 'cursor-pointer' : '']"
+                class="grid"
+                style="grid-template-columns: var(--grid-template-columns)"
+                :style="{ '--grid-template-columns': grid_template_columns }"
                 @click="body_clicked ? $emit('bodyClicked', index) : null"
               >
                 <template v-for="field in fields">
                   <td
-                    class="px-4 py-4 text-sm font-medium whitespace-nowrap"
+                    class="px-4 py-4 text-sm font-medium whitespace-nowrap flex items-center text-gray-700"
                     v-if="!field.hide || false"
                     :key="field.key"
                     :class="[
@@ -64,26 +59,18 @@
                           : 'hidden lg:block'
                         : '',
                       field.class,
-                      index % 2 === 0
-                        ? gradient
-                          ? 'bg-grey-gradient'
-                          : ''
-                        : 'bg-white',
                     ]"
                     :style="{ '--col-span-mobile': field.col_span_mobile || 1 }"
                     @click.capture="activeDropdown = item?._id"
                   >
                     <div
-                      v-if="!field.hide_title_mobile"
-                      class="famigo-table-label"
-                      :class="field.mobile_title_class"
+                      v-if="skeleton"
+                      class="container flex flex-col items-center justify-between p-6 mx-auto space-y-4 animate-pulse sm:space-y-0 sm:flex-row"
                     >
-                      <img v-if="field.title_image" :src="field.title_image" />
-                      <template v-else>
-                        {{ field.hide_title ? "" : field.label }}
-                      </template>
+                      <p class="w-full h-3 bg-gray-200 rounded-lg"></p>
                     </div>
                     <slot
+                      v-else
                       :name="field.key"
                       :item="item"
                       :index="index"
@@ -100,40 +87,32 @@
         </div>
       </div>
     </div>
+    <div class="rounded-lg overflow-hidden">
+      <slot name="empty" />
+    </div>
   </div>
 </template>
 <script>
 export default {
+  name: "TableResponsive",
   props: {
     fields: Array,
     items: {
       type: [Array, Number],
       default: () => [],
     },
-    gradient: {
-      type: Boolean,
-      default: true,
-    },
     title: String,
     th_class: String,
     stripe: Boolean,
     scrollable: Boolean,
     body_clicked: Boolean,
+    skeleton: Boolean,
     mobile_grid: { type: Number, default: 2 },
     active_sort: String,
     scrollable_class: String,
-    total_rows: {
-      type: Number,
-      default: 0,
-    },
-    per_page: {
-      type: Number,
-      default: 10,
-    },
-    value: {
-      type: Number,
-      default: 1,
-    },
+    total_rows: { type: Number, default: 0 },
+    per_page: { type: Number, default: 10 },
+    value: { type: Number, default: 1 },
   },
 
   data() {

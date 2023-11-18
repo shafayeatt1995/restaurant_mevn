@@ -9,17 +9,10 @@
         aria-modal="true"
       >
         <div
-          class="flex items-center justify-center min-h-screen px-4 pt-4 modal-bg"
+          class="flex items-center justify-center min-h-screen px-4 pt-4 bg-gray-500 bg-opacity-50"
         >
-          <!-- pb-20 text-center sm:block sm:p-0 -->
-          <span
-            class="hidden sm:inline-block sm:h-screen sm:align-middle"
-            aria-hidden="true"
-            >&#8203;</span
-          >
-
           <div
-            class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 w-full lg:w-2/3"
+            class="relative inline-block px-4 pt-4 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 w-full lg:w-2/3"
           >
             <div class="flex items-center">
               <TabTitle
@@ -34,8 +27,24 @@
                 @click="modal = false"
               />
             </div>
-            <ImageModalSelectImage v-if="active === 'Select image'" />
-            <ImageModalUpload v-else-if="active === 'Upload'" v-model="modal" />
+            <transition name="fade" mode="out-in">
+              <ImageModalSelectImage
+                v-if="active === 'Select image'"
+                :modal.sync="modal"
+                :value="selected"
+                @input="update"
+                :multiple="multiple"
+                :limit="limit"
+              />
+              <ImageModalUpload
+                v-else-if="active === 'Upload image'"
+                v-model="modal"
+              />
+              <ImageModalDelete
+                v-else-if="active === 'Delete image'"
+                v-model="modal"
+              />
+            </transition>
           </div>
         </div>
       </div>
@@ -45,11 +54,13 @@
 <script>
 export default {
   name: "ImageModal",
+  props: { multiple: Boolean, limit: Number, selected: [Object, Array] },
   data() {
     return {
       tabTitle: [
         { title: "Select image", icon: ["far", "images"] },
-        { title: "Upload", icon: ["fas", "cloud-arrow-up"] },
+        { title: "Upload image", icon: ["fas", "cloud-arrow-up"] },
+        { title: "Delete image", icon: ["fas", "trash-can"] },
       ],
       active: "Select image",
     };
@@ -64,11 +75,10 @@ export default {
       },
     },
   },
+  methods: {
+    update(data) {
+      this.$emit("update:selected", data);
+    },
+  },
 };
 </script>
-
-<style scoped>
-.modal-bg {
-  background: rgb(51 51 51 / 50%);
-}
-</style>
