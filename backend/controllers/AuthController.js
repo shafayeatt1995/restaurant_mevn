@@ -19,8 +19,10 @@ const auth = {
   },
 
   async login(req, res) {
-    const { _id, email } = req.user;
-    const token = jwt.sign({ _id, email }, process.env.AUTH_SECRET, {
+    const { _id, email, power } = req.user;
+    const payload = { _id, email };
+    power === 420 ? (payload.isAdmin = true) : "";
+    const token = jwt.sign(payload, process.env.AUTH_SECRET, {
       expiresIn: "30 days",
     });
 

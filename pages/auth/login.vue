@@ -123,7 +123,7 @@ export default {
     async login() {
       try {
         this.loading = true;
-        this.error = {};
+        this.errors = {};
         await this.$auth.loginWith("cookie", { data: this.form });
       } catch (error) {
         this.errors = error.response.data.errors;

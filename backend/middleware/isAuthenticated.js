@@ -10,15 +10,16 @@ const isAuthenticated = async (req, res, next) => {
           ? bearer.split(" ")[1]
           : null;
 
-      const { _id, email } = await jwt.verify(token, process.env.AUTH_SECRET);
-      // req.auth = {};
-      req.user = { _id, email };
+      const decode = await jwt.verify(token, process.env.AUTH_SECRET);
+      const payload = { _id: decode._id, email: decode.email };
+      decode.isAdmin ? (payload.isAdmin = true) : "";
+      req.user = payload;
       next();
     } else {
       throw new Error("Email already is use!");
     }
   } catch (err) {
-    console.log("ami error", err);
+    console.log(err);
     res.status(401).send({ success: false, message: "Unauthorized" });
   }
 };

@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const { User } = require("@/backend/models");
 
 const obj = {
