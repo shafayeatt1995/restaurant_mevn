@@ -21,7 +21,7 @@
             />
           </div>
         </transition>
-        <img :src="image.path" class="object-contain w-full h-full" />
+        <img :src="image.url" class="object-contain w-full h-full" />
       </div>
 
       <Observer @load="getImages">
@@ -82,9 +82,7 @@ export default {
         try {
           if (this.click) {
             this.click = false;
-            await this.$axios.post("user/delete-image", {
-              pathList: this.selected,
-            });
+            await this.$userApi.deleteImage({ urlList: this.selected });
             this.selected = [];
             await this.reset();
             await this.getImages();
@@ -97,17 +95,17 @@ export default {
         }
       }
     },
-    setImage({ path }) {
-      const index = this.selected.findIndex((val) => val === path);
+    setImage({ url }) {
+      const index = this.selected.findIndex((val) => val === url);
 
       if (index !== -1) {
         this.selected.splice(index, 1);
       } else {
-        this.selected.push(path);
+        this.selected.push(url);
       }
     },
-    checkId({ path }) {
-      return this.selected.some((val) => val === path);
+    checkId({ url }) {
+      return this.selected.some((val) => val === url);
     },
   },
 };

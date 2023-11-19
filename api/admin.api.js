@@ -17,7 +17,7 @@ export class AdminApi extends BaseApi {
     return this.api.$patch(`category`, body);
   }
 
-  deleteCategory(body) {
-    return this.api.$delete(`category`, body);
+  deleteCategory(params) {
+    return this.api.$delete(`category`, { params });
   }
 }

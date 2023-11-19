@@ -9,10 +9,6 @@ export class UserApi extends BaseApi {
     return this.api.$get(`image`, { params });
   }
 
-  addImage(body) {
-    return this.api.$post(`image`, body);
-  }
-
   deleteImage(params) {
     return this.api.$delete(`image`, { params });
   }

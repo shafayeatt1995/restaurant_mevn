@@ -7,7 +7,7 @@ export const state = () => ({
 
 export const mutations = {
   SET_IMAGES(state, payload) {
-    state.images.concat(payload);
+    state.images = [...state.images, ...payload];
   },
   SET_LOADING(state, payload) {
     state.isLoading = payload;
@@ -30,11 +30,11 @@ export const actions = {
       try {
         commit("SET_CLICK", false);
         commit("SET_LOADING", true);
-        const data = await this.$userApi.fetchImage({
-          perPage,
-          page: images.length / perPage + 1,
-        });
-        commit("SET_IMAGES", data.images);
+        const page = images.length / perPage + 1;
+        if (Number.isInteger(page)) {
+          const data = await this.$userApi.fetchImage({ perPage, page });
+          commit("SET_IMAGES", data.images);
+        }
       } catch (error) {
         console.log(error);
       } finally {

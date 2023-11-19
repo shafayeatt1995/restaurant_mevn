@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       dropzoneOptions: {
-        url: `${process.env.API_URL}user/dropzone`,
+        url: `${process.env.APP_URL}/api/user/image`,
         headers: {
           authorization: document.cookie
             .split(";")
@@ -36,7 +36,7 @@ export default {
                   (acc[name.trim()] = decodeURIComponent(value)), acc
                 ))(cookie.split("=")),
               {}
-            )["auth._token.laravelJWT"],
+            )["auth._token.cookie"],
         },
         paramName: "image",
         acceptedFiles: "image/*",

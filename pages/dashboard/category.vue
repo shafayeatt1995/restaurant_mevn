@@ -25,7 +25,7 @@
         :skeleton="loading"
       >
         <template #image="{ item }">
-          <img :src="item.image?.path" class="max-h-16" />
+          <img :src="item.image" class="max-h-16" />
         </template>
         <template #created_at="{ value }">{{ value | agoDate }}</template>
         <template #updated_at="{ value }">{{ value | agoDate }}</template>
@@ -35,7 +35,7 @@
               ><font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit</ButtonPrimary
             >
-            <ButtonRed @click.native.prevent="deleteItem(item.id, index)"
+            <ButtonRed @click.native.prevent="deleteItem(item._id, index)"
               ><font-awesome-icon
                 :icon="['far', 'trash-can']"
               />Delete</ButtonRed
@@ -78,8 +78,8 @@
           class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
         >
           <img
-            :src="selected.path"
-            v-if="selected.path"
+            :src="selected.url"
+            v-if="selected.url"
             class="object-contain w-full h-full p-3"
           />
           <template v-else>
@@ -177,11 +177,11 @@ export default {
       try {
         if (this.click) {
           this.click = false;
-          this.form.image = this.selected.id;
+          this.form.image = this.selected.url;
           if (this.editMode) {
-            await this.$axios.patch("admin/category", this.form);
+            await this.$adminApi.updateCategory(this.form);
           } else {
-            await this.$axios.post("admin/category", this.form);
+            await this.$adminApi.createCategory(this.form);
           }
           $nuxt.$emit(
             "success",
@@ -209,18 +209,18 @@ export default {
       this.items = [];
       this.fetchItem();
     },
-    editItem({ id, image_id, name, image }) {
-      this.form = { id, name };
-      this.selected = { id: image_id, path: image.path };
+    editItem({ _id, name, image }) {
+      this.form = { _id, name, image };
+      this.selected = { url: image };
       this.editMode = true;
       this.modal = true;
     },
-    async deleteItem(id, key) {
+    async deleteItem(_id, key) {
       if (confirm("Are you sure, you want to delete?")) {
         try {
           if (this.click) {
             this.click = false;
-            await this.$axios.delete("admin/category", { params: { id } });
+            await this.$adminApi.deleteCategory({ _id });
             this.items.splice(key, 1);
             this.click = true;
           }

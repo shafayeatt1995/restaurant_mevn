@@ -12,7 +12,7 @@
       >
         <transition name="fade" mode="out-in">
           <div
-            v-if="checkId(image.id)"
+            v-if="checkId(image._id)"
             class="flex items-center justify-center absolute w-full h-full bg-gray-800 bg-opacity-70"
           >
             <font-awesome-icon
@@ -21,7 +21,7 @@
             />
           </div>
         </transition>
-        <img :src="image.path" class="object-contain h-full w-full" />
+        <img :src="image.url" class="object-contain h-full w-full" />
       </div>
       <Observer @load="getImages">
         <Spinner class="text-green-600 h-7 w-7" v-if="isLoading" />
@@ -77,9 +77,9 @@ export default {
     },
 
     setImage(data) {
-      const { id, path } = data;
+      const { _id, url } = data;
       if (this.multiple) {
-        const index = this.selected.findIndex((val) => val.id === id);
+        const index = this.selected.findIndex((val) => val._id === _id);
 
         if (index !== -1) {
           this.selected.splice(index, 1);
@@ -90,18 +90,18 @@ export default {
               `You can  select maximum ${this.limit} images.`
             );
           } else {
-            this.selected.push({ id, path });
+            this.selected.push({ _id, url });
           }
         }
       } else {
-        this.selected = { id, path };
+        this.selected = { _id, url };
       }
     },
-    checkId(id) {
+    checkId(_id) {
       if (this.multiple) {
-        return this.selected.some((val) => val.id === id);
+        return this.selected.some((val) => val._id === _id);
       } else {
-        return this.selected.id === id;
+        return this.selected._id === _id;
       }
     },
   },
