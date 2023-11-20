@@ -12,7 +12,7 @@
           <div class="flex items-center justify-center -mx-1">
             <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
-            <span class="mx-1 text-sm capitalize">Create new Category</span>
+            <span class="mx-1 text-sm capitalize">Create new category</span>
           </div>
         </ButtonPrimary>
       </div>

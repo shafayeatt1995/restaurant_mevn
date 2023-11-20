@@ -51,11 +51,21 @@ const loginValidation = [
     .trim()
     .custom(async (value, { req }) => {
       try {
-        const user = await User.findOne({ email: value }).select("+password");
+        const user = await User.findOne({ email: value }).select(
+          "+password +power +suspended +deleted"
+        );
         if (user) {
           const check = await bcrypt.compare(req.body.password, user.password);
           if (check) {
-            req.user = user;
+            if (user.suspended) {
+              throw new Error(`Account suspended`);
+            } else {
+              if (user.deleted) {
+                throw new Error(`Account deleted`);
+              } else {
+                req.user = user;
+              }
+            }
           } else {
             throw new Error(`Login failed. Invalid credentials.`);
           }

@@ -36,17 +36,6 @@ const controller = {
     }
   },
 
-  async getProfile(req, res) {
-    try {
-      const user = await AffiliateUser.findOne({
-        email: req.affiliate_user.email,
-      });
-      res.status(200).json({ success: true, user });
-    } catch (err) {
-      res.status(404).json({ success: false, message: "User not found" });
-    }
-  },
-
   async logout(req, res) {
     res.status(200).json({ success: true, message: "Logout successful" });
   },

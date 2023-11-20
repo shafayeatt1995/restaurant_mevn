@@ -5,6 +5,22 @@ export class AdminApi extends BaseApi {
     this.api.setBaseURL(`/api/admin/`);
   }
 
+  fetchUser(params) {
+    return this.api.$get(`user`, { params });
+  }
+
+  createUser(body) {
+    return this.api.$post(`user`, body);
+  }
+
+  updateUser(body) {
+    return this.api.$patch(`user`, body);
+  }
+
+  deleteUser(params) {
+    return this.api.$delete(`user`, { params });
+  }
+
   fetchCategory(params) {
     return this.api.$get(`category`, { params });
   }

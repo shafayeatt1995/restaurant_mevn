@@ -73,4 +73,21 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
+
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: opacity 100ms, transform 100ms;
+}
+
+.fade-scale-enter,
+.fade-scale-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.fade-scale-leave,
+.fade-scale-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
 </style>

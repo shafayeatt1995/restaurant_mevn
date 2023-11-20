@@ -6,10 +6,11 @@ const UserSchema = new Schema(
   {
     name: { type: String, required: true },
     email: { type: String, unique: true, index: true, lowercase: true },
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: false },
     avatar: { type: String, default: "/images/avatar/1.png" },
-    suspended: { type: Boolean, default: false },
-    power: { type: Number, default: 1 },
+    suspended: { type: Boolean, default: false, select: false },
+    deleted: { type: Boolean, default: false, select: false },
+    power: { type: Number, default: 1, select: false },
     type: {
       type: String,
       enum: ["admin", "owner", "waiter", "chef", "user"],
@@ -17,8 +18,6 @@ const UserSchema = new Schema(
     },
     socialAccount: { type: Boolean, default: false },
     provider: { type: String },
-    scanExp: { type: Date },
-    analyticsExp: { type: Date },
   },
   {
     strict: true,
