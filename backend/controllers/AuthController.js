@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("@/backend/models");
 
-const auth = {
+const controller = {
   async signup(req, res) {
     try {
       req.body.email = req.body.email.toLowerCase().trim();
@@ -10,23 +10,30 @@ const auth = {
       await User.create({ email, name, password });
 
       res.status(200).json({ success: true });
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.log(error);
       res
         .status(500)
-        .json({ success: false, message: "Unknown error occurred" });
+        .json({ success: false, message: "Internal server error" });
     }
   },
 
   async login(req, res) {
-    const { _id, email, power } = req.user;
-    const payload = { _id, email };
-    power === 420 ? (payload.isAdmin = true) : "";
-    const token = jwt.sign(payload, process.env.AUTH_SECRET, {
-      expiresIn: "30 days",
-    });
+    try {
+      const { _id, email, power } = req.user;
+      const payload = { _id, email };
+      power === 420 ? (payload.isAdmin = true) : "";
+      const token = jwt.sign(payload, process.env.AUTH_SECRET, {
+        expiresIn: "30 days",
+      });
 
-    res.status(200).json({ success: true, token });
+      res.status(200).json({ success: true, token });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
   },
 
   async getProfile(req, res) {
@@ -45,4 +52,4 @@ const auth = {
   },
 };
 
-module.exports = auth;
+module.exports = controller;

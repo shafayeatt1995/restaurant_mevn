@@ -12,7 +12,7 @@
           class="flex items-center justify-center min-h-screen px-4 pt-4 bg-gray-500 bg-opacity-50"
         >
           <div
-            class="relative inline-block px-4 pt-4 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 w-full lg:w-2/3"
+            class="relative inline-block px-4 pt-4 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl w-full lg:w-2/3"
           >
             <div class="flex items-center">
               <TabTitle

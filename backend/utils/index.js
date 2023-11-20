@@ -7,4 +7,14 @@ const stringSlug = (string) =>
 const randomKey = (number) =>
   [...Array(number)].map(() => Math.random().toString(36)[2]).join("");
 
-module.exports = { stringSlug, randomKey };
+function getPagination(page, perPage) {}
+
+const paginate = (page, perPage) => {
+  page = Math.max(Number(page) || 1, 1);
+  const limit = Math.max(Number(perPage) || 1, 1);
+  const skip = (page - 1) * limit;
+
+  return [{ $skip: skip }, { $limit: limit }];
+};
+
+module.exports = { stringSlug, randomKey, paginate };

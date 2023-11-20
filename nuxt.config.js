@@ -50,24 +50,27 @@ export default {
     "nuxt-client-init-module",
   ],
 
-  axios: { baseURL: process.env.APP_URL, proxy: true },
+  axios: {
+    // baseURL: process.env.APP_URL,
+    proxy: true,
+  },
 
   proxy: {
-    "/laravel": {
-      target: process.env.APP_URL || "http://localhost:3000",
-      pathRewrite: { "^/laravel": "/" },
-    },
+    // "/laravel": {
+    //   // target: process.env.APP_URL || "http://localhost:3000",
+    //   pathRewrite: { "^/laravel": "/" },
+    // },
   },
 
   publicRuntimeConfig: {
     axios: {
-      browserBaseURL: process.env.APP_URL,
+      // browserBaseURL: process.env.APP_URL,
     },
   },
 
   privateRuntimeConfig: {
     axios: {
-      baseURL: process.env.APP_URL,
+      // baseURL: process.env.APP_URL,
     },
   },
 

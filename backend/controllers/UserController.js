@@ -1,6 +1,6 @@
 const { User } = require("@/backend/models");
 
-const obj = {
+const controller = {
   async profile(req, res) {
     const { _id } = req.user;
     const user = await User.findOne({ _id });
@@ -18,4 +18,4 @@ const obj = {
   },
 };
 
-module.exports = obj;
+module.exports = controller;

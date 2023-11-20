@@ -1,33 +1,64 @@
 const { Category } = require("@/backend/models");
-const paginate = require("@/backend/utils/paginate");
+const { paginate } = require("@/backend/utils");
 const { stringSlug } = require("@/backend/utils");
 
 const controller = {
   async fetchCategory(req, res) {
-    const { page, perPage } = req.query;
+    try {
+      const { page, perPage } = req.query;
 
-    const categories = await Category.aggregate([...paginate(page, perPage)]);
-    res.status(200).json({ categories });
+      const categories = await Category.aggregate([...paginate(page, perPage)]);
+      res.status(200).json({ categories });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
   },
+
   async createCategory(req, res) {
-    const { name, image } = req.body;
-    const slug = stringSlug(name);
+    try {
+      const { name, image } = req.body;
+      const slug = stringSlug(name);
 
-    await Category.create({ name, slug, image });
-    res.status(200).json({ success: true });
+      await Category.create({ name, slug, image });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
   },
+
   async updateCategory(req, res) {
-    const { _id, image, name } = req.body;
-    const slug = stringSlug(name);
+    try {
+      const { _id, image, name } = req.body;
+      const slug = stringSlug(name);
 
-    await Category.updateOne({ _id }, { name, slug, image });
-    res.status(200).json({ success: true });
+      await Category.updateOne({ _id }, { name, slug, image });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
   },
-  async deleteCategory(req, res) {
-    const { _id } = req.query;
 
-    await Category.deleteOne({ _id });
-    res.status(200).json({ success: true });
+  async deleteCategory(req, res) {
+    try {
+      const { _id } = req.query;
+
+      await Category.deleteOne({ _id });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
   },
 
   async logout(req, res) {
