@@ -4,7 +4,7 @@
       field.label?.title
     }}</label>
     <div class="relative flex items-center">
-      <span class="absolute">
+      <span class="absolute" v-if="field.icon">
         <font-awesome-icon
           :icon="field.icon"
           class="w-5 h-5 mx-3 text-gray-300"
@@ -14,7 +14,8 @@
         v-if="field.type === 'select'"
         :id="field.label?.id"
         v-model="data[field.name]"
-        class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+        class="block w-full py-3 text-gray-700 bg-white border rounded-lg focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+        :class="field.icon ? 'px-11' : ' px-5'"
       >
         <option selected>Select a user type</option>
         <option
@@ -29,7 +30,8 @@
         v-else
         :type="field.type"
         :id="field.label?.id"
-        class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+        class="block w-full py-3 text-gray-700 bg-white border rounded-lg focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+        :class="field.icon ? 'px-11' : ' px-5'"
         :placeholder="field.placeholder"
         :name="field.name"
         v-model="data[field.name]"

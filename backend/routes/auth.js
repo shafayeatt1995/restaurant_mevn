@@ -9,10 +9,10 @@ const {
   signupValidation,
   loginValidation,
 } = require("@/backend/validation/auth");
-const { validationHandler } = require("@/backend/validation/validationHandler");
+const { validation } = require("@/backend/validation/validation");
 
-router.post("/signup", signupValidation, validationHandler, signup);
-router.post("/login", loginValidation, validationHandler, login);
+router.post("/signup", signupValidation, validation, signup);
+router.post("/login", loginValidation, validation, login);
 router.get("/logout", logout);
 
 module.exports = router;

@@ -11,6 +11,11 @@ const {
   deleteUser,
 } = require("@/backend/controllers/AdminController");
 const { isAdmin } = require("@/backend/middleware");
+const {
+  createCategoryVal,
+  updateCategoryVal,
+} = require("@/backend/validation/category");
+const { validation } = require("@/backend/validation/validation");
 
 router.use(isAdmin);
 
@@ -20,8 +25,8 @@ router.patch("/user", updateUser);
 router.delete("/user", deleteUser);
 
 router.get("/category", fetchCategory);
-router.post("/category", createCategory);
-router.patch("/category", updateCategory);
+router.post("/category", createCategoryVal, validation, createCategory);
+router.patch("/category", updateCategoryVal, validation, updateCategory);
 router.delete("/category", deleteCategory);
 
 module.exports = router;

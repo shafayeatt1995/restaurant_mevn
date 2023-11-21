@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ImageSchema = new Schema(
   {
     userID: { type: String, required: true },
-    url: { type: String, required: true },
+    url: { type: String, unique: true, index: true, required: true },
     size: { type: Number, required: true },
   },
   {
@@ -13,4 +13,6 @@ const ImageSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Image", ImageSchema);
+const Image = mongoose.model("Image", ImageSchema);
+
+module.exports = Image;

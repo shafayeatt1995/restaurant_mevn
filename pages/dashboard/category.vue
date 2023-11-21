@@ -67,11 +67,12 @@
         {{ editMode ? "Edit" : "Create new" }} Category
       </h3>
       <form class="mt-4" @submit.prevent="submit">
-        <input
-          type="text"
-          placeholder="Category Name"
-          class="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-40"
-          v-model="form.name"
+        <Input
+          v-for="(field, i) in inputFields"
+          :key="i"
+          :field="field"
+          v-model="form"
+          :errors="errors"
         />
         <div
           @click="imageModal = true"
@@ -90,6 +91,9 @@
             <p class="text-lg px-10 text-gray-700">Select an Category image</p>
           </template>
         </div>
+        <p class="text-rose-700" v-if="errors?.image">
+          {{ errors.image.msg }}
+        </p>
 
         <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
           <button
@@ -134,18 +138,28 @@ export default {
       items: [],
       perPage: 50,
       loading: true,
+      errors: {},
     };
   },
   computed: {
     fields() {
-      const fields = [
+      return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
         { key: "image", label: "Image", span: "minmax(150PX, 1fr)" },
         { key: "created_at", label: "CREATED", span: "minmax(120PX, 1fr)" },
         { key: "updated_at", label: "UPDATED", span: "minmax(120PX, 1fr)" },
         { key: "actions", label: "Actions", span: "minmax(260PX, 1fr)" },
       ];
-      return fields;
+    },
+
+    inputFields() {
+      return [
+        {
+          type: "text",
+          placeholder: "Name",
+          name: "name",
+        },
+      ];
     },
   },
   watch: {
@@ -192,7 +206,7 @@ export default {
           this.click = true;
         }
       } catch (error) {
-        $nuxt.$emit("apiError", error);
+        this.errors = error.response.data.errors;
       } finally {
         this.click = true;
       }
@@ -203,6 +217,7 @@ export default {
         image: "",
       };
       this.selected = {};
+      this.errors = {};
       this.editMode = false;
     },
     refetch() {

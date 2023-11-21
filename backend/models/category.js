@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const CategorySchema = new Schema(
   {
     name: { type: String, required: true },
-    slug: { type: String, unique: true, index: true, lowercase: true },
+    slug: { type: String, unique: true, index: true, required: true },
     image: { type: String, required: true },
   },
   {
@@ -13,4 +13,6 @@ const CategorySchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Category", CategorySchema);
+const Category = mongoose.model("Category", CategorySchema);
+
+module.exports = Category;
