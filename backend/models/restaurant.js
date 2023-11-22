@@ -11,6 +11,8 @@ const RestaurantSchema = new Schema(
     chef: { type: [String], default: [] },
     suspended: { type: Boolean, default: false, select: false },
     deleted: { type: Boolean, default: false, select: false },
+    scanExp: { type: Date, default: new Date() },
+    analyticExp: { type: Date, default: new Date() },
   },
   {
     strict: true,

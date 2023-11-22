@@ -5,13 +5,19 @@ const createUserVal = [
   check("name").isLength({ min: 1 }).withMessage("Name is required").trim(),
   check("type").isLength({ min: 1 }).withMessage("Type is required").trim(),
   check("restaurantName")
-    .custom((value, { req }) => {
-      if (req.body.type === "owner") {
-        if (!value || value.trim().length === 0) {
-          throw new Error("Restaurant name is required for owners");
+    .isLength({ min: 1 })
+    .withMessage("Restaurant name is required")
+    .custom(async (value, { req }) => {
+      try {
+        if (req.body.type === "owner") {
+          if (!value || value.trim().length === 0) {
+            throw new Error("Restaurant name is required for owners");
+          }
+        } else {
+          return true;
         }
-      } else {
-        return true;
+      } catch (err) {
+        throw new Error(err.message);
       }
     })
     .trim(),

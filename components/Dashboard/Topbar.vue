@@ -1,18 +1,18 @@
 <template>
   <header class="flex items-center justify-between h-20 px-6 bg-white border-b">
-    <div class="relative flex items-center">
-      <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-        <font-awesome-icon
-          :icon="['fas', 'magnifying-glass']"
-          class="w-5 h-5 text-gray-400"
-        />
-      </span>
-
-      <input
-        type="text"
-        class="py-2.5 pl-10 pr-4 text-gray-700 placeholder-gray-400 bg-white border border-transparent border-gray-200 rounded-lg sm:w-auto w-36 focus:border-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-40"
-        placeholder="Search"
-      />
+    <div class="relative flex flex-col items-start">
+      <p class="text-gray-600">
+        Scan:
+        <span :class="activeScan ? '' : 'text-rose-500'">{{
+          activeScan ? showScanDate : "Expired"
+        }}</span>
+      </p>
+      <p class="text-gray-600">
+        Analysis:
+        <span :class="activeAnalytic ? '' : 'text-rose-500'">{{
+          activeAnalytic ? showAnalyticDate : "Expired"
+        }}</span>
+      </p>
     </div>
 
     <div class="flex items-center">
@@ -26,7 +26,10 @@
             <div
               class="hidden md:mx-2 md:flex md:flex-col md:items-end md:leading-tight"
             >
-              <span class="font-semibold text-sm text-gray-800">{{
+              <span v-if="owner" class="font-semibold text-sm text-gray-800">{{
+                $auth.user.restaurant.name
+              }}</span>
+              <span v-else class="font-semibold text-sm text-gray-800">{{
                 $auth.user.name
               }}</span>
               <span class="capitalize text-sm text-gray-600">{{
@@ -36,7 +39,7 @@
 
             <img
               class="flex-shrink-0 w-10 h-10 overflow-hidden bg-gray-100 rounded-full md:mx-2"
-              :src="$auth.user.avatar"
+              :src="owner ? $auth.user.restaurant.logo : $auth.user.avatar"
               alt="user profile image"
             />
           </div>
@@ -106,12 +109,83 @@
   </header>
 </template>
 <script>
+import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   name: "Topbar",
   data() {
     return {
       dropdownOpen: false,
+      currentDate: new Date(),
+      timerInterval: null,
     };
+  },
+  computed: {
+    ...mapGetters([
+      "owner",
+      "scanDate",
+      "activeScan",
+      "activeAnalytic",
+      "analyticDate",
+    ]),
+
+    showScanDate() {
+      if (this.activeScan) {
+        const timeDifference = this.scanDate - this.currentDate;
+        const seconds = Math.floor(timeDifference / 1000);
+
+        const days = Math.floor(seconds / 86400);
+        const hours = Math.floor((seconds % 86400) / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        return `${days}:${this.formatTime(hours)}:${this.formatTime(
+          minutes
+        )}:${this.formatTime(remainingSeconds)}`;
+      } else {
+        return "Expired";
+      }
+    },
+
+    showAnalyticDate() {
+      if (this.activeAnalytic) {
+        const timeDifference = this.analyticDate - this.currentDate;
+        const seconds = Math.floor(timeDifference / 1000);
+
+        const days = Math.floor(seconds / 86400);
+        const hours = Math.floor((seconds % 86400) / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        return `${days}:${this.formatTime(hours)}:${this.formatTime(
+          minutes
+        )}:${this.formatTime(remainingSeconds)}`;
+      } else {
+        return "Expired";
+      }
+    },
+  },
+  mounted() {
+    this.startTimer();
+  },
+  beforeDestroy() {
+    this.stopTimer();
+  },
+  methods: {
+    formatTime(time) {
+      return time < 10 ? `0${time}` : time;
+    },
+    updateCurrentDate() {
+      this.currentDate = new Date();
+    },
+    startTimer() {
+      this.timerInterval = setInterval(() => {
+        this.updateCurrentDate();
+      }, 1000);
+    },
+    stopTimer() {
+      clearInterval(this.timerInterval);
+    },
   },
 };
 </script>

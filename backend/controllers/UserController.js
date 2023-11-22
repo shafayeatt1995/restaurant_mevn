@@ -1,4 +1,4 @@
-const { User } = require("@/backend/models");
+const { User, Restaurant } = require("@/backend/models");
 
 const controller = {
   async profile(req, res) {
@@ -10,6 +10,10 @@ const controller = {
       return res
         .status(200)
         .json({ success: true, user: { ...user._doc, is_admin: true } });
+    } else if (user && user.type === "owner") {
+      const restaurant = await Restaurant.findOne({ userID: user._id });
+      user._doc.restaurant = restaurant;
+      return res.status(200).json({ success: true, user });
     }
     res.status(200).json({ success: true, user });
   },
