@@ -121,6 +121,7 @@
 export default {
   name: "Category",
   layout: "dashboard",
+  middleware: "admin",
   head() {
     return { title: "Dashboard - " + process.env.APP_NAME };
   },

@@ -7,7 +7,6 @@ const createCategoryVal = [
     .isLength({ min: 1 })
     .withMessage("Category name is required")
     .custom(async (value) => {
-      console.log(value);
       const existingCategory = await Category.findOne({ name: value });
       if (existingCategory) {
         throw new Error("Category name must be unique");
@@ -31,7 +30,6 @@ const updateCategoryVal = [
           _id: { $ne: categoryId },
         });
         if (existingCategory) {
-          console.log(existingCategory ? "true" : "false");
           throw new Error("Category name must be unique");
         }
         return true;

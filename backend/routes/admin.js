@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { isAdmin } = require("@/backend/middleware");
 const {
   fetchCategory,
   createCategory,
@@ -9,19 +10,22 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  suspendUser,
 } = require("@/backend/controllers/AdminController");
-const { isAdmin } = require("@/backend/middleware");
+
+const { validation } = require("@/backend/validation");
 const {
   createCategoryVal,
   updateCategoryVal,
 } = require("@/backend/validation/category");
-const { validation } = require("@/backend/validation/validation");
+const { createUserVal } = require("@/backend/validation/user");
 
 router.use(isAdmin);
 
 router.get("/user", fetchUser);
-router.post("/user", createUser);
+router.post("/user", createUserVal, validation, createUser);
 router.patch("/user", updateUser);
+router.put("/user", suspendUser);
 router.delete("/user", deleteUser);
 
 router.get("/category", fetchCategory);

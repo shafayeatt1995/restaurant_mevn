@@ -9,7 +9,7 @@ const {
   signupValidation,
   loginValidation,
 } = require("@/backend/validation/auth");
-const { validation } = require("@/backend/validation/validation");
+const { validation } = require("@/backend/validation");
 
 router.post("/signup", signupValidation, validation, signup);
 router.post("/login", loginValidation, validation, login);

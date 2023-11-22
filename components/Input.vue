@@ -37,7 +37,12 @@
         v-model="data[field.name]"
       />
     </div>
-    <p class="text-rose-700" v-if="errors[field.name]">
+    <p
+      class="text-rose-700"
+      v-if="
+        errors && errors[field.name] && typeof errors[field.name] === 'object'
+      "
+    >
       {{ errors[field.name].msg }}
     </p>
   </div>

@@ -24,15 +24,58 @@
         :items="loading ? 10 : items"
         :skeleton="loading"
       >
+        <template #type="{ value }">
+          <Badge variant="red" title="Admin" v-if="value === 'admin'" />
+          <Badge variant="blue" title="Owner" v-else-if="value === 'owner'" />
+          <Badge
+            variant="purple"
+            title="Waiter"
+            v-else-if="value === 'waiter'"
+          />
+          <Badge variant="yellow" title="Chef" v-else-if="value === 'chef'" />
+          <Badge variant="green" title="User" v-else-if="value === 'user'" />
+        </template>
+        <template #deleted="{ value }">
+          <Badge
+            variant="red"
+            title="Deleted"
+            v-if="value"
+            :icon="['fas', 'xmark']"
+          />
+          <Badge
+            variant="green"
+            title="Active"
+            :icon="['fas', 'check']"
+            v-else
+          />
+        </template>
+        <template #suspended="{ value }">
+          <Badge
+            variant="red"
+            title="Suspended"
+            v-if="value"
+            :icon="['fas', 'xmark']"
+          />
+          <Badge
+            variant="green"
+            title="Active"
+            :icon="['fas', 'check']"
+            v-else
+          />
+        </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <ButtonPrimary @click.native.prevent="editItem(item)"
+            <!-- <ButtonPrimary @click.native.prevent="editItem(item)"
               ><font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit
-            </ButtonPrimary>
-            <ButtonRed @click.native.prevent="deleteItem(item._id, index)"
-              ><font-awesome-icon :icon="['far', 'trash-can']" />
+            </ButtonPrimary> -->
+            <ButtonRed @click.native.prevent="deleteItem(item._id, index)">
+              <font-awesome-icon :icon="['fas', 'user-xmark']" />
               Delete
+            </ButtonRed>
+            <ButtonRed @click.native.prevent="suspendItem(item._id, index)">
+              <font-awesome-icon :icon="['fas', 'user-slash']" />
+              Suspend
             </ButtonRed>
           </div>
         </template>
@@ -93,6 +136,7 @@
 export default {
   name: "User",
   layout: "dashboard",
+  middleware: "admin",
   head() {
     return { title: "Dashboard - " + process.env.APP_NAME };
   },
@@ -122,7 +166,7 @@ export default {
         { key: "type", label: "Type", span: "minmax(100PX, 1fr)" },
         { key: "suspended", label: "Suspended", span: "minmax(100PX, 1fr)" },
         { key: "deleted", label: "Delete", span: "minmax(100PX, 1fr)" },
-        { key: "actions", label: "Actions", span: "minmax(260PX, 1fr)" },
+        { key: "actions", label: "Actions", span: "minmax(275PX, 1fr)" },
       ];
       return fields;
     },
@@ -142,12 +186,14 @@ export default {
           name: "email",
         },
         {
+          hide: this.editMode,
           type: "password",
           placeholder: "Password",
           icon: ["fas", "lock"],
           name: "password",
         },
         {
+          hide: this.editMode,
           type: "select",
           placeholder: "Type",
           icon: ["fas", "lock"],
@@ -161,9 +207,9 @@ export default {
           ],
         },
         {
-          hide: this.form.type !== "owner",
+          hide: this.form.type !== "owner" || this.editMode,
           type: "text",
-          placeholder: "Name",
+          placeholder: "Restaurant Name",
           icon: ["far", "user"],
           name: "restaurantName",
         },
@@ -215,7 +261,12 @@ export default {
           this.click = true;
         }
       } catch (error) {
-        $nuxt.$emit("apiError", error);
+        const { message } = error.response.data;
+        if (message) {
+          this.$nuxt.$emit("error", message);
+        } else {
+          this.errors = error.response.data.errors;
+        }
       } finally {
         this.click = true;
       }
@@ -223,16 +274,20 @@ export default {
     reset() {
       this.form = {
         name: "",
-        image: "",
+        email: "",
+        password: "",
+        type: "owner",
+        restaurantName: "",
       };
       this.editMode = false;
+      this.errors = {};
     },
     refetch() {
       this.items = [];
       this.fetchItem();
     },
-    editItem({ _id, name, image }) {
-      this.form = { _id, name, image };
+    editItem({ _id, name, email }) {
+      this.form = { _id, name, email };
       this.editMode = true;
       this.modal = true;
     },
@@ -242,11 +297,29 @@ export default {
           if (this.click) {
             this.click = false;
             await this.$adminApi.deleteUser({ _id });
-            this.items.splice(key, 1);
+            this.items[key].deleted = true;
             this.click = true;
           }
+          $nuxt.$emit("success", "User deleted successfully");
         } catch (error) {
-          $nuxt.$emit("apiError", error);
+          $nuxt.$emit("error", error.response.data?.message || error.message);
+        } finally {
+          this.click = true;
+        }
+      }
+    },
+    async suspendItem(_id, key) {
+      if (confirm("Are you sure, you want to delete?")) {
+        try {
+          if (this.click) {
+            this.click = false;
+            await this.$adminApi.suspendUser({ _id });
+            this.items[key].suspended = true;
+            this.click = true;
+          }
+          $nuxt.$emit("success", "User suspended successfully");
+        } catch (error) {
+          $nuxt.$emit("error", error.response.data?.message || error.message);
         } finally {
           this.click = true;
         }

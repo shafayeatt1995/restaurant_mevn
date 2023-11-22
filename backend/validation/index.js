@@ -2,14 +2,11 @@ const { validationResult } = require("express-validator");
 
 const validation = function (req, res, next) {
   const errors = validationResult(req);
-  console.log(errors);
   const mappedErrors = errors.mapped();
   if (Object.keys(mappedErrors).length === 0) {
     next();
   } else {
-    res.status(422).json({
-      errors: mappedErrors,
-    });
+    res.status(422).json({ errors: mappedErrors });
   }
 };
 

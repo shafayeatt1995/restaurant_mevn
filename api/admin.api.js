@@ -21,6 +21,10 @@ export class AdminApi extends BaseApi {
     return this.api.$delete(`user`, { params });
   }
 
+  suspendUser(params) {
+    return this.api.$put(`user`, params);
+  }
+
   fetchCategory(params) {
     return this.api.$get(`category`, { params });
   }
