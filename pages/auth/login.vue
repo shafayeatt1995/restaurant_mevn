@@ -17,7 +17,7 @@
         />
 
         <h1
-          class="mt-3 text-2xl font-semibold text-gray-800 capitalize sm:text-3xl"
+          class="mt-3 text-2xl font-semibold text-gray-600 capitalize sm:text-3xl"
         >
           sign In
         </h1>

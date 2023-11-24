@@ -4,7 +4,9 @@
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
       <div>
-        <h2 class="text-3xl font-medium text-gray-600">Category</h2>
+        <h2 class="text-3xl font-medium text-gray-600">
+          <font-awesome-icon :icon="['fas', 'pizza-slice']" /> Item
+        </h2>
       </div>
 
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
@@ -12,7 +14,7 @@
           <div class="flex items-center justify-center -mx-1">
             <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
-            <span class="mx-1 text-sm capitalize">Create new category</span>
+            <span class="mx-1 text-sm capitalize">Create new item</span>
           </div>
         </ButtonPrimary>
       </div>
@@ -24,30 +26,24 @@
         :items="loading ? 10 : items"
         :skeleton="loading"
       >
-        <template #image="{ item }">
-          <img :src="item.image" class="max-h-16" />
-        </template>
-        <template #created_at="{ value }">{{ value | agoDate }}</template>
-        <template #updated_at="{ value }">{{ value | agoDate }}</template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
             <ButtonPrimary @click.native.prevent="editItem(item)"
               ><font-awesome-icon :icon="['far', 'pen-to-square']" />
-              Edit</ButtonPrimary
-            >
-            <ButtonRed @click.native.prevent="deleteItem(item._id, index)"
-              ><font-awesome-icon
-                :icon="['far', 'trash-can']"
-              />Delete</ButtonRed
-            >
+              Edit
+            </ButtonPrimary>
+            <ButtonRed @click.native.prevent="deleteItem(item._id, index)">
+              <font-awesome-icon :icon="['fas', 'trash']" />
+              Delete
+            </ButtonRed>
           </div>
         </template>
         <template #empty v-if="items.length === 0 && !loading">
           <div class="flex items-center text-center h-96 bg-white">
             <EmptyMessage
               @action="modal = true"
-              title="No Category found"
-              buttonText="Add Category"
+              title="No item found"
+              buttonText="Add item"
               :icon="['far', 'circle-xmark']"
               iconClass="rotate-45"
             />
@@ -64,7 +60,7 @@
         class="text-lg font-medium leading-6 text-gray-600 capitalize"
         id="modal-title"
       >
-        {{ editMode ? "Edit" : "Create new" }} Category
+        {{ editMode ? "Edit" : "Create new" }} item
       </h3>
       <form class="mt-4" @submit.prevent="submit">
         <Input
@@ -74,27 +70,6 @@
           v-model="form"
           :errors="errors"
         />
-        <div
-          @click="imageModal = true"
-          class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
-        >
-          <img
-            :src="selected.url"
-            v-if="selected.url"
-            class="object-contain w-full h-full p-3"
-          />
-          <template v-else>
-            <font-awesome-icon
-              :icon="['far', 'image']"
-              class="text-8xl text-green-600"
-            />
-            <p class="text-lg px-10 text-gray-700">Select an Category image</p>
-          </template>
-        </div>
-        <p class="text-rose-700" v-if="errors?.image">
-          {{ errors.image.msg }}
-        </p>
-
         <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
           <button
             type="button"
@@ -108,20 +83,19 @@
             type="submit"
             class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-40"
           >
-            {{ editMode ? "Update" : "Create" }} Category
+            {{ editMode ? "Update" : "Create" }} item
           </button>
         </div>
       </form>
     </Modal>
-    <ImageModal v-model="imageModal" :selected.sync="selected" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "Category",
+  name: "Item",
   layout: "dashboard",
-  middleware: "admin",
+  middleware: "owner",
   head() {
     return { title: "Dashboard - " + process.env.APP_NAME };
   },
@@ -129,12 +103,23 @@ export default {
     return {
       click: true,
       modal: false,
-      imageModal: false,
+      variant: {
+        name: "",
+        stock: "",
+      },
       form: {
+        categoryID: "",
         name: "",
         image: "",
+        ingredient: [],
+        price: "",
+        discount: false,
+        discountAmount: "",
+        description: "",
+        estimateTime: "",
+        estimateTime: "",
+        variant: [],
       },
-      selected: {},
       editMode: false,
       items: [],
       perPage: 50,
@@ -144,23 +129,48 @@ export default {
   },
   computed: {
     fields() {
-      return [
-        { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
-        { key: "image", label: "Image", span: "minmax(150PX, 1fr)" },
-        { key: "created_at", label: "CREATED", span: "minmax(120PX, 1fr)" },
-        { key: "updated_at", label: "UPDATED", span: "minmax(120PX, 1fr)" },
-        { key: "actions", label: "Actions", span: "minmax(260PX, 1fr)" },
+      const fields = [
+        // { key: "name", label: "Name", span: "minmax(100PX, 1fr)" },
+        // { key: "email", label: "Email", span: "minmax(200PX, 1fr)" },
+        // { key: "type", label: "Type", span: "minmax(100PX, 1fr)" },
+        // { key: "suspended", label: "Suspended", span: "minmax(100PX, 1fr)" },
+        // { key: "deleted", label: "Delete", span: "minmax(100PX, 1fr)" },
+        { key: "actions", label: "Actions", span: "minmax(275PX, 1fr)" },
       ];
+      return fields;
     },
 
     inputFields() {
-      return [
+      const fields = [
         {
           type: "text",
           placeholder: "Name",
           name: "name",
         },
+        {
+          hide: this.editMode,
+          type: "select",
+          placeholder: "Type",
+          icon: ["fas", "lock"],
+          name: "type",
+          options: [
+            { value: "admin", label: "Admin" },
+            { value: "owner", label: "Owner" },
+            { value: "chef", label: "Chef" },
+            { value: "waiter", label: "Waiter" },
+            { value: "user", label: "User" },
+          ],
+        },
+        {
+          hide: this.form.type !== "owner" || this.editMode,
+          type: "text",
+          placeholder: "Restaurant Name",
+          icon: ["far", "user"],
+          name: "restaurantName",
+        },
       ];
+
+      return fields;
     },
   },
   watch: {
@@ -179,8 +189,8 @@ export default {
           page: this.items.length / this.perPage + 1,
         };
         if (Number.isInteger(params.page)) {
-          const { categories } = await this.$adminApi.fetchCategory(params);
-          this.items = this.items.concat(categories);
+          const { items } = await this.$adminApi.fetchItem(params);
+          this.items = this.items.concat(items);
         }
       } catch (error) {
         this.$nuxt.$emit("apiError", error);
@@ -192,22 +202,26 @@ export default {
       try {
         if (this.click) {
           this.click = false;
-          this.form.image = this.selected.url;
           if (this.editMode) {
-            await this.$adminApi.updateCategory(this.form);
+            await this.$adminApi.updateItem(this.form);
           } else {
-            await this.$adminApi.createCategory(this.form);
+            await this.$adminApi.createItem(this.form);
           }
           $nuxt.$emit(
             "success",
-            `Category ${this.editMode ? "updated" : "created"} successfully`
+            `Item ${this.editMode ? "updated" : "created"} successfully`
           );
           this.refetch();
           this.modal = false;
           this.click = true;
         }
       } catch (error) {
-        this.errors = error.response.data.errors;
+        const { message } = error.response.data;
+        if (message) {
+          this.$nuxt.$emit("error", message);
+        } else {
+          this.errors = error.response.data.errors;
+        }
       } finally {
         this.click = true;
       }
@@ -215,19 +229,20 @@ export default {
     reset() {
       this.form = {
         name: "",
-        image: "",
+        email: "",
+        password: "",
+        type: "owner",
+        restaurantName: "",
       };
-      this.selected = {};
-      this.errors = {};
       this.editMode = false;
+      this.errors = {};
     },
     refetch() {
       this.items = [];
       this.fetchItem();
     },
-    editItem({ _id, name, image }) {
-      this.form = { _id, name, image };
-      this.selected = { url: image };
+    editItem({ _id, name, email }) {
+      this.form = { _id, name, email };
       this.editMode = true;
       this.modal = true;
     },
@@ -236,12 +251,30 @@ export default {
         try {
           if (this.click) {
             this.click = false;
-            await this.$adminApi.deleteCategory({ _id });
-            this.items.splice(key, 1);
+            await this.$adminApi.deleteItem({ _id });
+            this.items[key].deleted = true;
             this.click = true;
           }
+          $nuxt.$emit("success", "Item deleted successfully");
         } catch (error) {
-          $nuxt.$emit("apiError", error);
+          $nuxt.$emit("error", error.response.data?.message || error.message);
+        } finally {
+          this.click = true;
+        }
+      }
+    },
+    async suspendItem(_id, key) {
+      if (confirm("Are you sure, you want to delete?")) {
+        try {
+          if (this.click) {
+            this.click = false;
+            await this.$adminApi.suspendItem({ _id });
+            this.items[key].suspended = true;
+            this.click = true;
+          }
+          $nuxt.$emit("success", "Item suspended successfully");
+        } catch (error) {
+          $nuxt.$emit("error", error.response.data?.message || error.message);
         } finally {
           this.click = true;
         }

@@ -4,7 +4,7 @@
       class="flex flex-col w-full px-6 md:justify-between md:items-center md:flex-row"
     >
       <div>
-        <h2 class="text-3xl font-medium text-gray-800">Dashboard</h2>
+        <h2 class="text-3xl font-medium text-gray-600">Dashboard</h2>
         <p class="mt-2 text-sm text-gray-500">Mobile UX/UI Design Course</p>
       </div>
 
@@ -80,7 +80,7 @@
           </svg>
 
           <div class="mx-2">
-            <h3 class="text-2xl font-medium text-gray-800">62</h3>
+            <h3 class="text-2xl font-medium text-gray-600">62</h3>
             <p class="mt-1 text-sm text-gray-500">Students</p>
           </div>
         </div>
@@ -130,7 +130,7 @@
           </svg>
 
           <div class="mx-2">
-            <h3 class="text-2xl font-medium text-gray-800">6.8</h3>
+            <h3 class="text-2xl font-medium text-gray-600">6.8</h3>
             <p class="mt-1 text-sm text-gray-500">Average mark</p>
           </div>
         </div>
@@ -170,7 +170,7 @@
           </svg>
 
           <div class="mx-2">
-            <h3 class="text-2xl font-medium text-gray-800">
+            <h3 class="text-2xl font-medium text-gray-600">
               9 <span class="text-xl text-gray-600">(14%)</span>
             </h3>
             <p class="mt-1 text-sm text-gray-500">Underperforming students</p>
@@ -206,7 +206,7 @@
           </svg>
 
           <div class="mx-2">
-            <h3 class="text-2xl font-medium text-gray-800">92%</h3>
+            <h3 class="text-2xl font-medium text-gray-600">92%</h3>
             <p class="mt-1 text-sm text-gray-500">Finished homeworks</p>
           </div>
         </div>
@@ -404,7 +404,7 @@
           </svg>
 
           <div class="mx-2">
-            <h3 class="text-2xl font-medium text-gray-800">25</h3>
+            <h3 class="text-2xl font-medium text-gray-600">25</h3>
             <p class="mt-1 text-sm text-gray-500">Lections left</p>
           </div>
         </div>
@@ -438,7 +438,7 @@
           </svg>
 
           <div class="mx-2">
-            <h3 class="text-2xl font-medium text-gray-800">139</h3>
+            <h3 class="text-2xl font-medium text-gray-600">139</h3>
             <p class="mt-1 text-sm text-gray-500">Hours spent on lections</p>
           </div>
         </div>

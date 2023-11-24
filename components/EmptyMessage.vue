@@ -16,7 +16,7 @@
         />
       </svg>
     </div>
-    <h1 class="mt-3 text-lg text-gray-800">{{ title }}</h1>
+    <h1 class="mt-3 text-lg text-gray-600">{{ title }}</h1>
     <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
       <ButtonPrimary @click.native.prevent="$emit('action')">
         <font-awesome-icon

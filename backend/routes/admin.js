@@ -2,16 +2,18 @@ const express = require("express");
 const router = express.Router();
 const { isAdmin } = require("@/backend/middleware");
 const {
-  fetchCategory,
-  createCategory,
-  updateCategory,
-  deleteCategory,
   fetchUser,
   createUser,
   updateUser,
   deleteUser,
   suspendUser,
-} = require("@/backend/controllers/AdminController");
+} = require("@/backend/controllers/UserController");
+const {
+  fetchCategory,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} = require("@/backend/controllers/CategoryController");
 
 const { validation } = require("@/backend/validation");
 const {

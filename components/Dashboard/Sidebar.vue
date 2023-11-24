@@ -18,10 +18,10 @@
         :src="owner ? $auth.user.restaurant.logo : $auth.user.avatar"
         alt="avatar"
       />
-      <h4 v-if="owner" class="mx-2 mt-2 font-medium text-gray-800">
+      <h4 v-if="owner" class="mx-2 mt-2 font-medium text-gray-600">
         {{ $auth.user.restaurant.name }}
       </h4>
-      <h4 class="mx-2 mt-2 font-medium text-gray-800">{{ $auth.user.name }}</h4>
+      <h4 class="mx-2 mt-2 font-medium text-gray-600">{{ $auth.user.name }}</h4>
       <p class="mx-2 mt-1 text-sm font-medium text-gray-600">
         {{ $auth.user.type }}
       </p>
@@ -69,6 +69,12 @@ export default {
           name: "dashboard-users",
           title: "Users",
           icon: ["fas", "users"],
+        },
+        {
+          hide: !this.owner,
+          name: "dashboard-item",
+          title: "Items",
+          icon: ["fas", "pizza-slice"],
         },
       ];
       return nav;

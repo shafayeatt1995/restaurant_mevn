@@ -4,7 +4,7 @@
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
       <div>
-        <h2 class="text-3xl font-medium text-gray-800">User</h2>
+        <h2 class="text-3xl font-medium text-gray-600">User</h2>
       </div>
 
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
@@ -98,7 +98,7 @@
 
     <Modal v-model="modal">
       <h3
-        class="text-lg font-medium leading-6 text-gray-800 capitalize"
+        class="text-lg font-medium leading-6 text-gray-600 capitalize"
         id="modal-title"
       >
         {{ editMode ? "Edit" : "Create new" }} user

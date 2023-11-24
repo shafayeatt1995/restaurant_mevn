@@ -1,18 +1,20 @@
 <template>
   <header class="flex items-center justify-between h-20 px-6 bg-white border-b">
     <div class="relative flex flex-col items-start">
-      <p class="text-gray-600">
-        Scan:
-        <span :class="activeScan ? '' : 'text-rose-500'">{{
-          activeScan ? showScanDate : "Expired"
-        }}</span>
-      </p>
-      <p class="text-gray-600">
-        Analysis:
-        <span :class="activeAnalytic ? '' : 'text-rose-500'">{{
-          activeAnalytic ? showAnalyticDate : "Expired"
-        }}</span>
-      </p>
+      <template v-if="owner">
+        <p class="text-gray-600">
+          Scan:
+          <span :class="activeScan ? '' : 'text-rose-500'">{{
+            activeScan ? showScanDate : "Expired"
+          }}</span>
+        </p>
+        <p class="text-gray-600">
+          Analysis:
+          <span :class="activeAnalytic ? '' : 'text-rose-500'">{{
+            activeAnalytic ? showAnalyticDate : "Expired"
+          }}</span>
+        </p>
+      </template>
     </div>
 
     <div class="flex items-center">
@@ -26,10 +28,10 @@
             <div
               class="hidden md:mx-2 md:flex md:flex-col md:items-end md:leading-tight"
             >
-              <span v-if="owner" class="font-semibold text-sm text-gray-800">{{
+              <span v-if="owner" class="font-semibold text-sm text-gray-600">{{
                 $auth.user.restaurant.name
               }}</span>
-              <span v-else class="font-semibold text-sm text-gray-800">{{
+              <span v-else class="font-semibold text-sm text-gray-600">{{
                 $auth.user.name
               }}</span>
               <span class="capitalize text-sm text-gray-600">{{
@@ -58,17 +60,17 @@
             v-show="dropdownOpen"
           >
             <div
-              class="px-4 py-2 text-gray-800 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+              class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
             >
               Profile
             </div>
             <div
-              class="px-4 py-2 text-gray-800 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+              class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
             >
               Messages
             </div>
             <div
-              class="px-4 py-2 text-gray-800 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+              class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
             >
               To-Do's
             </div>
