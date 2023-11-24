@@ -31,14 +31,15 @@
         />
 
         <div class="mt-6">
-          <ButtonPrimary
+          <Button
+            variant="green"
             class="w-full"
             type="submit"
             :disabled="loading"
             :loading="loading"
           >
             Sign in
-          </ButtonPrimary>
+          </Button>
 
           <p class="mt-4 text-center text-gray-600">or sign in with</p>
 

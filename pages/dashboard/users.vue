@@ -8,13 +8,13 @@
       </div>
 
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
-        <ButtonPrimary @click.native.prevent="modal = true">
+        <Button variant="green" @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
             <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
             <span class="mx-1 text-sm capitalize">Create new user</span>
           </div>
-        </ButtonPrimary>
+        </Button>
       </div>
     </section>
 
@@ -69,14 +69,20 @@
               ><font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit
             </ButtonPrimary> -->
-            <ButtonRed @click.native.prevent="deleteItem(item._id, index)">
+            <Button
+              variant="red"
+              @click.native.prevent="deleteItem(item._id, index)"
+            >
               <font-awesome-icon :icon="['fas', 'user-xmark']" />
               Delete
-            </ButtonRed>
-            <ButtonRed @click.native.prevent="suspendItem(item._id, index)">
+            </Button>
+            <Button
+              variant="red"
+              @click.native.prevent="suspendItem(item._id, index)"
+            >
               <font-awesome-icon :icon="['fas', 'user-slash']" />
               Suspend
-            </ButtonRed>
+            </Button>
           </div>
         </template>
         <template #empty v-if="items.length === 0 && !loading">
@@ -111,21 +117,23 @@
           v-model="form"
           :errors="errors"
         />
-        <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
-          <button
+        <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
+          <Button
+            variant="white"
             type="button"
-            class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
-            @click="modal = false"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="modal = false"
           >
             Cancel
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="green"
             type="submit"
-            class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-40"
+            class="w-full tracking-wide flex-1"
           >
             {{ editMode ? "Update" : "Create" }} user
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>
@@ -138,7 +146,7 @@ export default {
   layout: "dashboard",
   middleware: "admin",
   head() {
-    return { title: "Dashboard - " + process.env.APP_NAME };
+    return { title: "User - " + process.env.APP_NAME };
   },
   data() {
     return {

@@ -18,7 +18,7 @@
     </div>
     <h1 class="mt-3 text-lg text-gray-600">{{ title }}</h1>
     <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
-      <ButtonPrimary @click.native.prevent="$emit('action')">
+      <Button variant="green" @click.native.prevent="$emit('action')">
         <font-awesome-icon
           v-if="icon"
           :icon="icon"
@@ -26,7 +26,7 @@
           :class="iconClass"
         />
         <span>{{ buttonText }}</span>
-      </ButtonPrimary>
+      </Button>
     </div>
   </div>
 </template>
