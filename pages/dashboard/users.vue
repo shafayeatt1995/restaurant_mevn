@@ -65,23 +65,20 @@
         </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <!-- <ButtonPrimary @click.native.prevent="editItem(item)"
-              ><font-awesome-icon :icon="['far', 'pen-to-square']" />
-              Edit
-            </ButtonPrimary> -->
             <Button
-              variant="red"
+              :variant="item.deleted ? 'green' : 'red'"
               @click.native.prevent="deleteItem(item._id, index)"
             >
               <font-awesome-icon :icon="['fas', 'user-xmark']" />
-              Delete
+
+              {{ item.deleted ? "Active" : "Delete" }}
             </Button>
             <Button
-              variant="red"
+              :variant="item.suspended ? 'green' : 'red'"
               @click.native.prevent="suspendItem(item._id, index)"
             >
               <font-awesome-icon :icon="['fas', 'user-slash']" />
-              Suspend
+              {{ item.suspended ? "Active" : "Suspend" }}
             </Button>
           </div>
         </template>
@@ -305,7 +302,7 @@ export default {
           if (this.click) {
             this.click = false;
             await this.$adminApi.deleteUser({ _id });
-            this.items[key].deleted = true;
+            this.items[key].deleted = !this.items[key].deleted;
             this.click = true;
           }
           $nuxt.$emit("success", "User deleted successfully");
@@ -322,7 +319,7 @@ export default {
           if (this.click) {
             this.click = false;
             await this.$adminApi.suspendUser({ _id });
-            this.items[key].suspended = true;
+            this.items[key].suspended = !this.items[key].suspended;
             this.click = true;
           }
           $nuxt.$emit("success", "User suspended successfully");

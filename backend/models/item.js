@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const VariantSchema = new Schema({
   name: { type: String, required: true },
+  price: { type: Number, required: true },
   stock: { type: Boolean, default: true },
 });
 
@@ -17,7 +18,8 @@ const ItemSchema = new Schema(
     price: { type: Number, required: true },
     discount: { type: Boolean, default: false },
     discountAmount: { type: Number, default: 0 },
-    description: { type: Text, required: true },
+    stock: { type: Boolean, default: true },
+    description: { type: String, required: true },
     estimateTime: { type: String, required: true },
     variant: [VariantSchema],
     rating: { type: Number, min: 0, max: 5, default: 0, select: false },
@@ -25,6 +27,7 @@ const ItemSchema = new Schema(
     trending: { type: Boolean, default: false },
     bestSale: { type: Boolean, default: false },
     sorted: { type: Number, required: false },
+    status: { type: Boolean, default: true },
   },
   {
     strict: true,

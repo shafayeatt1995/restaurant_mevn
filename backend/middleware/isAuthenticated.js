@@ -10,9 +10,22 @@ const isAuthenticated = async (req, res, next) => {
           ? bearer.split(" ")[1]
           : null;
 
-      const decode = await jwt.verify(token, process.env.AUTH_SECRET);
-      const payload = { _id: decode._id, email: decode.email };
-      decode.isAdmin ? (payload.isAdmin = true) : "";
+      const {
+        _id,
+        email,
+        type,
+        isAdmin,
+        isOwner,
+        restaurantID,
+        restaurantSlug,
+      } = await jwt.verify(token, process.env.AUTH_SECRET);
+      const payload = { _id, email, type };
+      isAdmin ? (payload.isAdmin = true) : "";
+      if (isOwner) {
+        payload.isOwner = true;
+        payload.restaurantID = restaurantID;
+        payload.restaurantSlug = restaurantSlug;
+      }
       req.user = payload;
       next();
     } else {

@@ -3,4 +3,5 @@ module.exports = {
   Category: require("./category"),
   Restaurant: require("./restaurant"),
   Image: require("./image"),
+  Item: require("./item"),
 };

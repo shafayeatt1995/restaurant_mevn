@@ -10,7 +10,7 @@
       </div>
 
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
-        <Button variant="green" @click.native.prevent="modal = true">
+        <Button variant="green" @click.native.prevent="createItem">
           <div class="flex items-center justify-center -mx-1">
             <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
@@ -26,10 +26,40 @@
         :items="loading ? 10 : items"
         :skeleton="loading"
       >
+        <template #name="{ item }">
+          <div class="flex items-center gap-x-2">
+            <img class="object-cover w-24" :src="item.image" alt="image" />
+            <div>
+              <h2 class="font-medium text-gray-600">
+                {{ item.name }}
+              </h2>
+            </div>
+          </div>
+        </template>
+        <template #discount="{ item }">
+          <Badge
+            variant="red"
+            v-if="item.discount"
+            :title="`-${item.discountAmount}`"
+          />
+          <Badge variant="green" v-else title="No discount" />
+        </template>
+        <template #status="{ value }">
+          <Badge
+            variant="green"
+            v-if="value"
+            title="Active"
+            :icon="['fas', 'check']"
+          />
+          <Badge variant="red" title="Hide" :icon="['fas', 'xmark']" v-else />
+        </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <Button variant="green" @click.native.prevent="editItem(item)"
-              ><font-awesome-icon :icon="['far', 'pen-to-square']" />
+            <Button
+              variant="green"
+              :to="{ name: 'dashboard-item-id', params: { id: item._id } }"
+            >
+              <font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit
             </Button>
             <Button
@@ -44,7 +74,7 @@
         <template #empty v-if="items.length === 0 && !loading">
           <div class="flex items-center text-center h-96 bg-white">
             <EmptyMessage
-              @action="modal = true"
+              @action="createItem"
               title="No item found"
               buttonText="Add item"
               :icon="['far', 'circle-xmark']"
@@ -79,11 +109,10 @@ export default {
   computed: {
     fields() {
       const fields = [
-        // { key: "name", label: "Name", span: "minmax(100PX, 1fr)" },
-        // { key: "email", label: "Email", span: "minmax(200PX, 1fr)" },
-        // { key: "type", label: "Type", span: "minmax(100PX, 1fr)" },
-        // { key: "suspended", label: "Suspended", span: "minmax(100PX, 1fr)" },
-        // { key: "deleted", label: "Delete", span: "minmax(100PX, 1fr)" },
+        { key: "name", label: "Name", span: "minmax(100PX, 1fr)" },
+        { key: "price", label: "Price", span: "minmax(200PX, 1fr)" },
+        { key: "discount", label: "Discount", span: "minmax(100PX, 1fr)" },
+        { key: "status", label: "Status", span: "minmax(100PX, 1fr)" },
         { key: "actions", label: "Actions", span: "minmax(275PX, 1fr)" },
       ];
       return fields;
@@ -100,7 +129,7 @@ export default {
           page: this.items.length / this.perPage + 1,
         };
         if (Number.isInteger(params.page)) {
-          const { items } = await this.$adminApi.fetchItem(params);
+          const { items } = await this.$ownerApi.fetchItems(params);
           this.items = this.items.concat(items);
         }
       } catch (error) {
@@ -109,10 +138,12 @@ export default {
         this.loading = false;
       }
     },
+    createItem() {
+      this.$router.push({ name: "dashboard-item-id", params: { id: "null" } });
+    },
     editItem(data) {},
     async deleteItem(_id, key) {
       if (confirm("Are you sure, you want to delete?")) {
-        console.log("ami anik");
       }
     },
   },

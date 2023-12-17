@@ -21,11 +21,11 @@
                 fullWidth
                 class="flex-1"
               />
-              <font-awesome-icon
+              <!-- <font-awesome-icon
                 :icon="['fas', 'xmark']"
                 class="text-red-500 text-2xl cursor-pointer"
                 @click="modal = false"
-              />
+              /> -->
             </div>
             <transition name="fade" mode="out-in">
               <ImageModalSelect
@@ -44,7 +44,7 @@
               <ImageModalDelete
                 v-else-if="active === 'Delete image'"
                 @activeUpload="active = 'Upload image'"
-                v-model="modal"
+                :modal.sync="modal"
               />
             </transition>
           </div>

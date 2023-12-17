@@ -91,12 +91,20 @@ const controller = {
       if (user.type === "admin" && user.power === 420) {
         throw new Error("Cannot suspend admin user");
       } else if (user.type !== "owner") {
-        await User.updateOne({ _id }, { suspended: true }, { session });
+        await User.updateOne(
+          { _id },
+          [{ $set: { suspended: { $eq: [false, "$suspended"] } } }],
+          { session }
+        );
       } else {
-        await User.updateOne({ _id }, { suspended: true }, { session });
+        await User.updateOne(
+          { _id },
+          [{ $set: { suspended: { $eq: [false, "$suspended"] } } }],
+          { session }
+        );
         await Restaurant.updateOne(
           { userID: _id },
-          { suspended: true },
+          [{ $set: { suspended: { $eq: [false, "$suspended"] } } }],
           { session }
         );
       }
@@ -125,12 +133,20 @@ const controller = {
       if (user.type === "admin" && user.power === 420) {
         throw new Error("Cannot delete admin user");
       } else if (user.type !== "owner") {
-        await User.updateOne({ _id }, { deleted: true }, { session });
+        await User.updateOne(
+          { _id },
+          [{ $set: { deleted: { $eq: [false, "$deleted"] } } }],
+          { session }
+        );
       } else {
-        await User.updateOne({ _id }, { deleted: true }, { session });
+        await User.updateOne(
+          { _id },
+          [{ $set: { deleted: { $eq: [false, "$deleted"] } } }],
+          { session }
+        );
         await Restaurant.updateOne(
           { userID: _id },
-          { deleted: true },
+          [{ $set: { deleted: { $eq: [false, "$deleted"] } } }],
           { session }
         );
       }

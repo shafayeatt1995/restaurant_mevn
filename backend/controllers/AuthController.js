@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("@/backend/models");
+const { User, Restaurant } = require("@/backend/models");
 
 const controller = {
   async signup(req, res) {
@@ -20,9 +20,18 @@ const controller = {
 
   async login(req, res) {
     try {
-      const { _id, email, power } = req.user;
-      const payload = { _id, email };
-      power === 420 ? (payload.isAdmin = true) : "";
+      const { _id, email, power, type } = req.user;
+      const payload = { _id, email, type };
+      const restaurant = await Restaurant.findOne({ userID: _id });
+
+      if (power === 420 && type === "admin") {
+        payload.isAdmin = true;
+      } else if (type === "owner" && restaurant) {
+        payload.restaurantID = restaurant._id;
+        payload.restaurantSlug = restaurant.slug;
+        payload.isOwner = true;
+      }
+
       const token = jwt.sign(payload, process.env.AUTH_SECRET, {
         expiresIn: "30 days",
       });

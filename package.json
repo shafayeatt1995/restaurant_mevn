@@ -29,9 +29,11 @@
     "nuxt-client-init-module": "^0.3.0",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
+    "vue-slide-up-down": "^2.0.1",
     "vue-template-compiler": "^2.7.10",
     "vue-toastification": "^1.7.14",
-    "vue2-dropzone": "^3.6.0"
+    "vue2-dropzone": "^3.6.0",
+    "vue2-editor": "^2.10.3"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.4.2",

@@ -38,16 +38,20 @@
     <div
       class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300 gap-4"
     >
-      <ButtonWhite @click.native.prevent="$emit('update:modal', false)">
-        Cancel
-      </ButtonWhite>
-      <ButtonPrimary
+      <Button
+        variant="white"
+        @click.native.prevent="$emit('update:modal', false)"
+      >
+        Close
+      </Button>
+      <Button
+        variant="green"
         @click.native.prevent="select"
         :disabled="selected.length === 0"
       >
         <font-awesome-icon :icon="['fas', 'check']" />
         Select
-      </ButtonPrimary>
+      </Button>
     </div>
   </div>
 </template>

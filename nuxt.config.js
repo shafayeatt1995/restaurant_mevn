@@ -48,6 +48,7 @@ export default {
     "@nuxtjs/pwa",
     "@nuxtjs/auth-next",
     "nuxt-client-init-module",
+    "vue2-editor/nuxt",
   ],
 
   axios: {

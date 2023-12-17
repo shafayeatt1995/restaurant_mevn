@@ -5,6 +5,7 @@
   >
     <font-awesome-icon v-if="icon" :icon="icon" />
     <h2 class="text-sm font-normal">{{ title }}</h2>
+    <font-awesome-icon v-if="backIcon" :icon="backIcon" />
   </div>
 </template>
 <script>
@@ -14,6 +15,7 @@ export default {
     variant: { type: String, default: "green" },
     title: String,
     icon: Array,
+    backIcon: Array,
   },
   computed: {
     variantClass() {

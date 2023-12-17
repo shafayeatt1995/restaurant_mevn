@@ -4,7 +4,7 @@ const stringSlug = (string) =>
     .replace(/\s+/g, "-")
     .replace(/[^\w\-]/g, "");
 
-const randomKey = (number) =>
+const randomKey = (number = 5) =>
   [...Array(number)].map(() => Math.random().toString(36)[2]).join("");
 
 function getPagination(page, perPage) {}

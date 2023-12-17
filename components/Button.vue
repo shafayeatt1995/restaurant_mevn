@@ -1,7 +1,19 @@
 <template>
-  <button
-    class="flex justify-center items-center px-5 py-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform rounded-lg focus:outline-none focus:ring focus:ring-opacity-50 gap-1"
+  <nuxt-link
+    v-if="to"
+    :to="to"
+    class="flex justify-center items-center px-5 py-3 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform rounded-lg focus:outline-none focus:ring focus:ring-opacity-50 gap-1"
     :class="variantClass"
+    :disabled="loading"
+  >
+    <Spinner v-if="loading" />
+    <slot />
+  </nuxt-link>
+  <button
+    v-else
+    class="flex justify-center items-center px-5 py-3 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform rounded-lg focus:outline-none focus:ring focus:ring-opacity-50 gap-1"
+    :class="variantClass"
+    :disabled="loading"
   >
     <Spinner v-if="loading" />
     <slot />
@@ -9,7 +21,7 @@
 </template>
 <script>
 export default {
-  props: { loading: Boolean, variant: String },
+  props: { loading: Boolean, variant: String, to: [String, Object] },
   name: "Button",
   computed: {
     variantClass() {
