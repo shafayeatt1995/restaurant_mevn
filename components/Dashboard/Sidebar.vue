@@ -66,15 +66,21 @@ export default {
         },
         {
           hide: !this.admin,
-          name: "dashboard-users",
-          title: "Users",
+          name: "dashboard-user",
+          title: "User",
           icon: ["fas", "users"],
         },
         {
           hide: !this.owner,
           name: "dashboard-item",
-          title: "Items",
+          title: "Item",
           icon: ["fas", "pizza-slice"],
+        },
+        {
+          hide: !this.owner,
+          name: "dashboard-table",
+          title: "Table",
+          icon: ["fas", "table-cells-large"],
         },
       ];
       return nav;

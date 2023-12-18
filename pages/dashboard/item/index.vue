@@ -141,9 +141,20 @@ export default {
     createItem() {
       this.$router.push({ name: "dashboard-item-id", params: { id: "null" } });
     },
-    editItem(data) {},
     async deleteItem(_id, key) {
       if (confirm("Are you sure, you want to delete?")) {
+        try {
+          if (this.click) {
+            this.click = false;
+            await this.$ownerApi.deleteItem({ _id });
+            this.items.splice(key, 1);
+            this.click = true;
+          }
+        } catch (error) {
+          $nuxt.$emit("apiError", error);
+        } finally {
+          this.click = true;
+        }
       }
     },
   },

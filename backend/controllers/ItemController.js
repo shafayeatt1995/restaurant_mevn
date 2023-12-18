@@ -132,8 +132,10 @@ const controller = {
   async deleteItem(req, res) {
     try {
       const { _id } = req.query;
+      const { restaurantID } = req.user;
 
-      await Category.deleteOne({ _id });
+      const data = await Category.deleteOne({ _id, restaurantID });
+      console.log(data);
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);

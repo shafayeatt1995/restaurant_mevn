@@ -24,4 +24,24 @@ export class OwnerApi extends BaseApi {
   updateItem(body) {
     return this.api.$patch(`item`, body);
   }
+
+  deleteItem(params) {
+    return this.api.$delete(`item`, { params });
+  }
+
+  fetchTable(params) {
+    return this.api.$get(`table`, { params });
+  }
+
+  createTable(body) {
+    return this.api.$post(`table`, body);
+  }
+
+  updateTable(body) {
+    return this.api.$patch(`table`, body);
+  }
+
+  deleteTable(params) {
+    return this.api.$delete(`table`, { params });
+  }
 }

@@ -7,8 +7,6 @@ const stringSlug = (string) =>
 const randomKey = (number = 5) =>
   [...Array(number)].map(() => Math.random().toString(36)[2]).join("");
 
-function getPagination(page, perPage) {}
-
 const paginate = (page, perPage) => {
   page = Math.max(Number(page) || 1, 1);
   const limit = Math.max(Number(perPage) || 1, 1);
