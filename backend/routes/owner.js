@@ -2,12 +2,16 @@ const express = require("express");
 const router = express.Router();
 const { isOwner } = require("@/backend/middleware");
 const { createItemVal } = require("@/backend/validation/item");
+const { restaurantNameVal } = require("@/backend/validation/user");
 const {
   createTableVal,
   updateTableVal,
 } = require("@/backend/validation/table");
 const { validation } = require("@/backend/validation");
 const { fetchCategory } = require("@/backend/controllers/CategoryController");
+const {
+  updateRestaurantName,
+} = require("@/backend/controllers/UserController");
 const {
   fetchTable,
   createTable,
@@ -34,5 +38,12 @@ router.get("/table", fetchTable);
 router.post("/table", createTableVal, validation, createTable);
 router.patch("/table", updateTableVal, validation, updateTable);
 router.delete("/table", deleteTable);
+
+router.post(
+  "/update-restaurant-name",
+  restaurantNameVal,
+  validation,
+  updateRestaurantName
+);
 
 module.exports = router;

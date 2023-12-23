@@ -8,7 +8,10 @@
         src="/images/logo/1.png"
         alt="avatar"
       />
-      <p>Restaurant name</p>
+      <p>
+        {{ editMode ? $auth.user?.restaurant?.name || "" : "Restaurant name" }}
+        <EditButton @click.native.prevent="nameModal = true" v-if="editMode" />
+      </p>
     </div>
 
     <div
@@ -94,19 +97,49 @@
       <hr />
     </ItemModal>
 
-    <ItemCart />
+    <ItemCart v-if="!editMode" />
     <div class="mb-16"></div>
+    <Modal v-model="nameModal">
+      <form class="mt-4" @submit.prevent="updateRestaurant">
+        <Input
+          v-for="(field, i) in inputFields"
+          :key="i"
+          :field="field"
+          v-model="restaurant"
+          :errors="errors"
+        />
+        <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
+          <Button
+            variant="white"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="nameModal = false"
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant="green"
+            type="submit"
+            class="w-full tracking-wide flex-1"
+            :loading="updateRestaurantLoading"
+          >
+            Update restaurant name
+          </Button>
+        </div>
+      </form>
+    </Modal>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
-  name: "ItemPage",
-  auth: false,
+  name: "ItemComponent",
+  props: { editMode: Boolean },
   data() {
     return {
       modal: false,
+      nameModal: false,
       categories: [
         "Popular items",
         "Curry testy",
@@ -122,10 +155,52 @@ export default {
         "Drinks",
         "kids",
       ],
+      restaurant: {
+        name: "",
+      },
+      errors: {},
+      updateRestaurantLoading: false,
     };
   },
   computed: {
-    ...mapGetters(["owner", "admin"]),
+    inputFields() {
+      return [
+        {
+          type: "text",
+          placeholder: "Name",
+          name: "name",
+        },
+      ];
+    },
+  },
+  mounted() {
+    this.setData();
+  },
+  methods: {
+    async updateRestaurant() {
+      try {
+        this.updateRestaurantLoading = true;
+        this.errors = {};
+        await this.$ownerApi.updateRestaurantName(this.restaurant);
+        this.nameModal = false;
+        $nuxt.$emit("success", "Restaurant name successfully updated");
+        this.$auth.fetchUser();
+      } catch (error) {
+        console.log(error);
+        this.errors = error.response.data.errors;
+      } finally {
+        this.updateRestaurantLoading = false;
+      }
+    },
+    setData() {
+      if (this.$auth.loggedIn) {
+        this.restaurant = {
+          name: this.$auth.user.restaurant.name,
+          userID: this.$auth.user._id,
+          restaurantID: this.$auth.user.restaurant._id,
+        };
+      }
+    },
   },
 };
 </script>

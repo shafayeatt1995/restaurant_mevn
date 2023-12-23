@@ -81,7 +81,6 @@ const controller = {
   },
 
   async suspendUser(req, res) {
-    const mongoose = require("mongoose");
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -123,7 +122,6 @@ const controller = {
   },
 
   async deleteUser(req, res) {
-    const mongoose = require("mongoose");
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -160,6 +158,20 @@ const controller = {
       res.status(500).json({
         success: false,
         message: error.message || "Internal server error",
+      });
+    }
+  },
+
+  async updateRestaurantName(req, res) {
+    try {
+      const { restaurantID, userID, name } = req.body;
+      await Restaurant.updateOne({ _id: restaurantID, userID }, { name });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
       });
     }
   },

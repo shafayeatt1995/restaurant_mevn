@@ -46,4 +46,24 @@ const createUserVal = [
     .withMessage("Password must be at least 8 characters"),
 ];
 
-module.exports = { createUserVal };
+const restaurantNameVal = [
+  check("name")
+    .isLength({ min: 3 })
+    .withMessage("Name must be more than 3 character"),
+  check("userID").custom(async (value, { req }) => {
+    if (value !== req.user._id) {
+      throw new Error("Access denied");
+    }
+
+    return true;
+  }),
+  check("restaurantID").custom(async (value, { req }) => {
+    if (value !== req.user.restaurantID) {
+      throw new Error("Access denied");
+    }
+
+    return true;
+  }),
+];
+
+module.exports = { createUserVal, restaurantNameVal };

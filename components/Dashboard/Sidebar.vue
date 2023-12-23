@@ -58,12 +58,12 @@ export default {
     navLink() {
       const nav = [
         { name: "dashboard", title: "Dashboard", icon: ["fas", "chart-line"] },
-        {
-          hide: !this.admin,
-          name: "dashboard-category",
-          title: "Category",
-          icon: ["fas", "cubes"],
-        },
+        // {
+        //   hide: !this.admin,
+        //   name: "dashboard-category",
+        //   title: "Category",
+        //   icon: ["fas", "cubes"],
+        // },
         {
           hide: !this.admin,
           name: "dashboard-user",
@@ -81,6 +81,12 @@ export default {
           name: "dashboard-table",
           title: "Table",
           icon: ["fas", "table-cells-large"],
+        },
+        {
+          hide: !this.owner,
+          name: "dashboard-editor",
+          title: "Editor",
+          icon: ["fas", "pen-ruler"],
         },
       ];
       return nav;

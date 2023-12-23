@@ -44,4 +44,8 @@ export class OwnerApi extends BaseApi {
   deleteTable(params) {
     return this.api.$delete(`table`, { params });
   }
+
+  updateRestaurantName(body) {
+    return this.api.$post(`update-restaurant-name`, body);
+  }
 }
