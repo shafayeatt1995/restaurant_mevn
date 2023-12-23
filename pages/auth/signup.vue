@@ -142,7 +142,7 @@ export default {
         await this.$authApi.signup(this.form);
         await this.$auth.loginWith("cookie", { data: this.form });
       } catch (error) {
-        this.errors = error.response.data.errors;
+        this.errors = error?.response?.data?.errors;
       } finally {
         this.loading = false;
       }

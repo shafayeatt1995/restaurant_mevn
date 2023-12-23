@@ -1,18 +1,18 @@
 <template>
   <div class="overflow-hidden">
-    <!-- <Item editMode /> -->
-    <iframe
+    <Item editMode />
+    <!-- <iframe
       ref="myFrame"
       :src="address"
       class="lg:w-[450px] w-full mx-auto h-screen"
-    ></iframe>
+    ></iframe> -->
   </div>
 </template>
 
 <script>
 export default {
   name: "Editor",
-  layout: "dashboard",
+  // layout: "dashboard",
   middleware: "owner",
   head() {
     return { title: "Editor - " + process.env.APP_NAME };

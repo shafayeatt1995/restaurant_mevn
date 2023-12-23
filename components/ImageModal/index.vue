@@ -37,6 +37,15 @@
                 :multiple="multiple"
                 :limit="limit"
               />
+              <ImageModalPreset
+                v-else-if="active === 'Preset image'"
+                :modal.sync="modal"
+                :value="selected"
+                @input="update"
+                @activeUpload="active = 'Upload image'"
+                :multiple="multiple"
+                :limit="limit"
+              />
               <ImageModalUpload
                 v-else-if="active === 'Upload image'"
                 v-model="modal"
@@ -61,6 +70,7 @@ export default {
     return {
       tabTitle: [
         { title: "Select image", icon: ["far", "images"] },
+        { title: "Preset image", icon: ["far", "images"] },
         { title: "Upload image", icon: ["fas", "cloud-arrow-up"] },
         { title: "Delete image", icon: ["fas", "trash-can"] },
       ],

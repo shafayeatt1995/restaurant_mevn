@@ -48,4 +48,16 @@ export class OwnerApi extends BaseApi {
   updateRestaurantName(body) {
     return this.api.$post(`update-restaurant-name`, body);
   }
+
+  fetchCategory() {
+    return this.api.$get(`category`);
+  }
+
+  createCategory(body) {
+    return this.api.$post(`category`, body);
+  }
+
+  updateCategory(body) {
+    return this.api.$patch(`category`, body);
+  }
 }

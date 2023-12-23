@@ -1,0 +1,104 @@
+<template>
+  <div>
+    <div
+      class="flex flex-wrap gap-2 max-h-96 overflow-y-auto"
+      v-if="images.length > 0"
+    >
+      <div
+        class="relative cursor-pointer text-green-600 flex items-center"
+        @click="setImage(image)"
+        v-for="(image, i) in images"
+        :key="i"
+      >
+        <transition name="fade" mode="out-in">
+          <div
+            v-if="checkId(image._id)"
+            class="flex items-center justify-center absolute w-full h-full bg-gray-800 bg-opacity-70"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'circle-check']"
+              class="text-2xl"
+            />
+          </div>
+        </transition>
+        <img :src="image.url" class="object-contain h-14 w-14" />
+      </div>
+    </div>
+    <div
+      class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300 gap-4"
+    >
+      <Button
+        variant="white"
+        @click.native.prevent="$emit('update:modal', false)"
+      >
+        Close
+      </Button>
+      <Button
+        variant="green"
+        @click.native.prevent="select"
+        :disabled="selected.length === 0"
+      >
+        <font-awesome-icon :icon="['fas', 'check']" />
+        Select
+      </Button>
+    </div>
+  </div>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+export default {
+  name: "SelectImage",
+  props: { multiple: Boolean, modal: Boolean, limit: Number },
+  computed: {
+    selected: {
+      get() {
+        return this.$attrs.value;
+      },
+      set(value) {
+        this.$emit("input", value);
+      },
+    },
+    images() {
+      return Array.from({ length: 229 }).map((_, i) => ({
+        _id: i,
+        url: `/images/presets/${i}.png`,
+      }));
+    },
+  },
+  mounted() {},
+  methods: {
+    select() {
+      this.$emit("update:modal", false);
+    },
+
+    setImage(data) {
+      const { _id, url } = data;
+      if (this.multiple) {
+        const index = this.selected.findIndex((val) => val._id === _id);
+
+        if (index !== -1) {
+          this.selected.splice(index, 1);
+        } else {
+          if (this.selected.length >= this.limit) {
+            $nuxt.$emit(
+              "error",
+              `You can  select maximum ${this.limit} images.`
+            );
+          } else {
+            this.selected.push({ _id, url });
+          }
+        }
+      } else {
+        this.selected = { _id, url };
+      }
+    },
+    checkId(_id) {
+      if (this.multiple) {
+        return this.selected.some((val) => val._id === _id);
+      } else {
+        return this.selected._id === _id;
+      }
+    },
+  },
+};
+</script>

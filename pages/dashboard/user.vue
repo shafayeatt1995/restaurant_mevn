@@ -270,7 +270,7 @@ export default {
         if (message) {
           this.$nuxt.$emit("error", message);
         } else {
-          this.errors = error.response.data.errors;
+          this.errors = error?.response?.data?.errors;
         }
       } finally {
         this.click = true;

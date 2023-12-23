@@ -180,7 +180,7 @@ export default {
           this.click = true;
         }
       } catch (error) {
-        this.errors = error.response.data.errors;
+        this.errors = error?.response?.data?.errors;
       } finally {
         this.click = true;
       }
