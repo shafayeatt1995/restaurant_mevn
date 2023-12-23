@@ -192,6 +192,7 @@ export default {
         this.updateRestaurantLoading = false;
       }
     },
+
     setData() {
       if (this.$auth.loggedIn) {
         this.restaurant = {
