@@ -1,27 +1,15 @@
 <template>
   <div>
-    <div
-      class="grid grid-cols-2 gap-6 px-6 xl:grid-cols-5 2xl:grid-cols-6 lg:grid-cols-4 mt-3 max-h-96 overflow-y-auto"
-      v-if="images.length > 0"
-    >
-      <div
-        class="relative cursor-pointer text-green-600 flex items-center h-40"
-        @click="setImage(image)"
-        v-for="(image, i) in images"
-        :key="i"
-      >
+    <div class="flex flex-wrap justify-between gap-6 px-3 mt-3 max-h-96 overflow-y-auto" v-if="images.length > 0">
+      <div class="relative cursor-pointer text-green-600 flex items-center" @click="setImage(image)"
+        v-for="(image, i) in images" :key="i">
         <transition name="fade" mode="out-in">
-          <div
-            v-if="checkId(image)"
-            class="flex items-center justify-center absolute w-full h-full bg-gray-800 bg-opacity-70"
-          >
-            <font-awesome-icon
-              :icon="['fas', 'circle-check']"
-              class="text-2xl"
-            />
+          <div v-if="checkId(image)"
+            class="flex items-center justify-center absolute w-full h-full bg-gray-800 bg-opacity-70">
+            <font-awesome-icon :icon="['fas', 'circle-check']" class="text-2xl" />
           </div>
         </transition>
-        <img :src="image.url" class="object-contain w-full h-full" />
+        <img :src="image.url" class="object-contain w-28 h-full" />
       </div>
 
       <Observer @load="getImages">
@@ -29,27 +17,14 @@
       </Observer>
     </div>
     <div class="flex justify-center items-center w-full py-5" v-else>
-      <EmptyMessage
-        @action="$emit('activeUpload')"
-        title="No Images found"
-        buttonText="Upload Image"
-        :icon="['fas', 'cloud-arrow-up']"
-      />
+      <EmptyMessage @action="$emit('activeUpload')" title="No Images found" buttonText="Upload Image"
+        :icon="['fas', 'cloud-arrow-up']" />
     </div>
-    <div
-      class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300 gap-4"
-    >
-      <Button
-        variant="white"
-        @click.native.prevent="$emit('update:modal', false)"
-      >
+    <div class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300 gap-4">
+      <Button variant="white" @click.native.prevent="$emit('update:modal', false)">
         Close
       </Button>
-      <Button
-        variant="red"
-        @click.native.prevent="select"
-        :disabled="selected.length === 0"
-      >
+      <Button variant="red" @click.native.prevent="select" :disabled="selected.length === 0">
         <font-awesome-icon :icon="['fas', 'trash-can']" />
         Delete Images
       </Button>

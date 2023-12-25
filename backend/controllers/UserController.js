@@ -164,8 +164,8 @@ const controller = {
 
   async updateRestaurantName(req, res) {
     try {
-      const { restaurantID, userID, name } = req.body;
-      await Restaurant.updateOne({ _id: restaurantID, userID }, { name });
+      const { restaurantID, userID, name, logo } = req.body;
+      await Restaurant.updateOne({ _id: restaurantID, userID }, { name, logo });
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
