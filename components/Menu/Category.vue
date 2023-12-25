@@ -11,7 +11,7 @@
         </p>
       </div>
       <div v-if="editMode" class="flex flex-col items-center justify-between relative" @click="openModal">
-        <div class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center">
+        <div class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-1">
           <font-awesome-icon :icon="['fas', 'plus']" />
         </div>
         <p class="mx-2 flex text-sm whitespace-nowrap">Add</p>
@@ -116,9 +116,9 @@ export default {
         this.loading = true;
         const data = { ...this.form, image: this.selected.url };
         if (this.editItem) {
-          await this.$ownerApi.updateCategory(data);
+          await this.$managerApi.updateCategory(data);
         } else {
-          await this.$ownerApi.createCategory(data);
+          await this.$managerApi.createCategory(data);
         }
         this.fetchItem();
         this.modal = false;
@@ -150,7 +150,7 @@ export default {
       try {
         if (confirm("Are you sure, you want to delete?")) {
           this.deleteLoading = true;
-          await this.$ownerApi.deleteCategory({ _id: this.form._id });
+          await this.$managerApi.deleteCategory({ _id: this.form._id });
           const key = this.categories.findIndex(
             ({ _id }) => _id === this.form._id
           );
@@ -178,7 +178,7 @@ export default {
             { _id: itemOne._id, serial: itemTwo.serial },
             { _id: itemTwo._id, serial: itemOne.serial },
           ];
-          await this.$ownerApi.UpdateCategorySerial({ serialData });
+          await this.$managerApi.UpdateCategorySerial({ serialData });
         }
       }
     },

@@ -1,7 +1,7 @@
-const isOwner = async (req, res, next) => {
+const isManager = async (req, res, next) => {
   try {
-    const { isOwner } = req.user;
-    if (isOwner) {
+    const { isManager } = req.user;
+    if (isManager) {
       next();
     } else {
       res.status(403).send({ success: false, message: "Access denied" });
@@ -11,4 +11,4 @@ const isOwner = async (req, res, next) => {
   }
 };
 
-module.exports = isOwner;
+module.exports = isManager;

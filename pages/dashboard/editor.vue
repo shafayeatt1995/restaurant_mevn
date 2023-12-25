@@ -10,7 +10,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Editor",
   // layout: "dashboard",
-  middleware: "owner",
+  middleware: "manager",
   head() {
     return { title: "Editor - " + process.env.APP_NAME };
   },

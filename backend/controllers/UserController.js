@@ -13,7 +13,7 @@ const controller = {
       return res
         .status(200)
         .json({ success: true, user: { ...user._doc, is_admin: true } });
-    } else if (user && user.type === "owner") {
+    } else if (user && user.type === "manager") {
       const restaurant = await Restaurant.findOne({ userID: user._id });
       user._doc.restaurant = restaurant;
       return res.status(200).json({ success: true, user });
@@ -49,7 +49,7 @@ const controller = {
         session,
       });
 
-      if (type === "owner") {
+      if (type === "manager") {
         const userID = user._id;
         const slug = randomKey(6);
         await Restaurant.create([{ userID, name: restaurantName, slug }], {
@@ -89,7 +89,7 @@ const controller = {
 
       if (user.type === "admin" && user.power === 420) {
         throw new Error("Cannot suspend admin user");
-      } else if (user.type !== "owner") {
+      } else if (user.type !== "manager") {
         await User.updateOne(
           { _id },
           [{ $set: { suspended: { $eq: [false, "$suspended"] } } }],
@@ -130,7 +130,7 @@ const controller = {
 
       if (user.type === "admin" && user.power === 420) {
         throw new Error("Cannot delete admin user");
-      } else if (user.type !== "owner") {
+      } else if (user.type !== "manager") {
         await User.updateOne(
           { _id },
           [{ $set: { deleted: { $eq: [false, "$deleted"] } } }],

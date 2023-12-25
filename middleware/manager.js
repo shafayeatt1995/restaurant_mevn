@@ -1,5 +1,5 @@
 export default function ({ store, redirect }) {
-  if (!store.getters.owner) {
+  if (!store.getters.manager) {
     return redirect("/dashboard");
   }
 }

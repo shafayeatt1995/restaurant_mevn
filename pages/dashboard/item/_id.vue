@@ -4,37 +4,16 @@
       <h1 class="text-4xl text-gray-600">
         {{ editMode ? "Edit" : "Create" }} Item
       </h1>
-      <Input
-        v-for="(field, i) in inputFields"
-        :key="i"
-        :field="field"
-        v-model="form"
-        :errors="errors"
-      />
+      <Input v-for="(field, i) in inputFields" :key="i" :field="field" v-model="form" :errors="errors" />
       <div class="border border-gray-200 mb-4 mt-5"></div>
       <p class="text-gray-600">Ingredient Section (optional)</p>
-      <div
-        class="flex flex-wrap border border-gray-300 rounded-lg gap-3 py-2 px-1"
-        v-if="form.ingredient.length"
-      >
-        <Badge
-          variant="green"
-          class="text-gray-600 cursor-pointer"
-          v-for="(data, i) in form.ingredient"
-          :key="i"
-          :title="data"
-          :backIcon="['fas', 'xmark']"
-          @click.native.prevent="removeIngredient(i)"
-        />
+      <div class="flex flex-wrap border border-gray-300 rounded-lg gap-3 py-2 px-1" v-if="form.ingredient.length">
+        <Badge variant="green" class="text-gray-600 cursor-pointer" v-for="(data, i) in form.ingredient" :key="i"
+          :title="data" :backIcon="['fas', 'xmark']" @click.native.prevent="removeIngredient(i)" />
       </div>
       <form class="relative">
-        <Input
-          v-for="(field, i) in ingredientFields"
-          :key="i"
-          :field="field"
-          v-model="ingredient"
-          @action="addIngredient"
-        />
+        <Input v-for="(field, i) in ingredientFields" :key="i" :field="field" v-model="ingredient"
+          @action="addIngredient" />
       </form>
     </div>
     <div class="flex-1 col-span-3 lg:col-span-1">
@@ -65,20 +44,11 @@
         </form> -->
         <!-- <div class="border border-gray-200 my-3"></div> -->
         <p class="text-gray-600">Image Section</p>
-        <div
-          @click="imageModal = true"
-          class="border flex flex-col items-center justify-center h-60 cursor-pointer rounded-lg"
-        >
-          <img
-            :src="form.image"
-            v-if="form.image"
-            class="object-contain w-full h-full p-3"
-          />
+        <div @click="imageModal = true"
+          class="border flex flex-col items-center justify-center h-60 cursor-pointer rounded-lg">
+          <img :src="form.image" v-if="form.image" class="object-contain w-full h-full p-3" />
           <template v-else>
-            <font-awesome-icon
-              :icon="['far', 'image']"
-              class="text-8xl text-green-600"
-            />
+            <font-awesome-icon :icon="['far', 'image']" class="text-8xl text-green-600" />
             <p class="text-lg px-10 text-gray-700">Select an Category image</p>
           </template>
         </div>
@@ -86,20 +56,9 @@
           {{ errors.image.msg }}
         </p>
         <ImageModal v-model="imageModal" :selected.sync="selected" />
-        <Input
-          v-for="(field, i) in statusFields"
-          :key="i"
-          :field="field"
-          v-model="form"
-          :errors="errors"
-        />
-        <Button
-          variant="green"
-          class="w-full mt-3"
-          @click.native.prevent="submit"
-          :loading="loading"
-          >{{ editMode ? "Update" : "Create" }} Item</Button
-        >
+        <Input v-for="(field, i) in statusFields" :key="i" :field="field" v-model="form" :errors="errors" />
+        <Button variant="green" class="w-full mt-3" @click.native.prevent="submit" :loading="loading">{{ editMode ?
+          "Update" : "Create" }} Item</Button>
       </div>
     </div>
   </div>
@@ -108,7 +67,7 @@
 export default {
   name: "ItemID",
   layout: "dashboard",
-  middleware: "owner",
+  middleware: "manager",
   head() {
     return { title: "Items - " + process.env.APP_NAME };
   },
@@ -255,7 +214,7 @@ export default {
   methods: {
     async fetchCategory() {
       try {
-        const { categories } = await this.$ownerApi.getCategory();
+        const { categories } = await this.$managerApi.getCategory();
         this.categories = categories;
       } catch (error) {
         console.log(error);
@@ -264,7 +223,7 @@ export default {
     async fetchItem() {
       try {
         if (this.$route.params.id !== "null") {
-          const { item } = await this.$ownerApi.getItem(this.$route.params.id);
+          const { item } = await this.$managerApi.getItem(this.$route.params.id);
           const {
             categoryID,
             name,
@@ -319,10 +278,10 @@ export default {
       try {
         this.loading = true;
         if (this.$route.params.id !== "null") {
-          await this.$ownerApi.updateItem(this.form);
+          await this.$managerApi.updateItem(this.form);
           $nuxt.$emit("success", "Item updated  successfully");
         } else {
-          await this.$ownerApi.createItem(this.form);
+          await this.$managerApi.createItem(this.form);
           $nuxt.$emit("success", "Item created successfully");
         }
         this.$router.push({ name: "dashboard-item" });

@@ -15,14 +15,14 @@ const isAuthenticated = async (req, res, next) => {
         email,
         type,
         isAdmin,
-        isOwner,
+        isManager,
         restaurantID,
         restaurantSlug,
       } = await jwt.verify(token, process.env.AUTH_SECRET);
       const payload = { _id, email, type };
       isAdmin ? (payload.isAdmin = true) : "";
-      if (isOwner) {
-        payload.isOwner = true;
+      if (isManager) {
+        payload.isManager = true;
         payload.restaurantID = restaurantID;
         payload.restaurantSlug = restaurantSlug;
       }

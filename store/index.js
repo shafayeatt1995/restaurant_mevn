@@ -19,7 +19,7 @@ export const getters = {
   windowWidth: (state) => state.windowWidth,
   admin: (state) =>
     (state.auth?.user?.is_admin && state.auth?.user?.type === "admin") || false,
-  owner: (state) => state.auth?.user?.type === "owner" || false,
+  manager: (state) => state.auth?.user?.type === "manager" || false,
   waiter: (state) => state.auth?.user?.type === "waiter" || false,
   chef: (state) => state.auth?.user?.type === "chef" || false,
   user: (state) => state.auth?.user?.type === "user" || false,
@@ -32,7 +32,7 @@ export const getters = {
     }
   },
   activeScan: (state, getters) => {
-    return getters.owner && getters.scanDate >= new Date();
+    return getters.manager && getters.scanDate >= new Date();
   },
   analyticDate(state) {
     if (state.auth?.user?.restaurant) {
@@ -42,6 +42,6 @@ export const getters = {
     }
   },
   activeAnalytic: (state, getters) => {
-    return getters.owner && getters.analyticDate >= new Date();
+    return getters.manager && getters.analyticDate >= new Date();
   },
 };

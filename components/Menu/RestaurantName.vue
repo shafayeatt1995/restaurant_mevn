@@ -83,7 +83,7 @@ export default {
         this.loading = true;
         this.errors = {};
         const formData = { ...this.form, logo: this.selected.url }
-        await this.$ownerApi.updateRestaurantName(formData);
+        await this.$managerApi.updateRestaurantName(formData);
         this.modal = false;
         $nuxt.$emit("refetchMenu");
         $nuxt.$emit("success", "Restaurant name successfully updated");

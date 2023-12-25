@@ -26,10 +26,10 @@ const controller = {
 
       if (power === 420 && type === "admin") {
         payload.isAdmin = true;
-      } else if (type === "owner" && restaurant) {
+      } else if (type === "manager" && restaurant) {
         payload.restaurantID = restaurant._id;
         payload.restaurantSlug = restaurant.slug;
-        payload.isOwner = true;
+        payload.isManager = true;
       }
 
       const token = jwt.sign(payload, process.env.AUTH_SECRET, {

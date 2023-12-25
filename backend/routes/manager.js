@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { isOwner } = require("@/backend/middleware");
+const { isManager } = require("@/backend/middleware");
 const { createItemVal } = require("@/backend/validation/item");
 const { restaurantNameVal } = require("@/backend/validation/user");
 const {
@@ -34,7 +34,7 @@ const {
 } = require("@/backend/controllers/CategoryController");
 const { createCategoryVal } = require("@/backend/validation/category");
 
-router.use(isOwner);
+router.use(isManager);
 router.get("/item", fetchItem);
 router.get("/item/:_id", getItem);
 router.post("/item", createItemVal, validation, createItem);

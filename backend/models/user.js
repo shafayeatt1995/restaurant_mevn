@@ -13,7 +13,7 @@ const UserSchema = new Schema(
     power: { type: Number, default: 1, select: false },
     type: {
       type: String,
-      enum: ["admin", "owner", "waiter", "chef", "user"],
+      enum: ["admin", "manager", "waiter", "chef", "user"],
       default: "user",
     },
     socialAccount: { type: Boolean, default: false },

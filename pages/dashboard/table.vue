@@ -1,8 +1,6 @@
 <template>
   <div>
-    <section
-      class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
-    >
+    <section class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5">
       <div>
         <h2 class="text-3xl font-medium text-gray-600">Table</h2>
       </div>
@@ -18,11 +16,7 @@
     </section>
 
     <section class="px-4">
-      <TableResponsive
-        :fields="fields"
-        :items="loading ? 10 : items"
-        :skeleton="loading"
-      >
+      <TableResponsive :fields="fields" :items="loading ? 10 : items" :skeleton="loading">
         <template #image="{ item }">
           <img :src="item.image" class="max-h-16" />
         </template>
@@ -30,26 +24,17 @@
         <template #updated_at="{ value }">{{ value | agoDate }}</template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <Button variant="green" @click.native.prevent="editItem(item)"
-              ><font-awesome-icon :icon="['far', 'pen-to-square']" />
-              Edit</Button
-            >
-            <Button
-              variant="red"
-              @click.native.prevent="deleteItem(item._id, index)"
-              ><font-awesome-icon :icon="['far', 'trash-can']" />Delete</Button
-            >
+            <Button variant="green" @click.native.prevent="editItem(item)"><font-awesome-icon
+                :icon="['far', 'pen-to-square']" />
+              Edit</Button>
+            <Button variant="red" @click.native.prevent="deleteItem(item._id, index)"><font-awesome-icon
+                :icon="['far', 'trash-can']" />Delete</Button>
           </div>
         </template>
         <template #empty v-if="items.length === 0 && !loading">
           <div class="flex items-center text-center h-96 bg-white">
-            <EmptyMessage
-              @action="modal = true"
-              title="No table found"
-              buttonText="Add table"
-              :icon="['far', 'circle-xmark']"
-              iconClass="rotate-45"
-            />
+            <EmptyMessage @action="modal = true" title="No table found" buttonText="Add table"
+              :icon="['far', 'circle-xmark']" iconClass="rotate-45" />
           </div>
         </template>
       </TableResponsive>
@@ -59,35 +44,17 @@
     </section>
 
     <Modal v-model="modal">
-      <h3
-        class="text-lg font-medium leading-6 text-gray-600 capitalize"
-        id="modal-title"
-      >
+      <h3 class="text-lg font-medium leading-6 text-gray-600 capitalize" id="modal-title">
         {{ editMode ? "Edit" : "Create new" }} table
       </h3>
       <form class="mt-4" @submit.prevent="submit">
-        <Input
-          v-for="(field, i) in inputFields"
-          :key="i"
-          :field="field"
-          v-model="form"
-          :errors="errors"
-        />
+        <Input v-for="(field, i) in inputFields" :key="i" :field="field" v-model="form" :errors="errors" />
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
-          <Button
-            variant="white"
-            type="button"
-            class="w-full tracking-wide flex-1"
-            @click.native.prevent="modal = false"
-          >
+          <Button variant="white" type="button" class="w-full tracking-wide flex-1" @click.native.prevent="modal = false">
             Cancel
           </Button>
 
-          <Button
-            variant="green"
-            type="submit"
-            class="w-full tracking-wide flex-1"
-          >
+          <Button variant="green" type="submit" class="w-full tracking-wide flex-1">
             {{ editMode ? "Update" : "Create" }} table
           </Button>
         </div>
@@ -100,7 +67,7 @@
 export default {
   name: "Table",
   layout: "dashboard",
-  middleware: "owner",
+  middleware: "manager",
   head() {
     return { title: "Table - " + process.env.APP_NAME };
   },
@@ -153,7 +120,7 @@ export default {
           page: this.items.length / this.perPage + 1,
         };
         if (Number.isInteger(params.page)) {
-          const { tables } = await this.$ownerApi.fetchTable(params);
+          const { tables } = await this.$managerApi.fetchTable(params);
           this.items = this.items.concat(tables);
         }
       } catch (error) {
@@ -167,9 +134,9 @@ export default {
         if (this.click) {
           this.click = false;
           if (this.editMode) {
-            await this.$ownerApi.updateTable(this.form);
+            await this.$managerApi.updateTable(this.form);
           } else {
-            await this.$ownerApi.createTable(this.form);
+            await this.$managerApi.createTable(this.form);
           }
           $nuxt.$emit(
             "success",
@@ -209,7 +176,7 @@ export default {
         try {
           if (this.click) {
             this.click = false;
-            await this.$ownerApi.deleteTable({ _id });
+            await this.$managerApi.deleteTable({ _id });
             this.items.splice(key, 1);
             this.click = true;
           }

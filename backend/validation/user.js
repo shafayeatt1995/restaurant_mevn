@@ -9,9 +9,9 @@ const createUserVal = [
     .withMessage("Restaurant name is required")
     .custom(async (value, { req }) => {
       try {
-        if (req.body.type === "owner") {
+        if (req.body.type === "manager") {
           if (!value || value.trim().length === 0) {
-            throw new Error("Restaurant name is required for owners");
+            throw new Error("Restaurant name is required for manager");
           }
         } else {
           return true;

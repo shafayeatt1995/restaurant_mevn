@@ -1,8 +1,6 @@
 <template>
   <div>
-    <section
-      class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
-    >
+    <section class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5">
       <div>
         <h2 class="text-3xl font-medium text-gray-600">
           <font-awesome-icon :icon="['fas', 'pizza-slice']" /> Item
@@ -21,11 +19,7 @@
     </section>
 
     <section class="px-4">
-      <TableResponsive
-        :fields="fields"
-        :items="loading ? 10 : items"
-        :skeleton="loading"
-      >
+      <TableResponsive :fields="fields" :items="loading ? 10 : items" :skeleton="loading">
         <template #name="{ item }">
           <div class="flex items-center gap-x-2">
             <img class="object-cover w-24" :src="item.image" alt="image" />
@@ -37,35 +31,20 @@
           </div>
         </template>
         <template #discount="{ item }">
-          <Badge
-            variant="red"
-            v-if="item.discount"
-            :title="`-${item.discountAmount}`"
-          />
+          <Badge variant="red" v-if="item.discount" :title="`-${item.discountAmount}`" />
           <Badge variant="green" v-else title="No discount" />
         </template>
         <template #status="{ value }">
-          <Badge
-            variant="green"
-            v-if="value"
-            title="Active"
-            :icon="['fas', 'check']"
-          />
+          <Badge variant="green" v-if="value" title="Active" :icon="['fas', 'check']" />
           <Badge variant="red" title="Hide" :icon="['fas', 'xmark']" v-else />
         </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <Button
-              variant="green"
-              :to="{ name: 'dashboard-item-id', params: { id: item._id } }"
-            >
+            <Button variant="green" :to="{ name: 'dashboard-item-id', params: { id: item._id } }">
               <font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit
             </Button>
-            <Button
-              variant="red"
-              @click.native.prevent="deleteItem(item._id, index)"
-            >
+            <Button variant="red" @click.native.prevent="deleteItem(item._id, index)">
               <font-awesome-icon :icon="['fas', 'trash']" />
               Delete
             </Button>
@@ -73,13 +52,8 @@
         </template>
         <template #empty v-if="items.length === 0 && !loading">
           <div class="flex items-center text-center h-96 bg-white">
-            <EmptyMessage
-              @action="createItem"
-              title="No item found"
-              buttonText="Add item"
-              :icon="['far', 'circle-xmark']"
-              iconClass="rotate-45"
-            />
+            <EmptyMessage @action="createItem" title="No item found" buttonText="Add item" :icon="['far', 'circle-xmark']"
+              iconClass="rotate-45" />
           </div>
         </template>
       </TableResponsive>
@@ -94,7 +68,7 @@
 export default {
   name: "Item",
   layout: "dashboard",
-  middleware: "owner",
+  middleware: "manager",
   head() {
     return { title: "Item - " + process.env.APP_NAME };
   },
@@ -129,7 +103,7 @@ export default {
           page: this.items.length / this.perPage + 1,
         };
         if (Number.isInteger(params.page)) {
-          const { items } = await this.$ownerApi.fetchItems(params);
+          const { items } = await this.$managerApi.fetchItems(params);
           this.items = this.items.concat(items);
         }
       } catch (error) {
@@ -146,7 +120,7 @@ export default {
         try {
           if (this.click) {
             this.click = false;
-            await this.$ownerApi.deleteItem({ _id });
+            await this.$managerApi.deleteItem({ _id });
             this.items.splice(key, 1);
             this.click = true;
           }

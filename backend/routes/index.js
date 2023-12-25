@@ -7,7 +7,7 @@ router.use("/menu", require("./menu"));
 
 router.use(isAuthenticated);
 router.use("/admin", require("./admin"));
-router.use("/owner", require("./owner"));
+router.use("/manager", require("./manager"));
 router.use("/user", require("./user"));
 router.use("/item", require("./item"));
 
