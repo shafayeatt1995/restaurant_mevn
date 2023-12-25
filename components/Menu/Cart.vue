@@ -31,7 +31,7 @@
 </template>
 <script>
 export default {
-  name: "ItemMenu",
+  name: "MenuCart",
   data() {
     return {
       show: false,

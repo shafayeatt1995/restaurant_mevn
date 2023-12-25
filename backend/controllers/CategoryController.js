@@ -22,7 +22,12 @@ const controller = {
       const { name, image } = req.body;
       const slug = stringSlug(name) + randomKey(1);
 
-      await Category.create({ name, slug, image, restaurantID });
+      await Category.create({
+        name,
+        slug,
+        image,
+        restaurantID,
+      });
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
@@ -49,9 +54,26 @@ const controller = {
 
   async deleteCategory(req, res) {
     try {
+      const { restaurantID } = req.user;
       const { _id } = req.query;
 
-      await Category.deleteOne({ _id });
+      await Category.deleteOne({ _id, restaurantID });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async updateCategorySerial(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { serialData } = req.body;
+      console.log(serialData);
+
+      // await Category.deleteOne({ _id, restaurantID });
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);

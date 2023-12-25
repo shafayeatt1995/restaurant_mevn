@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-  name: "ItemModal",
+  name: "MenuModal",
   computed: {
     modal: {
       get() {

@@ -5,7 +5,10 @@
       Goto dashboard
     </nuxt-link>
     <br />
-    <nuxt-link :to="{ name: 'item' }" class="text-blue-500">
+    <nuxt-link
+      :to="{ name: 'menu-slug', params: { slug: '2uq3pc' } }"
+      class="text-blue-500"
+    >
       Goto Item page
     </nuxt-link>
   </div>

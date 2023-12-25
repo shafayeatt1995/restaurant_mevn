@@ -1,8 +1,8 @@
 module.exports = {
-  User: require("./User"),
-  Category: require("./Category"),
-  Restaurant: require("./Restaurant"),
-  Image: require("./Image"),
-  Item: require("./Item"),
-  Table: require("./Table"),
+  User: require("./user"),
+  Category: require("./category"),
+  Restaurant: require("./restaurant"),
+  Image: require("./image"),
+  Item: require("./item"),
+  Table: require("./table"),
 };

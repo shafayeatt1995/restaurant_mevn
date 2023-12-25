@@ -1,15 +1,12 @@
 <template>
   <div class="overflow-hidden">
-    <Item editMode />
-    <!-- <iframe
-      ref="myFrame"
-      :src="address"
-      class="lg:w-[450px] w-full mx-auto h-screen"
-    ></iframe> -->
+    <Menu editMode :categories="categories" :restaurant="restaurant" />
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "Editor",
   // layout: "dashboard",
@@ -18,21 +15,45 @@ export default {
     return { title: "Editor - " + process.env.APP_NAME };
   },
   data() {
-    return { address: "" };
+    return {
+      restaurant: {},
+      categories: []
+    };
   },
-  mounted() {
-    this.setAddress();
+  async asyncData({ env, store }) {
+    try {
+      const params = { slug: store.getters.restaurantSlug };
+      let res = await axios.get(env.BASE_URL + "/api/menu", { params });
+      const { restaurant, categories } = res.data;
+      return { restaurant, categories };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  computed: {
+    ...mapGetters(['restaurantSlug'])
+  },
+  created() {
+    this.$nuxt.$on("refetchMenu", () => {
+      this.refetch();
+    });
+  },
+
+  beforeDestroy() {
+    this.$nuxt.$off("refetchMenu");
   },
   methods: {
-    setAddress() {
-      const fullToken = window.localStorage.getItem("auth._token.cookie");
-      if (fullToken) {
-        const token = fullToken.split(" ")[1];
-        const data = { token, editMode: true };
-        this.address =
-          window.location.origin + "/item?" + new URLSearchParams(data);
+    async refetch() {
+      try {
+        const params = { slug: this.restaurantSlug };
+        let res = await axios.get(process.env.BASE_URL + "/api/menu", { params });
+        const { restaurant, categories } = res.data;
+        this.restaurant = restaurant
+        this.categories = categories
+      } catch (error) {
+        console.log(error);
       }
-    },
+    }
   },
 };
 </script>

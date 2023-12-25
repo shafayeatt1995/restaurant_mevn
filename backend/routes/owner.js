@@ -30,11 +30,11 @@ const {
   createCategory,
   updateCategory,
   deleteCategory,
+  updateCategorySerial,
 } = require("@/backend/controllers/CategoryController");
 const { createCategoryVal } = require("@/backend/validation/category");
 
 router.use(isOwner);
-router.get("/category", fetchCategory);
 router.get("/item", fetchItem);
 router.get("/item/:_id", getItem);
 router.post("/item", createItemVal, validation, createItem);
@@ -45,6 +45,7 @@ router.get("/category", fetchCategory);
 router.post("/category", createCategoryVal, validation, createCategory);
 router.patch("/category", createCategoryVal, validation, updateCategory);
 router.delete("/category", deleteCategory);
+router.post("/category-serial", updateCategorySerial);
 
 router.get("/table", fetchTable);
 router.post("/table", createTableVal, validation, createTable);

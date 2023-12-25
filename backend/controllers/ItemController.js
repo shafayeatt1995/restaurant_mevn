@@ -1,4 +1,4 @@
-const { Item } = require("@/backend/models");
+const { Item, Restaurant, Category } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
 const { stringSlug, randomKey } = require("@/backend/utils");
 

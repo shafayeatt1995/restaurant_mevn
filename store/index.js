@@ -23,6 +23,7 @@ export const getters = {
   waiter: (state) => state.auth?.user?.type === "waiter" || false,
   chef: (state) => state.auth?.user?.type === "chef" || false,
   user: (state) => state.auth?.user?.type === "user" || false,
+  restaurantSlug: (state) => state.auth?.user?.restaurant?.slug || "",
   scanDate(state) {
     if (state.auth?.user?.restaurant) {
       return new Date(state.auth?.user?.restaurant?.scanExp);

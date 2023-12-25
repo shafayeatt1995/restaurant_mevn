@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="flex flex-wrap gap-2 max-h-96 overflow-y-auto"
+      class="flex flex-wrap justify-between gap-2 max-h-96 overflow-y-auto"
       v-if="images.length > 0"
     >
       <div

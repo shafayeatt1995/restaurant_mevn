@@ -60,4 +60,12 @@ export class OwnerApi extends BaseApi {
   updateCategory(body) {
     return this.api.$patch(`category`, body);
   }
+
+  deleteCategory(params) {
+    return this.api.$delete(`category`, { params });
+  }
+
+  UpdateCategorySerial(body) {
+    return this.api.$post(`category-serial`, body);
+  }
 }
