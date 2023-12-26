@@ -3,10 +3,17 @@ const { User } = require("@/backend/models");
 const bcrypt = require("bcryptjs");
 
 const signupValidation = [
-  check("name").isLength({ min: 1 }).withMessage("Name is required").trim(),
+  check("name")
+    .isLength({ min: 1 })
+    .withMessage("Name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim(),
   check("email")
     .isLength({ min: 1 })
-    .withMessage("Email is required")
+    .withMessage("Email required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
     .isEmail()
     .withMessage("Invalid email address")
     .trim()
@@ -28,11 +35,15 @@ const signupValidation = [
 
   check("password")
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters"),
+    .withMessage("Password must be at least 8 characters")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam"),
 
   check("confirmPassword")
     .isLength({ min: 8 })
     .withMessage("Confirm password must be at least 8 characters")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
     .custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error("Password confirmation does not match password");

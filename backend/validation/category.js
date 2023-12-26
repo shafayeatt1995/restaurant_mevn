@@ -2,10 +2,21 @@ const { check } = require("express-validator");
 
 const createCategoryVal = [
   check("name")
-    .trim()
     .isLength({ min: 1 })
-    .withMessage("Category name is required"),
-  check("image").isLength({ min: 1 }).withMessage(`Image is required`),
+    .withMessage("Category name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim(),
+  check("image").isLength({ min: 1 }).withMessage(`Image required`),
 ];
 
-module.exports = { createCategoryVal };
+const createSubCategoryVal = [
+  check("name")
+    .isLength({ min: 1 })
+    .withMessage("Sub category name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim(),
+];
+
+module.exports = { createCategoryVal, createSubCategoryVal };

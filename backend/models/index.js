@@ -5,4 +5,5 @@ module.exports = {
   Image: require("./image"),
   Item: require("./item"),
   Table: require("./table"),
+  SubCategory: require("./subCategory"),
 };

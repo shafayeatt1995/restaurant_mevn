@@ -3,9 +3,11 @@ const { Table } = require("@/backend/models");
 
 const createTableVal = [
   check("name")
-    .trim()
     .isLength({ min: 1 })
-    .withMessage("Table name is required")
+    .withMessage("Table name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim()
     .custom(async (value, { req }) => {
       const { restaurantID } = req.user;
       const existingTable = await Table.findOne({ name: value, restaurantID });
@@ -18,9 +20,11 @@ const createTableVal = [
 
 const updateTableVal = [
   check("name")
-    .trim()
     .isLength({ min: 1 })
-    .withMessage("Table name is required")
+    .withMessage("Table name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim()
     .custom(async (value, { req }) => {
       try {
         const tableId = req.body._id;

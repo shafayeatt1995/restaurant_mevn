@@ -32,7 +32,10 @@ const {
   deleteCategory,
   updateCategorySerial,
 } = require("@/backend/controllers/CategoryController");
-const { createCategoryVal } = require("@/backend/validation/category");
+const {
+  createCategoryVal,
+  createSubCategoryVal,
+} = require("@/backend/validation/category");
 
 router.use(isManager);
 router.get("/item", fetchItem);
@@ -45,14 +48,18 @@ router.get("/category", fetchCategory);
 router.post("/category", createCategoryVal, validation, createCategory);
 router.patch("/category", createCategoryVal, validation, updateCategory);
 router.delete("/category", deleteCategory);
-router.post("/category-serial", updateCategorySerial);
+router.post("/update-category-serial", updateCategorySerial);
+
+// router.get("/sub-category", fetchCategory);
+router.post("/sub-category", createSubCategoryVal, validation, createCategory);
+// router.patch("/sub-category", createCategoryVal, validation, updateCategory);
+// router.delete("/sub-category", deleteCategory);
 
 router.get("/table", fetchTable);
 router.post("/table", createTableVal, validation, createTable);
 router.patch("/table", updateTableVal, validation, updateTable);
 router.delete("/table", deleteTable);
 
-router.post("/update-category-serial", updateCategorySerial);
 router.post(
   "/update-restaurant-name",
   restaurantNameVal,

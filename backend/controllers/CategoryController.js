@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Category } = require("@/backend/models");
+const { Category, SubCategory } = require("@/backend/models");
 const { paginate, randomKey } = require("@/backend/utils");
 
 const controller = {
@@ -91,6 +91,25 @@ const controller = {
       console.log(error);
       await session.abortTransaction();
       await session.endSession();
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async createSubCategory(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { name, categoryID } = req.body;
+
+      await SubCategory.create({
+        restaurantID,
+        categoryID,
+        name,
+      });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

@@ -8,6 +8,7 @@
       :categories="categories"
       :activeCategory.sync="activeCategory"
     />
+    <MenuSubCategory :editMode="editMode" :activeCategory="activeCategory" />
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-3 mt-3 px-2">
       <div

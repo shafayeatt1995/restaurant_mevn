@@ -6,7 +6,7 @@
       <div
         v-for="(item, key) in categories"
         :key="key"
-        class="flex flex-col items-center relative gap-2"
+        class="flex flex-col items-center relative gap-2 cursor-pointer"
         @click="selectCategory(item)"
       >
         <div
@@ -35,7 +35,7 @@
         @click="openModal"
       >
         <div
-          class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-1"
+          class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-3"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
         </div>
