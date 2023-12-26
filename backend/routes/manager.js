@@ -52,6 +52,7 @@ router.post("/table", createTableVal, validation, createTable);
 router.patch("/table", updateTableVal, validation, updateTable);
 router.delete("/table", deleteTable);
 
+router.post("/update-category-serial", updateCategorySerial);
 router.post(
   "/update-restaurant-name",
   restaurantNameVal,

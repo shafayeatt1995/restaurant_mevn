@@ -1,6 +1,6 @@
+const mongoose = require("mongoose");
 const { Category } = require("@/backend/models");
 const { paginate, randomKey } = require("@/backend/utils");
-const { stringSlug } = require("@/backend/utils");
 
 const controller = {
   async fetchCategory(req, res) {
@@ -20,11 +20,9 @@ const controller = {
     try {
       const { restaurantID } = req.user;
       const { name, image } = req.body;
-      const slug = stringSlug(name) + randomKey(1);
 
       await Category.create({
         name,
-        slug,
         image,
         restaurantID,
       });
@@ -40,9 +38,8 @@ const controller = {
   async updateCategory(req, res) {
     try {
       const { _id, image, name } = req.body;
-      const slug = stringSlug(name) + randomKey(1);
 
-      await Category.updateOne({ _id }, { name, slug, image });
+      await Category.updateOne({ _id }, { name, image });
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
@@ -68,15 +65,32 @@ const controller = {
   },
 
   async updateCategorySerial(req, res) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
       const { restaurantID } = req.user;
       const { serialData } = req.body;
-      console.log(serialData);
 
-      // await Category.deleteOne({ _id, restaurantID });
+      const [itemOne, itemTwo] = serialData;
+      if (itemOne && itemTwo) {
+        await Category.updateOne(
+          { _id: itemOne._id, restaurantID },
+          { serial: itemOne.serial },
+          { session }
+        );
+        await Category.updateOne(
+          { _id: itemTwo._id, restaurantID },
+          { serial: itemTwo.serial },
+          { session }
+        );
+      }
+      await session.commitTransaction();
+      await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
+      await session.abortTransaction();
+      await session.endSession();
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

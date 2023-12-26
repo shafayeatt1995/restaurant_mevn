@@ -5,7 +5,6 @@ const CategorySchema = new Schema(
   {
     restaurantID: { type: String, required: true },
     name: { type: String, required: true },
-    slug: { type: String, unique: true, index: true, required: true },
     image: { type: String, required: true },
     serial: { type: Number },
   },

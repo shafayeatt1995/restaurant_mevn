@@ -5,7 +5,7 @@ const RestaurantSchema = new Schema(
   {
     userID: { type: String, unique: true, index: true },
     name: { type: String, required: true },
-    slug: { type: String, required: true, unique: true },
+    slug: { type: String, required: true, unique: true, index: true },
     logo: { type: String, default: "/images/logo/1.png" },
     waiter: { type: [String], default: [] },
     chef: { type: [String], default: [] },

@@ -63,6 +63,7 @@ const controller = {
     } catch (error) {
       console.log(error);
       await session.abortTransaction();
+      await session.endSession();
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -114,6 +115,7 @@ const controller = {
     } catch (error) {
       console.log(error);
       await session.abortTransaction();
+      await session.endSession();
       res.status(500).json({
         success: false,
         message: error.message || "Internal server error",
@@ -155,6 +157,7 @@ const controller = {
     } catch (error) {
       console.log(error);
       await session.abortTransaction();
+      await session.endSession();
       res.status(500).json({
         success: false,
         message: error.message || "Internal server error",
