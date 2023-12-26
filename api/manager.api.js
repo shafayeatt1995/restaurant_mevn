@@ -72,4 +72,12 @@ export class ManagerApi extends BaseApi {
   createSubCategory(body) {
     return this.api.$post(`sub-category`, body);
   }
+
+  updateSubCategory(body) {
+    return this.api.$patch(`sub-category`, body);
+  }
+
+  deleteSubCategory(params) {
+    return this.api.$delete(`sub-category`, { params });
+  }
 }

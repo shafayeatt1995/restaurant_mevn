@@ -1,4 +1,4 @@
-const { Restaurant, Category } = require("@/backend/models");
+const { Restaurant, Category, SubCategory } = require("@/backend/models");
 
 const controller = {
   async fetchMenu(req, res) {
@@ -11,7 +11,10 @@ const controller = {
       const categories = await Category.find({
         restaurantID: restaurant._id,
       }).sort({ serial: 1 });
-      res.status(200).json({ restaurant, categories });
+      const subCategories = await SubCategory.find({
+        restaurantID: restaurant._id,
+      });
+      res.status(200).json({ restaurant, categories, subCategories });
     } catch (error) {
       console.log(error);
       res

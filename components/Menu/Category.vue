@@ -18,7 +18,7 @@
           <img :src="item.image" class="object-cover w-14 h-14 rounded-full" />
         </div>
         <p class="flex text-sm whitespace-nowrap">
-          <span>{{ item.name }}</span>
+          <span class="capitalize">{{ item.name }}</span>
           <span v-if="editMode" class="ml-2">
             |
             <font-awesome-icon

@@ -27,6 +27,7 @@
     "multer": "^1.4.5-lts.1",
     "nuxt": "^2.15.8",
     "nuxt-client-init-module": "^0.3.0",
+    "uploadthing": "^6.1.0",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
     "vue-slide-up-down": "^2.0.1",

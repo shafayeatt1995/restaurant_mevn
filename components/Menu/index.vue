@@ -8,7 +8,17 @@
       :categories="categories"
       :activeCategory.sync="activeCategory"
     />
-    <MenuSubCategory :editMode="editMode" :activeCategory="activeCategory" />
+    <MenuSubCategory
+      :editMode="editMode"
+      :activeCategory="activeCategory"
+      :activeSubCategory.sync="activeSubCategory"
+      :subCategories="subCategories"
+    />
+    <!-- <MenuItem
+      :editMode="editMode"
+      :activeCategory="activeCategory"
+      :activeSubCategory="activeSubCategory"
+    /> -->
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-3 mt-3 px-2">
       <div
@@ -85,12 +95,23 @@
 <script>
 export default {
   name: "MenuComponent",
-  props: { editMode: Boolean, categories: Array, restaurant: Object },
+  props: {
+    editMode: Boolean,
+    categories: Array,
+    subCategories: Array,
+    restaurant: Object,
+  },
   data() {
     return {
       modal: false,
       activeCategory: "",
+      activeSubCategory: null,
     };
+  },
+  watch: {
+    activeCategory() {
+      this.activeSubCategory = null;
+    },
   },
   created() {
     this.activeCategory = this.categories[0]._id;

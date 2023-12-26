@@ -1,30 +1,43 @@
 <template>
-  <div>
-    <div class="flex gap-2 px-3 py-4 flex-wrap bg-gray-200 z-10">
-      <div
-        v-if="editMode"
-        class="flex items-center justify-between relative bg-white px-2 py-1 rounded-full cursor-pointer"
-        @click="openModal"
+  <slide-up-down :active="this.editMode || !!categories.length" :duration="300">
+    <div>
+      <transition-group
+        name="list"
+        tag="ul"
+        class="flex gap-2 px-3 py-4 flex-wrap bg-gray-200 z-10"
+        mode="out-in"
       >
-        <font-awesome-icon :icon="['fas', 'plus']" />
-        <p class="mx-2 flex text-base whitespace-nowrap">Add</p>
-      </div>
-      <div
-        v-for="(item, key) in subCategories"
-        :key="key"
-        class="flex items-center justify-between relative bg-white px-2 py-1 rounded-full cursor-pointer"
-        @click="selectSubCategory(item)"
-      >
-        <p>{{ item }}</p>
-        <p v-if="editMode" class="ml-2 flex">
-          |
-          <font-awesome-icon
-            :icon="['fas', 'pencil']"
-            class="ml-2 mt-1"
-            @click.stop="edit(item)"
-          />
-        </p>
-      </div>
+        <li
+          v-if="editMode"
+          class="flex items-center justify-between relative bg-white px-2 py-1 rounded-full cursor-pointer shadow-md"
+          @click="openModal"
+          key="edit"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+          <p class="mx-2 flex text-base whitespace-nowrap">Add</p>
+        </li>
+        <li
+          v-for="(item, key) in categories"
+          :key="key + JSON.stringify(item)"
+          class="flex items-center justify-between relative px-4 py-1 rounded-full cursor-pointer shadow-lg"
+          :class="
+            activeSubCategory === item._id
+              ? ' bg-slate-700 text-white'
+              : 'bg-white'
+          "
+          @click="selectSubCategory(item)"
+        >
+          <p>{{ item.name }}</p>
+          <p v-if="editMode && item._id !== null" class="ml-2 flex">
+            |
+            <font-awesome-icon
+              :icon="['fas', 'pencil']"
+              class="ml-2 mt-1"
+              @click.stop="edit(item)"
+            />
+          </p>
+        </li>
+      </transition-group>
     </div>
 
     <Modal v-model="modal">
@@ -82,16 +95,20 @@
         </div>
       </form>
     </Modal>
-  </div>
+  </slide-up-down>
 </template>
 
 <script>
 export default {
-  name: "MenuCategory",
-  props: { editMode: Boolean, activeCategory: String },
+  name: "MenuSubCategory",
+  props: {
+    editMode: Boolean,
+    activeCategory: String,
+    activeSubCategory: String,
+    subCategories: Array,
+  },
   data() {
     return {
-      subCategories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
       modal: false,
       editItem: false,
       form: {
@@ -111,6 +128,19 @@ export default {
           name: "name",
         },
       ];
+    },
+    categories() {
+      const filter = this.subCategories.filter(
+        ({ categoryID }) => categoryID === this.activeCategory
+      );
+      const all = {
+        name: "All",
+        _id: null,
+        categoryID: [...Array(1)]
+          .map(() => Math.random().toString(36)[2])
+          .join(""),
+      };
+      return filter.length ? [all, ...filter] : [];
     },
   },
   watch: {
@@ -175,6 +205,20 @@ export default {
     selectSubCategory({ _id }) {
       this.$emit("update:activeSubCategory", _id);
     },
+    randomKey() {
+      return [...Array(2)].map(() => Math.random().toString(36)[2]).join("");
+    },
   },
 };
 </script>
+
+<style scoped>
+.list-enter-active
+/* .list-leave-active */ {
+  transition: all 0.3s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>

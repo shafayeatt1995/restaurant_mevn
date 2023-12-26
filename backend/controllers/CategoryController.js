@@ -115,6 +115,36 @@ const controller = {
         .json({ success: false, message: "Internal server error" });
     }
   },
+
+  async updateSubCategory(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { name, _id } = req.body;
+
+      await SubCategory.updateOne({ _id, restaurantID }, { name });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async deleteSubCategory(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { _id } = req.query;
+
+      await SubCategory.deleteOne({ _id, restaurantID });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
 };
 
 module.exports = controller;

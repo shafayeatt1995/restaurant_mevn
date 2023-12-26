@@ -31,6 +31,9 @@ const {
   updateCategory,
   deleteCategory,
   updateCategorySerial,
+  createSubCategory,
+  updateSubCategory,
+  deleteSubCategory,
 } = require("@/backend/controllers/CategoryController");
 const {
   createCategoryVal,
@@ -50,10 +53,19 @@ router.patch("/category", createCategoryVal, validation, updateCategory);
 router.delete("/category", deleteCategory);
 router.post("/update-category-serial", updateCategorySerial);
 
-// router.get("/sub-category", fetchCategory);
-router.post("/sub-category", createSubCategoryVal, validation, createCategory);
-// router.patch("/sub-category", createCategoryVal, validation, updateCategory);
-// router.delete("/sub-category", deleteCategory);
+router.post(
+  "/sub-category",
+  createSubCategoryVal,
+  validation,
+  createSubCategory
+);
+router.patch(
+  "/sub-category",
+  createSubCategoryVal,
+  validation,
+  updateSubCategory
+);
+router.delete("/sub-category", deleteSubCategory);
 
 router.get("/table", fetchTable);
 router.post("/table", createTableVal, validation, createTable);

@@ -1,6 +1,11 @@
 <template>
   <div class="overflow-hidden">
-    <Menu editMode :categories="categories" :restaurant="restaurant" />
+    <Menu
+      editMode
+      :categories="categories"
+      :restaurant="restaurant"
+      :subCategories="subCategories"
+    />
   </div>
 </template>
 
@@ -17,21 +22,22 @@ export default {
   data() {
     return {
       restaurant: {},
-      categories: []
+      categories: [],
+      subCategories: [],
     };
   },
   async asyncData({ env, store }) {
     try {
       const params = { slug: store.getters.restaurantSlug };
       let res = await axios.get(env.BASE_URL + "/api/menu", { params });
-      const { restaurant, categories } = res.data;
-      return { restaurant, categories };
+      const { restaurant, categories, subCategories } = res.data;
+      return { restaurant, categories, subCategories };
     } catch (error) {
       console.log(error);
     }
   },
   computed: {
-    ...mapGetters(['restaurantSlug'])
+    ...mapGetters(["restaurantSlug"]),
   },
   created() {
     this.$nuxt.$on("refetchMenu", () => {
@@ -46,14 +52,17 @@ export default {
     async refetch() {
       try {
         const params = { slug: this.restaurantSlug };
-        let res = await axios.get(process.env.BASE_URL + "/api/menu", { params });
-        const { restaurant, categories } = res.data;
-        this.restaurant = restaurant
-        this.categories = categories
+        let res = await axios.get(process.env.BASE_URL + "/api/menu", {
+          params,
+        });
+        const { restaurant, categories, subCategories } = res.data;
+        this.restaurant = restaurant;
+        this.categories = categories;
+        this.subCategories = subCategories;
       } catch (error) {
         console.log(error);
       }
-    }
+    },
   },
 };
 </script>
