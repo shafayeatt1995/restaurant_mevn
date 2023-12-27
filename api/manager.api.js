@@ -69,6 +69,10 @@ export class ManagerApi extends BaseApi {
     return this.api.$post(`update-category-serial`, body);
   }
 
+  UpdateSubCategorySerial(body) {
+    return this.api.$post(`update-sub-category-serial`, body);
+  }
+
   createSubCategory(body) {
     return this.api.$post(`sub-category`, body);
   }

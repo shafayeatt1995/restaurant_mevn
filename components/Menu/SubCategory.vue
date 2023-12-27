@@ -44,9 +44,24 @@
       <form class="mt-3" @submit.prevent="submit">
         <div class="flex justify-between items-center mb-3">
           <div class="flex gap-4 text-gray-600">
-            <p class="text-gray-600 text-xl">
-              {{ editItem ? "Edit" : "Create" }} sub category
-            </p>
+            <template v-if="editItem">
+              <p
+                class="cursor-pointer"
+                :class="moveLeft ? ' text-gray-300' : ''"
+                @click="!moveLeft ? alignCategory('left') : ''"
+              >
+                <font-awesome-icon :icon="['fas', 'arrow-left']" />
+                Move left
+              </p>
+              <p
+                class="cursor-pointer"
+                :class="moveRight ? ' text-gray-300' : ''"
+                @click="!moveRight ? alignCategory('right') : ''"
+              >
+                Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
+              </p>
+            </template>
+            <p v-else class="text-gray-600 text-xl">Create sub category</p>
           </div>
           <p
             class="shadow-lg h-12 w-12 rounded-full flex justify-center items-center cursor-pointer"
@@ -142,6 +157,14 @@ export default {
       };
       return filter.length ? [all, ...filter] : [];
     },
+    moveLeft() {
+      const key = this.categories.findIndex(({ _id }) => _id === this.form._id);
+      return key === 1;
+    },
+    moveRight() {
+      const key = this.categories.findIndex(({ _id }) => _id === this.form._id);
+      return key + 1 === this.categories.length;
+    },
   },
   watch: {
     modal(val) {
@@ -207,6 +230,42 @@ export default {
     },
     randomKey() {
       return [...Array(2)].map(() => Math.random().toString(36)[2]).join("");
+    },
+    async alignCategory(val) {
+      try {
+        if (val === "left") {
+          const key = this.categories.findIndex(
+            ({ _id }) => _id === this.form._id
+          );
+          const itemOne = this.categories[key];
+          const itemTwo = this.categories[key - 1];
+          if (itemOne && itemTwo) {
+            const serialData = [
+              { _id: itemOne._id, serial: itemTwo.serial },
+              { _id: itemTwo._id, serial: itemOne.serial },
+            ];
+            await this.$managerApi.UpdateSubCategorySerial({ serialData });
+          }
+        } else if (val === "right") {
+          const key = this.categories.findIndex(
+            ({ _id }) => _id === this.form._id
+          );
+          const itemOne = this.categories[key];
+          const itemTwo = this.categories[key + 1];
+          if (itemOne && itemTwo) {
+            const serialData = [
+              { _id: itemOne._id, serial: itemTwo.serial },
+              { _id: itemTwo._id, serial: itemOne.serial },
+            ];
+            await this.$managerApi.UpdateSubCategorySerial({ serialData });
+          }
+        }
+        this.modal = false;
+        $nuxt.$emit("refetchMenu");
+        $nuxt.$emit("success", "Sub category position updated");
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

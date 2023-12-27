@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="overflow-x-auto flex gap-5 px-3 pt-4 flex-nowrap items-stretch sticky top-0 bg-white z-10 pb-3"
+      class="overflow-x-auto flex gap-6 px-3 pt-4 flex-nowrap items-stretch sticky top-0 bg-white z-10 pb-3"
     >
       <div
         v-for="(item, key) in categories"

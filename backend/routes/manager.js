@@ -34,6 +34,7 @@ const {
   createSubCategory,
   updateSubCategory,
   deleteSubCategory,
+  updateSubCategorySerial,
 } = require("@/backend/controllers/CategoryController");
 const {
   createCategoryVal,
@@ -66,6 +67,7 @@ router.patch(
   updateSubCategory
 );
 router.delete("/sub-category", deleteSubCategory);
+router.post("/update-sub-category-serial", updateSubCategorySerial);
 
 router.get("/table", fetchTable);
 router.post("/table", createTableVal, validation, createTable);

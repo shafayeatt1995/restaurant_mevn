@@ -145,6 +145,39 @@ const controller = {
         .json({ success: false, message: "Internal server error" });
     }
   },
+
+  async updateSubCategorySerial(req, res) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      const { restaurantID } = req.user;
+      const { serialData } = req.body;
+
+      const [itemOne, itemTwo] = serialData;
+      if (itemOne && itemTwo) {
+        await SubCategory.updateOne(
+          { _id: itemOne._id, restaurantID },
+          { serial: itemOne.serial },
+          { session }
+        );
+        await SubCategory.updateOne(
+          { _id: itemTwo._id, restaurantID },
+          { serial: itemTwo.serial },
+          { session }
+        );
+      }
+      await session.commitTransaction();
+      await session.endSession();
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      await session.abortTransaction();
+      await session.endSession();
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
 };
 
 module.exports = controller;
