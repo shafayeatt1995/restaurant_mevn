@@ -1,6 +1,11 @@
 <template>
   <div class="mt-5">
-    <vue-dropzone id="myDropzone" ref="myDropzone" :options="dropzoneOptions" @vdropzone-queue-complete="onSuccess">
+    <vue-dropzone
+      id="myDropzone"
+      ref="myDropzone"
+      :options="dropzoneOptions"
+      @vdropzone-queue-complete="onSuccess"
+    >
       <template v-slot:dz-preview="previewArgs"> </template>
     </vue-dropzone>
     <div class="flex justify-end mt-3">
@@ -536,27 +541,27 @@ export default {
   background-color: #f6f6f6;
 }
 
-.vue-dropzone>i {
+.vue-dropzone > i {
   color: #ccc;
 }
 
-.vue-dropzone>.dz-preview .dz-image {
+.vue-dropzone > .dz-preview .dz-image {
   border-radius: 0;
   width: 100%;
   height: 100%;
 }
 
-.vue-dropzone>.dz-preview .dz-image img:not([src]) {
+.vue-dropzone > .dz-preview .dz-image img:not([src]) {
   width: 200px;
   height: 200px;
 }
 
-.vue-dropzone>.dz-preview .dz-image:hover img {
+.vue-dropzone > .dz-preview .dz-image:hover img {
   transform: none;
   -webkit-filter: none;
 }
 
-.vue-dropzone>.dz-preview .dz-details {
+.vue-dropzone > .dz-preview .dz-details {
   bottom: 0;
   top: 0;
   color: #fff;
@@ -565,29 +570,29 @@ export default {
   text-align: left;
 }
 
-.vue-dropzone>.dz-preview .dz-details .dz-filename {
+.vue-dropzone > .dz-preview .dz-details .dz-filename {
   overflow: hidden;
 }
 
-.vue-dropzone>.dz-preview .dz-details .dz-filename span,
-.vue-dropzone>.dz-preview .dz-details .dz-size span {
+.vue-dropzone > .dz-preview .dz-details .dz-filename span,
+.vue-dropzone > .dz-preview .dz-details .dz-size span {
   background-color: transparent;
 }
 
-.vue-dropzone>.dz-preview .dz-details .dz-filename:not(:hover) span {
+.vue-dropzone > .dz-preview .dz-details .dz-filename:not(:hover) span {
   border: none;
 }
 
-.vue-dropzone>.dz-preview .dz-details .dz-filename:hover span {
+.vue-dropzone > .dz-preview .dz-details .dz-filename:hover span {
   background-color: transparent;
   border: none;
 }
 
-.vue-dropzone>.dz-preview .dz-progress .dz-upload {
+.vue-dropzone > .dz-preview .dz-progress .dz-upload {
   background: #ccc;
 }
 
-.vue-dropzone>.dz-preview .dz-remove {
+.vue-dropzone > .dz-preview .dz-remove {
   position: absolute;
   z-index: 30;
   color: #fff;
@@ -604,12 +609,12 @@ export default {
   opacity: 0;
 }
 
-.vue-dropzone>.dz-preview:hover .dz-remove {
+.vue-dropzone > .dz-preview:hover .dz-remove {
   opacity: 1;
 }
 
-.vue-dropzone>.dz-preview .dz-error-mark,
-.vue-dropzone>.dz-preview .dz-success-mark {
+.vue-dropzone > .dz-preview .dz-error-mark,
+.vue-dropzone > .dz-preview .dz-success-mark {
   margin-left: auto;
   margin-top: auto;
   width: 100%;
@@ -617,13 +622,13 @@ export default {
   left: 0;
 }
 
-.vue-dropzone>.dz-preview .dz-error-mark svg,
-.vue-dropzone>.dz-preview .dz-success-mark svg {
+.vue-dropzone > .dz-preview .dz-error-mark svg,
+.vue-dropzone > .dz-preview .dz-success-mark svg {
   margin-left: auto;
   margin-right: auto;
 }
 
-.vue-dropzone>.dz-preview .dz-error-message {
+.vue-dropzone > .dz-preview .dz-error-message {
   margin-left: auto;
   margin-right: auto;
   left: 0;
@@ -631,6 +636,7 @@ export default {
   text-align: center;
 }
 
-.vue-dropzone>.dz-preview .dz-error-message:after {
+.vue-dropzone > .dz-preview .dz-error-message:after {
   display: none;
-}</style>
+}
+</style>

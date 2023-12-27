@@ -1,3 +1,4 @@
+const { UTApi } = require("uploadthing/server");
 const stringSlug = (string) =>
   string
     .toLowerCase()
@@ -15,4 +16,6 @@ const paginate = (page, perPage) => {
   return [{ $skip: skip }, { $limit: limit }];
 };
 
-module.exports = { stringSlug, randomKey, paginate };
+const utapi = new UTApi();
+
+module.exports = { stringSlug, randomKey, paginate, utapi };

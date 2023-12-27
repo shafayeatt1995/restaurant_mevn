@@ -1,7 +1,15 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("fs").promises;
+const { Blob } = require("buffer");
 const { Image } = require("@/backend/models");
-const { paginate } = require("@/backend/utils");
+const { paginate, utapi, randomKey } = require("@/backend/utils");
+
+const filesToUpload = async (filePath, userID) => {
+  const fileContent = await fs.readFile(filePath);
+  const filename = `${randomKey(3)}-${userID}`;
+
+  const blob = new Blob([fileContent], { type: "application/octet-stream" });
+  return Object.assign(blob, { name: filename });
+};
 
 const controller = {
   async fetchImage(req, res) {
@@ -33,9 +41,13 @@ const controller = {
   async uploadImage(req, res) {
     try {
       const { _id: userID } = req.user;
-      const { path, size } = req.file;
-      const url = path.replace("static", "");
-      await Image.create({ userID, url, size });
+
+      const filePath = req.file.path;
+      const image = await filesToUpload(filePath, userID);
+      const { data } = await utapi.uploadFiles(image);
+      await fs.unlink(filePath);
+      const { url, size, key } = data;
+      await Image.create({ userID, url, size, key });
 
       res.status(200).json({ success: true });
     } catch (error) {
@@ -48,21 +60,12 @@ const controller = {
 
   async deleteImage(req, res) {
     try {
-      const { urlList } = req.query;
-      const directory = "./static/uploads/";
+      const { keyList } = req.query;
 
-      urlList.map((val) => {
-        const filePath = directory + path.basename(val);
-        if (fs.existsSync(filePath)) {
-          fs.unlink(filePath, (err) => {
-            return err ? false : true;
-          });
-        } else {
-          return true;
-        }
-      });
+      const data = await utapi.deleteFiles(keyList);
+      console.log(data);
+      await Image.deleteMany({ key: { $in: keyList } });
 
-      await Image.deleteMany({ url: { $in: urlList } });
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);

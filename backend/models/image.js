@@ -5,6 +5,7 @@ const ImageSchema = new Schema(
   {
     userID: { type: String, required: true },
     url: { type: String, unique: true, index: true, required: true },
+    key: { type: String, required: true },
     size: { type: Number, required: true },
   },
   {

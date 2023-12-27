@@ -45,7 +45,7 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
+import preset from "~/assets/preset.json";
 export default {
   name: "SelectImage",
   props: { multiple: Boolean, modal: Boolean, limit: Number },
@@ -59,9 +59,9 @@ export default {
       },
     },
     images() {
-      return Array.from({ length: 229 }).map((_, i) => ({
-        _id: i,
-        url: `/images/presets/${i}.png`,
+      return preset.map(({ key }, _id) => ({
+        _id,
+        url: `https://utfs.io/f/${key}`,
       }));
     },
   },

@@ -14,10 +14,11 @@ const {
 const directory = "./static/uploads/";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    if (!fs.existsSync(directory)) {
-      fs.mkdirSync(directory, { recursive: true });
-    }
-    cb(null, directory);
+    // if (!fs.existsSync(directory)) {
+    //   fs.mkdirSync(directory, { recursive: true });
+    // }
+    // cb(null, directory);
+    cb(null, __dirname + "/files");
   },
   filename: (req, file, cb) => {
     const fileExt = path.extname(file.originalname);
