@@ -13,8 +13,9 @@
           : 'text-gray-700 border-gray-400',
         fullWidth ? 'flex-1' : '',
       ]"
+      type="button"
     >
-      <font-awesome-icon :icon="icon" />
+      <font-awesome-icon :icon="icon" v-if="icon" />
       <span class="mx-1 text-sm sm:text-base"> {{ title }}</span>
     </button>
   </div>

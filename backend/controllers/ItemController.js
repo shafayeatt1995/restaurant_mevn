@@ -45,34 +45,33 @@ const controller = {
     try {
       let {
         categoryID,
+        subCategoryID,
         name,
         image,
-        ingredient,
+        choices,
+        addons,
         price,
         discount,
         discountAmount,
         description,
         estimateTime,
-        variant,
-        status,
       } = req.body;
-      variant = variant.map((val) => ({ name: val }));
-      const slug = stringSlug("name") + randomKey();
+      const slug = randomKey(10);
       const { restaurantID } = req.user;
       await Item.create({
         restaurantID,
         categoryID,
+        subCategoryID,
         name,
+        slug,
         image,
-        ingredient,
+        choices,
+        addons,
         price,
         discount,
         discountAmount,
         description,
         estimateTime,
-        variant,
-        status,
-        slug,
       });
 
       res.status(200).json({ success: true });

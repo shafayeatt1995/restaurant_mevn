@@ -3,6 +3,7 @@
     :categories="categories"
     :restaurant="restaurant"
     :subCategories="subCategories"
+    :items="items"
   />
 </template>
 
@@ -14,6 +15,7 @@ export default {
 
   data() {
     return {
+      items: [],
       categories: [],
       subCategories: [],
       restaurant: {},
@@ -24,8 +26,8 @@ export default {
     try {
       const { params } = route;
       let res = await axios.get(env.BASE_URL + "/api/menu", { params });
-      const { restaurant, categories, subCategories } = res.data;
-      return { restaurant, categories, subCategories };
+      const { restaurant, categories, subCategories, items } = res.data;
+      return { restaurant, categories, subCategories, items };
     } catch (error) {
       console.log(error);
     }

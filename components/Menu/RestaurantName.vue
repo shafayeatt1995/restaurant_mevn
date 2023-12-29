@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="flex items-center bg-white pt-3">
-      <img class="object-cover w-12 h-12 mx-2 rounded-full" :src="restaurant.logo" alt="avatar" />
+      <img
+        class="object-cover w-12 h-12 mx-2 rounded-full"
+        :src="restaurant.logo"
+        alt="avatar"
+      />
       <p>
         {{ restaurant.name }}
         <EditButton @click.native.prevent="modal = true" v-if="editMode" />
@@ -10,28 +14,59 @@
     <Modal v-model="modal">
       <form class="mt-3" @submit.prevent="updateRestaurant">
         <div class="flex justify-between items-center mb-2">
-          <h3 class="text-lg font-medium leading-6 text-gray-600 capitalize" id="modal-title">
+          <h3
+            class="text-lg font-medium leading-6 text-gray-600 capitalize"
+            id="modal-title"
+          >
             Edit Restaurant Name
           </h3>
           <CloseButton @click.native.prevent="modal = false" />
         </div>
-        <Input v-for="(field, i) in inputFields" :key="i" :field="field" v-model="form" :errors="errors" />
-        <div @click="imageModal = true" class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer">
-          <img :src="selected.url" v-if="selected.url" class="object-contain w-full h-full p-3" />
+        <Input
+          v-for="(field, i) in inputFields"
+          :key="i"
+          :field="field"
+          v-model="form"
+          :errors="errors"
+        />
+        <div
+          @click="imageModal = true"
+          class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
+        >
+          <img
+            :src="selected.url"
+            v-if="selected.url"
+            class="object-contain w-full h-full p-3"
+          />
           <template v-else>
-            <font-awesome-icon :icon="['far', 'image']" class="text-8xl text-green-600" />
+            <font-awesome-icon
+              :icon="['far', 'image']"
+              class="text-8xl text-green-600"
+            />
             <p class="text-lg px-10 text-gray-700">Select restaurant logo</p>
           </template>
         </div>
-        <p class="text-rose-700" v-if="errors?.image">
-          {{ errors.image.msg }}
-        </p>
+        <small class="text-rose-700" v-if="errors?.image">
+          <i>
+            {{ errors.image.msg }}
+          </i>
+        </small>
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
-          <Button variant="white" type="button" class="w-full tracking-wide flex-1" @click.native.prevent="modal = false">
+          <Button
+            variant="white"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="modal = false"
+          >
             Cancel
           </Button>
 
-          <Button variant="green" type="submit" class="w-full tracking-wide flex-1" :loading="loading">
+          <Button
+            variant="green"
+            type="submit"
+            class="w-full tracking-wide flex-1"
+            :loading="loading"
+          >
             Update restaurant name
           </Button>
         </div>
@@ -71,18 +106,18 @@ export default {
   },
   watch: {
     modal(val) {
-      !val ? this.setData() : '';
-    }
+      !val ? this.setData() : "";
+    },
   },
   mounted() {
-    this.setData()
+    this.setData();
   },
   methods: {
     async updateRestaurant() {
       try {
         this.loading = true;
         this.errors = {};
-        const formData = { ...this.form, logo: this.selected.url }
+        const formData = { ...this.form, logo: this.selected.url };
         await this.$managerApi.updateRestaurantName(formData);
         this.modal = false;
         $nuxt.$emit("refetchMenu");
@@ -102,7 +137,7 @@ export default {
           userID: this.$auth.user._id,
           restaurantID: this.$auth.user.restaurant._id,
         };
-        this.selected = { url: this.restaurant.logo }
+        this.selected = { url: this.restaurant.logo };
       }
     },
   },

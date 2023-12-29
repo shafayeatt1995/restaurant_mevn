@@ -1,49 +1,26 @@
 <template>
-  <div>
+  <div class="px-2">
     <div
-      class="overflow-x-auto flex gap-6 px-3 pt-4 flex-nowrap items-stretch sticky top-0 bg-white z-10 pb-3"
+      class="flex flex-col gap-2 items-center my-3 p-3 bg-gray-200 shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
+      @click="modal = true"
+      v-if="editMode"
     >
-      <div
-        v-for="(item, key) in categories"
-        :key="key"
-        class="flex flex-col items-center relative gap-2 cursor-pointer"
-        @click="selectCategory(item)"
+      <p
+        class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl"
       >
-        <div
-          class="flex justify-center items-center w-16 h-16 transition-all duration-300 rounded-xl"
-          :class="
-            activeCategory === item._id ? 'bg-green-500' : 'bg-transparent'
-          "
-        >
-          <img :src="item.image" class="object-cover w-14 h-14 rounded-full" />
-        </div>
-        <p class="flex text-sm whitespace-nowrap">
-          <span class="capitalize">{{ item.name }}</span>
-          <span v-if="editMode" class="ml-2">
-            |
-            <font-awesome-icon
-              :icon="['fas', 'pencil']"
-              class="ml-2"
-              @click.stop="edit(item)"
-            />
-          </span>
-        </p>
-      </div>
-      <div
-        v-if="editMode"
-        class="flex flex-col items-center justify-between relative"
-        @click="openModal"
-      >
-        <div
-          class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-3"
-        >
-          <font-awesome-icon :icon="['fas', 'plus']" />
-        </div>
-        <p class="mx-2 flex text-sm whitespace-nowrap">Add</p>
-      </div>
+        <font-awesome-icon :icon="['fas', 'plus']" />
+      </p>
+      <p>Add new item</p>
     </div>
-    <Modal v-model="modal">
-      <form class="mt-3" @submit.prevent="submit">
+
+    <MenuItemDish
+      :items="items"
+      :editMode="editMode"
+      :categories="categories"
+    />
+
+    <Modal v-model="modal" v-if="editMode">
+      <div class="mt-3">
         <div class="flex justify-between items-center mb-3">
           <div class="flex gap-4 text-gray-600">
             <template v-if="editItem">
@@ -63,7 +40,7 @@
                 Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
               </p>
             </template>
-            <p v-else class="text-gray-600 text-xl">Create category</p>
+            <p v-else class="text-gray-600 text-xl">Create item</p>
           </div>
           <p
             class="shadow-lg h-12 w-12 rounded-full flex justify-center items-center cursor-pointer"
@@ -72,35 +49,53 @@
             <font-awesome-icon :icon="['fas', 'xmark']" />
           </p>
         </div>
-        <Input
-          v-for="(field, i) in inputFields"
-          :key="i"
-          :field="field"
-          v-model="form"
-          :errors="errors"
+        <TabTitle
+          :tabTitle="tabTitle"
+          v-model="activeTab"
+          fullWidth
+          class="flex-1"
         />
-        <div
-          @click="imageModal = true"
-          class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
-        >
-          <img
-            :src="selected.url"
-            v-if="selected.url"
-            class="object-contain w-full h-full p-3"
+        <transition name="fade" mode="out-in" tag="div">
+          <div v-if="activeTab === 'General'">
+            <MenuItemGeneral v-model="form" :errors="errors" />
+
+            <div
+              @click="imageModal = true"
+              class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
+            >
+              <img
+                :src="selected.url"
+                v-if="selected.url"
+                class="object-contain w-full h-full p-3"
+              />
+              <template v-else>
+                <font-awesome-icon
+                  :icon="['far', 'image']"
+                  class="text-8xl text-green-600"
+                />
+                <p class="text-lg px-10 text-gray-700">
+                  Select an Category image
+                </p>
+              </template>
+            </div>
+            <small class="text-rose-700" v-if="errors?.image">
+              <i>
+                {{ errors.image.msg }}
+              </i>
+            </small>
+          </div>
+          <MenuItemChoice
+            v-model="form"
+            :errors="errors"
+            v-else-if="activeTab === 'Choice'"
           />
-          <template v-else>
-            <font-awesome-icon
-              :icon="['far', 'image']"
-              class="text-8xl text-green-600"
-            />
-            <p class="text-lg px-10 text-gray-700">Select an Category image</p>
-          </template>
-        </div>
-        <small class="text-rose-700" v-if="errors?.image">
-          <i>
-            {{ errors.image.msg }}
-          </i>
-        </small>
+          <MenuItemAddon
+            v-model="form"
+            :errors="errors"
+            v-else-if="activeTab === 'Addons'"
+          />
+        </transition>
+
         <div
           class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
         >
@@ -112,7 +107,7 @@
             @click.native.prevent="deleteItem"
             :loading="deleteLoading"
           >
-            Delete Category
+            Delete item
           </Button>
           <Button
             v-else
@@ -128,41 +123,99 @@
             type="submit"
             class="w-full tracking-wide flex-1"
             :loading="loading"
+            @click.native.prevent="submit"
           >
-            {{ editItem ? "Update" : "Create" }} category
+            {{ editItem ? "Update" : "Create" }} item
           </Button>
         </div>
-      </form>
+      </div>
     </Modal>
+
     <ImageModal v-model="imageModal" :selected.sync="selected" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "MenuCategory",
-  props: { editMode: Boolean, categories: Array, activeCategory: String },
+  name: "MenuItem",
+  props: {
+    editMode: Boolean,
+    activeCategory: String,
+    activeSubCategory: String,
+    categories: Array,
+    subCategories: Array,
+    items: Array,
+  },
   data() {
     return {
       modal: false,
       imageModal: false,
+      menuModal: false,
       editItem: false,
       form: {
         name: "",
+        price: "",
+        discount: false,
+        discountAmount: "",
+        estimateTime: "",
+        description: "",
+        choices: [],
+        addons: [],
       },
       errors: {},
       selected: {},
       loading: false,
       deleteLoading: false,
+      tabTitle: [
+        { title: "General" },
+        { title: "Choice" },
+        { title: "Addons" },
+      ],
+      activeTab: "General",
     };
   },
   computed: {
-    inputFields() {
+    generalInput() {
       return [
         {
           type: "text",
-          placeholder: "Category name",
+          placeholder: "Name",
+          label: { id: "item-name", title: "Item name" },
           name: "name",
+        },
+        {
+          type: "number",
+          placeholder: "Price",
+          name: "price",
+          label: { id: "price", title: "Item price" },
+        },
+        {
+          type: "select",
+          placeholder: "Select discount type",
+          name: "discount",
+          label: { id: "discount", title: " Discount" },
+          options: [
+            { value: true, label: "Discount" },
+            { value: false, label: "No discount " },
+          ],
+        },
+        {
+          hide: !this.form.discount,
+          type: "number",
+          placeholder: "Discount amount",
+          name: "discountAmount",
+          label: { id: "discount-price", title: "Discount Amount" },
+        },
+        {
+          type: "number",
+          placeholder: "Estimate Time",
+          name: "estimateTime",
+          label: { id: "estimate-time", title: "Estimate Time (Minute)" },
+        },
+        {
+          type: "textarea",
+          name: "description",
+          label: { id: "description", title: "Description" },
         },
       ];
     },
@@ -189,17 +242,22 @@ export default {
     async submit() {
       try {
         this.loading = true;
-        const data = { ...this.form, image: this.selected.url };
+        const data = {
+          ...this.form,
+          image: this.selected.url,
+          categoryID: this.activeCategory,
+          subCategoryID: this.activeSubCategory,
+        };
         if (this.editItem) {
-          await this.$managerApi.updateCategory(data);
+          await this.$managerApi.updateItem(data);
         } else {
-          await this.$managerApi.createCategory(data);
+          await this.$managerApi.createItem(data);
         }
         $nuxt.$emit("refetchMenu");
         this.modal = false;
         $nuxt.$emit(
           "success",
-          `Category ${this.editItem ? "updated" : "created"} successfully`
+          `Item ${this.editItem ? "updated" : "created"} successfully`
         );
       } catch (error) {
         this.errors = error?.response?.data?.errors;
@@ -216,7 +274,16 @@ export default {
       this.modal = true;
     },
     reset() {
-      this.form = { name: "" };
+      this.form = {
+        name: "",
+        price: "",
+        discount: false,
+        discountAmount: "",
+        estimateTime: "",
+        description: "",
+        choices: [],
+        addons: [],
+      };
       this.selected = {};
       this.errors = {};
       this.editItem = false;
@@ -225,10 +292,10 @@ export default {
       try {
         if (confirm("Are you sure, you want to delete?")) {
           this.deleteLoading = true;
-          await this.$managerApi.deleteCategory({ _id: this.form._id });
+          await this.$managerApi.deleteItem({ _id: this.form._id });
           $nuxt.$emit("refetchMenu");
           this.modal = false;
-          $nuxt.$emit("success", "Category Deleted successfully");
+          $nuxt.$emit("success", "Item deleted successfully");
         }
       } catch (error) {
         console.error(error);
@@ -271,9 +338,6 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    },
-    selectCategory({ _id }) {
-      this.$emit("update:activeCategory", _id);
     },
   },
 };

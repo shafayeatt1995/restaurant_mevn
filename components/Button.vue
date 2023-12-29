@@ -11,7 +11,7 @@
   </nuxt-link>
   <button
     v-else
-    class="flex justify-center items-center px-5 py-3 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform rounded-lg focus:outline-none focus:ring focus:ring-opacity-50 gap-1"
+    class="focus:ring-transparent flex justify-center items-center px-5 py-3 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform rounded-lg focus:outline-none focus:ring focus:ring-opacity-50 gap-1"
     :class="variantClass"
     :disabled="loading"
   >
@@ -35,6 +35,8 @@ export default {
         return "text-white bg-pink-500 hover:bg-pink-600 focus:ring-pink-300 disabled:hover:bg-pink-300 disabled:bg-pink-300";
       } else if (this.variant === "red") {
         return "text-white bg-rose-500 hover:bg-rose-600 focus:ring-rose-300 disabled:hover:bg-rose-300 disabled:bg-rose-300";
+      } else if (this.variant === "transparent") {
+        return "text-blue-500 hover:text-blue-600 focus:ring-transparent disabled:hover:text-blue-400 disabled:text-blue-400";
       }
     },
   },

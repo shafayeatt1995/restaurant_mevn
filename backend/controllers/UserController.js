@@ -51,7 +51,7 @@ const controller = {
 
       if (type === "manager") {
         const userID = user._id;
-        const slug = randomKey(6);
+        const slug = randomKey(8);
         await Restaurant.create([{ userID, name: restaurantName, slug }], {
           session,
         });

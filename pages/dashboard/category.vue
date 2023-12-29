@@ -91,9 +91,11 @@
             <p class="text-lg px-10 text-gray-700">Select an Category image</p>
           </template>
         </div>
-        <p class="text-rose-700" v-if="errors?.image">
-          {{ errors.image.msg }}
-        </p>
+        <small class="text-rose-700" v-if="errors?.image">
+          <i>
+            {{ errors.image.msg }}
+          </i>
+        </small>
 
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
           <Button
