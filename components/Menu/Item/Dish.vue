@@ -264,6 +264,7 @@ export default {
       this.$emit("editItem", item);
       this.dropdown = null;
     },
+    changeCategory() {},
   },
 };
 </script>
