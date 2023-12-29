@@ -1,7 +1,7 @@
 <template>
   <div class="px-2">
     <div
-      class="flex flex-col gap-2 items-center my-3 p-3 bg-gray-200 shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
+      class="flex flex-col gap-2 items-center my-3 p-3 bg-white shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
       @click="modal = true"
       v-if="editMode"
     >

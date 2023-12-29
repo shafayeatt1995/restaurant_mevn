@@ -1,4 +1,4 @@
-const { Item, Restaurant, Category } = require("@/backend/models");
+const { Item, Category } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
 const { stringSlug, randomKey } = require("@/backend/utils");
 
@@ -27,6 +27,7 @@ const controller = {
         .json({ success: false, message: "Internal server error" });
     }
   },
+
   async getItem(req, res) {
     try {
       const { _id } = req.params;
@@ -135,6 +136,23 @@ const controller = {
 
       const data = await Category.deleteOne({ _id, restaurantID });
       console.log(data);
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async toggleStatusItem(req, res) {
+    try {
+      const { _id } = req.params;
+      const { restaurantID } = req.user;
+
+      await Item.updateOne({ _id, restaurantID }, [
+        { $set: { status: { $eq: [false, "$status"] } } },
+      ]);
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);

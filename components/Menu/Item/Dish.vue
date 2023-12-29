@@ -9,12 +9,73 @@
       "
     >
       <div
-        class="flex-column bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer"
+        class="flex-column bg-white rounded-2xl shadow-lg cursor-pointer relative"
         v-for="(item, key) in items"
         :key="key"
         @click="openItem(item)"
       >
-        <img :src="item.image" class="h-[130px] w-full object-cover" />
+        <div class="absolute top-2 left-2" v-if="editMode">
+          <ToggleSwitch
+            @click.native.prevent.stop="toggleStatus(key)"
+            :value="item.status"
+          />
+        </div>
+        <div class="absolute right-2 top-2 flex items-center">
+          <div class="relative">
+            <button
+              class="rounded-full h-8 w-8 flex justify-center items-center focus:outline-none bg-gray-200"
+              @click.stop="openDropdown(key)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                />
+              </svg>
+            </button>
+
+            <div
+              class="absolute right-0 z-50 w-36 p-2 bg-white border rounded-lg top-16"
+              v-if="dropdown === key"
+              v-click-outside="onClickOutside"
+            >
+              <p
+                class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+              >
+                Edit
+              </p>
+              <p
+                class="flex px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+              >
+                Move up
+              </p>
+              <p
+                class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+              >
+                Move Down
+              </p>
+              <p
+                class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+              >
+                Copy
+              </p>
+              <p
+                class="px-4 py-2 text-rose-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+              >
+                Delete
+              </p>
+            </div>
+          </div>
+        </div>
+        <img
+          :src="item.image"
+          class="w-full object-cover"
+          :class="editMode ? 'h-[200px]' : 'h-[130px]'"
+        />
         <div class="flex justify-between p-2 text-sm items-center">
           <p class="capitalize">
             {{
@@ -113,12 +174,16 @@
 </template>
 
 <script>
+import vClickOutside from "v-click-outside";
+
 export default {
   name: "MenuItemDish",
   props: { editMode: Boolean, items: Array, categories: Array },
+  directives: { clickOutside: vClickOutside.directive },
   data() {
     return {
       modal: false,
+      dropdown: null,
       modalItem: {},
       activeChoice: {},
       activeAddon: [],
@@ -174,6 +239,21 @@ export default {
     },
     checkActiveAddon(id) {
       return this.activeAddon.some(({ _id }) => _id === id);
+    },
+    async toggleStatus(key) {
+      try {
+        await this.$managerApi.toggleStatus(this.items[key]._id);
+        $nuxt.$emit("success", "Status update successfully");
+        $nuxt.$emit("refetchMenu");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    openDropdown(key) {
+      this.dropdown = this.dropdown === key ? null : key;
+    },
+    onClickOutside() {
+      this.dropdown = null;
     },
   },
 };

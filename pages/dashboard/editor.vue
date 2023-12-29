@@ -57,10 +57,11 @@ export default {
         let res = await axios.get(process.env.BASE_URL + "/api/menu", {
           params,
         });
-        const { restaurant, categories, subCategories } = res.data;
+        const { restaurant, categories, subCategories, items } = res.data;
         this.restaurant = restaurant;
         this.categories = categories;
         this.subCategories = subCategories;
+        this.items = items;
       } catch (error) {
         console.log(error);
       }

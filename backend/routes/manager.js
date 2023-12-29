@@ -23,6 +23,7 @@ const {
   getItem,
   updateItem,
   deleteItem,
+  toggleStatusItem,
 } = require("@/backend/controllers/ItemController");
 
 const {
@@ -47,6 +48,7 @@ router.get("/item/:_id", getItem);
 router.post("/item", createItemVal, validation, createItem);
 router.patch("/item", createItemVal, validation, updateItem);
 router.delete("/item", deleteItem);
+router.get("/item/toggle-status/:_id", toggleStatusItem);
 
 router.get("/category", fetchCategory);
 router.post("/category", createCategoryVal, validation, createCategory);

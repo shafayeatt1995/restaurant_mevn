@@ -84,4 +84,8 @@ export class ManagerApi extends BaseApi {
   deleteSubCategory(params) {
     return this.api.$delete(`sub-category`, { params });
   }
+
+  toggleStatus(id) {
+    return this.api.$get(`item/toggle-status/${id}`);
+  }
 }
