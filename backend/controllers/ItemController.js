@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const { Item, Category } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
 const { stringSlug, randomKey } = require("@/backend/utils");
@@ -87,39 +88,34 @@ const controller = {
   async updateItem(req, res) {
     try {
       let {
-        categoryID,
+        _id,
         name,
         image,
-        ingredient,
+        choices,
+        addons,
         price,
         discount,
         discountAmount,
         description,
         estimateTime,
-        variant,
-        status,
-        _id,
       } = req.body;
-      variant = variant.map((val) => ({ name: val }));
-      const slug = stringSlug("name") + randomKey();
+      const slug = randomKey(10);
+      const { restaurantID } = req.user;
       await Item.updateOne(
-        { _id },
+        { _id, restaurantID },
         {
-          categoryID,
           name,
+          slug,
           image,
-          ingredient,
+          choices,
+          addons,
           price,
           discount,
           discountAmount,
           description,
           estimateTime,
-          variant,
-          status,
-          slug,
         }
       );
-
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
@@ -156,6 +152,39 @@ const controller = {
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async updateItemSerial(req, res) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      const { restaurantID } = req.user;
+      const { serialData } = req.body;
+
+      const [itemOne, itemTwo] = serialData;
+      if (itemOne && itemTwo) {
+        await Item.updateOne(
+          { _id: itemOne._id, restaurantID },
+          { serial: itemOne.serial },
+          { session }
+        );
+        await Item.updateOne(
+          { _id: itemTwo._id, restaurantID },
+          { serial: itemTwo.serial },
+          { session }
+        );
+      }
+      await session.commitTransaction();
+      await session.endSession();
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      await session.abortTransaction();
+      await session.endSession();
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

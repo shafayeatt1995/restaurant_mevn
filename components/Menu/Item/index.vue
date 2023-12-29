@@ -1,22 +1,28 @@
 <template>
   <div class="px-2">
-    <div
-      class="flex flex-col gap-2 items-center my-3 p-3 bg-white shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
-      @click="modal = true"
-      v-if="editMode"
-    >
-      <p
-        class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl"
+    <slide-up-down :active="activeSubCategory !== null" :duration="300">
+      <div
+        class="flex flex-col gap-2 items-center my-3 p-3 bg-white shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
+        @click="modal = true"
+        v-if="editMode"
       >
-        <font-awesome-icon :icon="['fas', 'plus']" />
-      </p>
-      <p>Add new item</p>
-    </div>
+        <p
+          class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </p>
+        <p>Add new item</p>
+      </div>
+    </slide-up-down>
 
     <MenuItemDish
-      :items="items"
+      :items="filterItem"
       :editMode="editMode"
       :categories="categories"
+      :subCategories="subCategories"
+      :activeCategory="activeCategory"
+      :activeSubCategory="activeSubCategory"
+      @editItem="setEditItem"
     />
 
     <Modal v-model="modal" v-if="editMode">
@@ -26,18 +32,18 @@
             <template v-if="editItem">
               <p
                 class="cursor-pointer"
-                :class="moveLeft ? ' text-gray-300' : ''"
-                @click="!moveLeft ? alignCategory('left') : ''"
+                :class="moveUp ? ' text-gray-300' : ''"
+                @click="!moveUp ? alignCategory('up') : ''"
               >
-                <font-awesome-icon :icon="['fas', 'arrow-left']" />
-                Move left
+                <font-awesome-icon :icon="['fas', 'arrow-up']" />
+                Move Up
               </p>
               <p
                 class="cursor-pointer"
-                :class="moveRight ? ' text-gray-300' : ''"
-                @click="!moveRight ? alignCategory('right') : ''"
+                :class="moveDown ? ' text-gray-300' : ''"
+                @click="!moveDown ? alignCategory('down') : ''"
               >
-                Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
+                Move Down <font-awesome-icon :icon="['fas', 'arrow-down']" />
               </p>
             </template>
             <p v-else class="text-gray-600 text-xl">Create item</p>
@@ -100,17 +106,6 @@
           class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
         >
           <Button
-            v-if="editItem"
-            variant="red"
-            type="button"
-            class="w-full tracking-wide flex-1"
-            @click.native.prevent="deleteItem"
-            :loading="deleteLoading"
-          >
-            Delete item
-          </Button>
-          <Button
-            v-else
             variant="white"
             type="button"
             class="w-full tracking-wide flex-1"
@@ -219,13 +214,22 @@ export default {
         },
       ];
     },
-    moveLeft() {
-      const key = this.categories.findIndex(({ _id }) => _id === this.form._id);
+    moveUp() {
+      const key = this.filterItem.findIndex(({ _id }) => _id === this.form._id);
       return key === 0;
     },
-    moveRight() {
-      const key = this.categories.findIndex(({ _id }) => _id === this.form._id);
-      return key + 1 === this.categories.length;
+    moveDown() {
+      const key = this.filterItem.findIndex(({ _id }) => _id === this.form._id);
+      return key + 1 === this.filterItem.length;
+    },
+    filterItem() {
+      return this.items.filter(
+        ({ categoryID, subCategoryID }) =>
+          categoryID === this.activeCategory &&
+          (this.activeSubCategory === null
+            ? true
+            : subCategoryID === this.activeSubCategory)
+      );
     },
   },
   watch: {
@@ -242,15 +246,19 @@ export default {
     async submit() {
       try {
         this.loading = true;
-        const data = {
-          ...this.form,
-          image: this.selected.url,
-          categoryID: this.activeCategory,
-          subCategoryID: this.activeSubCategory,
-        };
         if (this.editItem) {
+          const data = {
+            ...this.form,
+            image: this.selected.url,
+          };
           await this.$managerApi.updateItem(data);
         } else {
+          const data = {
+            ...this.form,
+            image: this.selected.url,
+            categoryID: this.activeCategory,
+            subCategoryID: this.activeSubCategory,
+          };
           await this.$managerApi.createItem(data);
         }
         $nuxt.$emit("refetchMenu");
@@ -305,38 +313,47 @@ export default {
     },
     async alignCategory(val) {
       try {
-        if (val === "left") {
-          const key = this.categories.findIndex(
+        if (val === "up") {
+          const key = this.filterItem.findIndex(
             ({ _id }) => _id === this.form._id
           );
-          const itemOne = this.categories[key];
-          const itemTwo = this.categories[key - 1];
+          const itemOne = this.filterItem[key];
+          const itemTwo = this.filterItem[key - 1];
           if (itemOne && itemTwo) {
             const serialData = [
               { _id: itemOne._id, serial: itemTwo.serial },
               { _id: itemTwo._id, serial: itemOne.serial },
             ];
-            await this.$managerApi.UpdateCategorySerial({ serialData });
+            await this.$managerApi.UpdateItemSerial({ serialData });
           }
-        } else if (val === "right") {
-          const key = this.categories.findIndex(
+        } else if (val === "down") {
+          console.log();
+          const key = this.filterItem.findIndex(
             ({ _id }) => _id === this.form._id
           );
-          const itemOne = this.categories[key];
-          const itemTwo = this.categories[key + 1];
+          const itemOne = this.filterItem[key];
+          const itemTwo = this.filterItem[key + 1];
           if (itemOne && itemTwo) {
             const serialData = [
               { _id: itemOne._id, serial: itemTwo.serial },
               { _id: itemTwo._id, serial: itemOne.serial },
             ];
-            await this.$managerApi.UpdateCategorySerial({ serialData });
+            await this.$managerApi.UpdateItemSerial({ serialData });
           }
         }
         this.modal = false;
         $nuxt.$emit("refetchMenu");
-        $nuxt.$emit("success", "Category position updated");
+        $nuxt.$emit("success", "Item position updated");
       } catch (error) {
-        console.error(error);
+        console.error(error.response);
+      }
+    },
+    setEditItem(item) {
+      if (this.editMode) {
+        this.form = item;
+        this.selected.url = item.image;
+        this.editItem = true;
+        this.modal = true;
       }
     },
   },

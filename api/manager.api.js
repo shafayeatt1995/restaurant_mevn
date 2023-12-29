@@ -88,4 +88,8 @@ export class ManagerApi extends BaseApi {
   toggleStatus(id) {
     return this.api.$get(`item/toggle-status/${id}`);
   }
+
+  UpdateItemSerial(body) {
+    return this.api.$post(`item/update-serial`, body);
+  }
 }

@@ -38,8 +38,9 @@ const controller = {
   async updateCategory(req, res) {
     try {
       const { _id, image, name } = req.body;
+      const { restaurantID } = req.user;
 
-      await Category.updateOne({ _id }, { name, image });
+      await Category.updateOne({ _id, restaurantID }, { name, image });
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
@@ -118,8 +119,8 @@ const controller = {
 
   async updateSubCategory(req, res) {
     try {
-      const { restaurantID } = req.user;
       const { name, _id } = req.body;
+      const { restaurantID } = req.user;
 
       await SubCategory.updateOne({ _id, restaurantID }, { name });
       res.status(200).json({ success: true });

@@ -4,12 +4,12 @@
       class="grid gap-3 mt-3 px-2"
       :class="
         editMode
-          ? 'grid-cols-1 md:grid-cols-1 lg:grid-cols-1'
+          ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-1'
           : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-2'
       "
     >
       <div
-        class="flex-column bg-white rounded-2xl shadow-lg cursor-pointer relative"
+        class="flex-column bg-white rounded-2xl shadow-lg cursor-pointer relative select-none"
         v-for="(item, key) in items"
         :key="key"
         @click="openItem(item)"
@@ -18,9 +18,10 @@
           <ToggleSwitch
             @click.native.prevent.stop="toggleStatus(key)"
             :value="item.status"
+            size="small"
           />
         </div>
-        <div class="absolute right-2 top-2 flex items-center">
+        <div class="absolute right-2 top-2 flex items-center" v-if="editMode">
           <div class="relative">
             <button
               class="rounded-full h-8 w-8 flex justify-center items-center focus:outline-none bg-gray-200"
@@ -39,24 +40,21 @@
             </button>
 
             <div
-              class="absolute right-0 z-50 w-36 p-2 bg-white border rounded-lg top-16"
+              class="absolute right-0 z-50 w-44 p-2 bg-white border rounded-lg top-16"
               v-if="dropdown === key"
               v-click-outside="onClickOutside"
             >
               <p
                 class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+                @click.stop="editItem(item)"
               >
                 Edit
               </p>
               <p
-                class="flex px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-              >
-                Move up
-              </p>
-              <p
                 class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+                @click.stop="changeCategory(item)"
               >
-                Move Down
+                Change category
               </p>
               <p
                 class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
@@ -153,7 +151,7 @@
           :key="`addon-option-${index}`"
         >
           <div
-            class="flex justify-between gap-2 cursor-pointer items-center"
+            class="flex justify-between gap-2 cursor-pointer items-center mb-3"
             @click="setAddon(option)"
           >
             <div class="flex items-center gap-2">
@@ -178,7 +176,14 @@ import vClickOutside from "v-click-outside";
 
 export default {
   name: "MenuItemDish",
-  props: { editMode: Boolean, items: Array, categories: Array },
+  props: {
+    editMode: Boolean,
+    items: Array,
+    activeCategory: String,
+    activeSubCategory: String,
+    categories: Array,
+    subCategories: Array,
+  },
   directives: { clickOutside: vClickOutside.directive },
   data() {
     return {
@@ -253,6 +258,10 @@ export default {
       this.dropdown = this.dropdown === key ? null : key;
     },
     onClickOutside() {
+      this.dropdown = null;
+    },
+    editItem(item) {
+      this.$emit("editItem", item);
       this.dropdown = null;
     },
   },

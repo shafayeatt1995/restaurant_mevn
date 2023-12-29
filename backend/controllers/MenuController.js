@@ -16,7 +16,7 @@ const controller = {
       }).sort({ serial: 1 });
       const items = await Item.find({
         restaurantID: restaurant._id,
-      }).sort({ serial: 1 });
+      }).sort({ serial: -1 });
       res.status(200).json({ restaurant, categories, subCategories, items });
     } catch (error) {
       console.log(error);

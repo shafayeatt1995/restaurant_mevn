@@ -24,6 +24,7 @@ const {
   updateItem,
   deleteItem,
   toggleStatusItem,
+  updateItemSerial,
 } = require("@/backend/controllers/ItemController");
 
 const {
@@ -49,6 +50,7 @@ router.post("/item", createItemVal, validation, createItem);
 router.patch("/item", createItemVal, validation, updateItem);
 router.delete("/item", deleteItem);
 router.get("/item/toggle-status/:_id", toggleStatusItem);
+router.post("/item/update-serial", updateItemSerial);
 
 router.get("/category", fetchCategory);
 router.post("/category", createCategoryVal, validation, createCategory);

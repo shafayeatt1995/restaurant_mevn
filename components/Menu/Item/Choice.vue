@@ -47,6 +47,7 @@
           v-model="form.choices[key].options[index].name"
         />
         <input
+          type="number"
           v-model="form.choices[key].options[index].price"
           placeholder="Choice price"
           class="block w-full py-2 text-gray-700 bg-white border rounded-lg focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40 px-4 border-gray-300"
