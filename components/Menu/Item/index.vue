@@ -1,19 +1,17 @@
 <template>
   <div class="px-2">
-    <slide-up-down :active="activeSubCategory !== null" :duration="300">
-      <div
-        class="flex flex-col gap-2 items-center my-3 p-3 bg-white shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
-        @click="modal = true"
-        v-if="editMode"
+    <div
+      class="flex flex-col gap-2 items-center my-3 p-3 bg-white shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
+      @click="modal = true"
+      v-if="editMode"
+    >
+      <p
+        class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl"
       >
-        <p
-          class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl"
-        >
-          <font-awesome-icon :icon="['fas', 'plus']" />
-        </p>
-        <p>Add new item</p>
-      </div>
-    </slide-up-down>
+        <font-awesome-icon :icon="['fas', 'plus']" />
+      </p>
+      <p>Add new item</p>
+    </div>
 
     <MenuItemDish
       :items="filterItem"

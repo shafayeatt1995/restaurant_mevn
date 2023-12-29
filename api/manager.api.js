@@ -92,4 +92,12 @@ export class ManagerApi extends BaseApi {
   UpdateItemSerial(body) {
     return this.api.$post(`item/update-serial`, body);
   }
+
+  updateItemCategory(body) {
+    return this.api.$post(`item/update-category`, body);
+  }
+
+  copyItem(body) {
+    return this.api.$post(`item/copy`, body);
+  }
 }

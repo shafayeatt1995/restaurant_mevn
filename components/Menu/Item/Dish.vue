@@ -58,11 +58,13 @@
               </p>
               <p
                 class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+                @click.stop="copyItem(item)"
               >
                 Copy
               </p>
               <p
                 class="px-4 py-2 text-rose-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+                @click.stop="deleteItem(item)"
               >
                 Delete
               </p>
@@ -89,7 +91,50 @@
       </div>
     </div>
 
-    <MenuModal v-model="modal" v-if="modalItem">
+    <Modal v-model="editCategoryMode">
+      <form class="mt-3" @submit.prevent="submit">
+        <div class="flex justify-between items-center mb-3">
+          <div class="flex gap-4 text-gray-600">
+            <p class="text-gray-600 text-xl">Update category</p>
+          </div>
+          <p
+            class="shadow-lg h-12 w-12 rounded-full flex justify-center items-center cursor-pointer"
+            @click="editCategoryMode = false"
+          >
+            <font-awesome-icon :icon="['fas', 'xmark']" />
+          </p>
+        </div>
+        <Input
+          v-for="(field, i) in inputFields"
+          :key="i"
+          :field="field"
+          v-model="editCategory"
+          :errors="categoryErrors"
+        />
+        <div
+          class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
+        >
+          <Button
+            variant="white"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="editCategoryMode = false"
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="green"
+            type="submit"
+            class="w-full tracking-wide flex-1"
+            :loading="loading"
+          >
+            Update category
+          </Button>
+        </div>
+      </form>
+    </Modal>
+
+    <MenuModal v-model="modal" v-if="modal">
       <div
         class="text-2xl absolute mt-3 ml-3 text-gray-700 h-12 w-12 rounded-full bg-gray-300 flex justify-center items-center cursor-pointer"
         @click="modal = false"
@@ -192,6 +237,10 @@ export default {
       modalItem: {},
       activeChoice: {},
       activeAddon: [],
+      editCategory: {},
+      editCategoryMode: false,
+      categoryErrors: {},
+      loading: false,
     };
   },
   computed: {
@@ -216,13 +265,52 @@ export default {
       );
       return this.modalItem.price + (this.activeChoice.price || 0) + addonPrice;
     },
+    inputFields() {
+      return [
+        {
+          type: "select",
+          placeholder: "Select category",
+          name: "categoryID",
+          label: { id: "categoryID", title: "Select category" },
+          options: this.categories.map(({ _id, name }) => ({
+            value: _id,
+            label: name,
+          })),
+        },
+        {
+          type: "select",
+          placeholder: "Select sub category",
+          name: "subCategoryID",
+          label: { id: "subCategoryID", title: "Select sub category" },
+          options: this.subCategories
+            .filter(
+              ({ categoryID }) => categoryID === this.editCategory.categoryID
+            )
+            .map(({ _id, name }) => ({ value: _id, label: name })),
+        },
+      ];
+    },
   },
   watch: {
+    modal(val) {
+      !val ? this.resetSelect() : "";
+    },
     modalItem(val) {
-      if (val) {
-        this.activeChoice = val.choices[0]?.options[0] || {};
+      if (val.choices) {
+        this.activeChoice = val?.choices[0]?.options[0] || {};
       } else {
         this.activeChoice = {};
+      }
+    },
+    editCategoryMode(val) {
+      !val ? this.resetCategory() : "";
+    },
+    "editCategory.categoryID"(_, val) {
+      const exist = this.subCategories
+        .filter(({ categoryID }) => categoryID === this.editCategory.categoryID)
+        .some(({ _id }) => _id === this.editCategory.subCategoryID);
+      if (!exist) {
+        this.editCategory.subCategoryID = null;
       }
     },
   },
@@ -264,7 +352,53 @@ export default {
       this.$emit("editItem", item);
       this.dropdown = null;
     },
-    changeCategory() {},
+    changeCategory({ _id, categoryID, subCategoryID }) {
+      this.dropdown = null;
+      this.editCategory = { _id, categoryID, subCategoryID };
+      this.editCategoryMode = true;
+    },
+    async submit() {
+      try {
+        this.loading = true;
+        await this.$managerApi.updateItemCategory(this.editCategory);
+        $nuxt.$emit("refetchMenu");
+        this.loading = false;
+        this.editCategoryMode = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    resetCategory() {
+      this.editCategory = {};
+      this.categoryErrors = {};
+    },
+    async copyItem({ _id }) {
+      try {
+        this.dropdown = null;
+        await this.$managerApi.copyItem({ _id });
+        $nuxt.$emit("refetchMenu");
+        $nuxt.$emit("success", "Item copied successfully");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteItem({ _id }) {
+      try {
+        if (confirm("Are you sure, you want to delete?")) {
+          this.dropdown = null;
+          await this.$managerApi.deleteItem({ _id });
+          $nuxt.$emit("refetchMenu");
+          $nuxt.$emit("success", "Item deleted successfully");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    resetSelect() {
+      this.activeChoice = {};
+      this.activeAddon = [];
+      this.modalItem = {};
+    },
   },
 };
 </script>

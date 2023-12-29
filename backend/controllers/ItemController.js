@@ -45,7 +45,7 @@ const controller = {
 
   async createItem(req, res) {
     try {
-      let {
+      const {
         categoryID,
         subCategoryID,
         name,
@@ -130,8 +130,7 @@ const controller = {
       const { _id } = req.query;
       const { restaurantID } = req.user;
 
-      const data = await Category.deleteOne({ _id, restaurantID });
-      console.log(data);
+      await Item.deleteOne({ _id, restaurantID });
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
@@ -185,6 +184,70 @@ const controller = {
       console.log(error);
       await session.abortTransaction();
       await session.endSession();
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async updateItemCategory(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { categoryID, subCategoryID, _id } = req.body;
+
+      await Item.updateOne(
+        { _id, restaurantID },
+        { categoryID, subCategoryID }
+      );
+
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async copyItem(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { _id } = req.body;
+
+      const data = await Item.findOne({ _id, restaurantID });
+      const {
+        categoryID,
+        subCategoryID,
+        name,
+        image,
+        choices,
+        addons,
+        price,
+        discount,
+        discountAmount,
+        description,
+        estimateTime,
+      } = data;
+      const slug = randomKey(10);
+      await Item.create({
+        restaurantID,
+        categoryID,
+        subCategoryID,
+        name,
+        slug,
+        image,
+        choices,
+        addons,
+        price,
+        discount,
+        discountAmount,
+        description,
+        estimateTime,
+      });
+
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.log(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
