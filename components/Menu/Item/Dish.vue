@@ -160,19 +160,32 @@
         <p>৳{{ itemPrice }}</p>
       </div>
       <div class="flex justify-end items-center">
-        <button
-          class="bg-green-600 text-white h-12 w-12 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-[-20px] cursor-pointer relative z-10 shadow-[0_1px_3px_rgba(0,0,0,0.25)]"
+        <transition-group
+          name="slide"
+          mode="out-in"
+          tag="div"
+          class="flex justify-end items-center"
         >
-          <font-awesome-icon :icon="['fas', 'minus']" />
-        </button>
-        <div
-          class="bg-green-600 text-white h-12 w-20 text-xl flex justify-center items-center mt-[-16px] mr-[-20px] cursor-pointer"
-        >
-          {{ getItemQty }}
-        </div>
+          <button
+            class="bg-green-600 text-white h-12 w-12 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-[-48px] cursor-pointer relative z-10 shadow-[0_1px_3px_rgba(0,0,0,0.25)]"
+            @click="removeToCart"
+            v-if="getItemQty > 0"
+            key="1"
+          >
+            <font-awesome-icon :icon="['fas', 'minus']" />
+          </button>
+          <div
+            class="bg-green-600 text-white h-12 w-32 text-xl flex justify-center items-center mt-[-16px] mr-[-35px] cursor-pointer rounded-full"
+            v-if="getItemQty > 0"
+            key="2"
+          >
+            <p class="ml-4">{{ getItemQty }}</p>
+          </div>
+        </transition-group>
         <button
-          class="bg-green-600 text-white h-14 w-14 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-5 cursor-pointer shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+          class="bg-green-600 text-white h-14 w-14 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-5 cursor-pointer shadow-[0_4px_4px_rgba(0,0,0,0.25)] relative z-10"
           @click="addToCart"
+          key="3"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
         </button>
@@ -352,7 +365,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("cart", ["addCartItems"]),
+    ...mapActions("cart", ["addCartItems", "removeCartItems"]),
     openItem(item) {
       this.modalItem = item;
       this.modal = true;
@@ -448,6 +461,17 @@ export default {
       };
       this.addCartItems(data);
     },
+    removeToCart() {
+      const { _id, name } = this.modalItem;
+      const data = {
+        _id,
+        name,
+        choice: { ...this.activeChoice },
+        addon: [...this.activeAddon],
+        qty: 1,
+      };
+      this.removeCartItems(data);
+    },
     compareArrays(array1, array2) {
       return (
         array1.length === array2.length &&
@@ -464,3 +488,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.5s;
+}
+
+.slide-enter,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+</style>

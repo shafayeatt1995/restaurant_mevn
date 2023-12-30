@@ -39,10 +39,10 @@ export default {
     };
   },
   mounted() {
-    // this.setCartItems();
+    this.setCartItems();
   },
   methods: {
-    // ...mapActions("cart", ["setCartItems"]),
+    ...mapActions("cart", ["setCartItems"]),
   },
 };
 </script>
