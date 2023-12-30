@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-20 left-0 right-0">
+    <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-50 left-0 right-0">
       <div
         class="flex justify-between items-center bg-black text-white p-4 rounded-t-3xl cursor-pointer"
         @click="show = !show"
@@ -24,18 +24,25 @@
       <div
         v-if="show"
         @click="show = false"
-        class="fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50 z-10 lg:w-[450px] w-full mx-auto bg-green"
+        class="fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50 z-30 lg:w-[450px] w-full mx-auto bg-green"
       ></div>
     </transition>
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "MenuCart",
   data() {
     return {
       show: false,
     };
+  },
+  mounted() {
+    // this.setCartItems();
+  },
+  methods: {
+    // ...mapActions("cart", ["setCartItems"]),
   },
 };
 </script>

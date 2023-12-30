@@ -1,5 +1,24 @@
 <template>
   <div class="px-2">
+    <div class="flex justify-between my-3 items-center px-2">
+      <p class="text-lg font-medium">All {{ activeCategoryName }} items</p>
+      <div class="flex gap-1 text-2xl">
+        <p
+          class="transition-all duration-300 w-10 h-10 flex justify-center items-center rounded-md"
+          :class="align === 'single' ? 'bg-green-500 text-white' : ''"
+          @click="setAlign('single')"
+        >
+          <font-awesome-icon :icon="['fas', 'bars']" />
+        </p>
+        <p
+          class="transition-all duration-300 w-10 h-10 flex justify-center items-center rounded-md"
+          :class="align === 'multiple' ? 'bg-green-500 text-white' : ''"
+          @click="setAlign('multiple')"
+        >
+          <font-awesome-icon :icon="['fas', 'table-cells-large']" />
+        </p>
+      </div>
+    </div>
     <div
       class="flex flex-col gap-2 items-center my-3 p-3 bg-white shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
       @click="modal = true"
@@ -20,6 +39,7 @@
       :subCategories="subCategories"
       :activeCategory="activeCategory"
       :activeSubCategory="activeSubCategory"
+      :align="align"
       @editItem="setEditItem"
     />
 
@@ -165,6 +185,7 @@ export default {
         { title: "Addons" },
       ],
       activeTab: "General",
+      align: "multiple",
     };
   },
   computed: {
@@ -230,11 +251,20 @@ export default {
             : subCategoryID === this.activeSubCategory)
       );
     },
+    activeCategoryName() {
+      const { name } = this.categories.find(
+        ({ _id }) => _id === this.activeCategory
+      );
+      return name || "";
+    },
   },
   watch: {
     modal(val) {
       !val ? this.reset() : "";
     },
+  },
+  mounted() {
+    // this.align = window.localStorage.getItem("align") || "single";
   },
   methods: {
     openModal() {
@@ -354,6 +384,10 @@ export default {
         this.editItem = true;
         this.modal = true;
       }
+    },
+    setAlign(val) {
+      this.align = val;
+      window.localStorage.setItem("align", val);
     },
   },
 };

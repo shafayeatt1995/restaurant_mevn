@@ -2,11 +2,8 @@
   <div>
     <div
       class="grid gap-3 mt-3 px-2"
-      :class="
-        editMode
-          ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-1'
-          : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-2'
-      "
+      :class="align === 'single' ? 'grid-cols-1' : 'grid-cols-2'"
+      v-if="['single', 'multiple'].includes(align)"
     >
       <div
         class="flex-column bg-white rounded-2xl shadow-lg cursor-pointer relative select-none"
@@ -74,19 +71,32 @@
         <img
           :src="item.image"
           class="w-full object-cover"
-          :class="editMode ? 'h-[200px]' : 'h-[130px]'"
+          :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
         />
-        <div class="flex justify-between p-2 text-sm items-center">
-          <p class="capitalize">
+        <div class="p-2 text-sm items-center">
+          <p class="capitalize font-medium">
             {{
-              editMode
+              align === "single"
                 ? item.name
-                : item.name.length > 15
-                ? `${item.name.substring(0, 15)}...`
+                : item.name.length > 20
+                ? `${item.name.substring(0, 20)}...`
                 : item.name
             }}
           </p>
-          <p>৳{{ item.price }}</p>
+          <div class="flex justify-between">
+            <small>
+              <font-awesome-icon :icon="['far', 'clock']" />
+              {{ item.estimateTime }}
+              minutes
+            </small>
+            <div>
+              <small v-if="item.discount">
+                <del class="text-rose-500">৳{{ item.price }}</del>
+                ৳{{ item.price - item.discountAmount }}
+              </small>
+              <small v-else> ৳{{ item.price }} </small>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -149,15 +159,30 @@
         </div>
         <p>৳{{ itemPrice }}</p>
       </div>
-      <div class="flex justify-end">
+      <div class="flex justify-end items-center">
+        <button
+          class="bg-green-600 text-white h-12 w-12 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-[-20px] cursor-pointer relative z-10 shadow-[0_1px_3px_rgba(0,0,0,0.25)]"
+        >
+          <font-awesome-icon :icon="['fas', 'minus']" />
+        </button>
         <div
-          class="bg-green-600 text-white h-12 w-12 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-5 shadow-xl cursor-pointer"
+          class="bg-green-600 text-white h-12 w-20 text-xl flex justify-center items-center mt-[-16px] mr-[-20px] cursor-pointer"
+        >
+          {{ getItemQty }}
+        </div>
+        <button
+          class="bg-green-600 text-white h-14 w-14 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-5 cursor-pointer shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+          @click="addToCart"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
-        </div>
+        </button>
       </div>
       <div class="px-4 my-5 text-gray-500">
         {{ modalItem.description }}
+        <p class="mt-5">
+          <font-awesome-icon :icon="['far', 'clock']" /> Estimate time
+          {{ modalItem.estimateTime }} minutes
+        </p>
       </div>
       <hr />
       <div
@@ -218,12 +243,14 @@
 
 <script>
 import vClickOutside from "v-click-outside";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "MenuItemDish",
   props: {
     editMode: Boolean,
     items: Array,
+    align: String,
     activeCategory: String,
     activeSubCategory: String,
     categories: Array,
@@ -244,6 +271,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters("cart", ["cartItems"]),
     form: {
       get() {
         return this.$attrs.value;
@@ -290,6 +318,15 @@ export default {
         },
       ];
     },
+    getItemQty() {
+      const item = this.cartItems.find(
+        ({ _id, choice, addon }) =>
+          _id === this.modalItem._id &&
+          choice._id === this.activeChoice._id &&
+          this.compareArrays(this.activeAddon, addon)
+      );
+      return item?.qty || 0;
+    },
   },
   watch: {
     modal(val) {
@@ -315,6 +352,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("cart", ["addCartItems"]),
     openItem(item) {
       this.modalItem = item;
       this.modal = true;
@@ -398,6 +436,30 @@ export default {
       this.activeChoice = {};
       this.activeAddon = [];
       this.modalItem = {};
+    },
+    addToCart() {
+      const { _id, name } = this.modalItem;
+      const data = {
+        _id,
+        name,
+        choice: { ...this.activeChoice },
+        addon: [...this.activeAddon],
+        qty: 1,
+      };
+      this.addCartItems(data);
+    },
+    compareArrays(array1, array2) {
+      return (
+        array1.length === array2.length &&
+        array1
+          .map((obj) => obj._id)
+          .sort()
+          .join() ===
+          array2
+            .map((obj) => obj._id)
+            .sort()
+            .join()
+      );
     },
   },
 };
