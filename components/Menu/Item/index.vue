@@ -222,8 +222,9 @@ export default {
     },
     filterItem() {
       return this.items.filter(
-        ({ categoryID, subCategoryID }) =>
+        ({ categoryID, subCategoryID, status }) =>
           categoryID === this.activeCategory &&
+          (this.editMode ? true : status === true) &&
           (this.activeSubCategory === null
             ? true
             : subCategoryID === this.activeSubCategory)
