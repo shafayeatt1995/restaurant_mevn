@@ -157,7 +157,13 @@
           <img :src="categoryImage" class="object-cover w-12 h-12" />
           <p class="ml-2 capitalize">{{ modalItem.name }}</p>
         </div>
-        <p>৳{{ itemPrice }}</p>
+        <div>
+          <p v-if="modalItem.discount">
+            <del class="text-rose-500">৳{{ itemPrice }}</del>
+            ৳{{ itemPrice - modalItem.discountAmount }}
+          </p>
+          <p v-else>৳{{ itemPrice }}</p>
+        </div>
       </div>
       <div class="flex justify-end items-center">
         <transition-group
