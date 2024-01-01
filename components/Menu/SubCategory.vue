@@ -1,5 +1,8 @@
 <template>
-  <slide-up-down :active="this.editMode || !!categories.length" :duration="300">
+  <slide-up-down
+    :active="(this.editMode || !!categories.length) && !!activeCategory"
+    :duration="300"
+  >
     <div>
       <transition-group
         name="list"
@@ -76,7 +79,14 @@
           :field="field"
           v-model="form"
           :errors="errors"
-        />
+        /><small
+          class="text-rose-700"
+          v-if="
+            errors && errors.categoryID && typeof errors.categoryID === 'object'
+          "
+        >
+          <i>{{ errors.categoryID.msg }}</i>
+        </small>
         <div
           class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
         >
@@ -212,7 +222,11 @@ export default {
     },
     async deleteItem() {
       try {
-        if (confirm("Are you sure, you want to delete?")) {
+        if (
+          confirm(
+            "Are you sure, you want to delete? If you delete this sub-category then it will be deleted related all Items"
+          )
+        ) {
           this.deleteLoading = true;
           await this.$managerApi.deleteSubCategory({ _id: this.form._id });
           $nuxt.$emit("refetchMenu");

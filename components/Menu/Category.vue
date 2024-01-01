@@ -179,6 +179,20 @@ export default {
     modal(val) {
       !val ? this.reset() : "";
     },
+    categories(val) {
+      if (val.length > 0) {
+        const check = val.some(({ _id }) => {
+          console.log(_id, this.activeCategory);
+          return _id === this.activeCategory;
+        });
+        if (!check) {
+          this.selectCategory(val[0]);
+        }
+      } else {
+        console.log("ani val nai");
+        this.selectCategory({ _id: null });
+      }
+    },
   },
   methods: {
     openModal() {
@@ -223,7 +237,11 @@ export default {
     },
     async deleteItem() {
       try {
-        if (confirm("Are you sure, you want to delete?")) {
+        if (
+          confirm(
+            "Are you sure, you want to delete? If you delete this category then it will be deleted related all sub categories and Items"
+          )
+        ) {
           this.deleteLoading = true;
           await this.$managerApi.deleteCategory({ _id: this.form._id });
           $nuxt.$emit("refetchMenu");

@@ -19,10 +19,10 @@ const storage = multer.diskStorage({
     // }
     // cb(null, directory);
     console.log("ami destination", file);
-    cb(null, __dirname + "/files");
+    cb(null, "./files");
   },
   filename: (req, file, cb) => {
-    console.log("ami filename", file);
+    console.lg("ami filename", file);
     const fileExt = path.extname(file.originalname);
     const fileName = randomKey(5) + Date.now();
 

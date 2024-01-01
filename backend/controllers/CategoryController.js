@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Category, SubCategory } = require("@/backend/models");
+const { Category, SubCategory, Item } = require("@/backend/models");
 const { paginate, randomKey } = require("@/backend/utils");
 
 const controller = {
@@ -51,13 +51,25 @@ const controller = {
   },
 
   async deleteCategory(req, res) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
       const { restaurantID } = req.user;
       const { _id } = req.query;
 
-      await Category.deleteOne({ _id, restaurantID });
+      await Category.deleteOne({ _id, restaurantID }, { session });
+      await SubCategory.deleteMany(
+        { categoryID: _id, restaurantID },
+        { session }
+      );
+      await Item.deleteMany({ categoryID: _id, restaurantID }, { session });
+
+      await session.commitTransaction();
+      await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
+      await session.abortTransaction();
+      await session.endSession();
       console.log(error);
       res
         .status(500)
@@ -133,14 +145,22 @@ const controller = {
   },
 
   async deleteSubCategory(req, res) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
       const { restaurantID } = req.user;
       const { _id } = req.query;
 
-      await SubCategory.deleteOne({ _id, restaurantID });
+      await SubCategory.deleteOne({ _id, restaurantID }, { session });
+      await Item.deleteMany({ subCategoryID: _id, restaurantID }, { session });
+
+      await session.commitTransaction();
+      await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
       console.log(error);
+      await session.abortTransaction();
+      await session.endSession();
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

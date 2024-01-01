@@ -22,7 +22,7 @@
     <div
       class="flex flex-col gap-2 items-center my-3 p-3 bg-white shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
       @click="modal = true"
-      v-if="editMode"
+      v-if="editMode && activeCategory"
     >
       <p
         class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl"

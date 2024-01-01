@@ -17,6 +17,12 @@ const createSubCategoryVal = [
     .isLength({ max: 100 })
     .withMessage("Don't try to spam")
     .trim(),
+  check("categoryID")
+    .isLength({ min: 1 })
+    .withMessage("Please select a category")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim(),
 ];
 
 module.exports = { createCategoryVal, createSubCategoryVal };
