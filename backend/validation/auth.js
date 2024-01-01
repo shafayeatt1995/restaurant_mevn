@@ -54,8 +54,6 @@ const signupValidation = [
 
 const loginValidation = [
   check("email")
-    .isEmail()
-    .withMessage("Invalid email address")
     .trim()
     .custom(async (value, { req }) => {
       try {

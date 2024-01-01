@@ -74,14 +74,10 @@
           :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
         />
         <div class="p-2 text-sm items-center">
-          <p class="capitalize font-medium">
-            {{
-              align === "single"
-                ? item.name
-                : item.name.length > 20
-                ? `${item.name.substring(0, 20)}...`
-                : item.name
-            }}
+          <p
+            class="capitalize font-medium overflow-hidden whitespace-nowrap text-ellipsis"
+          >
+            {{ item.name }}
           </p>
           <div class="flex justify-between">
             <small>
@@ -152,7 +148,7 @@
         <font-awesome-icon :icon="['fas', 'chevron-left']" />
       </div>
       <img :src="modalItem.image" class="h-[250px] w-full object-cover" />
-      <div class="flex justify-between items-center px-4 py-2 shadow-lg">
+      <div class="flex justify-between items-center px-4 py-2 shadow-lg gap-3">
         <div class="flex items-center">
           <img :src="categoryImage" class="object-cover w-12 h-12" />
           <p class="ml-2 capitalize">{{ modalItem.name }}</p>
@@ -375,6 +371,11 @@ export default {
     openItem(item) {
       this.modalItem = item;
       this.modal = true;
+
+      history.pushState(null, null, location.href);
+      window.onpopstate = function (event) {
+        history.go(1);
+      };
     },
     setChoice(option) {
       this.activeChoice = option;

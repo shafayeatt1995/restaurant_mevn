@@ -21,7 +21,6 @@ export default {
       restaurant: {},
     };
   },
-
   async asyncData({ route, env }) {
     try {
       const { params } = route;
@@ -36,6 +35,26 @@ export default {
     slug() {
       return this.$route.params.slug;
     },
+  },
+  beforeRouteLeave(to, from, next) {
+    // Check if the user is navigating away or closing the tab
+    const isLeaving = to.path !== from.path || !to.matched.length;
+
+    if (isLeaving) {
+      // Display a confirmation message
+      const confirmLeave = window.confirm("Are you sure you want to leave?");
+
+      if (confirmLeave) {
+        // Continue with the navigation
+        next();
+      } else {
+        // Prevent the navigation
+        next(false);
+      }
+    } else {
+      // Continue with the navigation if not leaving the page
+      next();
+    }
   },
 };
 </script>

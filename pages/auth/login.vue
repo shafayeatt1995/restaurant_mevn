@@ -93,7 +93,7 @@ export default {
       loading: false,
       fields: [
         {
-          type: "email",
+          type: "text",
           placeholder: "Email",
           icon: ["far", "envelope"],
           name: "email",
