@@ -49,8 +49,8 @@
           </client-only>
         </template>
         <textarea
-          cols="30"
-          rows="10"
+          :cols="field.textarea?.cols ?? 30"
+          :rows="field.textarea?.rows ?? 10"
           v-else-if="field.type === 'textarea'"
           :id="field.label?.id"
           v-model="data[field.name]"
@@ -100,6 +100,7 @@ export default {
     field: Object,
     errors: Object,
     options: Array,
+    textarea: Object,
   },
   computed: {
     data: {

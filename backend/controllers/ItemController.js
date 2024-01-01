@@ -71,7 +71,7 @@ const controller = {
         addons,
         price,
         discount,
-        discountAmount,
+        discountAmount: discount ? discountAmount : 0,
         description,
         estimateTime,
       });
@@ -111,7 +111,7 @@ const controller = {
           addons,
           price,
           discount,
-          discountAmount,
+          discountAmount: discount ? discountAmount : 0,
           description,
           estimateTime,
         }

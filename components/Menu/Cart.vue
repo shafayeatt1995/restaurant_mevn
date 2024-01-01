@@ -2,30 +2,113 @@
   <div>
     <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-50 left-0 right-0">
       <div
-        class="flex justify-between items-center bg-black text-white p-4 rounded-t-3xl cursor-pointer"
+        class="flex justify-between items-center bg-black text-white py-4 px-5 rounded-t-3xl cursor-pointer"
         @click="show = !show"
       >
-        <p class="text-xl">Order 2 for ৳1000</p>
+        <p class="text-xl" v-if="totalQuantity > 0">
+          Order {{ totalQuantity }} for ৳{{ totalPrice - totalDiscount }}
+        </p>
+        <p class="text-xl" v-else>Order</p>
         <p class="text-2xl">
-          <font-awesome-icon :icon="['fas', 'cart-shopping']" />
+          <transition name="fade" mode="out-in">
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              @click.stop="show = false"
+              v-if="show"
+            />
+            <TableIcon v-else class="text-white whitespace-nowrap w-8" />
+          </transition>
         </p>
       </div>
       <div
         class="h-[75vh] bg-white transition-all duration-300 overflow-y-auto overflow-x-hidden"
-        :class="show ? 'mb-0' : 'mb-[-75vh]'"
+        :class="show ? 'mb-0' : showAnimation ? 'mb-[-55vh]' : 'mb-[-75vh]'"
       >
         <div class="h-full pt-5" v-if="cartItems && cartItems.length">
           <div class="flex justify-center gap-10">
             <Button
-              :variant="option === orderType ? 'green' : 'white'"
+              :variant="option.name === orderType ? 'green' : 'white'"
               v-for="(option, key) in orderTypeOptions"
               :key="key"
+              @click.native.prevent="orderType = option.name"
             >
               <p class="mr-2">
-                {{ option }}
+                {{ option.name }}
               </p>
-              <TableIcon class="w-6" />
+              <component :is="option.icon" class="w-6 h-6" />
             </Button>
+          </div>
+          <div class="px-4">
+            <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
+            <table class="w-full">
+              <tbody>
+                <tr v-for="(cart, key) in cartItems" :key="`cart-${key}`">
+                  <td class="py-2">{{ cart.qty }}x</td>
+                  <td class="py-2">
+                    <div class="font-medium">{{ cart.name }}</div>
+                    <div class="flex flex-col">
+                      <small>+ {{ cart.choice?.name }}</small>
+                      <small
+                        v-for="(addon, index) in cart.addon"
+                        :key="`addon-${index}`"
+                      >
+                        + {{ addon.name }}
+                      </small>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="flex gap-2 mr-2">
+                      <div
+                        class="flex justify-center items-center text-2xl cursor-pointer h-10 w-10 rounded-full bg-gray-100"
+                        @click="increaseCartItems(key)"
+                      >
+                        +
+                      </div>
+                      <div
+                        class="flex justify-center items-center text-2xl cursor-pointer h-10 w-10 rounded-full bg-gray-100"
+                        @click="decreaseCartItems(key)"
+                      >
+                        -
+                      </div>
+                    </div>
+                  </td>
+                  <td class="no-wrap">
+                    <p>৳{{ singleItemPrice(key) }}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
+            <div class="flex justify-between font-medium text-lg">
+              <p>Total:</p>
+              <p>৳{{ totalPrice }}</p>
+            </div>
+            <div class="flex justify-between text-md text-rose-500">
+              <p>Discount:</p>
+              <p>৳{{ totalDiscount }}</p>
+            </div>
+            <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
+            <div class="flex justify-between font-medium text-xl">
+              <p>Net total:</p>
+              <p>৳{{ totalPrice - totalDiscount }}</p>
+            </div>
+            <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
+            <Input
+              v-for="(field, i) in inputFields"
+              :key="i"
+              :field="field"
+              v-model="form"
+              :errors="errors"
+            />
+            <div class="mt-5">
+              <small class="text-gray-400">
+                By clicking Order, you confirm your age is 18+ and you agree to
+                the terms
+              </small>
+            </div>
+            <div class="flex justify-center">
+              <Button class="px-9 py-3">Place order</Button>
+            </div>
           </div>
         </div>
         <div class="h-full flex flex-col justify-center items-center" v-else>
@@ -46,24 +129,98 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import TableIcon from "~/static/svg/table.svg";
+import ParcelIcon from "~/static/svg/parcel.svg";
 export default {
   name: "MenuCart",
-  components: { TableIcon },
+  components: { TableIcon, ParcelIcon },
   data() {
     return {
       show: false,
       orderType: "Dine in",
-      orderTypeOptions: ["Dine in", "Parcel"],
+      orderTypeOptions: [
+        { name: "Dine in", icon: TableIcon },
+        { name: "Parcel", icon: ParcelIcon },
+      ],
+      form: { note: "" },
+      errors: {},
+      showAnimation: false,
     };
   },
   computed: {
     ...mapGetters("cart", ["cartItems"]),
+    inputFields() {
+      return [
+        {
+          type: "textarea",
+          placeholder: "Add note 🙏🏻...",
+          name: "note",
+          textarea: { cols: "4", rows: "4" },
+        },
+      ];
+    },
+    totalPrice() {
+      return this.cartItems.reduce(
+        (total, value) => total + this.calcPrice(value),
+        0
+      );
+    },
+    totalDiscount() {
+      return this.cartItems.reduce(
+        (total, value) => total + value.qty * value.discount,
+        0
+      );
+    },
+    totalQuantity() {
+      return this.cartItems.reduce((total, value) => total + value.qty, 0);
+    },
+  },
+  created() {
+    this.$nuxt.$on("addToCartAnimation", () => {
+      this.showAnimation = true;
+      setTimeout(() => {
+        this.showAnimation = false;
+      }, 550);
+    });
+  },
+
+  beforeDestroy() {
+    this.$nuxt.$off("addToCartAnimation");
   },
   mounted() {
     this.setCartItems();
   },
   methods: {
-    ...mapActions("cart", ["setCartItems"]),
+    ...mapActions("cart", [
+      "setCartItems",
+      "increaseCartItems",
+      "decreaseCartItems",
+    ]),
+    calcPrice(item) {
+      const { qty, price, addon, choice } = item;
+
+      const addonPrice = addon.reduce((total, value) => total + value.price, 0);
+      return (price + addonPrice + choice.price) * qty;
+    },
+    singleItemPrice(key) {
+      return this.calcPrice(this.cartItems[key]);
+    },
   },
 };
 </script>
+
+<style scoped>
+.active-animation {
+  animation: slideUpDown 1s ease-in-out;
+}
+@keyframes slideUpDown {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(135px) translateY(600px);
+  }
+}
+</style>

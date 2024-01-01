@@ -16,8 +16,7 @@ export const mutations = {
     } else {
       state.cartItems[key].qty++;
     }
-    window.localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-    window.localStorage.setItem("cartItemsSetTime", new Date().getTime());
+    setCartData(state.cartItems);
   },
   REMOVE_ITEMS(state, payload) {
     const key = state.cartItems.findIndex(({ _id, choice, addon }) => {
@@ -32,8 +31,7 @@ export const mutations = {
         ? state.cartItems[key].qty--
         : state.cartItems.splice(key, 1);
     }
-    window.localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-    window.localStorage.setItem("cartItemsSetTime", new Date().getTime());
+    setCartData(state.cartItems);
   },
   SET_INITIAL_ITEMS(state) {
     const cartItems = window.localStorage.getItem("cartItems");
@@ -55,6 +53,17 @@ export const mutations = {
   RESET(state) {
     state.cartItems = [];
   },
+  ADD_CART_ITEMS(state, payload) {
+    state.cartItems[payload].qty++;
+    setCartData(state.cartItems);
+  },
+  REMOVE_CART_ITEMS(state, payload) {
+    state.cartItems[payload].qty > 1
+      ? state.cartItems[payload].qty--
+      : state.cartItems.splice(payload, 1);
+
+    setCartData(state.cartItems);
+  },
 };
 
 export const actions = {
@@ -66,6 +75,12 @@ export const actions = {
   },
   setCartItems({ commit }) {
     commit("SET_INITIAL_ITEMS");
+  },
+  increaseCartItems({ commit }, payload) {
+    commit("ADD_CART_ITEMS", payload);
+  },
+  decreaseCartItems({ commit }, payload) {
+    commit("REMOVE_CART_ITEMS", payload);
   },
 };
 
@@ -90,4 +105,9 @@ const compareArrays = (array1, array2) => {
 const clearCartData = () => {
   window.localStorage.removeItem("cartItems");
   window.localStorage.removeItem("cartItemsSetTime");
+};
+
+const setCartData = (cartItems) => {
+  window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  window.localStorage.setItem("cartItemsSetTime", new Date().getTime());
 };

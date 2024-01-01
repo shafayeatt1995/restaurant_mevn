@@ -150,7 +150,12 @@
       <img :src="modalItem.image" class="h-[250px] w-full object-cover" />
       <div class="flex justify-between items-center px-4 py-2 shadow-lg gap-3">
         <div class="flex items-center">
-          <img :src="categoryImage" class="object-cover w-12 h-12" />
+          <img :src="categoryImage" class="object-cover w-12 h-12 absolute" />
+          <img
+            :src="categoryImage"
+            class="object-cover w-12 h-12"
+            :class="showAnimation ? 'active-animation' : ''"
+          />
           <p class="ml-2 capitalize">{{ modalItem.name }}</p>
         </div>
         <div>
@@ -186,7 +191,7 @@
         </transition-group>
         <button
           class="bg-green-600 text-white h-14 w-14 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-5 cursor-pointer shadow-[0_4px_4px_rgba(0,0,0,0.25)] relative z-10"
-          @click="addToCart"
+          @click="addCart"
           key="3"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
@@ -283,6 +288,7 @@ export default {
       editCategoryMode: false,
       categoryErrors: {},
       loading: false,
+      showAnimation: false,
     };
   },
   computed: {
@@ -302,11 +308,7 @@ export default {
       return find?.image ?? "";
     },
     itemPrice() {
-      const addonPrice = this.activeAddon.reduce(
-        (total, { price }) => total + price,
-        0
-      );
-      return this.modalItem.price + (this.activeChoice.price || 0) + addonPrice;
+      return this.modalItem.price + (this.activeChoice.price || 0);
     },
     inputFields() {
       return [
@@ -458,12 +460,14 @@ export default {
       this.modalItem = {};
     },
     addToCart() {
-      const { _id, name } = this.modalItem;
+      const { _id, name, price, discount, discountAmount } = this.modalItem;
       const data = {
         _id,
         name,
         choice: { ...this.activeChoice },
         addon: [...this.activeAddon],
+        price,
+        discount: discount ? discountAmount : 0,
         qty: 1,
       };
       this.addCartItems(data);
@@ -492,11 +496,33 @@ export default {
             .join()
       );
     },
+    addCart() {
+      this.addToCart();
+      this.showAnimation = true;
+      $nuxt.$emit("addToCartAnimation");
+
+      setTimeout(() => {
+        this.showAnimation = false;
+      }, 1000);
+    },
   },
 };
 </script>
 
 <style scoped>
+.active-animation {
+  animation: slideDown 1s ease-in-out;
+}
+@keyframes slideDown {
+  0% {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(150px) translateY(600px);
+  }
+}
 .slide-enter-active,
 .slide-leave-active {
   transition: all 0.5s;
