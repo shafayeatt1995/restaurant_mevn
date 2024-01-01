@@ -1,9 +1,7 @@
 const express = require("express");
-const app = express();
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs");
 const { randomKey } = require("@/backend/utils");
 const {
   fetchImage,
@@ -11,18 +9,11 @@ const {
   deleteImage,
 } = require("@/backend/controllers/ImageController");
 
-const directory = "./static/uploads/";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    // if (!fs.existsSync(directory)) {
-    //   fs.mkdirSync(directory, { recursive: true });
-    // }
-    // cb(null, directory);
-    console.log("ami destination", file);
-    cb(null, "./files");
+    cb(null, __dirname + "/files");
   },
   filename: (req, file, cb) => {
-    console.lg("ami filename", file);
     const fileExt = path.extname(file.originalname);
     const fileName = randomKey(5) + Date.now();
 
