@@ -21,7 +21,11 @@
 </template>
 <script>
 export default {
-  props: { loading: Boolean, variant: String, to: [String, Object] },
+  props: {
+    loading: Boolean,
+    variant: { type: String, default: "green" },
+    to: [String, Object],
+  },
   name: "Button",
   computed: {
     variantClass() {

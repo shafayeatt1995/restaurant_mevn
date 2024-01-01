@@ -11,10 +11,24 @@
         </p>
       </div>
       <div
-        class="h-[75vh] bg-white transition-all duration-300"
+        class="h-[75vh] bg-white transition-all duration-300 overflow-y-auto overflow-x-hidden"
         :class="show ? 'mb-0' : 'mb-[-75vh]'"
       >
-        <div class="h-full flex flex-col justify-center items-center">
+        <div class="h-full pt-5" v-if="cartItems && cartItems.length">
+          <div class="flex justify-center gap-10">
+            <Button
+              :variant="option === orderType ? 'green' : 'white'"
+              v-for="(option, key) in orderTypeOptions"
+              :key="key"
+            >
+              <p class="mr-2">
+                {{ option }}
+              </p>
+              <TableIcon class="w-6" />
+            </Button>
+          </div>
+        </div>
+        <div class="h-full flex flex-col justify-center items-center" v-else>
           <img src="/images/not-found.png" />
           <p class="text-2xl mt-2 text-gray-600">Nothing to order</p>
         </div>
@@ -30,13 +44,20 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import TableIcon from "~/static/svg/table.svg";
 export default {
   name: "MenuCart",
+  components: { TableIcon },
   data() {
     return {
       show: false,
+      orderType: "Dine in",
+      orderTypeOptions: ["Dine in", "Parcel"],
     };
+  },
+  computed: {
+    ...mapGetters("cart", ["cartItems"]),
   },
   mounted() {
     this.setCartItems();

@@ -55,7 +55,7 @@ export default {
     },
   },
   created() {
-    this.activeCategory = this.categories[0]._id;
+    this.activeCategory = this.categories[0]?._id;
   },
   methods: {},
 };

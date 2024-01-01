@@ -252,10 +252,10 @@ export default {
       );
     },
     activeCategoryName() {
-      const { name } = this.categories.find(
+      const find = this.categories.find(
         ({ _id }) => _id === this.activeCategory
       );
-      return name || "";
+      return find?.name || "";
     },
   },
   watch: {

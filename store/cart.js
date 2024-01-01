@@ -17,6 +17,7 @@ export const mutations = {
       state.cartItems[key].qty++;
     }
     window.localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    window.localStorage.setItem("cartItemsSetTime", new Date().getTime());
   },
   REMOVE_ITEMS(state, payload) {
     const key = state.cartItems.findIndex(({ _id, choice, addon }) => {
@@ -32,11 +33,23 @@ export const mutations = {
         : state.cartItems.splice(key, 1);
     }
     window.localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    window.localStorage.setItem("cartItemsSetTime", new Date().getTime());
   },
   SET_INITIAL_ITEMS(state) {
     const cartItems = window.localStorage.getItem("cartItems");
-    if (cartItems) {
-      state.cartItems = JSON.parse(cartItems);
+    const getTime = parseInt(window.localStorage.getItem("cartItemsSetTime"));
+
+    if (getTime && cartItems) {
+      const currentTime = new Date().getTime();
+      const timeDifference = (currentTime - getTime) / (1000 * 60 * 60);
+
+      if (timeDifference <= 2) {
+        state.cartItems = JSON.parse(cartItems);
+      } else {
+        clearCartData();
+      }
+    } else {
+      clearCartData();
     }
   },
   RESET(state) {
@@ -72,4 +85,9 @@ const compareArrays = (array1, array2) => {
         .sort()
         .join()
   );
+};
+
+const clearCartData = () => {
+  window.localStorage.removeItem("cartItems");
+  window.localStorage.removeItem("cartItemsSetTime");
 };

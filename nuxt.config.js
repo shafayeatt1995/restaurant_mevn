@@ -49,6 +49,7 @@ export default {
     "@nuxtjs/auth-next",
     "nuxt-client-init-module",
     "vue2-editor/nuxt",
+    "nuxt-svg-loader",
   ],
 
   axios: {

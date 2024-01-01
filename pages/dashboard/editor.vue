@@ -32,6 +32,7 @@ export default {
     try {
       const params = { slug: store.getters.restaurantSlug };
       let res = await axios.get(env.BASE_URL + "/api/menu", { params });
+      console.log(res.data);
       const { restaurant, categories, subCategories, items } = res.data;
       return { restaurant, categories, subCategories, items };
     } catch (error) {
