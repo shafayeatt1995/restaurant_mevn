@@ -9,7 +9,7 @@ const controller = {
 
       const tables = await Table.aggregate([
         ...paginate(page, perPage),
-        { $sort: { _id: -1 } },
+        { $sort: { _id: 1 } },
       ]);
       res.status(200).json({ tables });
     } catch (error) {
