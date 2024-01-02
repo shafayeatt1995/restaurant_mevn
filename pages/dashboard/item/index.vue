@@ -1,6 +1,8 @@
 <template>
   <div>
-    <section class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5">
+    <section
+      class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
+    >
       <div>
         <h2 class="text-3xl font-medium text-gray-600">
           <font-awesome-icon :icon="['fas', 'pizza-slice']" /> Item
@@ -19,10 +21,19 @@
     </section>
 
     <section class="px-4">
-      <TableResponsive :fields="fields" :items="loading ? 10 : items" :skeleton="loading">
+      <TableResponsive
+        :fields="fields"
+        :items="loading ? 10 : items"
+        :skeleton="loading"
+      >
         <template #name="{ item }">
           <div class="flex items-center gap-x-2">
-            <img class="object-cover w-24" :src="item.image" alt="image" />
+            <img
+              loading="lazy"
+              class="object-cover w-24"
+              :src="item.image"
+              alt="image"
+            />
             <div>
               <h2 class="font-medium text-gray-600">
                 {{ item.name }}
@@ -31,20 +42,35 @@
           </div>
         </template>
         <template #discount="{ item }">
-          <Badge variant="red" v-if="item.discount" :title="`-${item.discountAmount}`" />
+          <Badge
+            variant="red"
+            v-if="item.discount"
+            :title="`-${item.discountAmount}`"
+          />
           <Badge variant="green" v-else title="No discount" />
         </template>
         <template #status="{ value }">
-          <Badge variant="green" v-if="value" title="Active" :icon="['fas', 'check']" />
+          <Badge
+            variant="green"
+            v-if="value"
+            title="Active"
+            :icon="['fas', 'check']"
+          />
           <Badge variant="red" title="Hide" :icon="['fas', 'xmark']" v-else />
         </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <Button variant="green" :to="{ name: 'dashboard-item-id', params: { id: item._id } }">
+            <Button
+              variant="green"
+              :to="{ name: 'dashboard-item-id', params: { id: item._id } }"
+            >
               <font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit
             </Button>
-            <Button variant="red" @click.native.prevent="deleteItem(item._id, index)">
+            <Button
+              variant="red"
+              @click.native.prevent="deleteItem(item._id, index)"
+            >
               <font-awesome-icon :icon="['fas', 'trash']" />
               Delete
             </Button>
@@ -52,8 +78,13 @@
         </template>
         <template #empty v-if="items.length === 0 && !loading">
           <div class="flex items-center text-center h-96 bg-white">
-            <EmptyMessage @action="createItem" title="No item found" buttonText="Add item" :icon="['far', 'circle-xmark']"
-              iconClass="rotate-45" />
+            <EmptyMessage
+              @action="createItem"
+              title="No item found"
+              buttonText="Add item"
+              :icon="['far', 'circle-xmark']"
+              iconClass="rotate-45"
+            />
           </div>
         </template>
       </TableResponsive>

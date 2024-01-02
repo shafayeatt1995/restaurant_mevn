@@ -268,6 +268,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <img
+                loading="lazy"
                 class="w-10 h-10 overflow-hidden bg-gray-100 rounded-full object-cover"
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
               />
@@ -279,6 +280,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <img
+                loading="lazy"
                 class="w-10 h-10 overflow-hidden bg-gray-100 rounded-full object-cover"
                 src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
               />
@@ -290,6 +292,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <img
+                loading="lazy"
                 class="w-10 h-10 overflow-hidden bg-gray-100 rounded-full object-cover"
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
               />
@@ -301,6 +304,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <img
+                loading="lazy"
                 class="w-10 h-10 overflow-hidden bg-gray-100 rounded-full object-cover"
                 src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
               />
@@ -312,6 +316,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <img
+                loading="lazy"
                 class="w-10 h-10 overflow-hidden bg-gray-100 rounded-full object-cover"
                 src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=761&q=80"
               />
@@ -323,6 +328,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <img
+                loading="lazy"
                 class="w-10 h-10 overflow-hidden bg-gray-100 rounded-full object-cover"
                 src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
               />
@@ -334,6 +340,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <img
+                loading="lazy"
                 class="w-10 h-10 overflow-hidden bg-gray-100 rounded-full object-cover"
                 src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
               />
@@ -345,6 +352,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <img
+                loading="lazy"
                 class="w-10 h-10 overflow-hidden bg-gray-100 rounded-full object-cover"
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
               />

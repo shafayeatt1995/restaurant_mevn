@@ -11,7 +11,7 @@ const controller = {
 
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -38,7 +38,7 @@ const controller = {
 
       res.status(200).json({ success: true, token });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

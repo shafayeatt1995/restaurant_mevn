@@ -13,7 +13,7 @@
           helpful links:
         </p>
 
-        <div class="flex items-center mt-6 gap-x-3">
+        <div class="flex items-center mt-6 gap-x-3" v-if="!menuRoute">
           <button
             @click="goBack"
             class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto hover:bg-gray-100"
@@ -32,7 +32,12 @@
       </div>
 
       <div class="relative w-full mt-12 lg:w-1/2 lg:mt-0">
-        <img class="w-full max-w-lg lg:mx-auto" src="/svg/404.svg" alt="404" />
+        <img
+          loading="lazy"
+          class="w-full max-w-lg lg:mx-auto"
+          src="/svg/404.svg"
+          alt="404"
+        />
       </div>
     </div>
   </section>
@@ -40,9 +45,21 @@
 <script>
 export default {
   name: "NotFound",
+  data() {
+    return {
+      menuRoute: true,
+    };
+  },
+  mounted() {
+    this.setRoute(this.$route.name === "m-slug-table");
+  },
   methods: {
     goBack() {
       window.history.back();
+    },
+
+    setRoute(val) {
+      this.menuRoute = val;
     },
   },
 };

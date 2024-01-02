@@ -31,9 +31,7 @@ export const getters = {
       return new Date(new Date().setDate(new Date().getDate() - 1));
     }
   },
-  activeScan: (state, getters) => {
-    return getters.manager && getters.scanDate >= new Date();
-  },
+  activeScan: (getters) => getters.manager && getters.scanDate >= new Date(),
   analyticDate(state) {
     if (state.auth?.user?.restaurant) {
       return new Date(state.auth?.user?.restaurant?.analyticExp);
@@ -41,7 +39,7 @@ export const getters = {
       return new Date(new Date().setDate(new Date().getDate() - 1));
     }
   },
-  activeAnalytic: (state, getters) => {
-    return getters.manager && getters.analyticDate >= new Date();
-  },
+  activeAnalytic: (getters) =>
+    getters.manager && getters.analyticDate >= new Date(),
+  isDev: () => process.env.NODE_ENV === "development",
 };

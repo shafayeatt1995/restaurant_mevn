@@ -69,6 +69,7 @@
           </div>
         </div>
         <img
+          loading="lazy"
           :src="item.image"
           class="w-full object-cover"
           :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
@@ -147,14 +148,24 @@
       >
         <font-awesome-icon :icon="['fas', 'chevron-left']" />
       </div>
-      <img :src="modalItem.image" class="h-[250px] w-full object-cover" />
+      <img
+        loading="lazy"
+        :src="modalItem.image"
+        class="h-[250px] w-full object-cover"
+      />
       <div class="flex justify-between items-center px-4 py-2 shadow-lg gap-3">
         <div class="flex items-center">
-          <img :src="categoryImage" class="object-cover w-12 h-12 absolute" />
           <img
+            loading="lazy"
             :src="categoryImage"
             class="object-cover w-12 h-12"
-            :class="showAnimation ? 'active-animation' : ''"
+          />
+          <img
+            loading="lazy"
+            :src="categoryImage"
+            class="object-cover w-12 h-12 absolute active-animation"
+            v-for="(_, i) in showAnimation"
+            :key="`animation-${i}`"
           />
           <p class="ml-2 capitalize">{{ modalItem.name }}</p>
         </div>
@@ -297,7 +308,7 @@ export default {
       editCategoryMode: false,
       categoryErrors: {},
       loading: false,
-      showAnimation: false,
+      showAnimation: [],
     };
   },
   computed: {
@@ -408,7 +419,7 @@ export default {
         $nuxt.$emit("success", "Status update successfully");
         $nuxt.$emit("refetchMenu");
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     openDropdown(key) {
@@ -434,7 +445,7 @@ export default {
         this.loading = false;
         this.editCategoryMode = false;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     resetCategory() {
@@ -448,7 +459,7 @@ export default {
         $nuxt.$emit("refetchMenu");
         $nuxt.$emit("success", "Item copied successfully");
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     async deleteItem({ _id }) {
@@ -460,7 +471,7 @@ export default {
           $nuxt.$emit("success", "Item deleted successfully");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     resetSelect() {
@@ -507,12 +518,8 @@ export default {
     },
     addCart() {
       this.addToCart();
-      this.showAnimation = true;
+      this.showAnimation.push(this.showAnimation.length);
       $nuxt.$emit("addToCartAnimation");
-
-      setTimeout(() => {
-        this.showAnimation = false;
-      }, 1000);
     },
   },
 };

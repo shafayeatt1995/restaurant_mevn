@@ -22,7 +22,7 @@ const controller = {
       ]);
       res.status(200).json({ items });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -36,7 +36,7 @@ const controller = {
       const item = await Item.findOne({ _id });
       res.status(200).json({ item });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -78,7 +78,7 @@ const controller = {
 
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -118,7 +118,7 @@ const controller = {
       );
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -133,7 +133,7 @@ const controller = {
       await Item.deleteOne({ _id, restaurantID });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -150,7 +150,7 @@ const controller = {
       ]);
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -181,7 +181,7 @@ const controller = {
       await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       await session.abortTransaction();
       await session.endSession();
       res
@@ -202,7 +202,7 @@ const controller = {
 
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -247,7 +247,7 @@ const controller = {
 
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

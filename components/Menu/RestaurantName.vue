@@ -2,6 +2,7 @@
   <div>
     <div class="flex items-center bg-white pt-3">
       <img
+        loading="lazy"
         class="object-cover w-12 h-12 mx-2 rounded-full"
         :src="restaurant.logo"
         alt="avatar"
@@ -34,6 +35,7 @@
           class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
         >
           <img
+            loading="lazy"
             :src="selected.url"
             v-if="selected.url"
             class="object-contain w-full h-full p-3"
@@ -123,7 +125,7 @@ export default {
         $nuxt.$emit("refetchMenu");
         $nuxt.$emit("success", "Restaurant name successfully updated");
       } catch (error) {
-        console.log(error);
+        console.error(error);
         this.errors = error?.response?.data?.errors;
       } finally {
         this.loading = false;

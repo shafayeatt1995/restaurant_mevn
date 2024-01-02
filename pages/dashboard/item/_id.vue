@@ -70,6 +70,7 @@
           class="border flex flex-col items-center justify-center h-60 cursor-pointer rounded-lg"
         >
           <img
+            loading="lazy"
             :src="form.image"
             v-if="form.image"
             class="object-contain w-full h-full p-3"
@@ -260,7 +261,7 @@ export default {
         const { categories } = await this.$managerApi.getCategory();
         this.categories = categories;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     async fetchItem() {
@@ -298,7 +299,7 @@ export default {
           };
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     addVariant() {

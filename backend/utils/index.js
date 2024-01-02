@@ -5,8 +5,16 @@ const stringSlug = (string) =>
     .replace(/\s+/g, "-")
     .replace(/[^\w\-]/g, "");
 
-const randomKey = (number = 5) =>
-  [...Array(number)].map(() => Math.random().toString(36)[2]).join("");
+const randomKey = (length = 5, stringOnly = false) => {
+  if (stringOnly) {
+    const characters = "abcdefghijklmnopqrstuvwxyz";
+    return [...Array(length)]
+      .map(() => characters[Math.floor(Math.random() * characters.length)])
+      .join("");
+  } else {
+    return [...Array(length)].map(() => Math.random().toString(36)[2]).join("");
+  }
+};
 
 const paginate = (page, perPage) => {
   page = Math.max(Number(page) || 1, 1);

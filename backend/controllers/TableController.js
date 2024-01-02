@@ -1,19 +1,20 @@
 const { Table } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
-const { stringSlug } = require("@/backend/utils");
 
 const controller = {
   async fetchTable(req, res) {
     try {
       const { page, perPage } = req.query;
+      const { restaurantID } = req.user;
 
       const tables = await Table.aggregate([
+        { $match: { restaurantID } },
         ...paginate(page, perPage),
         { $sort: { _id: 1 } },
       ]);
       res.status(200).json({ tables });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -23,13 +24,12 @@ const controller = {
   async createTable(req, res) {
     try {
       const { name } = req.body;
-      const slug = stringSlug(name);
       const { restaurantID } = req.user;
 
-      await Table.create({ name, slug, restaurantID });
+      await Table.create({ name, restaurantID });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -39,12 +39,11 @@ const controller = {
   async updateTable(req, res) {
     try {
       const { _id, name } = req.body;
-      const slug = stringSlug(name);
 
-      await Table.updateOne({ _id }, { name, slug });
+      await Table.updateOne({ _id }, { name });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -58,7 +57,7 @@ const controller = {
       await Table.deleteOne({ _id });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

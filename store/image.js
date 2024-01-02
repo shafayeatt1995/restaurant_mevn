@@ -36,7 +36,7 @@ export const actions = {
           commit("SET_IMAGES", data.images);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         commit("SET_LOADING", false);
         commit("SET_CLICK", true);

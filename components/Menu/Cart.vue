@@ -16,7 +16,11 @@
               @click.stop="show = false"
               v-if="show"
             />
-            <TableIcon v-else class="text-white whitespace-nowrap w-8" />
+            <TableIcon
+              v-else-if="form.orderType === 'Dine in'"
+              class="text-white whitespace-nowrap w-8"
+            />
+            <ParcelIcon v-else class="text-white whitespace-nowrap w-8" />
           </transition>
         </p>
       </div>
@@ -35,12 +39,12 @@
         <div class="h-full pt-5" v-if="cartItems && cartItems.length">
           <div class="flex justify-center gap-10">
             <Button
-              :variant="option.name === orderType ? 'green' : 'white'"
+              :variant="option.name === form.orderType ? 'green' : 'white'"
               v-for="(option, key) in orderTypeOptions"
               :key="key"
-              @click.native.prevent="orderType = option.name"
+              @click.native.prevent="form.orderType = option.name"
             >
-              <p class="mr-2">
+              <p class="mr-2 font-bold">
                 {{ option.name }}
               </p>
               <component :is="option.icon" class="w-6 h-6" />
@@ -120,7 +124,7 @@
           </div>
         </div>
         <div class="h-full flex flex-col justify-center items-center" v-else>
-          <img src="/images/not-found.png" />
+          <img loading="lazy" src="/images/not-found.png" />
           <p class="text-2xl mt-2 text-gray-600">Nothing to order</p>
         </div>
       </div>
@@ -144,12 +148,14 @@ export default {
   data() {
     return {
       show: false,
-      orderType: "Dine in",
       orderTypeOptions: [
         { name: "Dine in", icon: TableIcon },
         { name: "Parcel", icon: ParcelIcon },
       ],
-      form: { note: "" },
+      form: {
+        note: "",
+        orderType: "Dine in",
+      },
       errors: {},
       showAnimation: false,
     };

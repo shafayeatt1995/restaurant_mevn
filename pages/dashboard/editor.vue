@@ -35,7 +35,7 @@ export default {
       const { restaurant, categories, subCategories, items } = res.data;
       return { restaurant, categories, subCategories, items };
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   },
   computed: {
@@ -63,7 +63,7 @@ export default {
         this.subCategories = subCategories;
         this.items = items;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },

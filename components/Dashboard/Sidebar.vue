@@ -1,13 +1,25 @@
 <template>
-  <aside id="sidebar" :class="isOpen ? 'translate-x-0 ease-in' : '-translate-x-full ease-out'"
-    class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed inset-y-0 left-0 z-30 min-h-screen space-y-6 text-gray-100 transition duration-200 transform lg:translate-x-0 lg:relative lg:inset-0 border-solid border-1 border-gray-200">
+  <aside
+    id="sidebar"
+    :class="isOpen ? 'translate-x-0 ease-in' : '-translate-x-full ease-out'"
+    class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed inset-y-0 left-0 z-30 min-h-screen space-y-6 text-gray-100 transition duration-200 transform lg:translate-x-0 lg:relative lg:inset-0 border-solid border-1 border-gray-200"
+  >
     <a href="#" class="mx-auto">
-      <img class="w-auto h-6 sm:h-7" src="https://merakiui.com/images/full-logo.svg" alt="" />
+      <img
+        loading="lazy"
+        class="w-auto h-6 sm:h-7"
+        src="https://merakiui.com/images/full-logo.svg"
+        alt=""
+      />
     </a>
 
     <div class="flex flex-col items-center mt-6 -mx-2">
-      <img class="object-cover w-24 h-24 mx-2 rounded-full"
-        :src="manager ? $auth.user.restaurant.logo : $auth.user.avatar" alt="avatar" />
+      <img
+        loading="lazy"
+        class="object-cover w-24 h-24 mx-2 rounded-full"
+        :src="manager ? $auth.user.restaurant.logo : $auth.user.avatar"
+        alt="avatar"
+      />
       <h4 v-if="manager" class="mx-2 mt-2 font-medium text-gray-600">
         {{ $auth.user.restaurant.name }}
       </h4>
@@ -20,9 +32,13 @@
     <div class="flex flex-col justify-between flex-1 mt-6">
       <nav>
         <template v-for="({ name, title, icon, hide }, i) in navLink">
-          <nuxt-link v-if="!hide" :key="i" :to="{ name }"
+          <nuxt-link
+            v-if="!hide"
+            :key="i"
+            :to="{ name }"
             class="flex items-center px-4 py-3 mt-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:text-gray-700 hover:bg-gray-100"
-            :class="check(name)">
+            :class="check(name)"
+          >
             <font-awesome-icon :icon="icon" class="w-5 h-5" />
             <span class="mx-4 font-medium">{{ title }}</span>
           </nuxt-link>
@@ -56,12 +72,12 @@ export default {
           title: "User",
           icon: ["fas", "users"],
         },
-        {
-          hide: !this.manager,
-          name: "dashboard-item",
-          title: "Item",
-          icon: ["fas", "pizza-slice"],
-        },
+        // {
+        //   hide: !this.manager,
+        //   name: "dashboard-item",
+        //   title: "Item",
+        //   icon: ["fas", "pizza-slice"],
+        // },
         {
           hide: !this.manager,
           name: "dashboard-table",

@@ -11,6 +11,7 @@
     <div class="px-6 py-8 md:px-8 flex items-center flex-1">
       <form class="w-full" @submit.prevent="login">
         <img
+          loading="lazy"
           class="w-auto h-7 sm:h-8"
           src="https://merakiui.com/images/logo.svg"
           alt="logo"

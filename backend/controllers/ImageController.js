@@ -31,7 +31,7 @@ const controller = {
 
       res.status(200).json({ success: true, images });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -51,7 +51,7 @@ const controller = {
 
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -63,12 +63,11 @@ const controller = {
       const { keyList } = req.query;
 
       const data = await utapi.deleteFiles(keyList);
-      console.log(data);
       await Image.deleteMany({ key: { $in: keyList } });
 
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

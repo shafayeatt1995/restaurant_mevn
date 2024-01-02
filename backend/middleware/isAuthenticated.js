@@ -31,8 +31,8 @@ const isAuthenticated = async (req, res, next) => {
     } else {
       throw new Error("Email already is use!");
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.error(error);
     res.status(401).send({ success: false, message: "Unauthorized" });
   }
 };

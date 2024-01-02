@@ -1,12 +1,22 @@
-const { Restaurant, Category, SubCategory, Item } = require("@/backend/models");
+const {
+  Restaurant,
+  Category,
+  SubCategory,
+  Item,
+  Table,
+} = require("@/backend/models");
 
 const controller = {
   async fetchMenu(req, res) {
     try {
-      const { slug } = req.query;
+      const { slug, table } = req.query;
       const restaurant = await Restaurant.findOne({ slug }).select({
         logo: 1,
         name: 1,
+      });
+      const findTable = await Table.findOne({
+        restaurantID: restaurant._id,
+        serial: table,
       });
       const categories = await Category.find({
         restaurantID: restaurant._id,
@@ -17,9 +27,15 @@ const controller = {
       const items = await Item.find({
         restaurantID: restaurant._id,
       }).sort({ serial: -1 });
-      res.status(200).json({ restaurant, categories, subCategories, items });
+      res.status(200).json({
+        restaurant,
+        categories,
+        subCategories,
+        items,
+        available: !!findTable,
+      });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

@@ -9,7 +9,7 @@ const controller = {
       const categories = await Category.find({ restaurantID });
       res.status(200).json({ categories });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -28,7 +28,7 @@ const controller = {
       });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -43,7 +43,7 @@ const controller = {
       await Category.updateOne({ _id, restaurantID }, { name, image });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -70,7 +70,7 @@ const controller = {
     } catch (error) {
       await session.abortTransaction();
       await session.endSession();
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -101,7 +101,7 @@ const controller = {
       await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       await session.abortTransaction();
       await session.endSession();
       res
@@ -122,7 +122,7 @@ const controller = {
       });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -137,7 +137,7 @@ const controller = {
       await SubCategory.updateOne({ _id, restaurantID }, { name });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -158,7 +158,7 @@ const controller = {
       await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       await session.abortTransaction();
       await session.endSession();
       res
@@ -191,7 +191,7 @@ const controller = {
       await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       await session.abortTransaction();
       await session.endSession();
       res

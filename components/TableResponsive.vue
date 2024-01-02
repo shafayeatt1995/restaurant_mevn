@@ -22,7 +22,11 @@
                     @click="checkSortable ? $emit('sorted', field) : null"
                   >
                     <slot :name="field.key + '-label'">
-                      <img v-if="field.title_image" :src="field.title_image" />
+                      <img
+                        loading="lazy"
+                        v-if="field.title_image"
+                        :src="field.title_image"
+                      />
                       <template v-else>
                         {{ field.hide_title ? "" : field.label }}
                       </template>

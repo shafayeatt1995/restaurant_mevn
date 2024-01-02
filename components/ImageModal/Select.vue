@@ -21,7 +21,11 @@
             />
           </div>
         </transition>
-        <img :src="image.url" class="object-contain h-full w-28" />
+        <img
+          loading="lazy"
+          :src="image.url"
+          class="object-contain h-full w-28"
+        />
       </div>
       <Observer @load="getImages">
         <Spinner class="text-green-600 h-7 w-7" v-if="isLoading" />

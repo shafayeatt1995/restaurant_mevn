@@ -32,7 +32,7 @@ const controller = {
       ]);
       res.status(200).json({ users });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -61,7 +61,7 @@ const controller = {
       await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       await session.abortTransaction();
       await session.endSession();
       res
@@ -74,7 +74,7 @@ const controller = {
     try {
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -113,7 +113,7 @@ const controller = {
       await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       await session.abortTransaction();
       await session.endSession();
       res.status(500).json({
@@ -155,7 +155,7 @@ const controller = {
       await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       await session.abortTransaction();
       await session.endSession();
       res.status(500).json({
@@ -171,7 +171,7 @@ const controller = {
       await Restaurant.updateOne({ _id: restaurantID, userID }, { name, logo });
       res.status(200).json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.status(500).json({
         success: false,
         message: "Internal server error",

@@ -15,7 +15,11 @@
             activeCategory === item._id ? 'bg-green-500' : 'bg-transparent'
           "
         >
-          <img :src="item.image" class="object-cover w-14 h-14 rounded-full" />
+          <img
+            loading="lazy"
+            :src="item.image"
+            class="object-cover w-14 h-14 rounded-full"
+          />
         </div>
         <p class="flex text-sm whitespace-nowrap">
           <span class="capitalize">{{ item.name }}</span>
@@ -84,6 +88,7 @@
           class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
         >
           <img
+            loading="lazy"
             :src="selected.url"
             v-if="selected.url"
             class="object-contain w-full h-full p-3"
@@ -182,14 +187,12 @@ export default {
     categories(val) {
       if (val.length > 0) {
         const check = val.some(({ _id }) => {
-          console.log(_id, this.activeCategory);
           return _id === this.activeCategory;
         });
         if (!check) {
           this.selectCategory(val[0]);
         }
       } else {
-        console.log("ani val nai");
         this.selectCategory({ _id: null });
       }
     },

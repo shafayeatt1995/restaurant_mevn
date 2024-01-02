@@ -21,7 +21,11 @@
             />
           </div>
         </transition>
-        <img :src="image.url" class="object-contain w-28 h-full" />
+        <img
+          loading="lazy"
+          :src="image.url"
+          class="object-contain w-28 h-full"
+        />
       </div>
 
       <Observer @load="getImages">
