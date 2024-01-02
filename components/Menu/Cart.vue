@@ -22,7 +22,15 @@
       </div>
       <div
         class="h-[75vh] bg-white transition-all duration-300 overflow-y-auto overflow-x-hidden"
-        :class="show ? 'mb-0' : showAnimation ? 'mb-[-55vh]' : 'mb-[-75vh]'"
+        :class="
+          show
+            ? 'mb-0'
+            : showAnimation
+            ? 'mb-[-55vh]'
+            : totalQuantity > 0
+            ? 'mb-[-75vh]'
+            : 'mb-[-85vh]'
+        "
       >
         <div class="h-full pt-5" v-if="cartItems && cartItems.length">
           <div class="flex justify-center gap-10">

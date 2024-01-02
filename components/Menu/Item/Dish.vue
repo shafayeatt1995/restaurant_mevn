@@ -190,11 +190,20 @@
           </div>
         </transition-group>
         <button
-          class="bg-green-600 text-white h-14 w-14 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-5 cursor-pointer shadow-[0_4px_4px_rgba(0,0,0,0.25)] relative z-10"
+          class="bg-green-600 text-white h-14 w-14 flex justify-center items-center mt-[-16px] mr-5 cursor-pointer shadow-[0_4px_4px_rgba(0,0,0,0.25)] relative z-10 transition-all duration-300 rounded-full"
           @click="addCart"
           key="3"
         >
-          <font-awesome-icon :icon="['fas', 'plus']" />
+          <font-awesome-icon
+            v-if="getItemQty > 0"
+            :icon="['fas', 'plus']"
+            class="text-3xl"
+          />
+          <font-awesome-icon
+            v-else
+            :icon="['fas', 'cart-plus']"
+            class="text-2xl"
+          />
         </button>
       </div>
       <div class="px-4 my-5 text-gray-500">
