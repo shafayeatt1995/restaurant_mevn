@@ -1,5 +1,7 @@
 export const state = () => ({
   cartItems: [],
+  tableID: "",
+  restaurantID: "",
 });
 
 export const mutations = {
@@ -64,6 +66,15 @@ export const mutations = {
 
     setCartData(state.cartItems);
   },
+  SET_INITIAL_DATA(state, payload) {
+    const { restaurant, table } = payload;
+    state.tableID = table._id + "";
+    state.restaurantID = restaurant._id + "";
+  },
+  CLEAR_CART(state) {
+    state.cartItems = [];
+    clearCartData();
+  },
 };
 
 export const actions = {
@@ -82,10 +93,18 @@ export const actions = {
   decreaseCartItems({ commit }, payload) {
     commit("REMOVE_CART_ITEMS", payload);
   },
+  setInitialData({ commit }, payload) {
+    commit("SET_INITIAL_DATA", payload);
+  },
+  clearCart({ commit }) {
+    commit("CLEAR_CART");
+  },
 };
 
 export const getters = {
   cartItems: ({ cartItems }) => cartItems,
+  tableID: ({ tableID }) => tableID,
+  restaurantID: ({ restaurantID }) => restaurantID,
 };
 
 const compareArrays = (array1, array2) => {

@@ -6,7 +6,7 @@
       v-if="['single', 'multiple'].includes(align)"
     >
       <div
-        class="flex-column bg-white rounded-2xl shadow-lg cursor-pointer relative select-none"
+        class="flex-column bg-white rounded-xl shadow-lg cursor-pointer relative select-none overflow-hidden"
         v-for="(item, key) in items"
         :key="key"
         @click="openItem(item)"
@@ -17,6 +17,12 @@
             :value="item.status"
             size="small"
           />
+        </div>
+        <div
+          class="absolute top-0 left-0 bg-green-500 text-white w-8 h-8 flex justify-center items-center rounded-tl-none rounded-bl-none rounded-br-xl rounded-tr-none"
+          v-if="orderCount(item._id) > 0"
+        >
+          {{ orderCount(item._id) }}
         </div>
         <div class="absolute right-2 top-2 flex items-center" v-if="editMode">
           <div class="relative">
@@ -478,6 +484,7 @@ export default {
       this.activeChoice = {};
       this.activeAddon = [];
       this.modalItem = {};
+      this.showAnimation = [];
     },
     addToCart() {
       const { _id, name, price, discount, discountAmount } = this.modalItem;
@@ -520,6 +527,11 @@ export default {
       this.addToCart();
       this.showAnimation.push(this.showAnimation.length);
       $nuxt.$emit("addToCartAnimation");
+    },
+    orderCount(id) {
+      return this.cartItems
+        .filter(({ _id }) => id === _id)
+        .reduce((total, value) => total + value.qty, 0);
     },
   },
 };

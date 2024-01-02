@@ -2,13 +2,15 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
+const cors = require("cors");
+
 require("module-alias/register");
 require("./config/database");
 
 function verifyRequest(req, res, buf, encoding) {
   req.rawBody = buf.toString(encoding);
 }
-
+app.use(cors({ origin: process.env.BASE_URL }));
 app.use(cookieParser());
 app.set("trust proxy", 1);
 app.disable("x-powered-by");

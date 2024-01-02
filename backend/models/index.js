@@ -6,4 +6,5 @@ module.exports = {
   Item: require("./item"),
   Table: require("./table"),
   SubCategory: require("./subCategory"),
+  Order: require("./order"),
 };

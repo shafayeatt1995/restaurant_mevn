@@ -25,7 +25,7 @@
           class="flex items-center justify-between relative px-4 py-1 rounded-full cursor-pointer shadow-lg"
           :class="
             activeSubCategory === item._id
-              ? ' bg-slate-700 text-white'
+              ? ' bg-green-500 text-white'
               : 'bg-white'
           "
           @click="selectSubCategory(item)"

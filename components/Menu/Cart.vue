@@ -54,12 +54,24 @@
             <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
             <table class="w-full">
               <tbody>
+                <tr class="mb-4">
+                  <td class="py-2 font-medium text-lg">Qty</td>
+                  <td class="py-2 text-center">
+                    <div class="font-medium text-lg">Name</div>
+                  </td>
+                  <td></td>
+                  <td class="no-wrap font-medium">
+                    <p class="text-lg">Price</p>
+                  </td>
+                </tr>
                 <tr v-for="(cart, key) in cartItems" :key="`cart-${key}`">
                   <td class="py-2">{{ cart.qty }}x</td>
                   <td class="py-2">
                     <div class="font-medium">{{ cart.name }}</div>
-                    <div class="flex flex-col">
-                      <small>+ {{ cart.choice?.name }}</small>
+                    <div class="flex flex-col text-gray-500">
+                      <small v-if="cart.choice?.name"
+                        >+ {{ cart.choice?.name }}</small
+                      >
                       <small
                         v-for="(addon, index) in cart.addon"
                         :key="`addon-${index}`"
@@ -85,7 +97,15 @@
                     </div>
                   </td>
                   <td class="no-wrap">
-                    <p>৳{{ singleItemPrice(key) }}</p>
+                    <p class="text-right">৳{{ singleItemPrice(key) }}</p>
+                    <p
+                      class="text-right mt-[-8px]"
+                      v-if="singleItemDiscount(key) > 0"
+                    >
+                      <small class="text-rose-500"
+                        >(৳{{ singleItemDiscount(key) }})</small
+                      >
+                    </p>
                   </td>
                 </tr>
               </tbody>
@@ -118,8 +138,13 @@
                 the terms
               </small>
             </div>
-            <div class="flex justify-center">
-              <Button class="px-9 py-3">Place order</Button>
+            <div class="flex justify-center py-5">
+              <Button
+                class="px-9 py-3"
+                @click.native.prevent="submit"
+                :loading="loading"
+                >Place order</Button
+              >
             </div>
           </div>
         </div>
@@ -158,10 +183,11 @@ export default {
       },
       errors: {},
       showAnimation: false,
+      loading: false,
     };
   },
   computed: {
-    ...mapGetters("cart", ["cartItems"]),
+    ...mapGetters("cart", ["cartItems", "restaurantID", "tableID"]),
     inputFields() {
       return [
         {
@@ -196,7 +222,6 @@ export default {
       }, 550);
     });
   },
-
   beforeDestroy() {
     this.$nuxt.$off("addToCartAnimation");
   },
@@ -208,15 +233,44 @@ export default {
       "setCartItems",
       "increaseCartItems",
       "decreaseCartItems",
+      "clearCart",
     ]),
     calcPrice(item) {
       const { qty, price, addon, choice } = item;
 
       const addonPrice = addon.reduce((total, value) => total + value.price, 0);
-      return (price + addonPrice + choice.price) * qty;
+      return (price + addonPrice + (choice.price || 0)) * qty;
     },
     singleItemPrice(key) {
       return this.calcPrice(this.cartItems[key]);
+    },
+    singleItemDiscount(key) {
+      const item = this.cartItems[key];
+      return item.qty * item.discount;
+    },
+    async submit() {
+      try {
+        this.loading = true;
+        const body = {
+          userID: this.$auth.user._id || null,
+          restaurantID: this.restaurantID,
+          tableID: this.tableID,
+          orderItems: this.cartItems,
+          totalPrice: this.totalPrice,
+          netPrice: this.totalPrice - this.totalDiscount,
+          totalDiscount: this.totalDiscount,
+          totalQty: this.totalQuantity,
+          ...this.form,
+        };
+        // await this.$orderApi.createOrder(body);
+        this.clearCart();
+        $nuxt.$emit("success", "Order successfully placed");
+        this.show = false;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

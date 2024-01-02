@@ -32,7 +32,7 @@ const controller = {
         categories,
         subCategories,
         items,
-        available: !!findTable,
+        table: findTable,
       });
     } catch (error) {
       console.error(error);
