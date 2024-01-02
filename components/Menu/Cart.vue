@@ -1,5 +1,17 @@
 <template>
   <div>
+    <transition name="fade" mode="out-in">
+      <div
+        ref="loader"
+        class="absolute top-0 left-0 right-0 bottom-0 z-50 bg-white bg-opacity-50 backdrop-blur-lg flex justify-center items-center flex-col-reverse overflow-hidden"
+        v-show="orderAnimation"
+      >
+        <p class="text-2xl bg-white w-full text-center py-5 mb-60">
+          Your order receive successfully
+        </p>
+      </div>
+    </transition>
+
     <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-50 left-0 right-0">
       <div
         class="flex justify-between items-center bg-black text-white py-4 px-5 rounded-t-3xl cursor-pointer"
@@ -164,9 +176,11 @@
   </div>
 </template>
 <script>
+import lottie from "lottie-web";
 import { mapActions, mapGetters } from "vuex";
 import TableIcon from "~/static/svg/table.svg";
 import ParcelIcon from "~/static/svg/parcel.svg";
+
 export default {
   name: "MenuCart",
   components: { TableIcon, ParcelIcon },
@@ -184,6 +198,7 @@ export default {
       errors: {},
       showAnimation: false,
       loading: false,
+      orderAnimation: false,
     };
   },
   computed: {
@@ -227,6 +242,15 @@ export default {
   },
   mounted() {
     this.setCartItems();
+    lottie.loadAnimation({
+      container: this.$refs.loader,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+
+      path: "/lottie/hurrah.json",
+    });
+    // lottie.setSpeed(0.5);
   },
   methods: {
     ...mapActions("cart", [
@@ -262,10 +286,13 @@ export default {
           totalQty: this.totalQuantity,
           ...this.form,
         };
-        // await this.$orderApi.createOrder(body);
+        await this.$orderApi.createOrder(body);
         this.clearCart();
-        $nuxt.$emit("success", "Order successfully placed");
         this.show = false;
+        this.orderAnimation = true;
+        setTimeout(() => {
+          this.orderAnimation = false;
+        }, 4000);
       } catch (error) {
         console.log(error);
       } finally {
