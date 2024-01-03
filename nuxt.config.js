@@ -23,6 +23,7 @@ export default {
     "~/plugins",
     "~/plugins/api.js",
     "~/plugins/filter.js",
+    // "~/plugins/socket.js",
     { src: "./plugins/toast.js", ssr: false },
   ],
 

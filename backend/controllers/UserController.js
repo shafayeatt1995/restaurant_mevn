@@ -17,6 +17,13 @@ const controller = {
       const restaurant = await Restaurant.findOne({ userID: user._id });
       user._doc.restaurant = restaurant;
       return res.status(200).json({ success: true, user });
+    } else if (user && user.type === "waiter") {
+      const restaurant = await Restaurant.findOne({ waiter: user._id });
+      if (restaurant) {
+        const { _id, logo, name, slug } = restaurant;
+        user._doc.restaurant = { _id, logo, name, slug };
+        return res.status(200).json({ success: true, user });
+      }
     }
     res.status(200).json({ success: true, user });
   },
@@ -51,8 +58,7 @@ const controller = {
 
       if (type === "manager") {
         const userID = user._id;
-        const slug = randomKey(8);
-        await Restaurant.create([{ userID, name: restaurantName, slug }], {
+        await Restaurant.create([{ userID, name: restaurantName }], {
           session,
         });
       }

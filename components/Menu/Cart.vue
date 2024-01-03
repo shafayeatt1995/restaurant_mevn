@@ -6,7 +6,7 @@
         class="absolute top-0 left-0 right-0 bottom-0 z-50 bg-white bg-opacity-50 backdrop-blur-lg flex justify-center items-center flex-col-reverse overflow-hidden"
         v-show="orderAnimation"
       >
-        <p class="text-2xl bg-white w-full text-center py-5 mb-60">
+        <p class="text-3xl w-full text-center py-5 mb-60">
           Your order receive successfully
         </p>
       </div>

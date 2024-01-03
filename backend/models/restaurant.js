@@ -1,3 +1,4 @@
+const { randomKey } = require("@/backend/utils");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -5,7 +6,7 @@ const RestaurantSchema = new Schema(
   {
     userID: { type: String, unique: true, index: true },
     name: { type: String, required: true },
-    slug: { type: String, required: true, unique: true, index: true },
+    slug: { type: String, unique: true, index: true },
     logo: { type: String, default: "/images/logo/1.png" },
     waiter: { type: [String], default: [] },
     chef: { type: [String], default: [] },
@@ -19,5 +20,28 @@ const RestaurantSchema = new Schema(
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
 );
+
+RestaurantSchema.pre("save", async function (next) {
+  const doc = this;
+  if (!doc.isNew) {
+    return next();
+  }
+
+  try {
+    const lastRestaurant = await doc.constructor
+      .findOne({}, {}, { sort: { _id: -1 } })
+      .limit(1);
+
+    if (lastRestaurant) {
+      doc.slug = +lastRestaurant.slug.slice(0, -1) + 1 + randomKey(1, true);
+    } else {
+      doc.slug = 1 + randomKey(1);
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = mongoose.model("Restaurant", RestaurantSchema);

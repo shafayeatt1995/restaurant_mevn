@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "node server",
+    "dev2": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -29,6 +30,8 @@
     "nuxt": "^2.15.8",
     "nuxt-client-init-module": "^0.3.0",
     "nuxt-svg-loader": "^1.2.0",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
     "uploadthing": "^6.1.0",
     "v-click-outside": "^3.2.0",
     "vue": "^2.7.10",
