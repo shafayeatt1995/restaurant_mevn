@@ -83,11 +83,12 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Login",
   auth: "guest",
   head() {
-    return { title: "Login - " + process.env.APP_NAME };
+    return { title: "Login - " + this.pageTitle };
   },
   data() {
     return {
@@ -95,7 +96,7 @@ export default {
       fields: [
         {
           type: "text",
-          placeholder: "Email",
+          placeholder: "Email or phone",
           icon: ["far", "envelope"],
           name: "email",
         },
@@ -115,6 +116,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(["pageTitle"]),
     imageUrl() {
       const randomNumber = Math.floor(Math.random() * 3) + 1;
       return `background-image: url('/images/slider/${randomNumber}.jpg');`;

@@ -80,15 +80,26 @@ export default {
         // },
         {
           hide: !this.manager,
+          name: "dashboard-editor",
+          title: "Editor",
+          icon: ["fas", "pen-ruler"],
+        },
+        {
+          hide: !this.manager,
           name: "dashboard-table",
           title: "Table",
           icon: ["fas", "table-cells-large"],
         },
         {
           hide: !this.manager,
-          name: "dashboard-editor",
-          title: "Editor",
-          icon: ["fas", "pen-ruler"],
+          name: "dashboard-employee",
+          title: "Employee",
+          icon: ["fas", "users"],
+        },
+        {
+          name: "dashboard-settings",
+          title: "Settings",
+          icon: ["fas", "gear"],
         },
       ];
       return nav;

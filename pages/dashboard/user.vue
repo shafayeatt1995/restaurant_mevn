@@ -1,6 +1,8 @@
 <template>
   <div>
-    <section class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5">
+    <section
+      class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
+    >
       <div>
         <h2 class="text-3xl font-medium text-gray-600">User</h2>
       </div>
@@ -17,30 +19,68 @@
     </section>
 
     <section class="px-4">
-      <TableResponsive :fields="fields" :items="loading ? 10 : items" :skeleton="loading">
+      <TableResponsive
+        :fields="fields"
+        :items="loading ? 10 : items"
+        :skeleton="loading"
+      >
         <template #type="{ value }">
           <Badge variant="red" title="Admin" v-if="value === 'admin'" />
-          <Badge variant="blue" title="Manager" v-else-if="value === 'manager'" />
-          <Badge variant="purple" title="Waiter" v-else-if="value === 'waiter'" />
+          <Badge
+            variant="blue"
+            title="Manager"
+            v-else-if="value === 'manager'"
+          />
+          <Badge
+            variant="purple"
+            title="Waiter"
+            v-else-if="value === 'waiter'"
+          />
           <Badge variant="yellow" title="Chef" v-else-if="value === 'chef'" />
           <Badge variant="green" title="User" v-else-if="value === 'user'" />
         </template>
         <template #deleted="{ value }">
-          <Badge variant="red" title="Deleted" v-if="value" :icon="['fas', 'xmark']" />
-          <Badge variant="green" title="Active" :icon="['fas', 'check']" v-else />
+          <Badge
+            variant="red"
+            title="Deleted"
+            v-if="value"
+            :icon="['fas', 'xmark']"
+          />
+          <Badge
+            variant="green"
+            title="Active"
+            :icon="['fas', 'check']"
+            v-else
+          />
         </template>
         <template #suspended="{ value }">
-          <Badge variant="red" title="Suspended" v-if="value" :icon="['fas', 'xmark']" />
-          <Badge variant="green" title="Active" :icon="['fas', 'check']" v-else />
+          <Badge
+            variant="red"
+            title="Suspended"
+            v-if="value"
+            :icon="['fas', 'xmark']"
+          />
+          <Badge
+            variant="green"
+            title="Active"
+            :icon="['fas', 'check']"
+            v-else
+          />
         </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <Button :variant="item.deleted ? 'green' : 'red'" @click.native.prevent="deleteItem(item._id, index)">
+            <Button
+              :variant="item.deleted ? 'green' : 'red'"
+              @click.native.prevent="deleteItem(item._id, index)"
+            >
               <font-awesome-icon :icon="['fas', 'user-xmark']" />
 
               {{ item.deleted ? "Active" : "Delete" }}
             </Button>
-            <Button :variant="item.suspended ? 'green' : 'red'" @click.native.prevent="suspendItem(item._id, index)">
+            <Button
+              :variant="item.suspended ? 'green' : 'red'"
+              @click.native.prevent="suspendItem(item._id, index)"
+            >
               <font-awesome-icon :icon="['fas', 'user-slash']" />
               {{ item.suspended ? "Active" : "Suspend" }}
             </Button>
@@ -48,8 +88,13 @@
         </template>
         <template #empty v-if="items.length === 0 && !loading">
           <div class="flex items-center text-center h-96 bg-white">
-            <EmptyMessage @action="modal = true" title="No user found" buttonText="Add user"
-              :icon="['far', 'circle-xmark']" iconClass="rotate-45" />
+            <EmptyMessage
+              @action="modal = true"
+              title="No user found"
+              buttonText="Add user"
+              :icon="['far', 'circle-xmark']"
+              iconClass="rotate-45"
+            />
           </div>
         </template>
       </TableResponsive>
@@ -59,17 +104,35 @@
     </section>
 
     <Modal v-model="modal">
-      <h3 class="text-lg font-medium leading-6 text-gray-600 capitalize" id="modal-title">
+      <h3
+        class="text-lg font-medium leading-6 text-gray-600 capitalize"
+        id="modal-title"
+      >
         {{ editMode ? "Edit" : "Create new" }} user
       </h3>
       <form class="mt-4" @submit.prevent="submit">
-        <Input v-for="(field, i) in inputFields" :key="i" :field="field" v-model="form" :errors="errors" />
+        <Input
+          v-for="(field, i) in inputFields"
+          :key="i"
+          :field="field"
+          v-model="form"
+          :errors="errors"
+        />
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
-          <Button variant="white" type="button" class="w-full tracking-wide flex-1" @click.native.prevent="modal = false">
+          <Button
+            variant="white"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="modal = false"
+          >
             Cancel
           </Button>
 
-          <Button variant="green" type="submit" class="w-full tracking-wide flex-1">
+          <Button
+            variant="green"
+            type="submit"
+            class="w-full tracking-wide flex-1"
+          >
             {{ editMode ? "Update" : "Create" }} user
           </Button>
         </div>
@@ -79,12 +142,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "User",
   layout: "dashboard",
   middleware: "admin",
   head() {
-    return { title: "User - " + process.env.APP_NAME };
+    return { title: "User - " + this.pageTitle };
   },
   data() {
     return {
@@ -105,6 +169,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["pageTitle"]),
     fields() {
       const fields = [
         { key: "name", label: "Name", span: "minmax(100PX, 1fr)" },

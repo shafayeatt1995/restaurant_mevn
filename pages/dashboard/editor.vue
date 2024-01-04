@@ -18,7 +18,7 @@ export default {
   // layout: "dashboard",
   middleware: "manager",
   head() {
-    return { title: "Editor - " + process.env.APP_NAME };
+    return { title: "Editor - " + this.pageTitle };
   },
   data() {
     return {
@@ -39,7 +39,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["restaurantSlug"]),
+    ...mapGetters(["pageTitle", "restaurantSlug"]),
   },
   created() {
     this.$nuxt.$on("refetchMenu", () => {

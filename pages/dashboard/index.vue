@@ -456,16 +456,20 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Dashboard",
   layout: "dashboard",
   head() {
-    return { title: "Dashboard - " + process.env.APP_NAME };
+    return { title: "Dashboard - " + this.pageTitle };
   },
   data() {
     return {
       isOpen: false,
     };
+  },
+  computed: {
+    ...mapGetters(["pageTitle"]),
   },
 };
 </script>

@@ -108,12 +108,13 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "ItemID",
   layout: "dashboard",
   middleware: "manager",
   head() {
-    return { title: "Items - " + process.env.APP_NAME };
+    return { title: "Items - " + this.pageTitle };
   },
   data() {
     return {
@@ -140,6 +141,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["pageTitle"]),
     inputFields() {
       const fields = [
         {

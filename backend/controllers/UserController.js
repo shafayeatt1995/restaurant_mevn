@@ -184,6 +184,44 @@ const controller = {
       });
     }
   },
+
+  async fetchEmployee(req, res) {
+    try {
+      const { restaurantID, _id } = req.user;
+      const restaurant = await Restaurant.findOne({
+        _id: restaurantID,
+        userID: _id,
+      });
+      const { waiter } = restaurant;
+      const employees = await User.find({ _id: { $in: waiter } });
+      res.status(200).json({ success: true, employees });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  },
+
+  async createEmployee(req, res) {
+    try {
+      const { restaurantID, _id } = req.user;
+      console.log(req.body);
+
+      // const restaurant = await Restaurant.updateOne({
+      //   _id: restaurantID,
+      //   userID: _id,
+      // });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 module.exports = controller;

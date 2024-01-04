@@ -1,10 +1,13 @@
 <template>
-  <Menu
-    :categories="categories"
-    :restaurant="restaurant"
-    :subCategories="subCategories"
-    :items="items"
-  />
+  <div>
+    <Menu
+      :categories="categories"
+      :restaurant="restaurant"
+      :subCategories="subCategories"
+      :items="items"
+    />
+    <RealtimeOrderNotification />
+  </div>
 </template>
 
 <script>

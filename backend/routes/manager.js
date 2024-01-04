@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { isManager } = require("@/backend/middleware");
 const { createItemVal } = require("@/backend/validation/item");
-const { restaurantNameVal } = require("@/backend/validation/user");
+const {
+  restaurantNameVal,
+  createEmployeeVal,
+} = require("@/backend/validation/user");
 const {
   createTableVal,
   updateTableVal,
@@ -10,6 +13,8 @@ const {
 const { validation } = require("@/backend/validation");
 const {
   updateRestaurantName,
+  fetchEmployee,
+  createEmployee,
 } = require("@/backend/controllers/UserController");
 const {
   fetchTable,
@@ -28,7 +33,6 @@ const {
   updateItemCategory,
   copyItem,
 } = require("@/backend/controllers/ItemController");
-
 const {
   fetchCategory,
   createCategory,
@@ -81,6 +85,11 @@ router.get("/table", fetchTable);
 router.post("/table", createTableVal, validation, createTable);
 router.patch("/table", updateTableVal, validation, updateTable);
 router.delete("/table", deleteTable);
+
+router.get("/Employee", fetchEmployee);
+router.post("/Employee", createEmployeeVal, validation, createEmployee);
+router.patch("/Employee", updateTableVal, validation, updateTable);
+router.delete("/Employee", deleteTable);
 
 router.post(
   "/update-restaurant-name",

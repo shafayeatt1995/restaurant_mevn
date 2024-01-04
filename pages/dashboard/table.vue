@@ -122,7 +122,7 @@ export default {
   middleware: "manager",
   components: { TableIcon },
   head() {
-    return { title: "Table - " + process.env.APP_NAME };
+    return { title: "Table - " + this.pageTitle };
   },
   data() {
     return {
@@ -139,7 +139,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isDev"]),
+    ...mapGetters(["isDev", "pageTitle"]),
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },

@@ -3,39 +3,44 @@
 import socket from "@/utils/socket";
 
 export default {
-  props: {
-    // arb_id: {
-    //   type: String,
-    //   required: true,
-    // },
-    // realtime: {
-    //   type: Object,
-    //   required: true,
-    // },
-  },
-  computed: {
-    // room_id() {
-    //   return this.arb_id
-    // },
-  },
   mounted() {
-    // if (this.room_id) {
-    //   socket.emit('joinArbitrage', this.room_id)
-    //   socket.on('arbitrage-' + this.room_id, this.handleData)
-    // }
+    if (this.$auth?.user?.restaurant?._id) {
+      socket.on(
+        `order-notification-${this.$auth?.user?.restaurant?._id}`,
+        () => {
+          this.showNotification();
+        }
+      );
+    }
   },
   beforeDestroy() {
-    // if (this.room_id) {
-    //   socket.emit('leaveArbitrage', this.room_id)
-    //   socket.off('arbitrage-' + this.room_id)
-    // }
+    if (this.$auth?.user?.restaurant?._id) {
+      socket.off(`order-notification-${this.$auth?.user?.restaurant?._id}`);
+    }
   },
   methods: {
-    // handleData(data) {
-    //   if (data) {
-    //     this.$emit('update:realtime', data)
-    //   }
-    // },
+    showNotification() {
+      if ("Notification" in window) {
+        // Request permission to show notifications
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            // Create and show the notification
+            const notification = new Notification("Hello, World!", {
+              body: "This is a sample notification.",
+            });
+
+            // You can also handle the click event of the notification
+            notification.onclick = function () {
+              console.log("Notification clicked");
+            };
+          } else {
+            console.log("Permission denied for notifications");
+          }
+        });
+      } else {
+        console.log("Notification API not supported in this browser");
+      }
+    },
   },
 };
 </script>

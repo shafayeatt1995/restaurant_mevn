@@ -16,18 +16,19 @@ const controller = {
         orderType,
       } = req.body;
 
-      await Order.create({
-        userID,
-        restaurantID,
-        tableID,
-        orderItems,
-        totalPrice,
-        netPrice,
-        totalDiscount,
-        totalQty,
-        note,
-        orderType,
-      });
+      // await Order.create({
+      //   userID,
+      //   restaurantID,
+      //   tableID,
+      //   orderItems,
+      //   totalPrice,
+      //   netPrice,
+      //   totalDiscount,
+      //   totalQty,
+      //   note,
+      //   orderType,
+      // });
+      global.io.emit(`order-notification-${restaurantID}`);
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);

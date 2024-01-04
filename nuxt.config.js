@@ -23,7 +23,6 @@ export default {
     "~/plugins",
     "~/plugins/api.js",
     "~/plugins/filter.js",
-    // "~/plugins/socket.js",
     { src: "./plugins/toast.js", ssr: false },
   ],
 
@@ -54,27 +53,7 @@ export default {
   ],
 
   axios: {
-    // baseURL: process.env.APP_URL,
     proxy: true,
-  },
-
-  proxy: {
-    // "/laravel": {
-    //   // target: process.env.APP_URL || "http://localhost:3000",
-    //   pathRewrite: { "^/laravel": "/" },
-    // },
-  },
-
-  publicRuntimeConfig: {
-    axios: {
-      // browserBaseURL: process.env.APP_URL,
-    },
-  },
-
-  privateRuntimeConfig: {
-    axios: {
-      // baseURL: process.env.APP_URL,
-    },
   },
 
   auth: {
