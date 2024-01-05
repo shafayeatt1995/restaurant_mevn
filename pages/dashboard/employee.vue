@@ -47,9 +47,6 @@
           </div>
         </template>
       </TableResponsive>
-      <Observer @load="fetchItem" v-if="items.length > 0">
-        <Spinner class="text-green-600 h-7 w-7" v-if="items % perPage === 0" />
-      </Observer>
     </section>
 
     <Modal v-model="modal">
@@ -106,10 +103,10 @@ export default {
       form: {
         email: "",
         name: "",
+        password: "",
       },
       editMode: false,
       items: [],
-      perPage: 50,
       loading: true,
       errors: {},
     };
@@ -133,12 +130,17 @@ export default {
         {
           type: "text",
           name: "email",
-          label: { id: "email", title: "Employee phone or email" },
+          label: { id: "email", title: "Employee ID" },
         },
         {
           type: "text",
           name: "name",
-          label: { id: "email", title: "Employee name" },
+          label: { id: "name", title: "Employee name" },
+        },
+        {
+          type: "password",
+          name: "password",
+          label: { id: "password", title: "Employee password" },
         },
       ];
     },
@@ -154,16 +156,10 @@ export default {
   methods: {
     async fetchItem() {
       try {
-        const params = {
-          perPage: this.perPage,
-          page: this.items.length / this.perPage + 1,
-        };
-        if (Number.isInteger(params.page)) {
-          const { employees } = await this.$managerApi.fetchEmployee(params);
-          this.items = this.items.concat(employees);
-        }
+        const { employees } = await this.$managerApi.fetchEmployee();
+        this.items = employees;
       } catch (error) {
-        this.$nuxt.$emit("apiError", error);
+        this.$nuxt.$emit("error", error.response.data.message);
       } finally {
         this.loading = false;
       }
@@ -172,10 +168,15 @@ export default {
       try {
         if (this.click) {
           this.click = false;
+          this.errors = {};
+          const data = { ...this.form, email: this.form.email.toLowerCase() };
           if (this.editMode) {
-            await this.$managerApi.updateEmployee(this.form);
+            if (data.password === "") {
+              delete data.password;
+            }
+            await this.$managerApi.updateEmployee(data);
           } else {
-            await this.$managerApi.createEmployee(this.form);
+            await this.$managerApi.createEmployee(data);
           }
           $nuxt.$emit(
             "success",
@@ -193,10 +194,10 @@ export default {
     },
     reset() {
       this.form = {
+        email: "",
         name: "",
-        image: "",
+        password: "",
       };
-      this.selected = {};
       this.errors = {};
       this.editMode = false;
     },
@@ -204,9 +205,8 @@ export default {
       this.items = [];
       this.fetchItem();
     },
-    editItem({ _id, name, image }) {
-      this.form = { _id, name, image };
-      this.selected = { url: image };
+    editItem({ _id, name, email }) {
+      this.form = { _id, name, email };
       this.editMode = true;
       this.modal = true;
     },
@@ -220,7 +220,7 @@ export default {
             this.click = true;
           }
         } catch (error) {
-          $nuxt.$emit("apiError", error);
+          this.$nuxt.$emit("error", error.response.data.message);
         } finally {
           this.click = true;
         }

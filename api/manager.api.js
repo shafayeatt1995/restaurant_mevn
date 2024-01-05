@@ -45,8 +45,8 @@ export class ManagerApi extends BaseApi {
     return this.api.$delete(`table`, { params });
   }
 
-  fetchEmployee(params) {
-    return this.api.$get(`Employee`, { params });
+  fetchEmployee() {
+    return this.api.$get(`Employee`);
   }
 
   createEmployee(body) {

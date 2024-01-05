@@ -5,6 +5,7 @@ const { createItemVal } = require("@/backend/validation/item");
 const {
   restaurantNameVal,
   createEmployeeVal,
+  updateEmployeeVal,
 } = require("@/backend/validation/user");
 const {
   createTableVal,
@@ -15,6 +16,8 @@ const {
   updateRestaurantName,
   fetchEmployee,
   createEmployee,
+  updateEmployee,
+  deleteEmployee,
 } = require("@/backend/controllers/UserController");
 const {
   fetchTable,
@@ -88,8 +91,8 @@ router.delete("/table", deleteTable);
 
 router.get("/Employee", fetchEmployee);
 router.post("/Employee", createEmployeeVal, validation, createEmployee);
-router.patch("/Employee", updateTableVal, validation, updateTable);
-router.delete("/Employee", deleteTable);
+router.patch("/Employee", updateEmployeeVal, validation, updateEmployee);
+router.delete("/Employee", deleteEmployee);
 
 router.post(
   "/update-restaurant-name",

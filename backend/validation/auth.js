@@ -34,14 +34,14 @@ const signupValidation = [
     }),
 
   check("password")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters")
+    .isLength({ min: 4 })
+    .withMessage("Password must be at least 4 characters")
     .isLength({ max: 100 })
     .withMessage("Don't try to spam"),
 
   check("confirmPassword")
-    .isLength({ min: 8 })
-    .withMessage("Confirm password must be at least 8 characters")
+    .isLength({ min: 4 })
+    .withMessage("Confirm password must be at least 4 characters")
     .isLength({ max: 100 })
     .withMessage("Don't try to spam")
     .custom((value, { req }) => {
@@ -84,8 +84,8 @@ const loginValidation = [
       }
     }),
   check("password")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters"),
+    .isLength({ min: 4 })
+    .withMessage("Password must be at least 4 characters"),
 ];
 
 module.exports = { signupValidation, loginValidation };

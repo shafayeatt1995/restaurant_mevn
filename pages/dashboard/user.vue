@@ -249,7 +249,7 @@ export default {
           this.items = this.items.concat(users);
         }
       } catch (error) {
-        this.$nuxt.$emit("apiError", error);
+        this.$nuxt.$emit("error", error.response.data.message);
       } finally {
         this.loading = false;
       }
@@ -313,7 +313,10 @@ export default {
           }
           $nuxt.$emit("success", "User deleted successfully");
         } catch (error) {
-          $nuxt.$emit("error", error.response.data?.message || error.message);
+          this.$nuxt.$emit(
+            "error",
+            error.response.data?.message || error.message
+          );
         } finally {
           this.click = true;
         }
@@ -330,7 +333,10 @@ export default {
           }
           $nuxt.$emit("success", "User suspended successfully");
         } catch (error) {
-          $nuxt.$emit("error", error.response.data?.message || error.message);
+          this.$nuxt.$emit(
+            "error",
+            error.response.data?.message || error.message
+          );
         } finally {
           this.click = true;
         }

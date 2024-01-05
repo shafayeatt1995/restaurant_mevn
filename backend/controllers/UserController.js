@@ -1,6 +1,6 @@
 const { User, Restaurant } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
-const { stringSlug, randomKey } = require("@/backend/utils");
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
 const controller = {
@@ -205,17 +205,95 @@ const controller = {
   },
 
   async createEmployee(req, res) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
       const { restaurantID, _id } = req.user;
-      console.log(req.body);
+      const { email, name, password } = req.body;
 
-      // const restaurant = await Restaurant.updateOne({
-      //   _id: restaurantID,
-      //   userID: _id,
-      // });
+      const [user] = await User.create(
+        [{ email, name, password, type: "waiter" }],
+        { session }
+      );
+      if (!user._id) {
+        throw new Error("Don't use space in ID");
+      }
+      await Restaurant.updateOne(
+        { _id: restaurantID, userID: _id },
+        { $push: { waiter: user._id } },
+        { session }
+      );
+
+      await session.commitTransaction();
+      await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
+      await session.abortTransaction();
+      await session.endSession();
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  },
+
+  async updateEmployee(req, res) {
+    try {
+      const { restaurantID, _id: userID } = req.user;
+      const { email, name, password, _id } = req.body;
+      const data = { email, name };
+      if (password) {
+        data.password = bcrypt.hashSync(password, 10);
+      }
+
+      const restaurant = await Restaurant.findOne({
+        _id: restaurantID,
+        userID,
+      });
+
+      if (restaurant.waiter.includes(_id)) {
+        await User.updateOne({ _id }, data);
+      }
+
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  },
+
+  async deleteEmployee(req, res) {
+    const mongoose = require("mongoose");
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      const { restaurantID, _id: userID } = req.user;
+      const { _id } = req.query;
+
+      const restaurant = await Restaurant.findOne({
+        _id: restaurantID,
+        userID,
+      });
+
+      if (restaurant.waiter.includes(_id)) {
+        await Restaurant.updateOne(
+          { _id: restaurantID, userID },
+          { $pull: { waiter: _id } },
+          { session }
+        );
+        await User.deleteOne({ _id }, { session });
+      }
+      await session.commitTransaction();
+      await session.endSession();
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      await session.abortTransaction();
+      await session.endSession();
       res.status(500).json({
         success: false,
         message: "Internal server error",

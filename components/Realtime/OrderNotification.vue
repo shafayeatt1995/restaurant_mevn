@@ -9,6 +9,7 @@ export default {
         `order-notification-${this.$auth?.user?.restaurant?._id}`,
         () => {
           this.showNotification();
+          this.playNotificationSound();
         }
       );
     }
@@ -40,6 +41,10 @@ export default {
       } else {
         console.log("Notification API not supported in this browser");
       }
+    },
+    playNotificationSound() {
+      const audio = new Audio("/audio/order.mp3");
+      audio.play();
     },
   },
 };

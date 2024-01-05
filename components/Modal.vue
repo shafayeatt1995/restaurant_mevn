@@ -19,7 +19,7 @@
           >
 
           <div
-            class="relative inline-block px-4 py-2 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 w-full sm:w-full lg:w-2/4 sm:px-6 sm:align-middle opacity-100"
+            class="relative inline-block px-4 pt-3 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 w-full sm:w-full lg:w-2/4 sm:px-6 sm:align-middle opacity-100"
           >
             <slot />
           </div>

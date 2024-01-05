@@ -38,7 +38,6 @@ export default {
 
   beforeDestroy() {
     this.$nuxt.$off("success");
-    this.$nuxt.$off("apiError");
     this.$nuxt.$off("error");
     this.$nuxt.$off("warning");
   },

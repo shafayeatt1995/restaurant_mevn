@@ -1,5 +1,5 @@
 const { check } = require("express-validator");
-const { User } = require("@/backend/models");
+const { User, Restaurant } = require("@/backend/models");
 
 const createUserVal = [
   check("name")
@@ -52,8 +52,8 @@ const createUserVal = [
     }),
 
   check("password")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters")
+    .isLength({ min: 4 })
+    .withMessage("Password must be at least 4 characters")
     .isLength({ max: 100 })
     .withMessage("Don't try to spam"),
 ];
@@ -96,6 +96,11 @@ const createEmployeeVal = [
     .trim()
     .custom(async (value) => {
       try {
+        const trimmedStr = value.trim();
+        const hasSpace = trimmedStr.length > 0 && !/\s/.test(trimmedStr);
+        if (!hasSpace) {
+          throw new Error("Don't use space in ID");
+        }
         const checkIsUserAllowed = (email) => {
           const admin_emails = new Set(["shafayetalanik@gmail.com"]);
           return admin_emails.has(email);
@@ -110,10 +115,70 @@ const createEmployeeVal = [
       }
     }),
   check("password")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters")
+    .isLength({ min: 4 })
+    .withMessage("Password must be at least 4 characters")
     .isLength({ max: 100 })
     .withMessage("Don't try to spam"),
 ];
 
-module.exports = { createUserVal, restaurantNameVal, createEmployeeVal };
+const updateEmployeeVal = [
+  check("name")
+    .isLength({ min: 1 })
+    .withMessage("Name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim(),
+  check("email")
+    .isLength({ min: 1 })
+    .withMessage("Email or phone required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim()
+    .custom(async (value, { req }) => {
+      try {
+        const trimmedStr = value.trim();
+        const hasSpace = trimmedStr.length > 0 && !/\s/.test(trimmedStr);
+        if (!hasSpace) {
+          throw new Error("Don't use space in ID");
+        }
+
+        const checkIsUserAllowed = (email) => {
+          const admin_emails = new Set(["shafayetalanik@gmail.com"]);
+          return admin_emails.has(email);
+        };
+
+        const { restaurantID, _id } = req.user;
+        const matchQuery = {
+          email: value.toLowerCase(),
+        };
+        if (req.body._id) {
+          matchQuery._id = { $ne: req.body._id };
+        }
+        const user = await User.findOne(matchQuery);
+        if (user || checkIsUserAllowed(value)) {
+          throw new Error("Email or phone already has an account!");
+        }
+
+        const restaurant = await Restaurant.findOne({ _id: restaurantID });
+        if (!restaurant.waiter.includes(req.body._id)) {
+          throw new Error("You can't delete this account!");
+        }
+        return true;
+      } catch (err) {
+        throw new Error(err.message);
+      }
+    }),
+  check("password")
+    .optional()
+    .isLength({ min: 4 })
+    .withMessage("Password must be at least 4 characters")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam"),
+];
+
+module.exports = {
+  createUserVal,
+  restaurantNameVal,
+  createEmployeeVal,
+  updateEmployeeVal,
+};

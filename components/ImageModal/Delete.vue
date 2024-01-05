@@ -98,7 +98,7 @@ export default {
             this.click = true;
           }
         } catch (error) {
-          $nuxt.$emit("apiError", error);
+          this.$nuxt.$emit("error", error.response.data.message);
         } finally {
           this.click = true;
         }

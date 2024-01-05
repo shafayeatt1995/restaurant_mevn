@@ -27,6 +27,7 @@ const UserSchema = new Schema(
 
 UserSchema.pre("save", function (next) {
   const user = this;
+  console.log(user);
   if (!user.isModified("password")) return next();
   user.password = bcrypt.hashSync(user.password, 10);
   next();

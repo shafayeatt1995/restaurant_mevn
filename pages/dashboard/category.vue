@@ -190,7 +190,7 @@ export default {
           this.items = this.items.concat(categories);
         }
       } catch (error) {
-        this.$nuxt.$emit("apiError", error);
+        this.$nuxt.$emit("error", error.response.data.message);
       } finally {
         this.loading = false;
       }
@@ -248,7 +248,7 @@ export default {
             this.click = true;
           }
         } catch (error) {
-          $nuxt.$emit("apiError", error);
+          this.$nuxt.$emit("error", error.response.data.message);
         } finally {
           this.click = true;
         }
