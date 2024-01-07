@@ -31,13 +31,14 @@
 
     <div class="flex flex-col justify-between flex-1 mt-6">
       <nav>
-        <template v-for="({ name, title, icon, hide }, i) in navLink">
+        <template v-for="({ name, title, icon, hide, target }, i) in navLink">
           <nuxt-link
             v-if="!hide"
             :key="i"
             :to="{ name }"
             class="flex items-center px-4 py-3 mt-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:text-gray-700 hover:bg-gray-100"
             :class="check(name)"
+            :target="target"
           >
             <font-awesome-icon :icon="icon" class="w-5 h-5" />
             <span class="mx-4 font-medium">{{ title }}</span>
@@ -107,6 +108,7 @@ export default {
           name: "dashboard-restaurant",
           title: "Restaurant",
           icon: ["fas", "utensils"],
+          target: "_blank",
         },
         {
           name: "dashboard-settings",

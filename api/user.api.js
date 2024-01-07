@@ -12,4 +12,8 @@ export class UserApi extends BaseApi {
   deleteImage(params) {
     return this.api.$delete(`image`, { params });
   }
+
+  cancelOrder(params) {
+    return this.api.$delete(`order/cancel`, { params });
+  }
 }

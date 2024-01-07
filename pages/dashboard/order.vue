@@ -9,7 +9,7 @@
     </section>
 
     <section class="px-4">
-      <div class="px-2 bg-white rounded-lg">
+      <div class="px-2 bg-white rounded-lg pt-2">
         <TabTitle
           :tabTitle="tabTitle"
           v-model="active"
@@ -48,14 +48,14 @@
             "
           >
             <div
-              class="rounded-lg p-3 text-gray-700 relative transition-all duration-300 cursor-pointer"
+              class="rounded-lg p-3 text-gray-700 relative cursor-pointer"
               :class="getClass(item.status)"
               v-for="(item, i) in items"
               :key="i"
               @click="openOrderDetails(item)"
             >
               <small class="absolute right-3 top-1 text-gray-400">{{
-                i++
+                i + 1
               }}</small>
               <p class="font-normal">
                 Table No: <span class="font-bold">Table-12</span>
@@ -76,178 +76,15 @@
               </p>
             </div>
           </div>
-          <div class="flex" v-if="loading"><loading /></div>
+          <div class="flex justify-center items-center" v-if="loading">
+            <loading />
+          </div>
           <div
             class="flex items-center text-center h-96 bg-white"
-            v-if="items.length === 0"
+            v-else-if="items.length === 0"
           >
             <EmptyMessage title="No order found" />
           </div>
-          <!-- <TableResponsive
-            :fields="fields"
-            :items="loading ? 10 : items"
-            :skeleton="loading"
-            hover_stripe
-          >
-            <template #orderItems="{ value, item }">
-              <div class="flex flex-col flex-1">
-                <div
-                  v-for="(cart, key) in value"
-                  :key="`cart-${key}`"
-                  class="flex mb-2"
-                >
-                  <div class="pr-3">{{ cart.qty }}x</div>
-                  <div class="flex-1">
-                    <p class="font-medium text-wrap">
-                      {{ cart.name }}
-                      <span v-if="cart.choice?.name"
-                        >({{ cart.choice?.name }})</span
-                      >
-                    </p>
-                    <p class="flex flex-col text-gray-500">
-                      <small
-                        v-for="(addon, index) in cart.addon"
-                        :key="`addon-${index}`"
-                      >
-                        + {{ addon.name }}
-                      </small>
-                    </p>
-                  </div>
-                  <div class="pl-3">
-                    <p class="text-right">৳{{ singleItemPrice(cart) }}</p>
-                    <p
-                      class="text-right mt-[-8px]"
-                      v-if="singleItemDiscount(cart) > 0"
-                    >
-                      <small class="text-rose-500"
-                        >(৳{{ singleItemDiscount(cart) }})</small
-                      >
-                    </p>
-                  </div>
-                </div>
-                <hr class="mt-1" />
-                <div class="flex justify-between my-2">
-                  <p>Total Qty: {{ item.totalQty }}x</p>
-                  <div class="flex flex-col">
-                    <p class="text-right">
-                      Total Price: ৳{{ item.totalPrice }}
-                    </p>
-                    <p class="text-rose-500 text-right">
-                      Total discount: ৳{{ item.totalDiscount }}
-                    </p>
-                  </div>
-                </div>
-                <hr />
-                <div class="flex justify-center my-2 text-base">
-                  Net Price: ৳{{ item.netPrice }}
-                </div>
-              </div>
-            </template>
-            <template #qty="{ item }"> {{ item.totalQty }}</template>
-            <template #price="{ item }"
-              ><p class="text-green-500">৳{{ item.netPrice }}</p></template
-            >
-            <template #discount="{ item }"
-              ><p class="text-rose-500">৳{{ item.totalDiscount }}</p></template
-            >
-            <template #name="{ item }">
-              <div class="flex flex-col w-full overflow-hidden">
-                <p
-                  v-for="(data, key) in item.orderItems"
-                  :key="key"
-                  class="text-wrap font-medium"
-                >
-                  {{ data.name }}
-                </p>
-              </div>
-            </template>
-            <template #created_at="{ value }">
-              <div :key="refreshTrigger">{{ value | agoDate }}</div>
-            </template>
-            <template #status="{ value }">
-              <Badge
-                :variant="getBadgeVariant(value)"
-                :title="value"
-                class="capitalize"
-              />
-            </template>
-            <template #actions="{ item, index }">
-              <div class="relative">
-                <Button
-                  variant="white"
-                  class="transition-colors duration-300 rounded-lg sm:px-4 sm:py-2 focus:outline-none hover:bg-gray-100"
-                  @click.native.prevent="toggleDropdown(index)"
-                >
-                  <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
-                </Button>
-                <template v-if="dropdown === index">
-                  <div
-                    class="absolute right-0 z-50 w-48 p-2 bg-white border rounded-lg top-10"
-                    v-click-outside="() => toggleDropdown(null)"
-                  >
-                    <div
-                      class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                    >
-                      <font-awesome-icon
-                        :icon="['fas', 'circle-info']"
-                        class="mr-1"
-                      />
-                      See details
-                    </div>
-                    <div
-                      class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                      v-if="item.status !== 'pending'"
-                      @click="updateStatus('pending', index)"
-                    >
-                      <font-awesome-icon
-                        :icon="['fas', 'clock']"
-                        class="mr-1 text-amber-500"
-                      />
-                      Mark as pending
-                    </div>
-                    <div
-                      class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                      v-if="item.status !== 'active'"
-                      @click="updateStatus('active', index)"
-                    >
-                      <font-awesome-icon
-                        :icon="['fas', 'pizza-slice']"
-                        class="mr-1 text-sky-500"
-                      />
-                      Mark as active
-                    </div>
-                    <div
-                      class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                      v-if="item.status !== 'complete'"
-                      @click="updateStatus('complete', index)"
-                    >
-                      <font-awesome-icon
-                        :icon="['fas', 'circle-check']"
-                        class="mr-1 text-green-500"
-                      />
-                      Mark as complete
-                    </div>
-                    <div
-                      class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                      v-if="item.status !== 'cancel'"
-                      @click="updateStatus('cancel', index)"
-                    >
-                      <font-awesome-icon
-                        :icon="['fas', 'circle-xmark']"
-                        class="mr-1 text-rose-500"
-                      />
-                      Mark as cancel
-                    </div>
-                  </div>
-                </template>
-              </div>
-            </template>
-            <template #empty v-if="items.length === 0 && !loading">
-              <div class="flex items-center text-center h-96 bg-white">
-                <EmptyMessage title="No order found" />
-              </div>
-            </template>
-          </TableResponsive> -->
           <Observer @load="fetchItems" v-if="items.length > 0">
             <Spinner
               class="text-green-600 h-7 w-7"
@@ -321,6 +158,27 @@
           Net Price: ৳{{ orderDetails.netPrice }}
         </div>
       </div>
+      <div
+        class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
+      >
+        <Button
+          variant="red"
+          type="button"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="cancelOrder"
+          :loading="cancelLoading"
+          ><font-awesome-icon :icon="['fas', 'xmark']" />Cancel order
+        </Button>
+        <Button
+          variant="green"
+          type="submit"
+          class="w-full tracking-wide flex-1"
+          :loading="acceptLoading"
+        >
+          <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
+          Accept order
+        </Button>
+      </div>
     </Modal>
   </div>
 </template>
@@ -330,6 +188,7 @@ import vClickOutside from "v-click-outside";
 import { mapGetters } from "vuex";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
+
 export default {
   name: "Order",
   layout: "dashboard",
@@ -342,36 +201,14 @@ export default {
   data() {
     return {
       modal: false,
-      tabTitle: [
-        { title: "All order", status: null, icon: ["fas", "bars-staggered"] },
-        { title: "Pending order", status: "pending", icon: ["fas", "clock"] },
-        {
-          title: "Active order",
-          status: "active",
-          icon: ["fas", "pizza-slice"],
-        },
-        {
-          title: "Complete order",
-          status: "complete",
-          icon: ["fas", "circle-check"],
-        },
-        {
-          title: "Cancel order",
-          status: "cancel",
-          icon: ["fas", "circle-xmark"],
-        },
-      ],
-      active: "All order",
-      tabOrderType: [
-        { title: "All" },
-        { title: "Dine in" },
-        { title: "Parcel" },
-      ],
+      active: "Pending order",
       orderType: "All",
       date: [],
       items: [],
       perPage: 50,
       loading: true,
+      cancelLoading: false,
+      acceptLoading: false,
       errors: {},
       dropdown: null,
       refreshTrigger: 0,
@@ -380,22 +217,37 @@ export default {
   },
   computed: {
     ...mapGetters(["isMobile", "pageTitle"]),
-    fields() {
+    tabTitle() {
       return [
-        { key: "tableName", label: "Table no", span: "minmax(100PX, 1fr)" },
-        { key: "orderItems", label: "Order Items", span: "minmax(300PX, 2fr)" },
-        // { key: "qty", label: "Quantity", span: "minmax(80PX, 1fr)" },
-        // { key: "name", label: "name", span: "minmax(250PX, 2fr)" },
-        // { key: "price", label: "Price", span: "minmax(80PX, 1fr)" },
-        { key: "discount", label: "Discount", span: "minmax(80PX, 1fr)" },
-        { key: "status", label: "Status", span: "minmax(120PX, 1fr)" },
-        { key: "created_at", label: "Order time", span: "minmax(150PX, 1fr)" },
         {
-          key: "actions",
-          label: "Actions",
-          span: "100PX",
+          title: "Pending order",
+          status: "pending",
+          icon: ["fas", "clock"],
+          iconClass: "text-amber-500",
         },
+        {
+          title: "Active order",
+          status: "active",
+          icon: ["fas", "pizza-slice"],
+          iconClass: "text-sky-500",
+        },
+        {
+          title: "Complete order",
+          status: "complete",
+          icon: ["fas", "circle-check"],
+          iconClass: "text-green-500",
+        },
+        {
+          title: "Cancel order",
+          status: "cancel",
+          icon: ["fas", "circle-xmark"],
+          iconClass: "text-rose-500",
+        },
+        { title: "All order", status: null, icon: ["fas", "bars-staggered"] },
       ];
+    },
+    tabOrderType() {
+      return [{ title: "All" }, { title: "Dine in" }, { title: "Parcel" }];
     },
   },
   watch: {
@@ -418,7 +270,6 @@ export default {
   beforeDestroy() {
     clearInterval(this.intervalId);
   },
-
   methods: {
     async fetchItems() {
       try {
@@ -445,7 +296,6 @@ export default {
     },
     async updateStatus(status, i) {
       try {
-        console.log("ami anik");
         await this.$managerApi.updateOrderStatus({ status });
         this.items[i].status = status;
       } catch (error) {
@@ -453,6 +303,9 @@ export default {
       }
     },
     refetch() {
+      this.loading = true;
+      this.cancelLoading = false;
+      this.acceptLoading = false;
       this.items = [];
       this.orderDetails = {};
       this.fetchItems();
@@ -497,6 +350,21 @@ export default {
     openOrderDetails(item) {
       this.orderDetails = item;
       this.modal = true;
+    },
+    async cancelOrder() {
+      try {
+        if (confirm("Are you sure, you want to cancel?")) {
+          this.cancelLoading = true;
+          await this.$userApi.cancelOrder({ _id: this.orderDetails._id });
+          $nuxt.$emit("success", "Order cancel successfully");
+          this.modal = false;
+          this.refetch();
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.cancelLoading = false;
+      }
     },
   },
 };

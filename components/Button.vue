@@ -41,6 +41,18 @@ export default {
         return "text-white bg-rose-500 hover:bg-rose-600 focus:ring-rose-300 disabled:hover:bg-rose-300 disabled:bg-rose-300";
       } else if (this.variant === "transparent") {
         return "text-blue-500 hover:text-blue-600 focus:ring-transparent disabled:hover:text-blue-400 disabled:text-blue-400";
+      } else if (this.variant === "blue") {
+        return "text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300 disabled:hover:bg-blue-300 disabled:bg-blue-300";
+      } else if (this.variant === "blue") {
+        return "text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300 disabled:hover:bg-blue-300 disabled:bg-blue-300";
+      } else if (this.variant === "yellow") {
+        return "text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-300 disabled:hover:bg-yellow-300 disabled:bg-yellow-300";
+      } else if (this.variant === "purple") {
+        return "text-white bg-purple-500 hover:bg-purple-600 focus:ring-purple-300 disabled:hover:bg-purple-300 disabled:bg-purple-300";
+      } else if (this.variant === "amber") {
+        return "text-white bg-amber-500 hover:bg-amber-600 focus:ring-amber-300 disabled:hover:bg-amber-300 disabled:bg-amber-300";
+      } else if (this.variant === "sky") {
+        return "text-white bg-sky-500 hover:bg-sky-600 focus:ring-sky-300 disabled:hover:bg-sky-300 disabled:bg-sky-300";
       }
     },
   },

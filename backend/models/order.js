@@ -21,6 +21,7 @@ const orderItemSchema = new Schema({
 const OrderSchema = new Schema(
   {
     userID: { type: String },
+    waiterID: { type: String },
     restaurantID: { type: String, required: true },
     tableID: { type: String, required: true },
     tableName: { type: String, required: true },
