@@ -106,19 +106,19 @@
         <CloseButton @click.native.prevent="modal = false" />
       </div>
       <hr class="my-3" />
-      <div class="flex flex-col flex-1 text-gray-800">
-        <div class="flex mb-2">
-          <div class="pr-3">Qty</div>
-          <div class="flex-1">Name</div>
-          <div class="pl-3">Price</div>
-        </div>
-        <div
+      <table class="flex flex-col flex-1 text-gray-700">
+        <tr class="flex mb-2 text-lg font-semibold">
+          <th class="pr-3">Qty</th>
+          <th class="flex-1">Name</th>
+          <th class="pl-3">Price</th>
+        </tr>
+        <tr
           v-for="(cart, key) in orderDetails.orderItems"
           :key="`cart-${key}`"
           class="flex mb-2"
         >
-          <div class="pr-3">{{ cart.qty }}x</div>
-          <div class="flex-1">
+          <td class="pr-3">{{ cart.qty }}x</td>
+          <td class="flex-1">
             <p class="font-medium text-wrap">
               {{ cart.name }}
               <span v-if="cart.choice?.name">({{ cart.choice?.name }})</span>
@@ -131,16 +131,16 @@
                 + {{ addon.name }}
               </small>
             </p>
-          </div>
-          <div class="pl-3">
+          </td>
+          <td class="pl-3">
             <p class="text-right">৳{{ singleItemPrice(cart) }}</p>
             <p class="text-right mt-[-8px]" v-if="singleItemDiscount(cart) > 0">
               <small class="text-rose-500"
                 >(৳{{ singleItemDiscount(cart) }})</small
               >
             </p>
-          </div>
-        </div>
+          </td>
+        </tr>
         <hr class="mt-1" />
         <div class="flex justify-between my-2">
           <p>Total Qty: {{ orderDetails.totalQty }}x</p>
@@ -157,26 +157,59 @@
         <div class="flex justify-center my-2 text-base">
           Net Price: ৳{{ orderDetails.netPrice }}
         </div>
-      </div>
+      </table>
       <div
         class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
       >
         <Button
+          v-if="
+            orderDetails.status === 'active' ||
+            orderDetails.status === 'pending'
+          "
           variant="red"
           type="button"
           class="w-full tracking-wide flex-1"
           @click.native.prevent="cancelOrder"
           :loading="cancelLoading"
-          ><font-awesome-icon :icon="['fas', 'xmark']" />Cancel order
+          ><font-awesome-icon :icon="['fas', 'xmark']" /> Cancel order
         </Button>
         <Button
+          v-if="orderDetails.status === 'pending'"
           variant="green"
-          type="submit"
           class="w-full tracking-wide flex-1"
+          @click.native.prevent="acceptOrder"
           :loading="acceptLoading"
         >
           <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
           Accept order
+        </Button>
+        <Button
+          v-else-if="orderDetails.status === 'active'"
+          variant="green"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="completeOrder"
+          :loading="acceptLoading"
+        >
+          <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
+          Complete order
+        </Button>
+        <Button
+          v-else
+          variant="red"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="modal = false"
+        >
+          <font-awesome-icon :icon="['fas', 'xmark']" />
+          Close
+        </Button>
+        <Button
+          v-if="orderDetails.status === 'complete'"
+          variant="green"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="modal = false"
+        >
+          <font-awesome-icon :icon="['fas', 'print']" />
+          Print Order
         </Button>
       </div>
     </Modal>
@@ -201,7 +234,7 @@ export default {
   data() {
     return {
       modal: false,
-      active: "Pending order",
+      active: "All order",
       orderType: "All",
       date: [],
       items: [],
@@ -219,6 +252,7 @@ export default {
     ...mapGetters(["isMobile", "pageTitle"]),
     tabTitle() {
       return [
+        { title: "All order", status: null, icon: ["fas", "bars-staggered"] },
         {
           title: "Pending order",
           status: "pending",
@@ -243,7 +277,6 @@ export default {
           icon: ["fas", "circle-xmark"],
           iconClass: "text-rose-500",
         },
-        { title: "All order", status: null, icon: ["fas", "bars-staggered"] },
       ];
     },
     tabOrderType() {
@@ -355,7 +388,10 @@ export default {
       try {
         if (confirm("Are you sure, you want to cancel?")) {
           this.cancelLoading = true;
-          await this.$userApi.cancelOrder({ _id: this.orderDetails._id });
+          await this.$userApi.cancelOrder({
+            _id: this.orderDetails._id,
+            status: "cancel",
+          });
           $nuxt.$emit("success", "Order cancel successfully");
           this.modal = false;
           this.refetch();
@@ -364,6 +400,38 @@ export default {
         console.log(error);
       } finally {
         this.cancelLoading = false;
+      }
+    },
+    async acceptOrder() {
+      try {
+        this.acceptLoading = true;
+        await this.$userApi.acceptOrder({
+          _id: this.orderDetails._id,
+          status: "active",
+        });
+        $nuxt.$emit("success", "Order accept successfully");
+        this.modal = false;
+        this.refetch();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.acceptLoading = false;
+      }
+    },
+    async completeOrder() {
+      try {
+        this.acceptLoading = true;
+        await this.$userApi.completeOrder({
+          _id: this.orderDetails._id,
+          status: "complete",
+        });
+        $nuxt.$emit("success", "Order complete successfully");
+        this.modal = false;
+        this.refetch();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.acceptLoading = false;
       }
     },
   },

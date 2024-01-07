@@ -16,4 +16,12 @@ export class UserApi extends BaseApi {
   cancelOrder(params) {
     return this.api.$delete(`order/cancel`, { params });
   }
+
+  acceptOrder(params) {
+    return this.api.$get(`order/accept`, { params });
+  }
+
+  completeOrder(params) {
+    return this.api.$get(`order/complete`, { params });
+  }
 }

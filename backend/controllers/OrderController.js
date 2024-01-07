@@ -89,15 +89,11 @@ const controller = {
         .json({ success: false, message: "Internal server error" });
     }
   },
-  async cancelOrder(req, res) {
+  async updateOrderStatus(req, res) {
     try {
-      const { _id } = req.query;
+      const { _id, status } = req.query;
       const { _id: waiterID } = req.user;
-      const data = await Order.updateOne(
-        { _id },
-        { status: "cancel", waiterID }
-      );
-      console.log(data);
+      await Order.updateOne({ _id }, { status, waiterID });
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
