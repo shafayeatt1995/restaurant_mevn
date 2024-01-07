@@ -39,6 +39,7 @@
     "vue-slide-up-down": "^2.0.1",
     "vue-template-compiler": "^2.7.10",
     "vue-toastification": "^1.7.14",
+    "vue2-datepicker": "^3.11.1",
     "vue2-dropzone": "^3.6.0",
     "vue2-editor": "^2.10.3"
   },
@@ -48,7 +49,9 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/tailwindcss": "^5.3.3",
-    "postcss": "^8.4.17"
+    "postcss": "^8.4.17",
+    "sass": "^1.69.7",
+    "sass-loader": "10"
   },
   "_moduleAliases": {
     "@": "./"

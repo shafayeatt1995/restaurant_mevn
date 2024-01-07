@@ -48,6 +48,10 @@ const {
   updateSubCategorySerial,
 } = require("@/backend/controllers/CategoryController");
 const {
+  fetchOrder,
+  updateOrderStatus,
+} = require("@/backend/controllers/OrderController");
+const {
   createCategoryVal,
   createSubCategoryVal,
 } = require("@/backend/validation/category");
@@ -89,10 +93,13 @@ router.post("/table", createTableVal, validation, createTable);
 router.patch("/table", updateTableVal, validation, updateTable);
 router.delete("/table", deleteTable);
 
-router.get("/Employee", fetchEmployee);
-router.post("/Employee", createEmployeeVal, validation, createEmployee);
-router.patch("/Employee", updateEmployeeVal, validation, updateEmployee);
-router.delete("/Employee", deleteEmployee);
+router.get("/employee", fetchEmployee);
+router.post("/employee", createEmployeeVal, validation, createEmployee);
+router.patch("/employee", updateEmployeeVal, validation, updateEmployee);
+router.delete("/employee", deleteEmployee);
+
+router.get("/order", fetchOrder);
+router.post("/order/update-status", updateOrderStatus);
 
 router.post(
   "/update-restaurant-name",

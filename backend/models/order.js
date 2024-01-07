@@ -23,6 +23,7 @@ const OrderSchema = new Schema(
     userID: { type: String },
     restaurantID: { type: String, required: true },
     tableID: { type: String, required: true },
+    tableName: { type: String, required: true },
     orderItems: [orderItemSchema],
     totalPrice: { type: Number, required: true },
     netPrice: { type: Number, required: true },
@@ -32,14 +33,38 @@ const OrderSchema = new Schema(
     orderType: { type: String, enum: ["Parcel", "Dine in"], required: true },
     status: {
       type: String,
-      enum: ["pending", "running", "complete", "cancel"],
+      enum: ["pending", "active", "complete", "cancel"],
       default: "pending",
     },
+    orderNumber: { type: Number, unique: true },
   },
   {
     strict: true,
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
 );
+
+OrderSchema.pre("save", async function (next) {
+  const doc = this;
+  if (!doc.isNew) {
+    return next();
+  }
+
+  try {
+    const lastOrder = await doc.constructor
+      .findOne({}, {}, { sort: { orderNumber: -1 } })
+      .limit(1);
+
+    if (lastOrder) {
+      doc.orderNumber = lastOrder.orderNumber + 1;
+    } else {
+      doc.orderNumber = 1;
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = mongoose.model("Order", OrderSchema);

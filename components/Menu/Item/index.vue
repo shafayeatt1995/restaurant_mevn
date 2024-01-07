@@ -66,12 +66,8 @@
             </template>
             <p v-else class="text-gray-600 text-xl">Create item</p>
           </div>
-          <p
-            class="shadow-lg h-12 w-12 rounded-full flex justify-center items-center cursor-pointer"
-            @click="modal = false"
-          >
-            <font-awesome-icon :icon="['fas', 'xmark']" />
-          </p>
+
+          <CloseButton @click.native.prevent="modal = false" />
         </div>
         <TabTitle
           :tabTitle="tabTitle"

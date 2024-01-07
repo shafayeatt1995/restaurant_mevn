@@ -22,7 +22,7 @@ SubCategorySchema.pre("save", async function (next) {
 
   try {
     const lastCategory = await doc.constructor
-      .findOne({}, {}, { sort: { _id: -1 } })
+      .findOne({}, {}, { sort: { serial: -1 } })
       .limit(1);
 
     if (lastCategory) {
@@ -37,4 +37,4 @@ SubCategorySchema.pre("save", async function (next) {
   }
 });
 
-module.exports = mongoose.model("SubCategorySchema", SubCategorySchema);
+module.exports = mongoose.model("SubCategory", SubCategorySchema);

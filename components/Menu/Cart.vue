@@ -79,11 +79,13 @@
                 <tr v-for="(cart, key) in cartItems" :key="`cart-${key}`">
                   <td class="py-2">{{ cart.qty }}x</td>
                   <td class="py-2">
-                    <div class="font-medium">{{ cart.name }}</div>
-                    <div class="flex flex-col text-gray-500">
-                      <small v-if="cart.choice?.name"
-                        >+ {{ cart.choice?.name }}</small
+                    <div class="font-medium">
+                      {{ cart.name }}
+                      <span v-if="cart.choice?.name"
+                        >({{ cart.choice?.name }})</span
                       >
+                    </div>
+                    <div class="flex flex-col text-gray-500">
                       <small
                         v-for="(addon, index) in cart.addon"
                         :key="`addon-${index}`"
@@ -202,7 +204,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("cart", ["cartItems", "restaurantID", "tableID"]),
+    ...mapGetters("cart", ["cartItems", "restaurantID", "table"]),
     inputFields() {
       return [
         {
@@ -278,7 +280,8 @@ export default {
         const body = {
           userID: this.$auth?.user?._id || null,
           restaurantID: this.restaurantID,
-          tableID: this.tableID,
+          tableID: this.table._id,
+          tableName: this.table.name,
           orderItems: this.cartItems,
           totalPrice: this.totalPrice,
           netPrice: this.totalPrice - this.totalDiscount,

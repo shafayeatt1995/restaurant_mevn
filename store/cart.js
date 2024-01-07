@@ -1,6 +1,6 @@
 export const state = () => ({
   cartItems: [],
-  tableID: "",
+  table: {},
   restaurantID: "",
 });
 
@@ -68,7 +68,8 @@ export const mutations = {
   },
   SET_INITIAL_DATA(state, payload) {
     const { restaurant, table } = payload;
-    state.tableID = table._id + "";
+    console.log(table);
+    state.table = { _id: table._id + "", name: table.name + "" };
     state.restaurantID = restaurant._id + "";
   },
   CLEAR_CART(state) {
@@ -103,7 +104,7 @@ export const actions = {
 
 export const getters = {
   cartItems: ({ cartItems }) => cartItems,
-  tableID: ({ tableID }) => tableID,
+  table: ({ table }) => table,
   restaurantID: ({ restaurantID }) => restaurantID,
 };
 

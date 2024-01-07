@@ -110,12 +110,7 @@
           <div class="flex gap-4 text-gray-600">
             <p class="text-gray-600 text-xl">Update category</p>
           </div>
-          <p
-            class="shadow-lg h-12 w-12 rounded-full flex justify-center items-center cursor-pointer"
-            @click="editCategoryMode = false"
-          >
-            <font-awesome-icon :icon="['fas', 'xmark']" />
-          </p>
+          <CloseButton @click.native.prevent="editCategoryMode = false" />
         </div>
         <Input
           v-for="(field, i) in inputFields"
@@ -216,11 +211,13 @@
             :icon="['fas', 'plus']"
             class="text-3xl"
           />
-          <font-awesome-icon
+
+          <AddFoodIcon v-else class="mb-2" />
+          <!-- <font-awesome-icon
             v-else
             :icon="['fas', 'cart-plus']"
             class="text-2xl"
-          />
+          /> -->
         </button>
       </div>
       <div class="px-4 my-5 text-gray-500">
@@ -290,6 +287,7 @@
 <script>
 import vClickOutside from "v-click-outside";
 import { mapGetters, mapActions } from "vuex";
+import AddFoodIcon from "~/static/svg/add-food.svg";
 
 export default {
   name: "MenuItemDish",
@@ -302,6 +300,7 @@ export default {
     categories: Array,
     subCategories: Array,
   },
+  components: { AddFoodIcon },
   directives: { clickOutside: vClickOutside.directive },
   data() {
     return {

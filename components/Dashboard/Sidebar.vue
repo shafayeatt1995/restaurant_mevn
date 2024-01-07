@@ -43,6 +43,18 @@
             <span class="mx-4 font-medium">{{ title }}</span>
           </nuxt-link>
         </template>
+        <hr />
+        <button
+          class="flex items-center px-4 py-3 mt-2 text-rose-500 transition-colors duration-300 transform rounded-lg hover:text-rose-600 hover:bg-gray-100 w-full"
+          @click="$auth.logout('laravelJWT')"
+        >
+          <!-- <font-awesome-icon :icon="icon" class="w-5 h-5" /> -->
+          <font-awesome-icon
+            :icon="['fas', 'arrow-right-from-bracket']"
+            class="text-xl"
+          />
+          <span class="mx-4 font-medium">Logout</span>
+        </button>
       </nav>
     </div>
   </aside>
@@ -59,7 +71,7 @@ export default {
     ...mapGetters(["manager", "admin"]),
     navLink() {
       const nav = [
-        { name: "dashboard", title: "Dashboard", icon: ["fas", "chart-line"] },
+        { name: "dashboard", title: "Dashboard", icon: ["fas", "cubes"] },
         // {
         //   hide: !this.admin,
         //   name: "dashboard-category",
@@ -72,17 +84,11 @@ export default {
           title: "User",
           icon: ["fas", "users"],
         },
-        // {
-        //   hide: !this.manager,
-        //   name: "dashboard-item",
-        //   title: "Item",
-        //   icon: ["fas", "pizza-slice"],
-        // },
         {
           hide: !this.manager,
-          name: "dashboard-editor",
-          title: "Editor",
-          icon: ["fas", "pen-ruler"],
+          name: "dashboard-order",
+          title: "Order",
+          icon: ["fas", "chart-line"],
         },
         {
           hide: !this.manager,
@@ -95,6 +101,12 @@ export default {
           name: "dashboard-employee",
           title: "Employee",
           icon: ["fas", "users"],
+        },
+        {
+          hide: !this.manager,
+          name: "dashboard-restaurant",
+          title: "Restaurant",
+          icon: ["fas", "utensils"],
         },
         {
           name: "dashboard-settings",

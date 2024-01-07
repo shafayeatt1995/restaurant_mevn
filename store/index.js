@@ -44,4 +44,5 @@ export const getters = {
   activeAnalytic: (getters) =>
     getters.manager && getters.analyticDate >= new Date(),
   isDev: () => process.env.NODE_ENV === "development",
+  isMobile: (state) => state.windowWidth < 992,
 };

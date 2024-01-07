@@ -16,6 +16,9 @@ import axios from "axios";
 export default {
   name: "MenuPage",
   auth: false,
+  head() {
+    return { title: this.restaurant.name };
+  },
   data() {
     return {
       items: [],

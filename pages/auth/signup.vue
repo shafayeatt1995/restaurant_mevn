@@ -68,7 +68,7 @@
               />
             </svg>
 
-            <span class="mx-2">Sign in with Google</span>
+            <span class="mx-2">Sign up with Google</span>
           </button>
 
           <div class="mt-6 text-center">

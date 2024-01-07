@@ -10,8 +10,8 @@ Vue.filter("normalDate", (value) => {
   return moment(value).format("ll");
 });
 
-Vue.filter("normalDate", (value) => {
-  return moment(value).format("ll");
+Vue.filter("normalDate2", (value) => {
+  return moment(value).format("DD/MM/YYYY h:mm a");
 });
 
 Vue.filter("fullDate", (value) => {

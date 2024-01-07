@@ -18,7 +18,11 @@
     </div>
     <h1 class="mt-3 text-lg text-gray-600">{{ title }}</h1>
     <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
-      <Button variant="green" @click.native.prevent="$emit('action')">
+      <Button
+        variant="green"
+        @click.native.prevent="$emit('action')"
+        v-if="buttonText"
+      >
         <font-awesome-icon
           v-if="icon"
           :icon="icon"

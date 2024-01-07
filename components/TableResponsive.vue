@@ -45,8 +45,11 @@
               <tr
                 v-for="(item, index) in items"
                 :key="index"
-                :class="[body_clicked ? 'cursor-pointer' : '']"
-                class="grid"
+                :class="[
+                  body_clicked ? 'cursor-pointer' : '',
+                  hover_stripe ? 'hover:bg-gray-50' : '',
+                ]"
+                class="grid bg-white"
                 style="grid-template-columns: var(--grid-template-columns)"
                 :style="{ '--grid-template-columns': grid_template_columns }"
                 @click="body_clicked ? $emit('bodyClicked', index) : null"
@@ -107,7 +110,7 @@ export default {
     },
     title: String,
     th_class: String,
-    stripe: Boolean,
+    hover_stripe: Boolean,
     scrollable: Boolean,
     body_clicked: Boolean,
     skeleton: Boolean,

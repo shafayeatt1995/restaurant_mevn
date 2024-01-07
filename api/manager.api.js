@@ -29,6 +29,14 @@ export class ManagerApi extends BaseApi {
     return this.api.$delete(`item`, { params });
   }
 
+  fetchOrder(params) {
+    return this.api.$get(`order`, { params });
+  }
+
+  updateOrderStatus(body) {
+    return this.api.$post(`order/update-status`, body);
+  }
+
   fetchTable(params) {
     return this.api.$get(`table`, { params });
   }
@@ -46,19 +54,19 @@ export class ManagerApi extends BaseApi {
   }
 
   fetchEmployee() {
-    return this.api.$get(`Employee`);
+    return this.api.$get(`employee`);
   }
 
   createEmployee(body) {
-    return this.api.$post(`Employee`, body);
+    return this.api.$post(`employee`, body);
   }
 
   updateEmployee(body) {
-    return this.api.$patch(`Employee`, body);
+    return this.api.$patch(`employee`, body);
   }
 
   deleteEmployee(params) {
-    return this.api.$delete(`Employee`, { params });
+    return this.api.$delete(`employee`, { params });
   }
 
   updateRestaurantName(body) {

@@ -19,7 +19,8 @@
           >
 
           <div
-            class="relative inline-block px-4 pt-3 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 w-full sm:w-full lg:w-2/4 sm:px-6 sm:align-middle opacity-100"
+            class="relative inline-block px-4 pt-3 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 w-full sm:px-6 sm:align-middle opacity-100"
+            :class="getWidth"
           >
             <slot />
           </div>
@@ -31,6 +32,9 @@
 <script>
 export default {
   name: "Modal",
+  props: {
+    size: { type: String, default: "lg" },
+  },
   computed: {
     modal: {
       get() {
@@ -39,6 +43,13 @@ export default {
       set(value) {
         this.$emit("input", value);
       },
+    },
+    getWidth() {
+      if (this.size === "lg") {
+        return "lg:w-2/4";
+      } else if (this.size === "sm") {
+        return "lg:w-1/3";
+      }
     },
   },
 };
