@@ -192,9 +192,9 @@ export default {
         } else {
           await this.$managerApi.createSubCategory(this.form);
         }
-        $nuxt.$emit("refetchMenu");
+        this.$nuxt.$emit("refetchMenu");
         this.modal = false;
-        $nuxt.$emit(
+        this.$nuxt.$emit(
           "success",
           `Sub category ${this.editItem ? "updated" : "created"} successfully`
         );
@@ -225,9 +225,9 @@ export default {
         ) {
           this.deleteLoading = true;
           await this.$managerApi.deleteSubCategory({ _id: this.form._id });
-          $nuxt.$emit("refetchMenu");
+          this.$nuxt.$emit("refetchMenu");
           this.modal = false;
-          $nuxt.$emit("success", "Sub category Deleted successfully");
+          this.$nuxt.$emit("success", "Sub category Deleted successfully");
         }
       } catch (error) {
         console.error(error);
@@ -271,8 +271,8 @@ export default {
           }
         }
         this.modal = false;
-        $nuxt.$emit("refetchMenu");
-        $nuxt.$emit("success", "Sub category position updated");
+        this.$nuxt.$emit("refetchMenu");
+        this.$nuxt.$emit("success", "Sub category position updated");
       } catch (error) {
         console.error(error);
       }

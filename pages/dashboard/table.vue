@@ -197,7 +197,7 @@ export default {
           } else {
             await this.$managerApi.createTable(this.form);
           }
-          $nuxt.$emit(
+          this.$nuxt.$emit(
             "success",
             `Table ${this.editMode ? "updated" : "created"} successfully`
           );

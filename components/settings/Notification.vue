@@ -33,13 +33,11 @@ export default {
           }
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     playNotificationSound() {
-      console.log("ami anik");
       const audio = new Audio("/audio/order.mp3");
-      console.log(audio);
       audio.play();
     },
   },

@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <div @click="showNotification">Ami anik</div>
+</template>
 <script>
 import socket from "@/utils/socket";
 
@@ -6,10 +8,10 @@ export default {
   mounted() {
     if (this.$auth?.user?.restaurant?._id) {
       socket.on(
-        `order-notification-${this.$auth?.user?.restaurant?._id}`,
-        () => {
-          this.showNotification();
-          this.playNotificationSound();
+        `order-notification-${this.$auth.user.restaurant._id}`,
+        (data) => {
+          this.$nuxt.$emit("order-notification-socket-data", data);
+          this.showNotification(data);
         }
       );
     }
@@ -20,26 +22,28 @@ export default {
     }
   },
   methods: {
-    showNotification() {
+    showNotification(data) {
       if ("Notification" in window) {
-        // Request permission to show notifications
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
-            // Create and show the notification
-            const notification = new Notification("Hello, World!", {
-              body: "This is a sample notification.",
-            });
+            this.playNotificationSound();
+            const notification = new Notification(
+              `New order received from ${data.tableName}`
+              // {
+              //   body: `click here to see the order`,
+              // }
+            );
 
-            // You can also handle the click event of the notification
             notification.onclick = function () {
-              console.log("Notification clicked");
+              // alert("Notification clicked");
+              window.open(`${process.env.BASE_URL}/dashboard/order`, "_blank");
             };
           } else {
-            console.log("Permission denied for notifications");
+            alert("Permission denied for notifications");
           }
         });
       } else {
-        console.log("Notification API not supported in this browser");
+        alert("Notification API not supported in this browser");
       }
     },
     playNotificationSound() {

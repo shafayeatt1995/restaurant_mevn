@@ -327,10 +327,10 @@ export default {
         this.loading = true;
         if (this.$route.params.id !== "null") {
           await this.$managerApi.updateItem(this.form);
-          $nuxt.$emit("success", "Item updated  successfully");
+          this.$nuxt.$emit("success", "Item updated  successfully");
         } else {
           await this.$managerApi.createItem(this.form);
-          $nuxt.$emit("success", "Item created successfully");
+          this.$nuxt.$emit("success", "Item created successfully");
         }
         this.$router.push({ name: "dashboard-item" });
       } catch (error) {

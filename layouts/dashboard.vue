@@ -9,6 +9,7 @@
       <DashboardTopbar />
       <Nuxt />
     </main>
+    <RealtimeOrderNotification />
   </div>
 </template>
 <script>

@@ -6,7 +6,6 @@
       :subCategories="subCategories"
       :items="items"
     />
-    <RealtimeOrderNotification />
   </div>
 </template>
 

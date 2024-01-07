@@ -20,9 +20,7 @@ async function start() {
   }
 
   const server = createSocketServer(app);
-  server.listen(port, () => {
-    console.log("server is live");
-  });
+  server.listen(port);
 }
 
 start();

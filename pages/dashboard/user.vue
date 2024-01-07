@@ -263,7 +263,7 @@ export default {
           } else {
             await this.$adminApi.createUser(this.form);
           }
-          $nuxt.$emit(
+          this.$nuxt.$emit(
             "success",
             `User ${this.editMode ? "updated" : "created"} successfully`
           );
@@ -311,7 +311,7 @@ export default {
             this.items[key].deleted = !this.items[key].deleted;
             this.click = true;
           }
-          $nuxt.$emit("success", "User deleted successfully");
+          this.$nuxt.$emit("success", "User deleted successfully");
         } catch (error) {
           this.$nuxt.$emit(
             "error",
@@ -331,7 +331,7 @@ export default {
             this.items[key].suspended = !this.items[key].suspended;
             this.click = true;
           }
-          $nuxt.$emit("success", "User suspended successfully");
+          this.$nuxt.$emit("success", "User suspended successfully");
         } catch (error) {
           this.$nuxt.$emit(
             "error",

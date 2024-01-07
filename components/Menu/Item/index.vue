@@ -287,9 +287,9 @@ export default {
           };
           await this.$managerApi.createItem(data);
         }
-        $nuxt.$emit("refetchMenu");
+        this.$nuxt.$emit("refetchMenu");
         this.modal = false;
-        $nuxt.$emit(
+        this.$nuxt.$emit(
           "success",
           `Item ${this.editItem ? "updated" : "created"} successfully`
         );
@@ -327,9 +327,9 @@ export default {
         if (confirm("Are you sure, you want to delete?")) {
           this.deleteLoading = true;
           await this.$managerApi.deleteItem({ _id: this.form._id });
-          $nuxt.$emit("refetchMenu");
+          this.$nuxt.$emit("refetchMenu");
           this.modal = false;
-          $nuxt.$emit("success", "Item deleted successfully");
+          this.$nuxt.$emit("success", "Item deleted successfully");
         }
       } catch (error) {
         console.error(error);
@@ -367,8 +367,8 @@ export default {
           }
         }
         this.modal = false;
-        $nuxt.$emit("refetchMenu");
-        $nuxt.$emit("success", "Item position updated");
+        this.$nuxt.$emit("refetchMenu");
+        this.$nuxt.$emit("success", "Item position updated");
       } catch (error) {
         console.error(error.response);
       }

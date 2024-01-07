@@ -68,7 +68,6 @@ export const mutations = {
   },
   SET_INITIAL_DATA(state, payload) {
     const { restaurant, table } = payload;
-    console.log(table);
     state.table = { _id: table._id + "", name: table.name + "" };
     state.restaurantID = restaurant._id + "";
   },

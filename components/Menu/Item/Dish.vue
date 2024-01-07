@@ -421,8 +421,8 @@ export default {
     async toggleStatus(key) {
       try {
         await this.$managerApi.toggleStatus(this.items[key]._id);
-        $nuxt.$emit("success", "Status update successfully");
-        $nuxt.$emit("refetchMenu");
+        this.$nuxt.$emit("success", "Status update successfully");
+        this.$nuxt.$emit("refetchMenu");
       } catch (error) {
         console.error(error);
       }
@@ -446,7 +446,7 @@ export default {
       try {
         this.loading = true;
         await this.$managerApi.updateItemCategory(this.editCategory);
-        $nuxt.$emit("refetchMenu");
+        this.$nuxt.$emit("refetchMenu");
         this.loading = false;
         this.editCategoryMode = false;
       } catch (error) {
@@ -461,8 +461,8 @@ export default {
       try {
         this.dropdown = null;
         await this.$managerApi.copyItem({ _id });
-        $nuxt.$emit("refetchMenu");
-        $nuxt.$emit("success", "Item copied successfully");
+        this.$nuxt.$emit("refetchMenu");
+        this.$nuxt.$emit("success", "Item copied successfully");
       } catch (error) {
         console.error(error);
       }
@@ -472,8 +472,8 @@ export default {
         if (confirm("Are you sure, you want to delete?")) {
           this.dropdown = null;
           await this.$managerApi.deleteItem({ _id });
-          $nuxt.$emit("refetchMenu");
-          $nuxt.$emit("success", "Item deleted successfully");
+          this.$nuxt.$emit("refetchMenu");
+          this.$nuxt.$emit("success", "Item deleted successfully");
         }
       } catch (error) {
         console.error(error);
@@ -525,7 +525,7 @@ export default {
     addCart() {
       this.addToCart();
       this.showAnimation.push(this.showAnimation.length);
-      $nuxt.$emit("addToCartAnimation");
+      this.$nuxt.$emit("addToCartAnimation");
     },
     orderCount(id) {
       return this.cartItems

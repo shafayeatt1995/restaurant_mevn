@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { plugin } = require("mongoose-auto-increment");
 
 const ChoiceSchema = new Schema({
   name: { type: String, required: false },
@@ -45,27 +46,10 @@ const OrderSchema = new Schema(
   }
 );
 
-OrderSchema.pre("save", async function (next) {
-  const doc = this;
-  if (!doc.isNew) {
-    return next();
-  }
-
-  try {
-    const lastOrder = await doc.constructor
-      .findOne({}, {}, { sort: { orderNumber: -1 } })
-      .limit(1);
-
-    if (lastOrder) {
-      doc.orderNumber = lastOrder.orderNumber + 1;
-    } else {
-      doc.orderNumber = 1;
-    }
-
-    next();
-  } catch (error) {
-    next(error);
-  }
+OrderSchema.plugin(plugin, {
+  model: "Order",
+  field: "orderNumber",
+  startAt: 1,
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

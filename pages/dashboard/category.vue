@@ -205,7 +205,7 @@ export default {
           } else {
             await this.$adminApi.createCategory(this.form);
           }
-          $nuxt.$emit(
+          this.$nuxt.$emit(
             "success",
             `Category ${this.editMode ? "updated" : "created"} successfully`
           );

@@ -178,7 +178,7 @@ export default {
           } else {
             await this.$managerApi.createEmployee(data);
           }
-          $nuxt.$emit(
+          this.$nuxt.$emit(
             "success",
             `Employee ${this.editMode ? "updated" : "created"} successfully`
           );

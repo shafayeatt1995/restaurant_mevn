@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
-const { ServerApiVersion } = require("mongodb");
 const time = Date.now();
 const mongoUrl = process.env.MONGO_URL;
+const autoIncrement = require("mongoose-auto-increment");
+
 mongoose.set("strictQuery", false);
 
 mongoose
   .connect(mongoUrl, { autoIndex: false })
-  .then(() => console.log("Connecting to mongo"))
+  .then(() => {})
   .catch((err) => console.error("Error connecting to mongo", err))
   .finally(() =>
-    console.log(
-      "Mongo connected. Time to connect",
-      (Date.now() - time) / 1000 + "sec"
-    )
+    console.log("Mongo connected time", (Date.now() - time) / 1000 + "sec")
   );
+
 const connection = mongoose.connection;
+autoIncrement.initialize(connection);
 connection.on("error", (error) => console.error(error));
 mongoose.Promise = global.Promise;
 

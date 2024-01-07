@@ -80,7 +80,7 @@ export default {
           this.selected.splice(index, 1);
         } else {
           if (this.selected.length >= this.limit) {
-            $nuxt.$emit(
+            this.$nuxt.$emit(
               "error",
               `You can  select maximum ${this.limit} images.`
             );

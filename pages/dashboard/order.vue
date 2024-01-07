@@ -54,9 +54,11 @@
               :key="i"
               @click="openOrderDetails(item)"
             >
-              <small class="absolute right-3 top-1 text-gray-400">{{
-                i + 1
-              }}</small>
+              <small
+                class="absolute right-3 top-1"
+                :class="item.new ? 'text-green-500' : 'text-gray-400'"
+                >{{ item.new ? "New" : i + 1 }}</small
+              >
               <p class="font-normal">
                 Table No: <span class="font-bold">Table-12</span>
               </p>
@@ -294,6 +296,13 @@ export default {
       this.refetch();
     },
   },
+  created() {
+    this.$nuxt.$on("order-notification-socket-data", (data) => {
+      if (data) {
+        this.items = [{ ...data, new: true }, ...this.items];
+      }
+    });
+  },
   mounted() {
     this.fetchItems();
     this.intervalId = setInterval(() => {
@@ -302,6 +311,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.intervalId);
+    this.$nuxt.$off("order-notification-socket-data");
   },
   methods: {
     async fetchItems() {
@@ -322,7 +332,7 @@ export default {
           this.items = this.items.concat(orders);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         this.loading = false;
       }
@@ -332,7 +342,7 @@ export default {
         await this.$managerApi.updateOrderStatus({ status });
         this.items[i].status = status;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     refetch() {
@@ -392,12 +402,12 @@ export default {
             _id: this.orderDetails._id,
             status: "cancel",
           });
-          $nuxt.$emit("success", "Order cancel successfully");
+          this.$nuxt.$emit("success", "Order cancel successfully");
           this.modal = false;
           this.refetch();
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         this.cancelLoading = false;
       }
@@ -409,11 +419,11 @@ export default {
           _id: this.orderDetails._id,
           status: "active",
         });
-        $nuxt.$emit("success", "Order accept successfully");
+        this.$nuxt.$emit("success", "Order accept successfully");
         this.modal = false;
         this.refetch();
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         this.acceptLoading = false;
       }
@@ -425,11 +435,11 @@ export default {
           _id: this.orderDetails._id,
           status: "complete",
         });
-        $nuxt.$emit("success", "Order complete successfully");
+        this.$nuxt.$emit("success", "Order complete successfully");
         this.modal = false;
         this.refetch();
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         this.acceptLoading = false;
       }

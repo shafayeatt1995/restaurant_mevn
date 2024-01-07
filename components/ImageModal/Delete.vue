@@ -92,7 +92,7 @@ export default {
             this.click = false;
             await this.$userApi.deleteImage({ keyList: this.selected });
             this.selected = [];
-            $nuxt.$emit("success", "Image deleted successfully");
+            this.$nuxt.$emit("success", "Image deleted successfully");
             await this.reset();
             await this.getImages();
             this.click = true;
