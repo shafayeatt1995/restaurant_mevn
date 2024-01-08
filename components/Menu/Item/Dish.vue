@@ -6,7 +6,7 @@
       v-if="['single', 'multiple'].includes(align)"
     >
       <div
-        class="flex-column bg-white rounded-xl shadow-lg cursor-pointer relative select-none overflow-hidden"
+        class="flex-column bg-white rounded-xl shadow-lg cursor-pointer relative select-none"
         v-for="(item, key) in items"
         :key="key"
         @click="openItem(item)"
@@ -43,7 +43,7 @@
             </button>
 
             <div
-              class="absolute right-0 z-50 w-44 p-2 bg-white border rounded-lg top-16"
+              class="absolute right-0 z-50 w-44 p-2 bg-white border rounded-lg top-10"
               v-if="dropdown === key"
               v-click-outside="onClickOutside"
             >

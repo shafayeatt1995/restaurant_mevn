@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { plugin } = require("mongoose-auto-increment");
 
 const CategorySchema = new Schema(
   {
     restaurantID: { type: String, required: true },
     name: { type: String, required: true },
     image: { type: String, required: true },
-    serial: { type: Number },
+    serial: { type: Number, unique: true },
   },
   {
     strict: true,
@@ -14,27 +15,10 @@ const CategorySchema = new Schema(
   }
 );
 
-CategorySchema.pre("save", async function (next) {
-  const doc = this;
-  if (!doc.isNew) {
-    return next(); // Only increment on new documents
-  }
-
-  try {
-    const lastCategory = await doc.constructor
-      .findOne({}, {}, { sort: { serial: -1 } })
-      .limit(1);
-
-    if (lastCategory) {
-      doc.serial = lastCategory.serial + 1;
-    } else {
-      doc.serial = 1; // If no documents exist yet, start from 1
-    }
-
-    next();
-  } catch (error) {
-    next(error);
-  }
+CategorySchema.plugin(plugin, {
+  model: "Category",
+  field: "serial",
+  startAt: 1,
 });
 
 module.exports = mongoose.model("Category", CategorySchema);

@@ -33,9 +33,9 @@ RestaurantSchema.pre("save", async function (next) {
       .limit(1);
 
     if (lastRestaurant) {
-      doc.slug = +lastRestaurant.slug.slice(0, -1) + 1 + randomKey(1, true);
+      doc.slug = +lastRestaurant.slug.slice(0, -2) + 1 + randomKey(2, true);
     } else {
-      doc.slug = 1 + randomKey(1);
+      doc.slug = 1 + randomKey(2, true);
     }
 
     next();

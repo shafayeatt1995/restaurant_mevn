@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { plugin } = require("mongoose-auto-increment");
 const Schema = mongoose.Schema;
 
 const OptionSchema = new Schema({
@@ -33,7 +34,7 @@ const ItemSchema = new Schema(
     stock: { type: Boolean, default: true },
     description: { type: String, required: false },
     estimateTime: { type: Number, required: false },
-    serial: { type: Number },
+    serial: { type: Number, unique: true },
     status: { type: Boolean, default: true },
     // featured: { type: Boolean, default: false },
     // trending: { type: Boolean, default: false },
@@ -45,27 +46,10 @@ const ItemSchema = new Schema(
   }
 );
 
-ItemSchema.pre("save", async function (next) {
-  const doc = this;
-  if (!doc.isNew) {
-    return next();
-  }
-
-  try {
-    const lastItem = await doc.constructor
-      .findOne({}, {}, { sort: { _id: -1 } })
-      .limit(1);
-
-    if (lastItem) {
-      doc.serial = lastItem.serial + 1;
-    } else {
-      doc.serial = 1;
-    }
-
-    next();
-  } catch (error) {
-    next(error);
-  }
+ItemSchema.plugin(plugin, {
+  model: "Item",
+  field: "serial",
+  startAt: 1,
 });
 
 module.exports = mongoose.model("Item", ItemSchema);

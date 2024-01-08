@@ -26,9 +26,9 @@ TableSchema.pre("save", async function (next) {
       .limit(1);
 
     if (lastTable) {
-      doc.serial = +lastTable.serial.slice(0, -1) + 1 + randomKey(1, true);
+      doc.serial = +lastTable.serial.slice(0, -2) + 1 + randomKey(2, true);
     } else {
-      doc.serial = 1 + randomKey(1);
+      doc.serial = 1 + randomKey(2, true);
     }
 
     next();

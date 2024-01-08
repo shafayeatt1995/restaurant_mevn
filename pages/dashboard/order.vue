@@ -43,8 +43,8 @@
             class="grid gap-3 my-3"
             :class="
               items.length > 3 || isMobile
-                ? 'grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))]'
-                : 'grid-cols-[repeat(auto-fit,_minmax(250px,_300px))]'
+                ? 'grid-cols-[repeat(auto-fit,_minmax(265px,_1fr))]'
+                : 'grid-cols-[repeat(auto-fit,_minmax(265px,_300px))]'
             "
           >
             <div
@@ -346,12 +346,18 @@ export default {
       }
     },
     refetch() {
-      this.loading = true;
+      this.loading = false;
       this.cancelLoading = false;
       this.acceptLoading = false;
       this.items = [];
       this.orderDetails = {};
       this.fetchItems();
+    },
+    reset() {
+      this.loading = false;
+      this.cancelLoading = false;
+      this.acceptLoading = false;
+      this.orderDetails = {};
     },
     calcPrice(item) {
       const { qty, price, addon, choice } = item;
@@ -398,13 +404,14 @@ export default {
       try {
         if (confirm("Are you sure, you want to cancel?")) {
           this.cancelLoading = true;
+          const status = "cancel";
           await this.$userApi.cancelOrder({
             _id: this.orderDetails._id,
-            status: "cancel",
+            status,
           });
           this.$nuxt.$emit("success", "Order cancel successfully");
           this.modal = false;
-          this.refetch();
+          this.updateStatus(this.orderDetails._id, status);
         }
       } catch (error) {
         console.error(error);
@@ -415,13 +422,14 @@ export default {
     async acceptOrder() {
       try {
         this.acceptLoading = true;
+        const status = "active";
         await this.$userApi.acceptOrder({
           _id: this.orderDetails._id,
-          status: "active",
+          status,
         });
         this.$nuxt.$emit("success", "Order accept successfully");
         this.modal = false;
-        this.refetch();
+        this.updateStatus(this.orderDetails._id, status);
       } catch (error) {
         console.error(error);
       } finally {
@@ -430,19 +438,25 @@ export default {
     },
     async completeOrder() {
       try {
+        const status = "complete";
         this.acceptLoading = true;
         await this.$userApi.completeOrder({
           _id: this.orderDetails._id,
-          status: "complete",
+          status,
         });
         this.$nuxt.$emit("success", "Order complete successfully");
         this.modal = false;
-        this.refetch();
+        this.updateStatus(this.orderDetails._id, status);
       } catch (error) {
         console.error(error);
       } finally {
         this.acceptLoading = false;
       }
+    },
+    updateStatus(id, status) {
+      const i = this.items.findIndex(({ _id }) => _id === id);
+      this.items[i].status = status;
+      this.reset();
     },
   },
 };

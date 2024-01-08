@@ -94,7 +94,7 @@
             @click.native.prevent="deleteItem"
             :loading="deleteLoading"
           >
-            Delete Category
+            Delete Sub Category
           </Button>
           <Button
             v-else

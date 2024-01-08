@@ -1,6 +1,4 @@
-<template>
-  <div @click="showNotification">Ami anik</div>
-</template>
+<template></template>
 <script>
 import socket from "@/utils/socket";
 
@@ -27,6 +25,7 @@ export default {
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
             this.playNotificationSound();
+            console.log("ami anik");
             const notification = new Notification(
               `New order received from ${data.tableName}`
               // {
