@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { User, Restaurant } = require("@/backend/models");
+const { randomKey } = require("../utils");
 
 const controller = {
   async signup(req, res) {
@@ -44,6 +45,44 @@ const controller = {
       });
 
       res.status(200).json({ success: true, token });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async socialLogin(req, res) {
+    try {
+      delete req.user;
+      const { provider, id, displayName, email, picture } = req.passportUser;
+      const user = await User.findOne({ email });
+      if (user) {
+        if (user.provider === provider && user.socialAccount) {
+          res.redirect(
+            `/social-login?key=${randomKey(
+              50
+            )}&email=${email}&i=${id}&provider=${provider}}`
+          );
+        } else {
+          res.redirect("/404");
+        }
+      } else {
+        await User.create({
+          name: displayName,
+          email,
+          password: `${id}+${process.env.SOCIAL_LOGIN_PASS}`,
+          avatar: picture,
+          socialAccount: true,
+          provider,
+        });
+        res.redirect(
+          `/social-login?key=${randomKey(
+            50
+          )}&email=${email}&i=${id}&provider=${provider}}`
+        );
+      }
     } catch (error) {
       console.error(error);
       res

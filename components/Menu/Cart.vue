@@ -276,26 +276,32 @@ export default {
     },
     async submit() {
       try {
-        this.loading = true;
-        const body = {
-          userID: this.$auth?.user?._id || null,
-          restaurantID: this.restaurantID,
-          tableID: this.table._id,
-          tableName: this.table.name,
-          orderItems: this.cartItems,
-          totalPrice: this.totalPrice,
-          netPrice: this.totalPrice - this.totalDiscount,
-          totalDiscount: this.totalDiscount,
-          totalQty: this.totalQuantity,
-          ...this.form,
-        };
-        await this.$orderApi.createOrder(body);
-        this.clearCart();
-        this.show = false;
-        this.orderAnimation = true;
-        setTimeout(() => {
-          this.orderAnimation = false;
-        }, 4000);
+        if (this.$auth.loggedIn) {
+          this.loading = true;
+          const body = {
+            userID: this.$auth?.user?._id || null,
+            restaurantID: this.restaurantID,
+            tableID: this.table._id,
+            tableName: this.table.name,
+            orderItems: this.cartItems,
+            totalPrice: this.totalPrice,
+            netPrice: this.totalPrice - this.totalDiscount,
+            totalDiscount: this.totalDiscount,
+            totalQty: this.totalQuantity,
+            ...this.form,
+          };
+          await this.$orderApi.createOrder(body);
+          this.clearCart();
+          this.show = false;
+          this.orderAnimation = true;
+          setTimeout(() => {
+            this.orderAnimation = false;
+          }, 4000);
+        } else {
+          if (confirm(`Please login with your gmail?`)) {
+            this.$authApi.socialLogin("google");
+          }
+        }
       } catch (error) {
         console.log(error);
       } finally {

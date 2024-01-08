@@ -23,10 +23,10 @@
           </button>
 
           <nuxt-link
-            :to="{ name: 'dashboard' }"
+            :to="{ name: 'index' }"
             class="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-500 rounded-lg shrink-0 sm:w-auto hover:bg-green-600"
           >
-            Take me dashboard
+            Take me home
           </nuxt-link>
         </div>
       </div>

@@ -2,16 +2,20 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
-// const cors = require("cors");
+const session = require("express-session");
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-// require("module-alias/register");
-// require("./config/database");
 require("@/backend/config/database");
 
 function verifyRequest(req, res, buf, encoding) {
   req.rawBody = buf.toString(encoding);
 }
-// app.use(cors({ origin: process.env.BASE_URL }));
 app.use(cookieParser());
 app.set("trust proxy", 1);
 app.disable("x-powered-by");
@@ -19,16 +23,12 @@ app.use(express.urlencoded({ extended: true, verify: verifyRequest }));
 app.use(compression());
 app.use(express.json({ limit: "32mb", verify: verifyRequest }));
 
-// app.use("/webhooks", require("./webhooks"));
 app.use("/", require("@/backend/routes"));
+// app.use("/webhooks", require("./webhooks"));
 
 app.use((err, req, res, next) => {
-  console.error("Last error:", err.stack);
-  if (err instanceof CustomError) {
-    res.status(400).json({ error: err.message });
-  } else {
-    res.status(500).json({ error: "Something went wrong!" });
-  }
+  console.error(err);
+  res.status(500).json({ error: err.message || "Something went wrong!" });
 });
 
 module.exports = app;

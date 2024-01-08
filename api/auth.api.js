@@ -8,4 +8,8 @@ export class AuthApi extends BaseApi {
   signup(body) {
     return this.api.$post(`signup`, body);
   }
+
+  socialLogin(provider) {
+    return this.api.$get(`social-login/${provider}`);
+  }
 }
