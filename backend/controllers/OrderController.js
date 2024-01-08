@@ -43,7 +43,7 @@ const controller = {
   async fetchOrder(req, res) {
     try {
       const { page, perPage, status, date, orderType } = req.query;
-      const { restaurantID } = req.user;
+      const { restaurantID, isWaiter, _id } = req.user;
       const matchQuery = { restaurantID };
       if (status) {
         matchQuery.status = status;
@@ -63,10 +63,34 @@ const controller = {
           $lte: new Date(endDate),
         };
       }
+      if (isWaiter && status !== "pending") {
+        if (!status) {
+          matchQuery.status = "pending";
+        } else {
+          matchQuery.waiterID = _id;
+        }
+      }
+
       const orders = await Order.aggregate([
         { $match: matchQuery },
         ...paginate(page, perPage),
         { $sort: { _id: -1 } },
+        {
+          $lookup: {
+            from: "users",
+            let: { waiterIdObj: { $toObjectId: "$waiterID" } },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$waiterIdObj"] } } },
+              { $project: { name: 1 } },
+            ],
+            as: "waiterName",
+          },
+        },
+        {
+          $addFields: {
+            waiterName: { $arrayElemAt: ["$waiterName.name", 0] },
+          },
+        },
       ]);
       res.status(200).json({ orders });
     } catch (error) {
@@ -78,22 +102,16 @@ const controller = {
   },
   async updateOrderStatus(req, res) {
     try {
-      const { status } = req.body;
-      const { restaurantID } = req.user;
-      await Order.updateOne({ restaurantID }, { status });
-      res.status(200).json({ success: true });
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ success: false, message: "Internal server error" });
-    }
-  },
-  async updateOrderStatus(req, res) {
-    try {
       const { _id, status } = req.query;
-      const { _id: waiterID } = req.user;
-      await Order.updateOne({ _id }, { status, waiterID });
+      const { _id: waiterID, restaurantID } = req.user;
+      await Order.updateOne(
+        {
+          _id,
+          restaurantID,
+          $or: [{ waiterID: { $exists: false } }, { waiterID: null }],
+        },
+        { status, waiterID }
+      );
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);

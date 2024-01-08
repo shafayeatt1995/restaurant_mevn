@@ -16,6 +16,7 @@ const isAuthenticated = async (req, res, next) => {
         type,
         isAdmin,
         isManager,
+        isWaiter,
         restaurantID,
         restaurantSlug,
       } = await jwt.verify(token, process.env.AUTH_SECRET);
@@ -23,6 +24,10 @@ const isAuthenticated = async (req, res, next) => {
       isAdmin ? (payload.isAdmin = true) : "";
       if (isManager) {
         payload.isManager = true;
+        payload.restaurantID = restaurantID;
+        payload.restaurantSlug = restaurantSlug;
+      } else if (isWaiter) {
+        payload.isWaiter = true;
         payload.restaurantID = restaurantID;
         payload.restaurantSlug = restaurantSlug;
       }

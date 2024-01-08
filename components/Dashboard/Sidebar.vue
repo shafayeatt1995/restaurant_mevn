@@ -69,7 +69,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["manager", "admin"]),
+    ...mapGetters(["manager", "admin", "waiter"]),
     navLink() {
       const nav = [
         { name: "dashboard", title: "Dashboard", icon: ["fas", "cubes"] },
@@ -87,6 +87,12 @@ export default {
         },
         {
           hide: !this.manager,
+          name: "dashboard-order",
+          title: "Order",
+          icon: ["fas", "chart-line"],
+        },
+        {
+          hide: !this.waiter,
           name: "dashboard-order",
           title: "Order",
           icon: ["fas", "chart-line"],

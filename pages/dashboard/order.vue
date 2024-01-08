@@ -76,6 +76,10 @@
                   item.created_at | normalDate2
                 }}</span>
               </p>
+              <p class="font-normal" v-if="manager">
+                Order Received By:
+                <span class="font-bold">{{ item.waiterName || "#" }}</span>
+              </p>
             </div>
           </div>
           <div class="flex justify-center items-center" v-if="loading">
@@ -227,7 +231,7 @@ import "vue2-datepicker/index.css";
 export default {
   name: "Order",
   layout: "dashboard",
-  middleware: "manager",
+  middleware: "managerOrWaiter",
   components: { DatePicker },
   directives: { clickOutside: vClickOutside.directive },
   head() {
@@ -251,7 +255,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isMobile", "pageTitle"]),
+    ...mapGetters(["isMobile", "pageTitle", "manager"]),
     tabTitle() {
       return [
         { title: "All order", status: null, icon: ["fas", "bars-staggered"] },
@@ -328,7 +332,7 @@ export default {
           orderType: this.orderType,
         };
         if (Number.isInteger(params.page)) {
-          const { orders } = await this.$managerApi.fetchOrder(params);
+          const { orders } = await this.$mowApi.fetchOrder(params);
           this.items = this.items.concat(orders);
         }
       } catch (error) {
@@ -339,7 +343,7 @@ export default {
     },
     async updateStatus(status, i) {
       try {
-        await this.$managerApi.updateOrderStatus({ status });
+        await this.$mowApi.updateOrderStatus({ status });
         this.items[i].status = status;
       } catch (error) {
         console.error(error);
@@ -409,7 +413,7 @@ export default {
             _id: this.orderDetails._id,
             status,
           });
-          this.$nuxt.$emit("success", "Order cancel successfully");
+          this.$nuxt.$emit("success", "Order canceled");
           this.modal = false;
           this.updateStatus(this.orderDetails._id, status);
         }
@@ -427,7 +431,7 @@ export default {
           _id: this.orderDetails._id,
           status,
         });
-        this.$nuxt.$emit("success", "Order accept successfully");
+        this.$nuxt.$emit("success", "Order accept");
         this.modal = false;
         this.updateStatus(this.orderDetails._id, status);
       } catch (error) {
@@ -444,7 +448,7 @@ export default {
           _id: this.orderDetails._id,
           status,
         });
-        this.$nuxt.$emit("success", "Order complete successfully");
+        this.$nuxt.$emit("success", "Order complete");
         this.modal = false;
         this.updateStatus(this.orderDetails._id, status);
       } catch (error) {

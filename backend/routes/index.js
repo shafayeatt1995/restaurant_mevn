@@ -11,5 +11,6 @@ router.use("/admin", require("./admin"));
 router.use("/manager", require("./manager"));
 router.use("/user", require("./user"));
 router.use("/item", require("./item"));
+router.use("/mow", require("./mow"));
 
 module.exports = router;

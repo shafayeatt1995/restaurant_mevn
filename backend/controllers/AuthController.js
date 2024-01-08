@@ -30,6 +30,13 @@ const controller = {
         payload.restaurantID = restaurant._id;
         payload.restaurantSlug = restaurant.slug;
         payload.isManager = true;
+      } else if (type === "waiter") {
+        const waiterRestaurant = await Restaurant.findOne({ waiter: _id });
+        if (waiterRestaurant) {
+          payload.restaurantID = waiterRestaurant._id;
+          payload.restaurantSlug = waiterRestaurant.slug;
+          payload.isWaiter = true;
+        }
       }
 
       const token = jwt.sign(payload, process.env.AUTH_SECRET, {
