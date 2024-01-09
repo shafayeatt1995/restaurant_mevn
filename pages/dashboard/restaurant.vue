@@ -1,12 +1,24 @@
 <template>
-  <div class="overflow-hidden">
-    <Menu
-      editMode
-      :categories="categories"
-      :restaurant="restaurant"
-      :subCategories="subCategories"
-      :items="items"
-    />
+  <div>
+    <div class="absolute left-2 top-0">
+      <Button :to="{ name: 'dashboard' }"
+        ><font-awesome-icon :icon="['fas', 'angle-left']" /> Back to
+        Dashboard</Button
+      >
+    </div>
+    <div class="absolute right-2 top-2 flex gap-2">
+      Edit mode
+      <ToggleSwitch v-model="editMode" />
+    </div>
+    <div class="overflow-hidden pt-12 lg:pt-0">
+      <Menu
+        :editMode="editMode"
+        :categories="categories"
+        :restaurant="restaurant"
+        :subCategories="subCategories"
+        :items="items"
+      />
+    </div>
   </div>
 </template>
 
@@ -15,7 +27,6 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   name: "Editor",
-  // layout: "dashboard",
   middleware: "manager",
   head() {
     return { title: "Editor - " + this.pageTitle };
@@ -26,6 +37,7 @@ export default {
       categories: [],
       subCategories: [],
       items: [],
+      editMode: true,
     };
   },
   async asyncData({ env, store }) {
@@ -33,7 +45,7 @@ export default {
       const params = { slug: store.getters.restaurantSlug };
       let res = await axios.get(env.BASE_URL + "/api/menu", { params });
       const { restaurant, categories, subCategories, items } = res.data;
-      return { restaurant, categories, subCategories, items };
+      return { restaurant, categories, subCategories, items, editMode: true };
     } catch (error) {
       console.error(error);
     }

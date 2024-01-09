@@ -23,7 +23,8 @@ export default {
     "~/plugins",
     "~/plugins/api.js",
     "~/plugins/filter.js",
-    { src: "./plugins/toast.js", ssr: false },
+    { src: "~/plugins/toast.js", ssr: false },
+    { src: "~/plugins/pwa.js", ssr: false },
   ],
 
   components: true,

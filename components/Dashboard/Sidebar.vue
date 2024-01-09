@@ -47,9 +47,8 @@
         <hr />
         <button
           class="flex items-center px-4 py-3 mt-2 text-rose-500 transition-colors duration-300 transform rounded-lg hover:text-rose-600 hover:bg-gray-100 w-full"
-          @click="$auth.logout('laravelJWT')"
+          @click="logOut"
         >
-          <!-- <font-awesome-icon :icon="icon" class="w-5 h-5" /> -->
           <font-awesome-icon
             :icon="['fas', 'arrow-right-from-bracket']"
             class="text-xl"
@@ -73,12 +72,6 @@ export default {
     navLink() {
       const nav = [
         { name: "dashboard", title: "Dashboard", icon: ["fas", "cubes"] },
-        // {
-        //   hide: !this.admin,
-        //   name: "dashboard-category",
-        //   title: "Category",
-        //   icon: ["fas", "cubes"],
-        // },
         {
           hide: !this.admin,
           name: "dashboard-user",
@@ -128,6 +121,13 @@ export default {
   methods: {
     check(name) {
       return this.$route.name === name ? "bg-gray-100" : "";
+    },
+    async logOut() {
+      try {
+        await $auth.logout("laravelJWT");
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
