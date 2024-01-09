@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "20.x"
+    "node": "20.x",
+    "npm": "10.2.5",
+    "yarn": "1.22.21"
+
   },
   "scripts": {
     "dev": "node server --trace-warnings",
