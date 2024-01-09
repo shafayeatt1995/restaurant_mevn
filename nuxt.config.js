@@ -29,7 +29,11 @@ export default {
 
   components: true,
 
-  buildModules: ["@nuxtjs/tailwindcss", "@nuxtjs/fontawesome"],
+  buildModules: [
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/fontawesome",
+    "@nuxtjs/dotenv",
+  ],
 
   fontawesome: {
     component: "font-awesome-icon",
