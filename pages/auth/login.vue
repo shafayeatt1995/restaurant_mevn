@@ -6,18 +6,13 @@
       class="items-center hidden bg-cover bg-center lg:flex flex-1 px-10"
       :style="imageUrl"
     >
-      <h2 class="text-gray-200 text-6xl">
-        Bangladesh's first rental QR menu scanner application
+      <h2 class="text-gray-200 text-7xl text-center">
+        Complete digital menu solution
       </h2>
     </div>
     <div class="px-6 py-8 md:px-8 flex items-center flex-1">
       <form class="w-full" @submit.prevent="login">
-        <img
-          loading="lazy"
-          class="w-auto h-7 sm:h-8"
-          src="https://merakiui.com/images/logo.svg"
-          alt="logo"
-        />
+        <img loading="lazy" class="w-10" src="/favicon.png" alt="logo" />
 
         <h1
           class="mt-3 text-2xl font-semibold text-gray-600 capitalize sm:text-3xl"
