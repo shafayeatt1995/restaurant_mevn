@@ -416,6 +416,7 @@ export default {
           await this.$userApi.cancelOrder({
             _id: this.orderDetails._id,
             status,
+            currentStatus: this.orderDetails.status,
           });
           this.$nuxt.$emit("success", "Order canceled");
           this.modal = false;
@@ -434,6 +435,7 @@ export default {
         await this.$userApi.acceptOrder({
           _id: this.orderDetails._id,
           status,
+          currentStatus: this.orderDetails.status,
         });
         this.$nuxt.$emit("success", "Order accept");
         this.modal = false;

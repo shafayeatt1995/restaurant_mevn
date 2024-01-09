@@ -104,15 +104,18 @@ const controller = {
   },
   async updateOrderStatus(req, res) {
     try {
-      const { _id, status } = req.query;
+      const { _id, status, currentStatus } = req.query;
       const { _id: waiterID, restaurantID } = req.user;
+      const updateData = { status };
+      if (currentStatus === "pending") {
+        updateData.waiterID = waiterID;
+      }
       await Order.updateOne(
         {
           _id,
           restaurantID,
-          $or: [{ waiterID: { $exists: false } }, { waiterID: null }],
         },
-        { status, waiterID }
+        updateData
       );
       res.status(200).json({ success: true });
     } catch (error) {
