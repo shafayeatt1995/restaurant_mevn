@@ -2,12 +2,20 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
-const session = require("express-session");
+const session = require("cookie-session");
+const cors = require("cors");
+require("module-alias/register");
+
+app.use(cors());
+
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
+    // secret: process.env.SESSION_SECRET,
+    // resave: false,
+    // saveUninitialized: true,
+    name: "session",
+    keys: [process.env.SESSION_SECRET],
+    maxAge: 24 * 60 * 60 * 1000,
   })
 );
 

@@ -4375,6 +4375,16 @@ cookie-parser@^1.4.6:
     cookie "0.4.1"
     cookie-signature "1.0.6"
 
+cookie-session@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/cookie-session/-/cookie-session-2.0.0.tgz#d07aa27822f43619e4342df1342268c849833089"
+  integrity sha512-hKvgoThbw00zQOleSlUr2qpvuNweoqBtxrmx0UFosx6AGi9lYtLoA+RbsvknrEX8Pr6MDbdWAb2j6SnMn+lPsg==
+  dependencies:
+    cookies "0.8.0"
+    debug "3.2.7"
+    on-headers "~1.0.2"
+    safe-buffer "5.2.1"
+
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.6.tgz"
@@ -4400,7 +4410,7 @@ cookie@^0.3.1:
   resolved "https://registry.npmjs.org/cookie/-/cookie-0.3.1.tgz"
   integrity sha512-+IJOX0OqlHCszo2mBUq+SrEbCj6w7Kpffqx60zYbPTFaO4+yYgRjHwcZNpWvaTylDHaV7PPmBHzSecZiMhtPgw==
 
-cookies@~0.8.0:
+cookies@0.8.0, cookies@~0.8.0:
   version "0.8.0"
   resolved "https://registry.npmjs.org/cookies/-/cookies-0.8.0.tgz"
   integrity sha512-8aPsApQfebXnuI+537McwYsDtjVxGm8gTIzQI3FDW6t5t/DAhERxtnbEPN/8RX+uZthoz4eCOgloXaE5cYyNow==
@@ -4807,19 +4817,19 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   dependencies:
     ms "2.0.0"
 
+debug@3.2.7, debug@^3.1.0, debug@^3.2.7:
+  version "3.2.7"
+  resolved "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz"
+  integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
+  dependencies:
+    ms "^2.1.1"
+
 debug@4, debug@4.x, debug@^4.1.0, debug@^4.1.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
   dependencies:
     ms "2.1.2"
-
-debug@^3.1.0, debug@^3.2.7:
-  version "3.2.7"
-  resolved "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz"
-  integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
-  dependencies:
-    ms "^2.1.1"
 
 debug@~3.1.0:
   version "3.1.0"
@@ -8322,14 +8332,13 @@ passport-strategy@1.x.x:
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
   integrity sha512-CB97UUvDKJde2V0KDWWB3lyf6PC3FaZP7YxZ2G8OAtn9p4HI9j9JLP9qjOGZFvyl8uwNT8qM+hGnz/n16NI7oA==
 
-passport@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/passport/-/passport-0.7.0.tgz#3688415a59a48cf8068417a8a8092d4492ca3a05"
-  integrity sha512-cPLl+qZpSc+ireUvt+IzqbED1cHHkDoVYMo30jbJIdOOjQ1MQYZBPiNvmi8UM6lJuOpTPXJGZQk0DtC4y61MYQ==
+passport@0.5:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/passport/-/passport-0.5.3.tgz#e69b46c9bb3290660bc2b3299330d78710b198cc"
+  integrity sha512-gGc+70h4gGdBWNsR3FuV3byLDY6KBTJAIExGFXTpQaYfbbcHCBlRRKx7RBQSpqEqc5Hh2qVzRs7ssvSfOpkUEA==
   dependencies:
     passport-strategy "1.x.x"
     pause "0.0.1"
-    utils-merge "^1.0.1"
 
 path-browserify@0.0.1:
   version "0.0.1"
@@ -11205,7 +11214,7 @@ utila@~0.4:
   resolved "https://registry.npmjs.org/utila/-/utila-0.4.0.tgz"
   integrity sha512-Z0DbgELS9/L/75wZbro8xAnT50pBVFQZ+hUEueGDU5FN51YSCYM+jdxsfCiHjwNP/4LCDD0i/graKpeBnOXKRA==
 
-utils-merge@1.0.1, utils-merge@1.x.x, utils-merge@^1.0.1:
+utils-merge@1.0.1, utils-merge@1.x.x:
   version "1.0.1"
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
