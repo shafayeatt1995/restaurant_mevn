@@ -13,6 +13,7 @@ const {
 const { validation } = require("@/backend/validation");
 const passport = require("passport");
 require("@/backend/config/passport");
+const data = { error: true };
 
 router.use(passport.initialize());
 router.use(passport.session());
@@ -29,17 +30,13 @@ router.post("/signup", signupValidation, validation, signup);
 router.post("/login", loginValidation, validation, login);
 router.get(
   "/social-login/google",
-  // passport.authenticate("google", {
-  //   scope: [
-  //     "https://www.googleapis.com/auth/plus.login",
-  //     "https://www.googleapis.com/auth/user.phonenumbers.read",
-  //   ],
-  // })
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
 router.get(
   "/social-login/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
+  passport.authenticate("google", {
+    failureRedirect: `/social-login?e=${btoa(JSON.stringify(data))}`,
+  }),
   socialLogin
 );
 router.get("/logout", logout);

@@ -5,7 +5,7 @@ const controller = {
   async createOrder(req, res) {
     try {
       const {
-        userID,
+        userEmail,
         restaurantID,
         tableID,
         tableName,
@@ -19,7 +19,7 @@ const controller = {
       } = req.body;
 
       const data = await Order.create({
-        userID,
+        userEmail,
         restaurantID,
         tableID,
         tableName,

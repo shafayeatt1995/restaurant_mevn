@@ -95,7 +95,7 @@ export default {
     icon: { fileName: "favicon.png" },
     manifest: {
       lang: "en",
-      name: process.env.APP_NAME || "Aniker Restaurant",
+      name: process.env.APP_NAME || "ScanEat",
     },
   },
 

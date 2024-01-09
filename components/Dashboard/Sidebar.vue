@@ -114,7 +114,7 @@ export default {
           name: "dashboard-restaurant",
           title: "Restaurant",
           icon: ["fas", "utensils"],
-          target: "_blank",
+          // target: "_blank",
         },
         {
           name: "dashboard-settings",

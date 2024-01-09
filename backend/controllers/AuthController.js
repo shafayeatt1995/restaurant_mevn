@@ -60,13 +60,11 @@ const controller = {
       const user = await User.findOne({ email });
       if (user) {
         if (user.provider === provider && user.socialAccount) {
-          res.redirect(
-            `/social-login?key=${randomKey(
-              50
-            )}&email=${email}&i=${id}&provider=${provider}}`
-          );
+          const credential = { email, id, provider, key: randomKey(20) };
+          res.redirect(`/social-login?c=${btoa(JSON.stringify(credential))}`);
         } else {
-          res.redirect("/404");
+          const data = { error: true };
+          res.redirect(`/social-login?e=${btoa(JSON.stringify(data))}`);
         }
       } else {
         await User.create({
@@ -77,11 +75,8 @@ const controller = {
           socialAccount: true,
           provider,
         });
-        res.redirect(
-          `/social-login?key=${randomKey(
-            50
-          )}&email=${email}&i=${id}&provider=${provider}}`
-        );
+        const credential = { email, id, provider, key: randomKey(20) };
+        res.redirect(`/social-login?c=${btoa(JSON.stringify(credential))}`);
       }
     } catch (error) {
       console.error(error);

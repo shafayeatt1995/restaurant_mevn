@@ -61,7 +61,11 @@ const loginValidation = [
           "+password +power +suspended +deleted"
         );
         if (user) {
-          const check = await bcrypt.compare(req.body.password, user.password);
+          const password =
+            req.body.provider === "google"
+              ? `${req.body.id}+${process.env.SOCIAL_LOGIN_PASS}`
+              : req.body.password;
+          const check = await bcrypt.compare(password, user.password);
           if (check) {
             if (user.suspended) {
               throw new Error(`Account suspended`);

@@ -12,7 +12,7 @@
       </div>
     </transition>
 
-    <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-50 left-0 right-0">
+    <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-40 left-0 right-0">
       <div
         class="flex justify-between items-center bg-black text-white py-4 px-5 rounded-t-3xl cursor-pointer"
         @click="show = !show"
@@ -279,9 +279,9 @@ export default {
         if (this.$auth.loggedIn) {
           this.loading = true;
           const body = {
-            userID: this.$auth?.user?._id || null,
             restaurantID: this.restaurantID,
             tableID: this.table._id,
+            userEmail: this.$auth.user.email,
             tableName: this.table.name,
             orderItems: this.cartItems,
             totalPrice: this.totalPrice,
@@ -298,8 +298,12 @@ export default {
             this.orderAnimation = false;
           }, 4000);
         } else {
-          if (confirm(`Please login with your gmail?`)) {
-            this.$authApi.socialLogin("google");
+          if (confirm(`Please verify with your gmail?`)) {
+            window.localStorage.setItem(
+              "socialLogin",
+              JSON.stringify(this.$route.params)
+            );
+            window.open("/api/auth/social-login/google", "_self");
           }
         }
       } catch (error) {
