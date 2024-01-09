@@ -54,10 +54,12 @@ export default {
       return !!this.socialLogin;
     },
   },
-  async asyncData({ route, env, error }) {
+  async asyncData({ route, error, store }) {
     try {
       const { params } = route;
-      let res = await axios.get(env.BASE_URL + "/api/menu", { params });
+      let res = await axios.get(store.getters.baseUrl + "/api/menu", {
+        params,
+      });
       if (res.data.table) {
         const { restaurant, categories, subCategories, items, table } =
           res.data;

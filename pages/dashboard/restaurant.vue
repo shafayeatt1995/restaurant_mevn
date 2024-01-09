@@ -40,7 +40,7 @@ export default {
       editMode: true,
     };
   },
-  async asyncData({ env, store }) {
+  async asyncData({ store }) {
     try {
       const params = { slug: store.getters.restaurantSlug };
       let res = await axios.get(store.getters.baseUrl + "/api/menu", {
@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["pageTitle", "restaurantSlug"]),
+    ...mapGetters(["pageTitle", "restaurantSlug", "baseUrl"]),
   },
   created() {
     this.$nuxt.$on("refetchMenu", () => {
@@ -68,7 +68,7 @@ export default {
     async refetch() {
       try {
         const params = { slug: this.restaurantSlug };
-        let res = await axios.get(process.env.BASE_URL + "/api/menu", {
+        let res = await axios.get(this.baseUrl + "/api/menu", {
           params,
         });
         const { restaurant, categories, subCategories, items } = res.data;

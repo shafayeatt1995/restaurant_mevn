@@ -1,8 +1,13 @@
 <template></template>
 <script>
 import socket from "@/utils/socket";
+import { mapGetters } from "vuex";
 
 export default {
+  name: "RealtimeOrderNotification",
+  computed: {
+    ...mapGetters(["baseUrl"]),
+  },
   mounted() {
     if (this.$auth?.user?.restaurant?._id) {
       socket.on(
@@ -30,7 +35,7 @@ export default {
             );
 
             notification.onclick = function () {
-              window.open(`${process.env.BASE_URL}/dashboard/order`, "_blank");
+              window.open(`${this.baseUrl}/dashboard/order`, "_blank");
             };
           } else {
             alert("Permission denied for notifications");
