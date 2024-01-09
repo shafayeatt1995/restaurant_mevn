@@ -25,16 +25,11 @@ export default {
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
             this.playNotificationSound();
-            console.log("ami anik");
             const notification = new Notification(
               `New order received from ${data.tableName}`
-              // {
-              //   body: `click here to see the order`,
-              // }
             );
 
             notification.onclick = function () {
-              // alert("Notification clicked");
               window.open(`${process.env.BASE_URL}/dashboard/order`, "_blank");
             };
           } else {
@@ -45,7 +40,7 @@ export default {
         alert("Notification API not supported in this browser");
       }
     },
-    playNotificationSound() {
+    async playNotificationSound() {
       const audio = new Audio("/audio/order.mp3");
       audio.play();
     },

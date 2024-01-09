@@ -19,7 +19,7 @@
           />
         </div>
         <div
-          class="absolute top-0 left-0 bg-green-500 text-white w-8 h-8 flex justify-center items-center rounded-tl-none rounded-bl-none rounded-br-xl rounded-tr-none"
+          class="absolute top-0 left-0 bg-green-500 text-white w-8 h-8 flex justify-center items-center rounded-tl-xl rounded-bl-none rounded-br-xl rounded-tr-none"
           v-if="orderCount(item._id) > 0"
         >
           {{ orderCount(item._id) }}

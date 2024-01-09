@@ -43,8 +43,8 @@
             class="grid gap-3 my-3"
             :class="
               items.length > 3 || isMobile
-                ? 'grid-cols-[repeat(auto-fit,_minmax(265px,_1fr))]'
-                : 'grid-cols-[repeat(auto-fit,_minmax(265px,_300px))]'
+                ? 'grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'
+                : 'grid-cols-[repeat(auto-fit,_minmax(300px,_350px))]'
             "
           >
             <div
@@ -77,8 +77,12 @@
                 }}</span>
               </p>
               <p class="font-normal" v-if="manager">
-                Order Received By:
+                Waiter name:
                 <span class="font-bold">{{ item.waiterName || "#" }}</span>
+              </p>
+              <p class="font-normal">
+                Customer name:
+                <span class="font-bold">{{ item.userName || "#" }}</span>
               </p>
             </div>
           </div>

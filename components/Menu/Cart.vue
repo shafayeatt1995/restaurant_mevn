@@ -282,6 +282,7 @@ export default {
             restaurantID: this.restaurantID,
             tableID: this.table._id,
             userEmail: this.$auth.user.email,
+            userName: this.$auth.user.name,
             tableName: this.table.name,
             orderItems: this.cartItems,
             totalPrice: this.totalPrice,

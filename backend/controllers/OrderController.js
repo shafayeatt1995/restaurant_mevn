@@ -6,6 +6,7 @@ const controller = {
     try {
       const {
         userEmail,
+        userName,
         restaurantID,
         tableID,
         tableName,
@@ -20,6 +21,7 @@ const controller = {
 
       const data = await Order.create({
         userEmail,
+        userName,
         restaurantID,
         tableID,
         tableName,

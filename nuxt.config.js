@@ -24,7 +24,7 @@ export default {
     "~/plugins/api.js",
     "~/plugins/filter.js",
     { src: "~/plugins/toast.js", ssr: false },
-    { src: "~/plugins/pwa.js", ssr: false },
+    // { src: "~/plugins/pwa.js", ssr: false },
   ],
 
   components: true,
@@ -85,7 +85,7 @@ export default {
       },
     },
     redirect: {
-      home: "/dashboard",
+      home: "/auth/login",
       logout: "/auth/login",
       login: "/auth/login",
       callback: "/auth/login",

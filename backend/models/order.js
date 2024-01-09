@@ -22,6 +22,7 @@ const orderItemSchema = new Schema({
 const OrderSchema = new Schema(
   {
     userEmail: { type: String, required: true },
+    userName: { type: String, required: true },
     waiterID: { type: String },
     restaurantID: { type: String, required: true },
     tableID: { type: String, required: true },
