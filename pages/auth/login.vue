@@ -126,6 +126,7 @@ export default {
         this.loading = true;
         this.errors = {};
         await this.$auth.loginWith("cookie", { data: this.form });
+        this.$router.push({ name: "dashboard" });
       } catch (error) {
         this.errors = error?.response?.data?.errors;
       } finally {

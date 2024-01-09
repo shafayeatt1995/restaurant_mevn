@@ -1,8 +1,8 @@
 export default {
   ssr: process.env.MODE === "universal" ? true : false,
   server: {
-    host: process.env.HOST || "localhost",
-    port: process.env.PORT || 3000,
+    host: process.env.HOST || "0.0.0.0",
+    port: process.env.PORT || 8080,
   },
   head: {
     title: process.env.APP_NAME || "Aniker Restaurant",
@@ -29,11 +29,7 @@ export default {
 
   components: true,
 
-  buildModules: [
-    "@nuxtjs/tailwindcss",
-    "@nuxtjs/fontawesome",
-    "@nuxtjs/dotenv",
-  ],
+  buildModules: ["@nuxtjs/tailwindcss", "@nuxtjs/fontawesome"],
 
   fontawesome: {
     component: "font-awesome-icon",
