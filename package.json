@@ -2,6 +2,9 @@
   "name": "App",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "node server --trace-warnings",
     "dev2": "nuxt",
