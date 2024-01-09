@@ -43,7 +43,9 @@ export default {
   async asyncData({ env, store }) {
     try {
       const params = { slug: store.getters.restaurantSlug };
-      let res = await axios.get(env.BASE_URL + "/api/menu", { params });
+      let res = await axios.get(store.getters.baseUrl + "/api/menu", {
+        params,
+      });
       const { restaurant, categories, subCategories, items } = res.data;
       return { restaurant, categories, subCategories, items, editMode: true };
     } catch (error) {

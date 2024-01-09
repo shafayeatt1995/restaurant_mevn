@@ -17,7 +17,7 @@ export const actions = {
 
 export const getters = {
   pageTitle: (state) =>
-    state.auth?.user?.restaurant?.name || process.env.APP_NAME || "",
+    state.auth?.user?.restaurant?.name || process.env.APP_NAME || "ScanEat",
   windowWidth: (state) => state.windowWidth,
   admin: (state) =>
     (state.auth?.user?.is_admin && state.auth?.user?.type === "admin") || false,
@@ -45,4 +45,5 @@ export const getters = {
     getters.manager && getters.analyticDate >= new Date(),
   isDev: () => process.env.NODE_ENV === "development",
   isMobile: (state) => state.windowWidth < 992,
+  baseUrl: () => process.env.BASE_URL,
 };

@@ -5,7 +5,7 @@ export default {
     port: process.env.PORT || 8080,
   },
   head: {
-    title: process.env.APP_NAME || "Aniker Restaurant",
+    title: process.env.APP_NAME || "ScanEat",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },

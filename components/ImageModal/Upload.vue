@@ -28,7 +28,6 @@ export default {
   data() {
     return {
       dropzoneOptions: {
-        // url: `${process.env.APP_URL}/api/user/image`,
         url: `/api/user/image`,
         headers: {
           authorization: document.cookie
