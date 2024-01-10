@@ -78,7 +78,6 @@ const controller = {
               },
             }
           );
-          console.log("updateOrder", updateOrder);
           res.status(200).json({ success: true });
         } else {
           res.status(500).json({

@@ -70,7 +70,16 @@
                 Order No:
                 <span class="font-bold">#{{ item.orderNumber }}</span>
               </p>
-              <p class="font-normal">
+              <p
+                class="font-normal"
+                v-if="item.status === 'pending' || item.status === 'active'"
+              >
+                Order Time:
+                <span class="font-bold" :key="refreshTrigger">{{
+                  showTime(item.created_at)
+                }}</span>
+              </p>
+              <p class="font-normal" v-else>
                 Order Date:
                 <span class="font-bold">{{
                   item.created_at | normalDate2
@@ -315,7 +324,7 @@ export default {
     this.fetchItems();
     this.intervalId = setInterval(() => {
       this.refreshTrigger++;
-    }, 60000);
+    }, 1000);
   },
   beforeDestroy() {
     clearInterval(this.intervalId);
@@ -467,6 +476,22 @@ export default {
       const i = this.items.findIndex(({ _id }) => _id === id);
       this.items[i].status = status;
       this.reset();
+    },
+    showTime(date) {
+      const timeDifference = new Date() - new Date(date);
+      const seconds = Math.floor(timeDifference / 1000);
+
+      const days = Math.floor(seconds / 86400);
+      const hours = Math.floor((seconds % 86400) / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const remainingSeconds = seconds % 60;
+
+      return `${days}:${this.formatTime(hours)}:${this.formatTime(
+        minutes
+      )}:${this.formatTime(remainingSeconds)}`;
+    },
+    formatTime(time) {
+      return time < 10 ? `0${time}` : time;
     },
   },
 };

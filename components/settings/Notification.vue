@@ -6,11 +6,6 @@
         >Check notification</Button
       >
     </div>
-    <hr />
-    <div class="flex justify-between items-center">
-      <p>Check notification</p>
-      <Button @click.native.prevent="installPwa">install</Button>
-    </div>
   </div>
 </template>
 <script>
@@ -44,18 +39,6 @@ export default {
     playNotificationSound() {
       const audio = new Audio("/audio/order.mp3");
       audio.play();
-    },
-    async installPwa() {
-      try {
-        if ("serviceWorker" in navigator) {
-          const registration = await navigator.serviceWorker.ready;
-          console.log(registration);
-          await registration.sync.register("installPWA");
-          console.log("Service Worker registration successful:", registration);
-        }
-      } catch (error) {
-        console.error("Error during service worker registration:", error);
-      }
     },
   },
 };
