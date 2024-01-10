@@ -49,9 +49,7 @@ export default {
       try {
         if ("serviceWorker" in navigator) {
           const registration = await navigator.serviceWorker.ready;
-          console.log("registration");
           console.log(registration);
-          console.log("down registration");
           await registration.sync.register("installPWA");
           console.log("Service Worker registration successful:", registration);
         }

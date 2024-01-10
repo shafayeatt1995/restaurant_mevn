@@ -152,6 +152,9 @@
                 the terms
               </small>
             </div>
+            <p class="text-center text-red-500 font-medium">
+              {{ errorMessage }}
+            </p>
             <div class="flex justify-center py-5">
               <Button
                 class="px-9 py-3"
@@ -201,6 +204,7 @@ export default {
       showAnimation: false,
       loading: false,
       orderAnimation: false,
+      errorMessage: null,
     };
   },
   computed: {
@@ -278,6 +282,7 @@ export default {
       try {
         if (this.$auth.loggedIn) {
           this.loading = true;
+          this.errorMessage = null;
           const body = {
             restaurantID: this.restaurantID,
             tableID: this.table._id,
@@ -285,10 +290,6 @@ export default {
             userName: this.$auth.user.name,
             tableName: this.table.name,
             orderItems: this.cartItems,
-            totalPrice: this.totalPrice,
-            netPrice: this.totalPrice - this.totalDiscount,
-            totalDiscount: this.totalDiscount,
-            totalQty: this.totalQuantity,
             ...this.form,
           };
           await this.$orderApi.createOrder(body);
@@ -308,7 +309,10 @@ export default {
           }
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        if (error?.response?.data?.message) {
+          this.errorMessage = error?.response?.data?.message;
+        }
       } finally {
         this.loading = false;
       }

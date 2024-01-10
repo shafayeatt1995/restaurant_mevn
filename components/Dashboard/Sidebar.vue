@@ -124,9 +124,10 @@ export default {
     },
     async logOut() {
       try {
-        await $auth.logout("laravelJWT");
+        await this.$auth.logout("laravelJWT");
+        this.$router.push({ name: "auth-login" });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },

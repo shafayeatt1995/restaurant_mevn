@@ -3,16 +3,12 @@
     <div class="relative flex flex-col items-start">
       <template v-if="manager">
         <p class="text-gray-600">
-          Scan:
-          <span :class="activeScan ? '' : 'text-rose-500'">{{
-            activeScan ? showScanDate : "Expired"
-          }}</span>
-        </p>
-        <p class="text-gray-600">
-          Analysis:
-          <span :class="activeAnalytic ? '' : 'text-rose-500'">{{
-            activeAnalytic ? showAnalyticDate : "Expired"
-          }}</span>
+          Subscription Exp:
+          <span
+            :class="activeScan ? '' : 'text-rose-500'"
+            class="font-semibold"
+            >{{ activeScan ? showScanDate : "Expired" }}</span
+          >
         </p>
       </template>
     </div>
@@ -20,7 +16,7 @@
     <div class="flex items-center">
       <div class="relative">
         <button
-          class="transition-colors duration-300 rounded-lg sm:px-4 sm:py-2 focus:outline-none hover:bg-gray-100"
+          class="transition-colors duration-300 rounded-lg p-2 focus:outline-none hover:bg-gray-100"
           @click="dropdownOpen = !dropdownOpen"
         >
           <span class="sr-only">User Menu</span>
@@ -53,62 +49,37 @@
         <div
           class="absolute right-0 z-50 w-56 p-2 bg-white border rounded-lg top-16 lg:top-20"
           v-if="dropdownOpen"
+          v-click-outside="() => (dropdownOpen = false)"
         >
           <div
             class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
           >
-            Profile
+            <nuxt-link :to="{ name: 'dashboard-settings' }">
+              <font-awesome-icon :icon="['fas', 'gear']" class="text-xl" />
+              <span class="mx-4 font-medium">Logout</span>
+            </nuxt-link>
           </div>
           <div
-            class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+            class="px-4 py-2 text-rose-500 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100 flex items-center"
+            @click="logOut()"
           >
-            Messages
-          </div>
-          <div
-            class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-          >
-            To-Do's
+            <font-awesome-icon
+              :icon="['fas', 'arrow-right-from-bracket']"
+              class="text-xl"
+            />
+            <span class="mx-4 font-medium">Logout</span>
           </div>
         </div>
       </div>
-
-      <div
-        v-show="dropdownOpen"
-        class="fixed inset-0 z-30"
-        @click="dropdownOpen = false"
-      ></div>
-
-      <button
-        class="relative p-2 mx-3 text-gray-400 transition-colors duration-300 rounded-full hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100"
-      >
-        <span class="sr-only">Notifications</span>
-        <span
-          class="absolute top-0 right-0 w-2 h-2 mt-1 mr-2 bg-green-500 rounded-full"
-        ></span>
-        <span
-          class="absolute top-0 right-0 w-2 h-2 mt-1 mr-2 bg-green-500 rounded-full animate-ping"
-        ></span>
-        <font-awesome-icon :icon="['far', 'bell']" class="text-xl" />
-      </button>
-
-      <button
-        class="p-2 text-gray-400 transition-colors duration-300 rounded-full focus:outline-none hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100"
-        @click="$auth.logout('laravelJWT')"
-      >
-        <span class="sr-only">Log out</span>
-        <font-awesome-icon
-          :icon="['fas', 'arrow-right-from-bracket']"
-          class="text-xl"
-        />
-      </button>
     </div>
   </header>
 </template>
 <script>
-import moment from "moment";
+import vClickOutside from "v-click-outside";
 import { mapGetters } from "vuex";
 export default {
-  name: "Topbar",
+  name: "TopBar",
+  directives: { clickOutside: vClickOutside.directive },
   data() {
     return {
       dropdownOpen: false,
@@ -161,6 +132,11 @@ export default {
       }
     },
   },
+  watch: {
+    $route(val) {
+      this.dropdownOpen = false;
+    },
+  },
   mounted() {
     this.startTimer();
   },
@@ -181,6 +157,14 @@ export default {
     },
     stopTimer() {
       clearInterval(this.timerInterval);
+    },
+    async logOut() {
+      try {
+        await this.$auth.logout("laravelJWT");
+        this.$router.push({ name: "auth-login" });
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
