@@ -60,7 +60,7 @@
                 >{{ item.new ? "New" : i + 1 }}</small
               >
               <p class="font-normal">
-                Table No: <span class="font-bold">Table-12</span>
+                Table No: <span class="font-bold">{{ item.tableName }}</span>
               </p>
               <p class="font-normal">
                 Order type:

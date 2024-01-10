@@ -54,9 +54,8 @@ export default {
       return !!this.socialLogin;
     },
   },
-  async asyncData({ env, route, error, store }) {
+  async asyncData({ route, error, store }) {
     try {
-      console.log(store.state.baseUrl);
       const { params } = route;
       let res = await axios.get(store.state.baseUrl + "/api/menu", {
         params,
