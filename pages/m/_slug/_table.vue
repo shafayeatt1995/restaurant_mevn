@@ -56,10 +56,9 @@ export default {
   },
   async asyncData({ env, route, error, store }) {
     try {
-      console.log(store);
-      console.log(env);
+      console.log(store.state.baseUrl);
       const { params } = route;
-      let res = await axios.get(env.BASE_URL + "/api/menu", {
+      let res = await axios.get(store.state.baseUrl + "/api/menu", {
         params,
       });
       if (res.data.table) {
