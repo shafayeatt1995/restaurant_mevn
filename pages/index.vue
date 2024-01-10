@@ -18,10 +18,5 @@
 export default {
   name: "IndexPage",
   auth: false,
-  async asyncData(context) {
-    if (process.client) {
-      console.log(context);
-    }
-  },
 };
 </script>

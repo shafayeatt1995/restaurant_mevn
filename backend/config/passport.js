@@ -6,8 +6,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL:
-        "http://localhost:8080/api/auth/social-login/google/callback",
+      callbackURL: `${process.env.BASE_URL}/api/auth/social-login/google/callback`,
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {

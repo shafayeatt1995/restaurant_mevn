@@ -2,6 +2,7 @@ require("dotenv").config();
 
 export const state = () => ({
   windowWidth: 0,
+  baseUrl: process.env.BASE_URL,
 });
 
 export const mutations = {
@@ -47,5 +48,5 @@ export const getters = {
     getters.manager && getters.analyticDate >= new Date(),
   isDev: () => process.env.NODE_ENV === "development",
   isMobile: (state) => state.windowWidth < 992,
-  baseUrl: () => process.env.BASE_URL,
+  baseUrl: (state) => state.baseUrl,
 };
