@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Ami index page</h1>
+    <h1>Ami index page anik</h1>
     <nuxt-link :to="{ name: 'dashboard' }" class="text-blue-500">
       Goto dashboard
     </nuxt-link>
@@ -18,5 +18,10 @@
 export default {
   name: "IndexPage",
   auth: false,
+  async asyncData(context) {
+    if (process.client) {
+      console.log(context);
+    }
+  },
 };
 </script>
