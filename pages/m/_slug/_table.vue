@@ -56,6 +56,7 @@ export default {
   },
   async asyncData({ route, error, store }) {
     try {
+      console.log(store.getters);
       const { params } = route;
       let res = await axios.get(store.getters.baseUrl + "/api/menu", {
         params,
