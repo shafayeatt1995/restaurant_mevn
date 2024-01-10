@@ -56,7 +56,7 @@ export default {
   },
   async asyncData({ env, route, error, store }) {
     try {
-      console.log(store.getters);
+      console.log(store);
       console.log(env);
       const { params } = route;
       let res = await axios.get(env.BASE_URL + "/api/menu", {
