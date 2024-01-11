@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "node server --trace-warnings",
     "dev2": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
+    "build": "NODE_ENV=production && nuxt build",
+    "start": "node server",
     "generate": "nuxt generate"
   },
   "dependencies": {
