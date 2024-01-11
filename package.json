@@ -11,7 +11,7 @@
     "dev": "node server --trace-warnings",
     "dev2": "nuxt",
     "build": "NODE_ENV=production && nuxt build",
-    "start": "node server",
+    "start": "cross-env NODE_ENV=production node server",
     "generate": "nuxt generate"
   },
   "dependencies": {
