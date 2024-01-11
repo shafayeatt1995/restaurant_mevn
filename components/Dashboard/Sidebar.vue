@@ -4,9 +4,14 @@
     :class="isOpen ? 'translate-x-0 ease-in' : '-translate-x-full ease-out'"
     class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed inset-y-0 left-0 z-30 min-h-screen space-y-6 text-gray-100 transition duration-200 transform lg:translate-x-0 lg:relative lg:inset-0 border-solid border-1 border-gray-200"
   >
-    <nuxt-link :to="{ name: 'dashboard' }" class="mx-auto">
-      <img loading="lazy" class="w-48" src="/full-logo.png" alt="logo" />
-    </nuxt-link>
+    <a href="#" class="mx-auto">
+      <img
+        loading="lazy"
+        class="w-auto h-6 sm:h-7"
+        src="https://merakiui.com/images/full-logo.svg"
+        alt=""
+      />
+    </a>
 
     <div class="flex flex-col items-center mt-6 -mx-2">
       <img
@@ -26,9 +31,9 @@
 
     <div class="flex flex-col justify-between flex-1 mt-6">
       <nav>
-        <template v-for="({ name, title, icon, show, target }, i) in navLink">
+        <template v-for="({ name, title, icon, hide, target }, i) in navLink">
           <nuxt-link
-            v-if="show"
+            v-if="!hide"
             :key="i"
             :to="{ name }"
             class="flex items-center px-4 py-3 mt-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:text-gray-700 hover:bg-gray-100"
@@ -68,44 +73,43 @@ export default {
       const nav = [
         { name: "dashboard", title: "Dashboard", icon: ["fas", "cubes"] },
         {
-          show: this.admin,
+          hide: !this.admin,
           name: "dashboard-user",
           title: "User",
           icon: ["fas", "users"],
         },
         {
-          show: !this.manager,
+          hide: !this.manager,
           name: "dashboard-order",
           title: "Order",
           icon: ["fas", "chart-line"],
         },
         {
-          show: !this.waiter,
+          hide: !this.waiter,
           name: "dashboard-order",
           title: "Order",
           icon: ["fas", "chart-line"],
         },
         {
-          show: !this.manager,
+          hide: !this.manager,
           name: "dashboard-table",
           title: "Table",
           icon: ["fas", "table-cells-large"],
         },
         {
-          show: !this.manager,
+          hide: !this.manager,
           name: "dashboard-employee",
           title: "Employee",
           icon: ["fas", "users"],
         },
         {
-          show: !this.manager,
+          hide: !this.manager,
           name: "dashboard-restaurant",
           title: "Restaurant",
           icon: ["fas", "utensils"],
           // target: "_blank",
         },
         {
-          show: !this.manager,
           name: "dashboard-settings",
           title: "Settings",
           icon: ["fas", "gear"],
