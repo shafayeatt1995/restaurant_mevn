@@ -1,5 +1,7 @@
 <template>
-  <Nuxt />
+  <div>
+    <Nuxt />
+  </div>
 </template>
 <script>
 export default {

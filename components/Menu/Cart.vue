@@ -6,7 +6,7 @@
         class="fixed top-0 left-0 right-0 bottom-0 z-50 bg-white bg-opacity-50 backdrop-blur-lg flex justify-center items-center flex-col-reverse overflow-hidden"
         v-show="orderAnimation"
       >
-        <p class="text-3xl w-full text-center py-5 mb-60">
+        <p class="text-3xl w-full text-center py-5 px-4 mb-60">
           Your order receive successfully
         </p>
       </div>
@@ -14,19 +14,27 @@
 
     <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-40 left-0 right-0">
       <div
-        class="flex justify-between items-center bg-black text-white py-4 px-5 rounded-t-3xl cursor-pointer"
-        @click="show = !show"
+        class="flex justify-between items-center bg-black text-white py-4 px-5 rounded-t-3xl cursor-pointer gap-3"
+        @click="show = $nuxt.isOffline ? false : !show"
       >
-        <p class="text-xl" v-if="totalQuantity > 0">
+        <p class="text-xl" v-if="$nuxt.isOffline">
+          You are offline. Please check your internet connection
+        </p>
+        <p class="text-xl" v-else-if="totalQuantity > 0">
           Order {{ totalQuantity }} for ৳{{ totalPrice - totalDiscount }}
         </p>
         <p class="text-xl" v-else>Order</p>
         <p class="text-2xl">
           <transition name="fade" mode="out-in">
             <font-awesome-icon
+              :icon="['fas', 'wifi']"
+              @click.stop="show = false"
+              v-if="$nuxt.isOffline"
+            />
+            <font-awesome-icon
               :icon="['fas', 'xmark']"
               @click.stop="show = false"
-              v-if="show"
+              v-else-if="show"
             />
             <TableIcon
               v-else-if="form.orderType === 'Dine in'"
@@ -158,8 +166,9 @@
             <div class="flex justify-center py-5">
               <Button
                 class="px-9 py-3"
-                @click.native.prevent="submit"
+                @click.native.prevent="$nuxt.isOffline ? '' : submit()"
                 :loading="loading"
+                :disabled="$nuxt.isOffline"
                 >Place order</Button
               >
             </div>

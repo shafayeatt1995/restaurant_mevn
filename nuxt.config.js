@@ -19,9 +19,8 @@ export default {
         hid: "keyword",
         name: "keyword",
         content:
-          "scan, eat, scaneat, eating, scaneating, menu, restaurant qr menu, qr menu, emenu, digital menu, virtual menu, menu scanner, menu scanning, digital scaner menu, digital scaning menu, complete digital menu solution ",
+          "scan, eat, scaneat, scan eat, eating, scaneating, scan eating, menu, restaurant qr menu, qr menu, emenu, digital menu, virtual menu, menu scanner, menu scanning, digital scanner menu, digital scanning menu, complete digital menu solution ",
       },
-      { name: "format-detection", content: "telephone=no" },
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.png" },

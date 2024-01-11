@@ -12,7 +12,7 @@
     </div>
     <div class="px-6 py-8 md:px-8 flex items-center flex-1">
       <form class="w-full" @submit.prevent="signup">
-        <img loading="lazy" class="w-10" src="/favicon.png" alt="logo" />
+        <img loading="lazy" class="w-20" src="/favicon.png" alt="logo" />
 
         <h1
           class="mt-3 text-2xl font-semibold text-gray-600 capitalize sm:text-3xl"
@@ -45,6 +45,7 @@
           <button
             class="w-full flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50"
             type="button"
+            @click="socialLogin"
           >
             <svg class="w-6 h-6 mx-2" viewBox="0 0 40 40">
               <path
@@ -146,6 +147,10 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+
+    socialLogin() {
+      window.open("/api/auth/social-login/google", "_self");
     },
   },
 };

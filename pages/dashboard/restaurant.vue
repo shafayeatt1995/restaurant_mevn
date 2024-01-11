@@ -40,7 +40,7 @@ export default {
       editMode: true,
     };
   },
-  async asyncData({ store }) {
+  async asyncData({ store, error }) {
     try {
       const params = { slug: store.getters.restaurantSlug };
       let res = await axios.get(store.getters.baseUrl + "/api/menu", {
@@ -48,8 +48,9 @@ export default {
       });
       const { restaurant, categories, subCategories, items } = res.data;
       return { restaurant, categories, subCategories, items, editMode: true };
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err?.response?.data?.message || err);
+      error({ statusCode: 500, message: "Internal Server Error" });
     }
   },
   computed: {

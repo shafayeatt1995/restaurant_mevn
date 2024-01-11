@@ -74,8 +74,8 @@ export default {
       } else {
         error({ statusCode: 404, message: "Not found" });
       }
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err?.response?.data?.message || err);
       error({ statusCode: 500, message: "Internal Server Error" });
     }
   },

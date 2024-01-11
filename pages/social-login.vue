@@ -46,11 +46,11 @@ export default {
             this.$router.push({ name: "auth-login" });
           }
         } else if (c) {
+          const { email, id, provider } = JSON.parse(atob(c));
+          await this.$auth.loginWith("cookie", {
+            data: { email, id, provider, password: "f*#k you" },
+          });
           if (socialLogin) {
-            const { email, id, provider } = JSON.parse(atob(c));
-            await this.$auth.loginWith("cookie", {
-              data: { email, id, provider, password: "f*#k you" },
-            });
             const params = JSON.parse(socialLogin + "");
             window.localStorage.removeItem("socialLogin");
             this.$router.push({
@@ -58,7 +58,7 @@ export default {
               params,
             });
           } else {
-            this.$router.push({ name: "auth-login" });
+            this.$router.push({ name: "dashboard" });
           }
         }
       } catch (error) {
