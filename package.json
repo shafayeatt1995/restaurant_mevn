@@ -1,36 +1,28 @@
 {
-  "name": "ScanEat",
+  "name": "App",
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "20.10.0",
-    "npm": "10.2.5",
-    "yarn": "1.22.21"
+    "node": "20.x"
   },
   "scripts": {
     "dev": "node server --trace-warnings",
     "dev2": "nuxt",
-    "build": "NODE_ENV=production && nuxt build",
-    "start": "node server",
+    "build": "nuxt build",
+    "start": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@fortawesome/free-brands-svg-icons": "^6.4.2",
-    "@fortawesome/free-regular-svg-icons": "^6.4.2",
-    "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
     "@nuxtjs/axios": "^5.13.6",
-    "@nuxtjs/dotenv": "^1.4.2",
-    "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.3.5",
-    "@nuxtjs/tailwindcss": "^6.10.4",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
     "core-js": "^3.25.3",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
@@ -46,9 +38,6 @@
     "nuxt-svg-loader": "^1.2.0",
     "passport": "0.5",
     "passport-google-oauth2": "^0.2.0",
-    "postcss": "^8.4.17",
-    "sass": "^1.69.7",
-    "sass-loader": "10",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "uploadthing": "^6.1.0",
@@ -62,7 +51,16 @@
     "vue2-dropzone": "^3.6.0",
     "vue2-editor": "^2.10.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/tailwindcss": "^6.10.4",
+    "postcss": "^8.4.17",
+    "sass": "^1.69.7",
+    "sass-loader": "10"
+  },
   "_moduleAliases": {
     "@": "./"
   }
