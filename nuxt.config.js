@@ -15,6 +15,12 @@ export default {
         content:
           "ScanEating is a alternate of restaurant restaurant traditional menu card. It is complete digital menu solution",
       },
+      {
+        hid: "keyword",
+        name: "keyword",
+        content:
+          "scan, eat, scaneat, eating, scaneating, menu, restaurant qr menu, qr menu, emenu, digital menu, virtual menu, menu scanner, menu scanning, digital scaner menu, digital scaning menu, complete digital menu solution ",
+      },
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [
