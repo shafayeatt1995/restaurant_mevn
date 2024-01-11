@@ -20,6 +20,7 @@ export default {
       this.$toast.warning(warning);
     });
   },
+
   beforeDestroy() {
     this.$nuxt.$off("success");
     this.$nuxt.$off("error");
