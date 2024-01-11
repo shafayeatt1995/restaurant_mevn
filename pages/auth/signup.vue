@@ -11,7 +11,10 @@
       </h2>
     </div>
     <div class="px-6 py-8 md:px-8 flex items-center flex-1">
-      <form class="w-full" @submit.prevent="signup">
+      <form
+        class="w-full"
+        @submit.prevent="emailMode ? signup() : (emailMode = true)"
+      >
         <img loading="lazy" class="w-20" src="/favicon.png" alt="logo" />
 
         <h1
@@ -21,13 +24,15 @@
         </h1>
 
         <div class="mt-8" />
-        <Input
-          v-for="(field, i) in fields"
-          :key="i"
-          :field="field"
-          v-model="form"
-          :errors="errors"
-        />
+        <slide-up-down :active="emailMode" :duration="300">
+          <Input
+            v-for="(field, i) in fields"
+            :key="i"
+            :field="field"
+            v-model="form"
+            :errors="errors"
+          />
+        </slide-up-down>
 
         <div class="mt-6">
           <Button
@@ -37,10 +42,10 @@
             :disabled="loading"
             :loading="loading"
           >
-            Sign Up
+            {{ emailMode ? "Sign Up" : "Sign Up with email" }}
           </Button>
 
-          <p class="mt-4 text-center text-gray-600">or sign in with</p>
+          <p class="mt-4 text-center text-gray-600">or sign up with</p>
 
           <button
             class="w-full flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50"
@@ -66,7 +71,7 @@
               />
             </svg>
 
-            <span class="mx-2">Sign up with Google</span>
+            <span class="mx-2">Sign up with Google (Recomanded)</span>
           </button>
 
           <div class="mt-6 text-center">
@@ -93,7 +98,14 @@ export default {
   data() {
     return {
       loading: false,
-      fields: [
+      emailMode: false,
+      errors: {},
+    };
+  },
+  computed: {
+    ...mapGetters(["pageTitle"]),
+    fields() {
+      return [
         {
           type: "text",
           placeholder: "Name",
@@ -118,18 +130,16 @@ export default {
           icon: ["fas", "lock"],
           name: "confirmPassword",
         },
-      ],
-      form: {
+      ];
+    },
+    form() {
+      return {
         name: "",
         email: "",
         password: "",
         confirmPassword: "",
-      },
-      errors: {},
-    };
-  },
-  computed: {
-    ...mapGetters(["pageTitle"]),
+      };
+    },
     imageUrl() {
       const randomNumber = Math.floor(Math.random() * 3) + 1;
       return `background-image: url('/images/slider/${randomNumber}.jpg');`;
