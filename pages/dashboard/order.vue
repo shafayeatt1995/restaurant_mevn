@@ -59,56 +59,58 @@
                 : 'grid-cols-[repeat(auto-fit,_minmax(300px,_350px))]'
             "
           >
-            <div
-              class="rounded-lg p-3 text-gray-600 relative cursor-pointer"
-              :class="getClass(item.status)"
-              v-for="(item, i) in items"
-              :key="i"
-              @click="openOrderDetails(item)"
-            >
-              <small
-                class="absolute right-3 top-1"
-                :class="item.new ? 'text-green-500' : 'text-gray-400'"
-                >{{ item.new ? "New" : i + 1 }}</small
+            <template v-for="(item, i) in items">
+              <div
+                v-if="checkStatus(item)"
+                class="rounded-lg p-3 text-gray-600 relative cursor-pointer"
+                :class="getClass(item.status)"
+                :key="i"
+                @click="openOrderDetails(item)"
               >
-              <p
-                class="font-normal flex justify-center items-center text-2xl mb-2"
-              >
-                <TableIcon class="w-10 mr-2" />
-                <span class="font-bold">{{ item.tableName }}</span>
-              </p>
-              <p class="font-normal">
-                Order type:
-                <span class="font-bold">{{ item.orderType }}</span>
-              </p>
-              <p class="font-normal">
-                Order No:
-                <span class="font-bold">#{{ item.orderNumber }}</span>
-              </p>
-              <p
-                class="font-normal"
-                v-if="item.status === 'pending' || item.status === 'active'"
-              >
-                Order Time:
-                <span class="font-bold" :key="refreshTrigger">{{
-                  showTime(item.created_at)
-                }}</span>
-              </p>
-              <p class="font-normal" v-else>
-                Order Date:
-                <span class="font-bold">{{
-                  item.created_at | normalDate2
-                }}</span>
-              </p>
-              <p class="font-normal" v-if="manager">
-                Waiter name:
-                <span class="font-bold">{{ item.waiterName || "#" }}</span>
-              </p>
-              <p class="font-normal">
-                Customer name:
-                <span class="font-bold">{{ item.userName || "#" }}</span>
-              </p>
-            </div>
+                <small
+                  class="absolute right-3 top-1"
+                  :class="item.new ? 'text-green-500' : 'text-gray-400'"
+                  >{{ item.new ? "New" : i + 1 }}</small
+                >
+                <p
+                  class="font-normal flex justify-center items-center text-2xl mb-2"
+                >
+                  <TableIcon class="w-10 mr-2" />
+                  <span class="font-bold">{{ item.tableName }}</span>
+                </p>
+                <p class="font-normal">
+                  Order type:
+                  <span class="font-bold">{{ item.orderType }}</span>
+                </p>
+                <p class="font-normal">
+                  Order No:
+                  <span class="font-bold">#{{ item.orderNumber }}</span>
+                </p>
+                <p
+                  class="font-normal"
+                  v-if="item.status === 'pending' || item.status === 'active'"
+                >
+                  Order Time:
+                  <span class="font-bold" :key="refreshTrigger">{{
+                    showTime(item.created_at)
+                  }}</span>
+                </p>
+                <p class="font-normal" v-else>
+                  Order Date:
+                  <span class="font-bold">{{
+                    item.created_at | normalDate2
+                  }}</span>
+                </p>
+                <p class="font-normal" v-if="manager">
+                  Waiter name:
+                  <span class="font-bold">{{ item.waiterName || "#" }}</span>
+                </p>
+                <p class="font-normal">
+                  Customer name:
+                  <span class="font-bold">{{ item.userName || "#" }}</span>
+                </p>
+              </div>
+            </template>
           </div>
           <div class="flex justify-center items-center" v-if="loading">
             <loading />
@@ -269,7 +271,7 @@ export default {
   data() {
     return {
       modal: false,
-      active: this.$route?.query?.tab || "All order",
+      active: this.$route?.query?.tab || "Pending order",
       orderType: "All",
       date: [],
       items: [],
@@ -285,10 +287,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isMobile", "pageTitle", "manager"]),
+    ...mapGetters(["isMobile", "pageTitle", "manager", "waiter"]),
     tabTitle() {
       return [
-        { title: "All order", status: null, icon: ["fas", "bars-staggered"] },
         {
           title: "Pending order",
           status: "pending",
@@ -313,6 +314,7 @@ export default {
           icon: ["fas", "circle-xmark"],
           iconClass: "text-rose-500",
         },
+        { title: "All order", status: null, icon: ["fas", "bars-staggered"] },
       ];
     },
     tabOrderType() {
@@ -513,6 +515,19 @@ export default {
     },
     formatTime(time) {
       return time < 10 ? `0${time}` : time;
+    },
+    checkStatus(item) {
+      if (this.waiter) {
+        if (item.waiterID) {
+          return item.waiterID == this.$auth.user._id;
+        } else {
+          return true;
+        }
+      } else if (this.manager) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };
