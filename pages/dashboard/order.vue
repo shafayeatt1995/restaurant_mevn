@@ -1,5 +1,17 @@
 <template>
   <div>
+    <slide-up-down :active="newOrder" :duration="300">
+      <div class="px-4 mb-3">
+        <div
+          class="flex justify-between bg-amber-100 w-full items-center px-4 py-2 rounded-lg"
+        >
+          <p class="text-gray-600">New order receive</p>
+          <Button @click.native.prevent="refetch"
+            ><font-awesome-icon :icon="['fas', 'rotate']" /> Refresh</Button
+          >
+        </div>
+      </div>
+    </slide-up-down>
     <section
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
@@ -48,7 +60,7 @@
             "
           >
             <div
-              class="rounded-lg p-3 text-gray-700 relative cursor-pointer"
+              class="rounded-lg p-3 text-gray-600 relative cursor-pointer"
               :class="getClass(item.status)"
               v-for="(item, i) in items"
               :key="i"
@@ -59,8 +71,11 @@
                 :class="item.new ? 'text-green-500' : 'text-gray-400'"
                 >{{ item.new ? "New" : i + 1 }}</small
               >
-              <p class="font-normal">
-                Table No: <span class="font-bold">{{ item.tableName }}</span>
+              <p
+                class="font-normal flex justify-center items-center text-2xl mb-2"
+              >
+                <TableIcon class="w-10 mr-2" />
+                <span class="font-bold">{{ item.tableName }}</span>
               </p>
               <p class="font-normal">
                 Order type:
@@ -240,12 +255,13 @@ import vClickOutside from "v-click-outside";
 import { mapGetters } from "vuex";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
+import TableIcon from "~/static/svg/table.svg";
 
 export default {
   name: "Order",
   layout: "dashboard",
   middleware: "managerOrWaiter",
-  components: { DatePicker },
+  components: { DatePicker, TableIcon },
   directives: { clickOutside: vClickOutside.directive },
   head() {
     return { title: "Order - " + this.pageTitle };
@@ -253,7 +269,7 @@ export default {
   data() {
     return {
       modal: false,
-      active: "All order",
+      active: this.$route?.query?.tab || "All order",
       orderType: "All",
       date: [],
       items: [],
@@ -265,6 +281,7 @@ export default {
       dropdown: null,
       refreshTrigger: 0,
       orderDetails: {},
+      newOrder: false,
     };
   },
   computed: {
@@ -306,7 +323,12 @@ export default {
     date() {
       this.refetch();
     },
-    active() {
+    active(tab) {
+      window.history.pushState(
+        {},
+        "",
+        `?${new URLSearchParams({ tab }).toString()}`
+      );
       this.refetch();
     },
     orderType() {
@@ -314,10 +336,8 @@ export default {
     },
   },
   created() {
-    this.$nuxt.$on("order-notification-socket-data", (data) => {
-      if (data) {
-        this.items = [{ ...data, new: true }, ...this.items];
-      }
+    this.$nuxt.$on("order-notification-socket-data", () => {
+      this.newOrder = true;
     });
   },
   mounted() {
@@ -364,6 +384,7 @@ export default {
     },
     refetch() {
       this.loading = false;
+      this.newOrder = false;
       this.cancelLoading = false;
       this.acceptLoading = false;
       this.items = [];

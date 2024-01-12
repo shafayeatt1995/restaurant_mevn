@@ -53,7 +53,7 @@ const controller = {
             AdditionalOrderNumber: checkAdditionalOrderNumber + 1,
           }));
 
-          const updateOrder = await Order.updateOne(
+          await Order.updateOne(
             {
               restaurantID,
               tableID,
@@ -75,9 +75,11 @@ const controller = {
                   orderType === checkOrder.orderType
                     ? orderType
                     : `Dine in & Parcel`,
+                status: "pending",
               },
             }
           );
+          global.io.emit(`order-notification-${restaurantID}`);
           res.status(200).json({ success: true });
         } else {
           res.status(500).json({
@@ -100,7 +102,7 @@ const controller = {
           note,
           orderType,
         });
-        global.io.emit(`order-notification-${restaurantID}`, data);
+        global.io.emit(`order-notification-${restaurantID}`);
         res.status(200).json({ success: true });
       }
     } catch (error) {
@@ -139,7 +141,9 @@ const controller = {
         } else {
           matchQuery.waiterID = _id;
         }
+      } else {
       }
+      console.log(matchQuery);
 
       const orders = await Order.aggregate([
         { $match: matchQuery },
@@ -176,7 +180,19 @@ const controller = {
       const { _id: waiterID, restaurantID } = req.user;
       const updateData = { status };
       if (currentStatus === "pending") {
-        updateData.waiterID = waiterID;
+        const checkExist = await Order.findOne({
+          _id,
+          restaurantID,
+          waiterID: { $exists: true },
+        });
+        if (checkExist) {
+          res.status(422).json({
+            success: false,
+            message: "Someone already received this order",
+          });
+        } else {
+          updateData.waiterID = waiterID;
+        }
       }
       await Order.updateOne(
         {
