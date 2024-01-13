@@ -16,7 +16,6 @@ export default {
   name: "SettingsNotification",
   mounted() {
     const messaging = getMessaging();
-
     onMessage(messaging, (payload) => {
       console.log("message on client: ", payload);
     });
@@ -49,14 +48,19 @@ export default {
       this.activate();
     },
     async activate() {
-      const token = await getToken(messaging, {
-        vapidKey:
-          "BMf4lz4Ln3pSVp8sGAWvqINhbo_fxIj3ViP3kHnoONjb0VZVHW8Yw5thsUrBqeZJACKZZXFYgPaykfnoWSNYEYc",
-      });
-      if (token) {
-        console.log(token);
-      } else {
-        console.log("token pai ni");
+      try {
+        const token = await getToken(messaging, {
+          vapidKey: "",
+        });
+        console.log("ami anik");
+        console.log(messaging);
+        if (token) {
+          console.log(token);
+        } else {
+          console.log("token pai ni");
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
     playNotificationSound() {

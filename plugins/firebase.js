@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getMessaging, isSupported } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -11,17 +11,15 @@ const firebaseConfig = {
   measurementId: "G-HJFDKGNF1L",
 };
 
-export const app = initializeApp(firebaseConfig);
-// export const messaging = getMessaging(app);
+const apps = getApps();
+
+const app = !apps.length ? initializeApp(firebaseConfig) : apps[0];
 export const messaging = (async () => {
   try {
-    console.log("firebase is supported", await isSupported());
     const isSupportedBrowser = await isSupported();
     if (isSupportedBrowser) {
       console.log("firebase is supported");
-
-      console.log("Firebase not supported this browser");
-      return getMessaging(config);
+      return getMessaging(app);
     }
     console.log("Firebase not supported this browser");
     return null;

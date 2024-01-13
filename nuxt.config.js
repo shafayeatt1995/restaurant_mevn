@@ -10,16 +10,21 @@ export default {
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
+        hid: "google-site-verification",
+        name: "google-site-verification",
+        content: "bBTEENwGTjrNQd2J2XMpGO_tkmbAWM5mYAp3o0zUAPM",
+      },
+      {
         hid: "description",
         name: "description",
         content:
-          "ScanEating is a alternate of restaurant restaurant traditional menu card. It is complete digital menu solution",
+          "ScanEating is a alternate of restaurant traditional menu card. It is complete digital menu solution",
       },
       {
         hid: "keyword",
         name: "keyword",
         content:
-          "scan, eat, scaneat, scan eat, eating, scaneating, scan eating, menu, restaurant qr menu, qr menu, emenu, digital menu, virtual menu, menu scanner, menu scanning, digital scanner menu, digital scanning menu, complete digital menu solution ",
+          "scan, eat, scaneat, scan eat, eating, scaneating, scan eating, menu, restaurant qr menu, qr menu, emenu, digital menu, virtual menu, menu scanner, menu scanning, digital scanner menu, digital scanning menu, complete digital menu solution, Restaurant menu, restaurant, restaurant scanner, restaurant scanning, restaurant qr code scanner, qr code scanner",
       },
     ],
     link: [
@@ -52,7 +57,7 @@ export default {
     "~/plugins/api.js",
     "~/plugins/filter.js",
     { src: "~/plugins/toast.js", ssr: false },
-    // { src: "~/plugins/pwa.js", ssr: false },
+    { src: "~/plugins/firebase.js", ssr: false },
   ],
 
   components: true,
@@ -74,7 +79,7 @@ export default {
 
   modules: [
     "@nuxtjs/axios",
-    "@nuxtjs/pwa",
+    // "@nuxtjs/pwa",
     "@nuxtjs/auth-next",
     "nuxt-client-init-module",
     "vue2-editor/nuxt",

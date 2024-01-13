@@ -1,16 +1,25 @@
 <template>
   <div>
-    <div class="flex items-center bg-white pt-3">
-      <img
-        loading="lazy"
-        class="object-cover w-12 h-12 mx-2 rounded-full"
-        :src="restaurant.logo"
-        alt="avatar"
-      />
-      <p>
-        {{ restaurant.name }}
-        <EditButton @click.native.prevent="modal = true" v-if="editMode" />
+    <div class="flex justify-between bg-white items-center px-2 pt-3">
+      <div class="flex items-center">
+        <img
+          loading="lazy"
+          class="object-cover w-12 h-12 mr-2 rounded-full"
+          :src="restaurant.logo"
+          alt="avatar"
+        />
+        <p class="text-xl font-semibold">
+          {{ restaurant.name }}
+          <EditButton @click.native.prevent="modal = true" v-if="editMode" />
+        </p>
+      </div>
+      <p class="text-2xl pr-2">
+        <font-awesome-icon :icon="['fas', 'bars']" />
       </p>
+      <!-- <Button>
+        <font-awesome-icon :icon="['fas', 'file-invoice-dollar']" /> Request
+        Bill
+      </Button> -->
     </div>
     <Modal v-model="modal">
       <form class="mt-3" @submit.prevent="updateRestaurant">

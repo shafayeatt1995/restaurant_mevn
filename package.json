@@ -22,7 +22,6 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/dotenv": "^1.4.2",
     "@nuxtjs/fontawesome": "^1.1.2",
-    "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/tailwindcss": "^6.10.4",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
