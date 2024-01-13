@@ -15,10 +15,13 @@ export const app = initializeApp(firebaseConfig);
 // export const messaging = getMessaging(app);
 export const messaging = (async () => {
   try {
-    console.log(await isSupported());
+    console.log("firebase is supported", await isSupported());
 
     const isSupportedBrowser = await isSupported();
     if (isSupportedBrowser) {
+      console.log("firebase is supported");
+
+      console.log("Firebase not supported this browser");
       return getMessaging(config);
     }
     console.log("Firebase not supported this browser");
