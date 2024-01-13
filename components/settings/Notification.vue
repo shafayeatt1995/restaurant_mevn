@@ -2,15 +2,25 @@
   <div class="flex flex-col gap-3">
     <div class="flex justify-between items-center">
       <p>Check notification</p>
-      <Button @click.native.prevent="checkNotificationPermission"
+      <Button @click.native.prevent="checkNotification"
         >Check notification</Button
       >
     </div>
   </div>
 </template>
 <script>
+import { getAuth, signInAnonymously } from "firebase/auth";
+import { getMessaging, onMessage, getToken } from "firebase/messaging";
+import { messaging } from "@/plugins/firebase";
 export default {
   name: "SettingsNotification",
+  mounted() {
+    const messaging = getMessaging();
+
+    onMessage(messaging, (payload) => {
+      console.log("message on client: ", payload);
+    });
+  },
   methods: {
     async checkNotificationPermission() {
       try {
@@ -32,6 +42,21 @@ export default {
         }
       } catch (error) {
         console.error(error);
+      }
+    },
+    async checkNotification() {
+      await signInAnonymously(getAuth());
+      this.activate();
+    },
+    async activate() {
+      const token = await getToken(messaging, {
+        vapidKey:
+          "BMf4lz4Ln3pSVp8sGAWvqINhbo_fxIj3ViP3kHnoONjb0VZVHW8Yw5thsUrBqeZJACKZZXFYgPaykfnoWSNYEYc",
+      });
+      if (token) {
+        console.log(token);
+      } else {
+        console.log("token pai ni");
       }
     },
     playNotificationSound() {
