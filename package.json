@@ -41,6 +41,7 @@
     "mongoose": "^6.6.1",
     "mongoose-auto-increment": "^5.0.1",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.8",
     "nuxt": "^2.15.8",
     "nuxt-client-init-module": "^0.3.0",
     "nuxt-svg-loader": "^1.2.0",

@@ -32,8 +32,15 @@
             v-model="form"
             :errors="errors"
           />
+          <div class="mt-5">
+            <small class="text-rose-700">
+              <i
+                >Currently email signup feature is turned off. please use google
+                login</i
+              >
+            </small>
+          </div>
         </slide-up-down>
-
         <div class="mt-6">
           <Button
             variant="green"
@@ -100,6 +107,13 @@ export default {
       loading: false,
       emailMode: false,
       errors: {},
+      form: {
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        otp: null,
+      },
     };
   },
   computed: {
@@ -131,14 +145,6 @@ export default {
           name: "confirmPassword",
         },
       ];
-    },
-    form() {
-      return {
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      };
     },
     imageUrl() {
       const randomNumber = Math.floor(Math.random() * 3) + 1;

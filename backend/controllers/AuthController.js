@@ -5,12 +5,13 @@ const { randomKey } = require("../utils");
 const controller = {
   async signup(req, res) {
     try {
-      req.body.email = req.body.email.toLowerCase().trim();
-      const { email, name, password } = req.body;
+      // console.log(req.body);
+      // req.body.email = req.body.email.toLowerCase().trim();
+      // const { email, name, password } = req.body;
 
-      await User.create({ email, name, password });
+      // await User.create({ email, name, password });
 
-      res.status(200).json({ success: true });
+      res.status(500).json({ success: false });
     } catch (error) {
       console.error(error);
       res
