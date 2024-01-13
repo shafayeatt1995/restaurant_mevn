@@ -15,9 +15,10 @@
     <section
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
-      <div>
-        <h2 class="text-3xl font-medium text-gray-600">Order</h2>
-      </div>
+      <h2 class="text-3xl font-medium text-gray-600">Order</h2>
+      <Button @click.native.prevent="refetch"
+        ><font-awesome-icon :icon="['fas', 'rotate']" /> Refresh</Button
+      >
     </section>
 
     <section class="px-4">

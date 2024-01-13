@@ -1,5 +1,6 @@
-const { Order } = require("@/backend/models");
+const { Order, BlockUser } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
+const moment = require("moment");
 
 const calcPrice = (item) => {
   const { qty, price, addon, choice } = item;
@@ -34,76 +35,91 @@ const controller = {
         orderType,
       } = req.body;
 
-      const checkOrder = await Order.findOne({
+      const blockUser = await BlockUser.findOne({
         restaurantID,
-        tableID,
-        status: { $in: ["pending", "active"] },
+        email: userEmail,
       });
-      if (checkOrder) {
-        if (checkOrder.userEmail === userEmail) {
-          const checkAdditionalOrderNumber = checkOrder.orderItems.reduce(
-            (max, current) =>
-              current.AdditionalOrderNumber > max
-                ? current.AdditionalOrderNumber
-                : max,
-            0
-          );
-          const newItem = orderItems.map((mapData) => ({
-            ...mapData,
-            AdditionalOrderNumber: checkAdditionalOrderNumber + 1,
-          }));
-
-          await Order.updateOne(
-            {
-              restaurantID,
-              tableID,
-              userEmail,
-            },
-            {
-              $push: { orderItems: newItem },
-              $set: {
-                totalPrice: checkOrder.totalPrice + calcTotalPrice(orderItems),
-                netPrice:
-                  checkOrder.netPrice +
-                  calcTotalPrice(orderItems) -
-                  calcTotalDiscount(orderItems),
-                totalDiscount:
-                  checkOrder.totalDiscount + calcTotalDiscount(orderItems),
-                totalQty: checkOrder.totalQty + totalQuantity(orderItems),
-                note,
-                orderType:
-                  orderType === checkOrder.orderType
-                    ? orderType
-                    : `Dine in & Parcel`,
-                status: "pending",
-              },
-            }
-          );
-          global.io.emit(`order-notification-${restaurantID}`);
-          res.status(200).json({ success: true });
-        } else {
-          res.status(500).json({
-            success: false,
-            message: `Sorry, Someone has already ordered from this table. Please ask a waiter for help`,
-          });
-        }
+      if (blockUser && new Date(blockUser.date) > new Date()) {
+        res.status(422).json({
+          success: false,
+          message: `you have been blocked for ${moment(blockUser.date).format(
+            "DD-MM-YYYY hh:mmA"
+          )}`,
+        });
       } else {
-        const data = await Order.create({
-          userEmail,
-          userName,
+        const checkOrder = await Order.findOne({
           restaurantID,
           tableID,
-          tableName,
-          orderItems,
-          totalPrice: calcTotalPrice(orderItems),
-          netPrice: calcTotalPrice(orderItems) - calcTotalDiscount(orderItems),
-          totalDiscount: calcTotalDiscount(orderItems),
-          totalQty: totalQuantity(orderItems),
-          note,
-          orderType,
+          status: { $in: ["pending", "active"] },
         });
-        global.io.emit(`order-notification-${restaurantID}`);
-        res.status(200).json({ success: true });
+        if (checkOrder) {
+          if (checkOrder.userEmail === userEmail) {
+            const checkAdditionalOrderNumber = checkOrder.orderItems.reduce(
+              (max, current) =>
+                current.AdditionalOrderNumber > max
+                  ? current.AdditionalOrderNumber
+                  : max,
+              0
+            );
+            const newItem = orderItems.map((mapData) => ({
+              ...mapData,
+              AdditionalOrderNumber: checkAdditionalOrderNumber + 1,
+            }));
+
+            await Order.updateOne(
+              {
+                restaurantID,
+                tableID,
+                userEmail,
+              },
+              {
+                $push: { orderItems: newItem },
+                $set: {
+                  totalPrice:
+                    checkOrder.totalPrice + calcTotalPrice(orderItems),
+                  netPrice:
+                    checkOrder.netPrice +
+                    calcTotalPrice(orderItems) -
+                    calcTotalDiscount(orderItems),
+                  totalDiscount:
+                    checkOrder.totalDiscount + calcTotalDiscount(orderItems),
+                  totalQty: checkOrder.totalQty + totalQuantity(orderItems),
+                  note,
+                  orderType:
+                    orderType === checkOrder.orderType
+                      ? orderType
+                      : `Dine in & Parcel`,
+                  status: "pending",
+                },
+              }
+            );
+            global.io.emit(`order-notification-${restaurantID}`);
+            res.status(200).json({ success: true });
+          } else {
+            res.status(422).json({
+              success: false,
+              message: `Sorry, Someone has already ordered from this table. Please ask a waiter for help`,
+            });
+          }
+        } else {
+          const data = await Order.create({
+            userEmail,
+            userName,
+            restaurantID,
+            tableID,
+            tableName,
+            orderItems,
+            totalPrice: calcTotalPrice(orderItems),
+            netPrice:
+              calcTotalPrice(orderItems) - calcTotalDiscount(orderItems),
+            totalDiscount: calcTotalDiscount(orderItems),
+            totalQty: totalQuantity(orderItems),
+            note,
+            orderType,
+          });
+          global.io.emit(`order-notification-${restaurantID}`);
+          res.status(200).json({ success: true });
+        }
       }
     } catch (error) {
       console.error(error);

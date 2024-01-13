@@ -29,8 +29,8 @@
         <template #created_at="{ value }">{{ value | agoDate }}</template>
         <template #date="{ value }">
           <Badge
-            variant="green"
-            :title="new Date(value) > new Date() ? `Blocked` : `Active`"
+            :variant="new Date(value) > new Date() ? 'green' : 'white'"
+            :title="new Date(value) > new Date() ? `Blocked` : `Unblocked`"
           />
         </template>
         <template #actions="{ item, index }">
@@ -125,7 +125,7 @@ export default {
   middleware: "manager",
   components: { DatePicker },
   head() {
-    return { title: "Block User - " + this.pageTitle };
+    return { title: "Block List - " + this.pageTitle };
   },
   data() {
     return {
