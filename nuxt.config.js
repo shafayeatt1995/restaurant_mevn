@@ -5,7 +5,7 @@ export default {
     port: process.env.PORT || 8080,
   },
   head: {
-    title: process.env.APP_NAME || "ScanEat",
+    title: process.env.APP_NAME || "ScanEating",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -23,7 +23,7 @@ export default {
       },
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.jpg" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap",

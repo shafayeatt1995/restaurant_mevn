@@ -100,6 +100,12 @@ export default {
           icon: ["fas", "utensils"],
         },
         {
+          show: this.manager,
+          name: "dashboard-block-list",
+          title: "Block List",
+          icon: ["fas", "users-slash"],
+        },
+        {
           show: this.manager || this.admin || this.waiter,
           name: "dashboard-settings",
           title: "Settings",

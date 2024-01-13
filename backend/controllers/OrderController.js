@@ -143,7 +143,6 @@ const controller = {
         }
       } else {
       }
-      console.log(matchQuery);
 
       const orders = await Order.aggregate([
         { $match: matchQuery },

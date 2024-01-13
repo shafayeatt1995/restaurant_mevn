@@ -154,7 +154,13 @@
           class="flex mb-2"
         >
           <td class="pr-3">{{ cart.qty }}x</td>
-          <td class="flex-1">
+          <td class="flex-1 min-h-11">
+            <small
+              v-if="cart.AdditionalOrderNumber > 1"
+              class="absolute mt-[-12px]"
+            >
+              Additional order {{ th(cart.AdditionalOrderNumber - 1) }} time
+            </small>
             <p class="font-medium text-wrap">
               {{ cart.name }}
               <span v-if="cart.choice?.name">({{ cart.choice?.name }})</span>
@@ -527,6 +533,18 @@ export default {
         return true;
       } else {
         return false;
+      }
+    },
+    th(number) {
+      switch (+number) {
+        case 1:
+          return number + "st";
+        case 2:
+          return number + "nd";
+        case 3:
+          return number + "rd";
+        default:
+          return number + "th";
       }
     },
   },

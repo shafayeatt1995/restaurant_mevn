@@ -11,6 +11,10 @@ const {
   createTableVal,
   updateTableVal,
 } = require("@/backend/validation/table");
+const {
+  createBlockVal,
+  updateBlockVal,
+} = require("@/backend/validation/blockUser");
 const { validation } = require("@/backend/validation");
 const {
   updateRestaurantName,
@@ -25,6 +29,12 @@ const {
   updateTable,
   deleteTable,
 } = require("@/backend/controllers/TableController");
+const {
+  fetchBlockUser,
+  createBlockUser,
+  updateBlockUser,
+  deleteBlockUser,
+} = require("@/backend/controllers//BlockUserController");
 const {
   createItem,
   fetchItem,
@@ -92,6 +102,11 @@ router.get("/table", fetchTable);
 router.post("/table", createTableVal, validation, createTable);
 router.patch("/table", updateTableVal, validation, updateTable);
 router.delete("/table", deleteTable);
+
+router.get("/block-user", fetchBlockUser);
+router.post("/block-user", createBlockVal, validation, createBlockUser);
+router.patch("/block-user", updateBlockVal, validation, updateBlockUser);
+router.delete("/block-user", deleteBlockUser);
 
 router.get("/employee", fetchEmployee);
 router.post("/employee", createEmployeeVal, validation, createEmployee);

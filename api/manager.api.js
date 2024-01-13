@@ -53,6 +53,22 @@ export class ManagerApi extends BaseApi {
     return this.api.$delete(`table`, { params });
   }
 
+  fetchBlockUser(params) {
+    return this.api.$get(`block-user`, { params });
+  }
+
+  createBlockUser(body) {
+    return this.api.$post(`block-user`, body);
+  }
+
+  updateBlockUser(body) {
+    return this.api.$patch(`block-user`, body);
+  }
+
+  deleteBlockUser(params) {
+    return this.api.$delete(`block-user`, { params });
+  }
+
   fetchEmployee() {
     return this.api.$get(`employee`);
   }

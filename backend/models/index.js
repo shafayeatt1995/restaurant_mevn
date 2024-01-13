@@ -7,4 +7,5 @@ module.exports = {
   Table: require("./table"),
   SubCategory: require("./subCategory"),
   Order: require("./order"),
+  BlockUser: require("./blockUser"),
 };
