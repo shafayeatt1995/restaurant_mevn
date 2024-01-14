@@ -23,10 +23,12 @@
       :items="items"
     />
 
-    <p class="text-center py-3">
-      powered by anik <sup class="text-base">®</sup>
+    <p class="text-center py-5">
+      All right reserved by
+      <nuxt-link :to="{ name: 'index' }" class="text-green-500"
+        >www.scaneating.com</nuxt-link
+      ><sup class="text-base">®</sup>
     </p>
-
     <MenuCart v-if="!editMode" />
     <div class="mb-16"></div>
   </div>

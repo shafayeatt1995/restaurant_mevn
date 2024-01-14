@@ -31,7 +31,7 @@ export default {
       },
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.jpg" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap",
@@ -83,7 +83,7 @@ export default {
 
   modules: [
     "@nuxtjs/axios",
-    // "@nuxtjs/pwa",
+    "@nuxtjs/pwa",
     "@nuxtjs/auth-next",
     "nuxt-client-init-module",
     "vue2-editor/nuxt",

@@ -107,8 +107,8 @@
                   <span class="font-bold">{{ item.waiterName || "#" }}</span>
                 </p>
                 <p class="font-normal">
-                  Customer name:
-                  <span class="font-bold">{{ item.userName || "#" }}</span>
+                  Customer ID:
+                  <span class="font-bold">{{ item.userEmail || "#" }}</span>
                 </p>
               </div>
             </template>
@@ -143,6 +143,15 @@
         <CloseButton @click.native.prevent="modal = false" />
       </div>
       <hr class="my-3" />
+      <div class="grid grid-cols-1 lg:grid-cols-2 justify-between">
+        <p>Name: {{ orderDetails.userName }}</p>
+        <p>ID: {{ orderDetails.userEmail }}</p>
+        <p>Type: {{ orderDetails.orderType }}</p>
+        <p>Table: {{ orderDetails.tableName }}</p>
+        <p>Status: {{ orderDetails.status }}</p>
+        <p>Waiter: {{ orderDetails.waiterName }}</p>
+      </div>
+      <hr class="my-2" />
       <table class="flex flex-col flex-1 text-gray-700">
         <tr class="flex mb-2 text-lg font-semibold">
           <th class="pr-3">Qty</th>
