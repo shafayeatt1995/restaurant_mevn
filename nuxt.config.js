@@ -7,6 +7,7 @@ export default {
     port: process.env.PORT || 8080,
   },
   head: {
+    htmlAttrs: { lang: "en" },
     title: process.env.APP_NAME || "ScanEating",
     meta: [
       { charset: "utf-8" },
