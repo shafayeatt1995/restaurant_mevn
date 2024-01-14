@@ -145,13 +145,12 @@ export default {
     manifest: {
       lang: "en",
       name: process.env.APP_NAME || "ScanEating",
-      short_name: process.env.APP_NAME || "ScanEating",
+      // short_name: process.env.APP_NAME || "ScanEating",
       start_url: "/dashboard",
-      icons: [{ src: "/favicon.png" }],
-      theme_color: "#000000",
-      background_color: "#FFFFFF",
-      display: "fullscreen",
-      orientation: "portrait",
+      // theme_color: "#000000",
+      // background_color: "#FFFFFF",
+      // display: "fullscreen",
+      // orientation: "portrait",
     },
   },
 

@@ -24,6 +24,7 @@
 <script>
 export default {
   name: "indexPage",
+  auth: false,
   computed: {
     imageUrl() {
       const randomNumber = Math.floor(Math.random() * 3) + 1;
