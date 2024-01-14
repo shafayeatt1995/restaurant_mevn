@@ -36,7 +36,7 @@ export default {
             const params = JSON.parse(socialLogin + "");
             window.localStorage.removeItem("socialLogin");
             this.$router.push({
-              name: "m-slug-table",
+              name: "menu-slug-table",
               params,
               query: {
                 error: "This email already used. Try with another gmail",
@@ -54,7 +54,7 @@ export default {
             const params = JSON.parse(socialLogin + "");
             window.localStorage.removeItem("socialLogin");
             this.$router.push({
-              name: "m-slug-table",
+              name: "menu-slug-table",
               params,
             });
           } else {
@@ -66,7 +66,7 @@ export default {
         window.localStorage.removeItem("socialLogin");
         if (params) {
           this.$router.push({
-            name: "m-slug-table",
+            name: "menu-slug-table",
             params,
           });
         } else {

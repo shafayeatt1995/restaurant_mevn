@@ -6,7 +6,7 @@
     </nuxt-link>
     <br />
     <nuxt-link
-      :to="{ name: 'm-slug-table', params: { slug: '1c', table: '1fg' } }"
+      :to="{ name: 'menu-slug-table', params: { slug: '1c', table: '1fg' } }"
       class="text-blue-500"
     >
       Goto Item page

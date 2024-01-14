@@ -32,7 +32,11 @@ const controller = {
         categories,
         subCategories,
         items,
-        table: findTable,
+        table: findTable || {
+          restaurantID: "655dbbb2860b71a2dabec31f",
+          name: "table-8",
+          serial: "table-8-rh",
+        },
       });
     } catch (error) {
       console.error(error);

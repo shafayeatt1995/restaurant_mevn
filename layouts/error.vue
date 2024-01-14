@@ -52,7 +52,7 @@ export default {
     };
   },
   mounted() {
-    this.setRoute(this.$route.name === "m-slug-table");
+    this.setRoute(this.$route.name === "menu-slug-table");
     lottie.loadAnimation({
       container: this.$refs.error,
       renderer: "canvas",

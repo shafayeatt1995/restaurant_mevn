@@ -1,5 +1,7 @@
 export default {
-  ssr: process.env.MODE === "universal" ? true : false,
+  ssr: process.env.MODE === "universal" ? true : false, //universal / spa
+  target: process.env.TARGET ?? "server", // static / server
+  generate: { interval: 1000 },
   server: {
     host: process.env.HOST || "0.0.0.0",
     port: process.env.PORT || 8080,
@@ -66,6 +68,7 @@ export default {
     "@nuxtjs/tailwindcss",
     "@nuxtjs/fontawesome",
     "@nuxtjs/dotenv",
+    "@/modules/generator",
   ],
 
   fontawesome: {
@@ -84,7 +87,19 @@ export default {
     "nuxt-client-init-module",
     "vue2-editor/nuxt",
     "nuxt-svg-loader",
+    "@nuxtjs/sitemap",
   ],
+
+  sitemap: {
+    hostname: "https://scaneating.com",
+    gzip: true,
+    exclude: [],
+    defaults: {
+      changefreq: "daily",
+      priority: 1,
+      lastmod: new Date(),
+    },
+  },
 
   axios: {
     proxy: true,
