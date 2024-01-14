@@ -49,8 +49,10 @@ export default {
     },
     async activate() {
       try {
+        console.log("ami anik");
         const token = await getToken(messaging, {
-          vapidKey: "",
+          vapidKey:
+            "BP5z8WALZDqbQmWj4m1kyQoT8GCX-cclC7-0kLY10WBcCA5RunJX1uvfmiA3Xc79EnTpdRBGiOHp9sAlEySFKKk",
         });
         console.log("ami anik");
         console.log(messaging);

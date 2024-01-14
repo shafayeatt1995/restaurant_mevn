@@ -3,23 +3,22 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const session = require("cookie-session");
+const fileUpload = require("express-fileupload");
 const cors = require("cors");
 require("module-alias/register");
+require("@/backend/config/database");
 
 app.use(cors());
 
 app.use(
   session({
-    // secret: process.env.SESSION_SECRET,
-    // resave: false,
-    // saveUninitialized: true,
     name: "session",
     keys: [process.env.SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000,
   })
 );
 
-require("@/backend/config/database");
+app.use(fileUpload({ limits: { fileSize: 2 * 1024 * 1024 } }));
 
 function verifyRequest(req, res, buf, encoding) {
   req.rawBody = buf.toString(encoding);
