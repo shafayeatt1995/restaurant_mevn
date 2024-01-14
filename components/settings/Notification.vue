@@ -2,23 +2,20 @@
   <div class="flex flex-col gap-3">
     <div class="flex justify-between items-center">
       <p>Check notification</p>
-      <Button @click.native.prevent="checkNotification"
+      <Button @click.native.prevent="checkNotificationPermission"
         >Check notification</Button
       >
     </div>
   </div>
 </template>
 <script>
-import { getAuth, signInAnonymously } from "firebase/auth";
-import { getMessaging, onMessage, getToken } from "firebase/messaging";
-import { messaging } from "@/plugins/firebase";
 export default {
   name: "SettingsNotification",
-  mounted() {
-    const messaging = getMessaging();
-    onMessage(messaging, (payload) => {
-      console.log("message on client: ", payload);
-    });
+  data() {
+    return {
+      listenersStarted: false,
+      idToken: "",
+    };
   },
   methods: {
     async checkNotificationPermission() {
@@ -41,28 +38,6 @@ export default {
         }
       } catch (error) {
         console.error(error);
-      }
-    },
-    async checkNotification() {
-      await signInAnonymously(getAuth());
-      this.activate();
-    },
-    async activate() {
-      try {
-        console.log("ami anik");
-        const token = await getToken(messaging, {
-          vapidKey:
-            "BP5z8WALZDqbQmWj4m1kyQoT8GCX-cclC7-0kLY10WBcCA5RunJX1uvfmiA3Xc79EnTpdRBGiOHp9sAlEySFKKk",
-        });
-        console.log("ami anik");
-        console.log(messaging);
-        if (token) {
-          console.log(token);
-        } else {
-          console.log("token pai ni");
-        }
-      } catch (error) {
-        console.log(error);
       }
     },
     playNotificationSound() {

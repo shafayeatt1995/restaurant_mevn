@@ -60,7 +60,6 @@ export default {
     "~/plugins/api.js",
     "~/plugins/filter.js",
     { src: "~/plugins/toast.js", ssr: false },
-    { src: "~/plugins/firebase.js", ssr: false },
   ],
 
   components: true,
