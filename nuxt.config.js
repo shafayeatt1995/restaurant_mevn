@@ -141,15 +141,28 @@ export default {
   },
 
   pwa: {
-    icon: { fileName: "favicon.png" },
+    icons: { fileName: "favicon.png" },
     manifest: {
       lang: "en",
       name: process.env.APP_NAME || "ScanEating",
       short_name: process.env.APP_NAME || "ScanEating",
       start_url: "/demo",
+      display: "standalone",
       theme_color: "#FFFFFF",
       background_color: "#FFFFFF",
-      orientation: "portrait",
+      orientation: "portrait-primary",
+      icons: [
+        {
+          src: "favicon.png",
+          sizes: "500x500",
+          type: "image&#x2F;png",
+        },
+        {
+          src: "favicon.png",
+          sizes: "192x192",
+          type: "image&#x2F;png",
+        },
+      ],
     },
   },
 

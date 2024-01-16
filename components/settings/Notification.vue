@@ -22,7 +22,12 @@
         >remove service worker</Button
       >
     </div>
-    <p>{{ JSON.stringify(registrationData) }}</p>
+    <div class="flex justify-between items-center">
+      <p>Test notification</p>
+      <Button @click.native.prevent="testNotification" :loading="loading"
+        >Test notification</Button
+      >
+    </div>
   </div>
 </template>
 <script>
@@ -130,6 +135,17 @@ export default {
         }
       } catch (error) {
         alert("Error during service worker unregistration:", error);
+      }
+    },
+    async testNotification() {
+      try {
+        this.loading = true;
+        const data = await this.$commonApi.testNotification();
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loading = false;
       }
     },
   },

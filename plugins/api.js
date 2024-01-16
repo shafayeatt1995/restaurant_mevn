@@ -6,6 +6,7 @@ import {
   ItemApi,
   OrderApi,
   MowApi,
+  CommonApi,
 } from "@/api";
 export default function ({ $axios }, inject) {
   inject("userApi", new UserApi($axios));
@@ -15,4 +16,5 @@ export default function ({ $axios }, inject) {
   inject("itemApi", new ItemApi($axios));
   inject("orderApi", new OrderApi($axios));
   inject("mowApi", new MowApi($axios));
+  inject("commonApi", new CommonApi($axios));
 }

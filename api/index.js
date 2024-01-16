@@ -5,3 +5,4 @@ export * from "./manager.api";
 export * from "./item.api";
 export * from "./order.api";
 export * from "./managerOrWater.api";
+export * from "./common.api";
