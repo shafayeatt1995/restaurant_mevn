@@ -26,6 +26,10 @@ const saveSubscription = async (subscription) => {
   return response.json();
 };
 
+self.addEventListener("install", function (e) {
+  self.skipWaiting();
+});
+
 self.addEventListener("activate", async (e) => {
   const subscription = await self.registration.pushManager.subscribe({
     userVisibleOnly: true,

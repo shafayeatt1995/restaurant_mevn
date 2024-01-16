@@ -5,15 +5,21 @@
       <Button @click.native.prevent="anik" :loading="loading">anik</Button>
     </div>
     <div class="flex justify-between items-center">
-      <p>Check notification</p>
-      <Button @click.native.prevent="checkNotification" :loading="loading"
-        >Check notification</Button
+      <p>Install service worker</p>
+      <Button @click.native.prevent="installServiceWorker" :loading="loading"
+        >Install service worker</Button
       >
     </div>
     <div class="flex justify-between items-center">
-      <p>Check notification</p>
+      <p>Check service worder</p>
       <Button @click.native.prevent="checkServiceWorker" :loading="loading"
         >Check service worker</Button
+      >
+    </div>
+    <div class="flex justify-between items-center">
+      <p>remove</p>
+      <Button @click.native.prevent="removeServiceWorker" :loading="loading"
+        >remove service worker</Button
       >
     </div>
     <p>{{ JSON.stringify(registrationData) }}</p>
@@ -30,7 +36,7 @@ export default {
     };
   },
   methods: {
-    async checkNotificationPermission() {
+    async installServiceWorkerPermission() {
       try {
         if (!("Notification" in window)) {
           alert("This browser does not support notifications");
@@ -56,7 +62,7 @@ export default {
       const audio = new Audio("/audio/order.mp3");
       audio.play();
     },
-    async checkNotification() {
+    async installServiceWorker() {
       try {
         this.loading = true;
         if ("serviceWorker" in navigator && "Notification" in window) {
@@ -94,7 +100,6 @@ export default {
           if (registration) {
             this.registrationData = registration;
             alert("service-worker.js is installed:");
-            alert(registration);
           } else {
             alert("service-worker.js is not installed");
           }
@@ -110,6 +115,21 @@ export default {
         alert("Your Browser doesn't support ServiceWorkers");
       } else {
         alert("Your Browser support ServiceWorkers");
+      }
+    },
+    async removeServiceWorker() {
+      try {
+        const registration = await navigator.serviceWorker.getRegistration(
+          "/service-worker.js"
+        );
+        if (registration) {
+          await registration.unregister();
+          alert("Service Worker unregistered successfully");
+        } else {
+          alert("No service worker registered");
+        }
+      } catch (error) {
+        alert("Error during service worker unregistration:", error);
       }
     },
   },

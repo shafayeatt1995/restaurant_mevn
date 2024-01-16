@@ -39,6 +39,7 @@ const controller = {
 
           res.status(200).json({ success: true });
         } else {
+          console.log(endpoint, keys, cookie);
           throw new Error("something is wrong");
         }
       } else {
