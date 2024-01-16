@@ -31,7 +31,7 @@ export default {
       },
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.jpeg" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap",
@@ -141,7 +141,7 @@ export default {
   },
 
   pwa: {
-    icon: { fileName: "favicon.png" },
+    icon: { fileName: "favicon.jpeg" },
     manifest: {
       lang: "en",
       name: process.env.APP_NAME || "ScanEating",
