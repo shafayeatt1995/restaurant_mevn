@@ -8,7 +8,6 @@ const controller = {
       const data = await PushNotification.findOne({
         email: "manager@manager.com",
       });
-      console.log(data.subscription);
       await webPush.sendNotification(data.subscription, "Ami anik");
       res.status(200).json({ success: true, data });
     } catch (error) {

@@ -15,8 +15,8 @@ const base64Convert = (base64String) => {
 
 const saveSubscription = async (subscription) => {
   const response = await fetch(
-    // "http://localhost:8080/api/push-notification/update",
-    "https://scaneating.com/api/push-notification/update",
+    "http://localhost:8080/api/push-notification/update",
+    // "https://scaneating.com/api/push-notification/update",
     {
       method: "post",
       headers: { "Content-type": "application/json" },
@@ -33,6 +33,7 @@ self.addEventListener("activate", async (e) => {
       "BEjfeQ9ym633deePHh93i9o0OZyV8h9bvvLZfy21vR2AJOvpm26gqNaRk23wv7JiewVWh6yTqz7AK4zQ6kb6Y34"
     ),
   });
+  console.log(subscription);
   if (subscription) {
     await saveSubscription(subscription);
   }
