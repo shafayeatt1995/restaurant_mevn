@@ -27,14 +27,12 @@ const saveSubscription = async (subscription) => {
 };
 
 self.addEventListener("activate", async (e) => {
-  console.log("ami anik");
   const subscription = await self.registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: base64Convert(
       "BEjfeQ9ym633deePHh93i9o0OZyV8h9bvvLZfy21vR2AJOvpm26gqNaRk23wv7JiewVWh6yTqz7AK4zQ6kb6Y34"
     ),
   });
-  console.log(subscription);
   if (subscription) {
     await saveSubscription(subscription);
   }

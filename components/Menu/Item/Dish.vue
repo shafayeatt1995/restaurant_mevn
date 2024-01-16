@@ -333,7 +333,11 @@ export default {
       return find?.image ?? "";
     },
     itemPrice() {
-      return this.modalItem.price + (this.activeChoice.price || 0);
+      return (
+        this.modalItem.price +
+        (this.activeChoice.price || 0) +
+        this.activeAddon.reduce((total, value) => total + (value.price || 0), 0)
+      );
     },
     inputFields() {
       return [
