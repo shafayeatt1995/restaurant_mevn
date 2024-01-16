@@ -140,7 +140,7 @@ export default {
     async testNotification() {
       try {
         this.loading = true;
-        const data = await this.$commonApi.testNotification();
+        await this.$commonApi.testNotification();
       } catch (error) {
         console.error(error);
       } finally {

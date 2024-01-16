@@ -5,12 +5,9 @@ const webPush = require("web-push");
 const controller = {
   async sendNotification(req, res) {
     try {
-      console.log("ami anik notification send");
       const data = await PushNotification.findOne({
         email: "manager@manager.com",
       });
-      console.log(data);
-      console.log(data.subscription);
       await webPush.sendNotification(data.subscription, "Ami anik");
       res.status(200).json({ success: true, data });
     } catch (error) {
@@ -22,7 +19,6 @@ const controller = {
   },
   async updateData(req, res) {
     try {
-      console.log(req.body, req.headers);
       const { endpoint, expirationTime, keys } = req.body;
       if (endpoint && keys) {
         const { cookie } = req.headers;
@@ -43,7 +39,6 @@ const controller = {
 
           res.status(200).json({ success: true });
         } else {
-          console.log(endpoint, keys, cookie);
           throw new Error("something is wrong");
         }
       } else {
