@@ -22,6 +22,7 @@ const controller = {
   },
   async updateData(req, res) {
     try {
+      console.log(req.body, req.headers);
       const { endpoint, expirationTime, keys } = req.body;
       if (endpoint && keys) {
         const { cookie } = req.headers;

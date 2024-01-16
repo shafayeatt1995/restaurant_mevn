@@ -4,9 +4,9 @@ const { isAuthenticated } = require("@/backend/middleware");
 
 router.use("/auth", require("./auth"));
 router.use("/menu", require("./menu"));
-router.use("/push-notification", require("./push-notification"));
 
 router.use(isAuthenticated);
+router.use("/push-notification", require("./push-notification"));
 router.use("/order", require("./order"));
 router.use("/admin", require("./admin"));
 router.use("/manager", require("./manager"));
