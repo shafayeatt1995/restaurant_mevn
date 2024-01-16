@@ -15,8 +15,8 @@ const base64Convert = (base64String) => {
 
 const saveSubscription = async (subscription) => {
   const response = await fetch(
-    "http://localhost:8080/api/push-notification/update",
-    // "https://scaneating.com/api/push-notification/update",
+    // "http://localhost:8080/api/push-notification/update",
+    "https://scaneating.com/api/push-notification/update",
     {
       method: "post",
       headers: { "Content-type": "application/json" },
