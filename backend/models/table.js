@@ -37,6 +37,7 @@ TableSchema.pre("save", async function (next) {
 
     next();
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });

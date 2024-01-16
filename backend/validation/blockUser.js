@@ -53,6 +53,7 @@ const updateBlockVal = [
         }
         return true;
       } catch (error) {
+        console.error(error);
         throw new Error(error?.message || "Error validating table name");
       }
     }),

@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const session = require("cookie-session");
 const fileUpload = require("express-fileupload");
+const webPush = require("web-push");
 const cors = require("cors");
 require("module-alias/register");
 require("@/backend/config/database");
@@ -20,6 +21,11 @@ app.use(
 
 app.use(fileUpload({ limits: { fileSize: 2 * 1024 * 1024 } }));
 
+webPush.setVapidDetails(
+  "mailto:shafayetalanik@gmail.com",
+  process.env.VAPID_PUBLIC_KEY,
+  process.env.VAPID_PRIVATE_KEY
+);
 function verifyRequest(req, res, buf, encoding) {
   req.rawBody = buf.toString(encoding);
 }
@@ -31,7 +37,6 @@ app.use(compression());
 app.use(express.json({ limit: "32mb", verify: verifyRequest }));
 
 app.use("/", require("@/backend/routes"));
-// app.use("/webhooks", require("./webhooks"));
 
 app.use((err, req, res, next) => {
   console.error(err);

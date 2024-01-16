@@ -2,7 +2,6 @@ const nodemailer = require("nodemailer");
 const transport = require("@/backend/config/mail");
 
 const verificationMail = async (data) => {
-  console.log(data);
   const mailOptions = {
     from: "from@example.com",
     to: "user1@example.com,",
@@ -12,7 +11,7 @@ const verificationMail = async (data) => {
   };
   // await transport.sendMail(mailOptions, (error, info) => {
   //   if (error) {
-  //     return console.log(error);
+  //     return console.error(error);
   //   }
   //   console.log("Message sent: %s", info);
   // });

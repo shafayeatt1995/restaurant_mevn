@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-3">
     <div class="flex justify-between items-center">
       <p>Check notification</p>
-      <Button @click.native.prevent="checkNotificationPermission"
+      <Button @click.native.prevent="checkNotification" :loading="loading"
         >Check notification</Button
       >
     </div>
@@ -13,8 +13,7 @@ export default {
   name: "SettingsNotification",
   data() {
     return {
-      listenersStarted: false,
-      idToken: "",
+      loading: false,
     };
   },
   methods: {
@@ -43,6 +42,31 @@ export default {
     playNotificationSound() {
       const audio = new Audio("/audio/order.mp3");
       audio.play();
+    },
+    async checkNotification() {
+      try {
+        this.loading = true;
+        if ("serviceWorker" in navigator && "Notification" in window) {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            this.registerSW();
+          } else {
+            console.error("Notification permission not granted");
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async registerSW() {
+      const registration = await navigator.serviceWorker.register(
+        "/push-notification-service.js"
+      );
+      $nuxt.$emit("success", "Your device added to the notification service");
+
+      return registration;
     },
   },
 };

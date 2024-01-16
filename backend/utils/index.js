@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const { UTApi } = require("uploadthing/server");
 const stringSlug = (string) =>
   string
@@ -24,6 +25,24 @@ const paginate = (page, perPage) => {
   return [{ $skip: skip }, { $limit: limit }];
 };
 
+const verifyCookieToken = async (cookie) => {
+  try {
+    const cookieData = cookie
+      .split(";")
+      .map((cookie) => cookie.split("="))
+      .reduce((accumulator, [key, values]) => ({
+        ...accumulator,
+        [key.trim()]: decodeURIComponent(values),
+      }));
+    const token = cookieData["auth._token.cookie"].split(" ")[1];
+    const tokenData = await jwt.verify(token, process.env.AUTH_SECRET);
+    return tokenData;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 const utapi = new UTApi();
 
-module.exports = { stringSlug, randomKey, paginate, utapi };
+module.exports = { stringSlug, randomKey, paginate, utapi, verifyCookieToken };

@@ -5,7 +5,6 @@ const { randomKey } = require("../utils");
 const controller = {
   async signup(req, res) {
     try {
-      // console.log(req.body);
       // req.body.email = req.body.email.toLowerCase().trim();
       // const { email, name, password } = req.body;
 

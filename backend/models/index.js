@@ -8,4 +8,5 @@ module.exports = {
   SubCategory: require("./subCategory"),
   Order: require("./order"),
   BlockUser: require("./blockUser"),
+  PushNotification: require("./pushNotification"),
 };
