@@ -13,19 +13,6 @@ const base64Convert = (base64String) => {
   return outputArray;
 };
 
-const saveSubscription = async (subscription) => {
-  const response = await fetch(
-    // "http://localhost:8080/api/push-notification/update",
-    "https://scaneating.com/api/push-notification/update",
-    {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(subscription),
-    }
-  );
-  return response.json();
-};
-
 self.addEventListener("install", function (e) {
   self.skipWaiting();
 });
@@ -37,10 +24,17 @@ self.addEventListener("activate", async (e) => {
       "BEjfeQ9ym633deePHh93i9o0OZyV8h9bvvLZfy21vR2AJOvpm26gqNaRk23wv7JiewVWh6yTqz7AK4zQ6kb6Y34"
     ),
   });
-  console.log(subscription);
-  if (subscription) {
-    await saveSubscription(subscription);
-  }
+  // if (subscription) {
+  await fetch(
+    // "http://localhost:8080/api/push-notification/update",
+    "https://scaneating.com/api/push-notification/update",
+    {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(subscription),
+    }
+  );
+  // }
 });
 
 self.addEventListener("push", (e) => {

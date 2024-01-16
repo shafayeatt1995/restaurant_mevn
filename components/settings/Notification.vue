@@ -141,9 +141,8 @@ export default {
       try {
         this.loading = true;
         const data = await this.$commonApi.testNotification();
-        console.log(data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         this.loading = false;
       }
