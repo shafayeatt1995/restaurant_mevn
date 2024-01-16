@@ -62,39 +62,41 @@ export default {
         if ("serviceWorker" in navigator && "Notification" in window) {
           const permission = await Notification.requestPermission();
           if (permission === "granted") {
-            await navigator.serviceWorker.register(
-              "/push-notification-service.js",
-              { scope: "/" }
-            );
+            await navigator.serviceWorker.register("/service-worker.js", {
+              scope: "/",
+            });
 
             $nuxt.$emit(
               "success",
               "Your device added to the notification service"
             );
           } else {
-            console.error("Notification permission not granted");
+            alert("Notification permission not granted");
           }
+        } else {
+          alert("Service Worker or Notification API not supported");
         }
       } catch (error) {
-        console.error(error);
+        alert("Error during service worker registration:", error);
       } finally {
         this.loading = false;
       }
     },
+
     async checkServiceWorker() {
       try {
         if ("serviceWorker" in navigator) {
           this.serviceWorker = true;
           const registration = await navigator.serviceWorker.getRegistration(
-            "/push-notification-service.js"
+            "/service-worker.js"
           );
 
           if (registration) {
             this.registrationData = registration;
-            alert("push-notification-service.js is installed:");
+            alert("service-worker.js is installed:");
             alert(registration);
           } else {
-            alert("push-notification-service.js is not installed");
+            alert("service-worker.js is not installed");
           }
         } else {
           alert("Service workers are not supported in this browser.");
