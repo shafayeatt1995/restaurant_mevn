@@ -11,7 +11,7 @@
       >
     </div>
     <div class="flex justify-between items-center">
-      <p>Check service worder</p>
+      <p>Check service worker</p>
       <Button @click.native.prevent="checkServiceWorker" :loading="loading"
         >Check service worker</Button
       >
@@ -73,9 +73,7 @@ export default {
         if ("serviceWorker" in navigator && "Notification" in window) {
           const permission = await Notification.requestPermission();
           if (permission === "granted") {
-            await navigator.serviceWorker.register("/service-worker.js", {
-              scope: "/",
-            });
+            await navigator.serviceWorker.register("/sw.js", { scope: "/" });
 
             $nuxt.$emit(
               "success",
@@ -99,14 +97,14 @@ export default {
         if ("serviceWorker" in navigator) {
           this.serviceWorker = true;
           const registration = await navigator.serviceWorker.getRegistration(
-            "/service-worker.js"
+            "/sw.js"
           );
 
           if (registration) {
             this.registrationData = registration;
-            alert("service-worker.js is installed:");
+            alert("sw.js is installed:");
           } else {
-            alert("service-worker.js is not installed");
+            alert("sw.js is not installed");
           }
         } else {
           alert("Service workers are not supported in this browser.");
@@ -125,7 +123,7 @@ export default {
     async removeServiceWorker() {
       try {
         const registration = await navigator.serviceWorker.getRegistration(
-          "/service-worker.js"
+          "/sw.js"
         );
         if (registration) {
           await registration.unregister();

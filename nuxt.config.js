@@ -94,11 +94,7 @@ export default {
     hostname: "https://scaneating.com",
     gzip: true,
     exclude: [],
-    defaults: {
-      changefreq: "daily",
-      priority: 1,
-      lastmod: new Date(),
-    },
+    defaults: { changefreq: "daily", priority: 1, lastmod: new Date() },
   },
 
   axios: {
@@ -147,10 +143,11 @@ export default {
       name: process.env.APP_NAME || "ScanEating",
       short_name: process.env.APP_NAME || "ScanEating",
       start_url: "/demo",
-      theme_color: "#FFFFFF",
+      theme_color: "#86EFAC",
       background_color: "#FFFFFF",
       orientation: "portrait",
     },
+    workbox: { swTemplate: "static/service-worker.js" },
   },
 
   router: { middleware: ["auth"] },
