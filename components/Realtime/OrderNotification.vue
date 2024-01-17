@@ -25,26 +25,50 @@ export default {
     }
   },
   methods: {
-    showNotification(data) {
+    // showNotification(data) {
+    //   if ("Notification" in window) {
+    //     Notification.requestPermission().then((permission) => {
+    //       if (permission === "granted") {
+    //         this.playNotificationSound();
+    //         const notification = new Notification(
+    //           `New order received from ${data.tableName}`
+    //         );
+
+    //         notification.onclick = function () {
+    //           window.open(`${this.baseUrl}/dashboard/order`, "_blank");
+    //         };
+    //       } else {
+    //         alert("Permission denied for notifications");
+    //       }
+    //     });
+    //   } else {
+    //     alert("Notification API not supported in this browser");
+    //   }
+    // },
+    async showNotification(data) {
       if ("Notification" in window) {
-        Notification.requestPermission().then((permission) => {
+        try {
+          const permission = await Notification.requestPermission();
+
           if (permission === "granted") {
             this.playNotificationSound();
+
             const notification = new Notification(
               `New order received from ${data.tableName}`
             );
 
-            notification.onclick = function () {
+            notification.onclick = () => {
               window.open(`${this.baseUrl}/dashboard/order`, "_blank");
             };
-          } else {
-            alert("Permission denied for notifications");
           }
-        });
+        } catch (error) {
+          console.error("Error requesting notification permission:", error);
+        }
       } else {
         alert("Notification API not supported in this browser");
       }
     },
+
     async playNotificationSound() {
       const audio = new Audio("/audio/order.mp3");
       audio.play();
