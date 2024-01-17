@@ -25,16 +25,9 @@ const paginate = (page, perPage) => {
   return [{ $skip: skip }, { $limit: limit }];
 };
 
-const verifyCookieToken = async (cookie) => {
+const verifyCookieToken = async (fullToken) => {
   try {
-    const cookieData = cookie
-      .split(";")
-      .map((cookie) => cookie.split("="))
-      .reduce((accumulator, [key, values]) => ({
-        ...accumulator,
-        [key.trim()]: decodeURIComponent(values),
-      }));
-    const token = cookieData["auth._token.cookie"].split(" ")[1];
+    const token = fullToken.split(" ")[1];
     const tokenData = await jwt.verify(token, process.env.AUTH_SECRET);
     return tokenData;
   } catch (error) {

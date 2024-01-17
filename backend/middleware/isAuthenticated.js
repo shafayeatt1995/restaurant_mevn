@@ -4,8 +4,6 @@ const isAuthenticated = async (req, res, next) => {
   try {
     const bearer =
       req.headers.authorization || req.cookies["auth._token.cookie"];
-    console.log(req.headers);
-    console.log(req.cookies);
     if (bearer) {
       const token =
         bearer.split(" ")[0].toLowerCase() === "bearer"

@@ -129,7 +129,7 @@ export default {
       },
     },
     redirect: {
-      home: "/auth/login",
+      home: "/dashboard",
       logout: "/auth/login",
       login: "/auth/login",
       callback: "/auth/login",
