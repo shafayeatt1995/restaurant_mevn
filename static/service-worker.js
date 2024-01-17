@@ -18,6 +18,13 @@ self.addEventListener("install", function (e) {
 });
 
 self.addEventListener("activate", async (e) => {
+  // await self.registration.unregister();
+
+  // const clients = await self.clients.matchAll();
+  // clients.forEach(async function (client) {
+  //   await client.navigate(client.url);
+  // });
+
   const subscription = await self.registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: base64Convert(

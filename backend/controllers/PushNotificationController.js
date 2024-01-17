@@ -5,9 +5,8 @@ const webPush = require("web-push");
 const controller = {
   async sendNotification(req, res) {
     try {
-      const data = await PushNotification.findOne({
-        email: "manager@manager.com",
-      });
+      const { _id: userID } = req.user;
+      const data = await PushNotification.findOne({ userID });
       await webPush.sendNotification(data.subscription, "Ami anik");
       res.status(200).json({ success: true, data });
     } catch (error) {
