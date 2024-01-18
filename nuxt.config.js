@@ -143,7 +143,7 @@ export default {
       name: process.env.APP_NAME || "ScanEating",
       short_name: process.env.APP_NAME || "ScanEating",
       start_url: "/demo",
-      theme_color: "#86EFAC",
+      theme_color: "#1D1E30",
       background_color: "#FFFFFF",
       orientation: "portrait",
     },

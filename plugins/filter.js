@@ -30,3 +30,7 @@ Vue.filter("year", (value) => {
 Vue.filter("number", (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 });
+
+Vue.filter("currencyNumber", (value) => {
+  return value.toLocaleString("en-IN");
+});

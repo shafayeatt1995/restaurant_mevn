@@ -56,10 +56,6 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
-p {
-  @apply text-gray-600; /* Use the custom utility class */
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s;
