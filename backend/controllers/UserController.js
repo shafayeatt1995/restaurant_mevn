@@ -1,9 +1,240 @@
-const { User, Restaurant } = require("@/backend/models");
-const { paginate } = require("@/backend/utils");
+const { User, Restaurant, Order } = require("@/backend/models");
+const { paginate, convertDate } = require("@/backend/utils");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
 const controller = {
+  async fetchDashboard(req, res) {
+    try {
+      const { today, week, month } = req.query;
+      const { restaurantID } = req.user;
+
+      const [
+        [todaySale],
+        [weeklySale],
+        [monthlySale],
+        [totalSale],
+        todayItems,
+        weeklyItems,
+        monthlyItems,
+      ] = await Promise.all([
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gt: convertDate(today, "start"),
+                $lt: convertDate(today, "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalOrder: { $sum: 1 },
+              totalSale: { $sum: "$netPrice" },
+            },
+          },
+        ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gt: convertDate(week[0], "start"),
+                $lt: convertDate(week[1], "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalOrder: { $sum: 1 },
+              totalSale: { $sum: "$netPrice" },
+            },
+          },
+        ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gt: convertDate(month[0], "start"),
+                $lt: convertDate(month[1], "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalOrder: { $sum: 1 },
+              totalSale: { $sum: "$netPrice" },
+            },
+          },
+        ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalOrder: { $sum: 1 },
+              totalSale: { $sum: "$netPrice" },
+            },
+          },
+        ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gt: convertDate(today, "start"),
+                $lt: convertDate(today, "end"),
+              },
+              status: "complete",
+            },
+          },
+          { $unwind: "$orderItems" },
+          {
+            $group: {
+              _id: "$orderItems._id",
+              totalQuantity: { $sum: "$orderItems.qty" },
+            },
+          },
+          { $sort: { totalQuantity: -1 } },
+          {
+            $lookup: {
+              from: "items",
+              localField: "_id",
+              foreignField: "_id",
+              as: "itemDetails",
+            },
+          },
+          { $unwind: "$itemDetails" },
+          {
+            $project: {
+              _id: 1,
+              totalQuantity: 1,
+              itemName: "$itemDetails.name",
+              itemImage: "$itemDetails.image",
+            },
+          },
+        ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gt: convertDate(week[0], "start"),
+                $lt: convertDate(week[1], "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $unwind: "$orderItems",
+          },
+          {
+            $group: {
+              _id: "$orderItems._id",
+              itemName: { $first: "$orderItems.name" },
+              totalQuantity: { $sum: "$orderItems.qty" },
+            },
+          },
+          {
+            $sort: {
+              totalQuantity: -1,
+            },
+          },
+          {
+            $lookup: {
+              from: "items",
+              localField: "_id",
+              foreignField: "_id",
+              as: "itemDetails",
+            },
+          },
+          { $unwind: "$itemDetails" },
+          {
+            $project: {
+              _id: 1,
+              totalQuantity: 1,
+              itemName: "$itemDetails.name",
+              itemImage: "$itemDetails.image",
+            },
+          },
+        ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gt: convertDate(month[0], "start"),
+                $lt: convertDate(month[1], "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $unwind: "$orderItems",
+          },
+          {
+            $group: {
+              _id: "$orderItems._id",
+              itemName: { $first: "$orderItems.name" },
+              totalQuantity: { $sum: "$orderItems.qty" },
+            },
+          },
+          {
+            $sort: {
+              totalQuantity: -1,
+            },
+          },
+          {
+            $lookup: {
+              from: "items",
+              localField: "_id",
+              foreignField: "_id",
+              as: "itemDetails",
+            },
+          },
+          { $unwind: "$itemDetails" },
+          {
+            $project: {
+              _id: 1,
+              totalQuantity: 1,
+              itemName: "$itemDetails.name",
+              itemImage: "$itemDetails.image",
+            },
+          },
+        ]),
+      ]);
+
+      res.status(200).json({
+        todaySale,
+        weeklySale,
+        monthlySale,
+        totalSale,
+        todayItems,
+        weeklyItems,
+        monthlyItems,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  },
+
   async profile(req, res) {
     const { _id } = req.user;
     const user = await User.findOne({ _id }).select("+power");

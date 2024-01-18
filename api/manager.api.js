@@ -140,4 +140,8 @@ export class ManagerApi extends BaseApi {
   copyItem(body) {
     return this.api.$post(`item/copy`, body);
   }
+
+  fetchDashboard(params) {
+    return this.api.$get(`dashboard`, { params });
+  }
 }

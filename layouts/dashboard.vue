@@ -51,9 +51,13 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 body {
   font-family: "Nunito", sans-serif;
+}
+
+p {
+  @apply text-gray-600; /* Use the custom utility class */
 }
 
 .fade-enter-active,

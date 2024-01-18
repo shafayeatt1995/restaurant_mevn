@@ -22,6 +22,7 @@ const {
   createEmployee,
   updateEmployee,
   deleteEmployee,
+  fetchDashboard,
 } = require("@/backend/controllers/UserController");
 const {
   fetchTable,
@@ -67,6 +68,9 @@ const {
 } = require("@/backend/validation/category");
 
 router.use(isManager);
+
+router.get("/dashboard", fetchDashboard);
+
 router.get("/item", fetchItem);
 router.get("/item/:_id", getItem);
 router.post("/item", createItemVal, validation, createItem);

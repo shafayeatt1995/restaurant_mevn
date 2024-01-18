@@ -7,6 +7,7 @@ const {
 const { paginate } = require("@/backend/utils");
 const webPush = require("web-push");
 const moment = require("moment");
+
 const sendNotification = async (
   name,
   message = "",
@@ -16,7 +17,7 @@ const sendNotification = async (
   try {
     if (name === "id") {
       const notification = await PushNotification.find({
-        $or: [{ userID: { $in: idList } }, { email: { $in: emailList } }],
+        userID: { $in: idList },
       });
       await Promise.all(
         notification.map((data) =>
@@ -122,7 +123,6 @@ const controller = {
               },
               { new: true }
             );
-            console.log(update);
             const restaurant = await Restaurant.findOne({ _id: restaurantID });
             if (restaurant) {
               const { userID } = restaurant;
@@ -140,7 +140,7 @@ const controller = {
             });
           }
         } else {
-          const data = await Order.create({
+          await Order.create({
             userEmail,
             userName,
             restaurantID,
@@ -158,11 +158,10 @@ const controller = {
           const restaurant = await Restaurant.findOne({ _id: restaurantID });
           if (restaurant) {
             const { userID, waiter } = restaurant;
-            sendNotification(
-              `id`,
-              [userID, ...waiter],
-              `Receive new order from ${tableName}`
-            );
+            sendNotification(`id`, `Receive new order from ${tableName}`, [
+              userID,
+              ...waiter,
+            ]);
           }
           global.io.emit(`order-notification-${restaurantID}`);
           res.status(200).json({ success: true });
