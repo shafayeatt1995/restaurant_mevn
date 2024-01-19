@@ -33,10 +33,6 @@ export class ManagerApi extends BaseApi {
     return this.api.$get(`order`, { params });
   }
 
-  updateOrderStatus(body) {
-    return this.api.$post(`order/update-status`, body);
-  }
-
   fetchTable(params) {
     return this.api.$get(`table`, { params });
   }

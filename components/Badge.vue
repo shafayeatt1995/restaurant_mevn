@@ -35,6 +35,10 @@ export default {
         return "text-red-500 bg-red-100/60";
       } else if (this.variant === "amber") {
         return "text-amber-500 bg-amber-100/60";
+      } else if (this.variant === "pending") {
+        return "text-amber-500 bg-amber-100/60";
+      } else if (this.variant === "active") {
+        return "text-sky-500 bg-sky-100/60";
       } else if (this.variant === "sky") {
         return "text-sky-500 bg-sky-100/60";
       } else if (this.variant === "rose") {

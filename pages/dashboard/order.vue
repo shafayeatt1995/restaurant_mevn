@@ -29,106 +29,135 @@
           fullWidth
           class="flex-1"
         />
-        <div class="flex flex-col lg:flex-row justify-between pt-3 gap-5">
-          <TabTitle
-            :tabTitle="tabOrderType"
-            v-model="orderType"
-            :fullWidth="isMobile"
-          />
-          <div class="flex gap-3 items-center">
-            <DatePicker
-              v-model="date"
-              type="date"
-              range
-              placeholder="Select date range"
-              prefix-class="performance-date-picker mx"
-            />
-            <font-awesome-icon
-              v-if="date && date[0] != null && date[1] != null"
-              :icon="['far', 'circle-xmark']"
-              class="text-xl cursor-pointer text-green-500 block lg:hidden"
-              @click="date = []"
-            />
+        <div
+          class="bg-white py-3 px-1 grid gap-1 lg:gap-3 my-3"
+          v-if="active === 'Table view'"
+          :class="
+            tables.length > 7 || isMobile
+              ? 'grid-cols-[repeat(auto-fit,_minmax(110px,_1fr))]'
+              : 'grid-cols-[repeat(auto-fit,_minmax(128px,_130px))]'
+          "
+        >
+          <div
+            class="h-28 rounded-lg shadow flex flex-col justify-center items-center justify-self-center w-full cursor-pointer"
+            :class="tableBgClass(table)"
+            v-for="(table, key) in tables"
+            :key="key"
+            @click="openOrder(table)"
+          >
+            <div class="text-gray-600">
+              <TableIcon />
+            </div>
+            <p class="text-gray-700 font-semibold text-lg">
+              {{ table.name }}
+            </p>
+            <span class="font-bold text-gray-700" :key="refreshTrigger">{{
+              showTableTime(table)
+            }}</span>
           </div>
         </div>
-        <section>
-          <div
-            class="grid gap-3 my-3"
-            :class="
-              items.length > 3 || isMobile
-                ? 'grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'
-                : 'grid-cols-[repeat(auto-fit,_minmax(300px,_350px))]'
-            "
-          >
-            <template v-for="(item, i) in items">
-              <div
-                v-if="checkStatus(item)"
-                class="rounded-lg p-3 text-gray-600 relative cursor-pointer"
-                :class="getClass(item.status)"
-                :key="i"
-                @click="openOrderDetails(item)"
-              >
-                <small
-                  class="absolute right-3 top-1"
-                  :class="item.new ? 'text-green-500' : 'text-gray-400'"
-                  >{{ item.new ? "New" : i + 1 }}</small
-                >
-                <p
-                  class="font-normal flex justify-center items-center text-2xl mb-2"
-                >
-                  <TableIcon class="w-10 mr-2" />
-                  <span class="font-bold">{{ item.tableName }}</span>
-                </p>
-                <p class="font-normal">
-                  Order type:
-                  <span class="font-bold">{{ item.orderType }}</span>
-                </p>
-                <p class="font-normal">
-                  Order No:
-                  <span class="font-bold">#{{ item.orderNumber }}</span>
-                </p>
-                <p
-                  class="font-normal"
-                  v-if="item.status === 'pending' || item.status === 'active'"
-                >
-                  Order Time:
-                  <span class="font-bold" :key="refreshTrigger">{{
-                    showTime(item.created_at)
-                  }}</span>
-                </p>
-                <p class="font-normal" v-else>
-                  Order Date:
-                  <span class="font-bold">{{
-                    item.created_at | normalDate2
-                  }}</span>
-                </p>
-                <p class="font-normal" v-if="manager">
-                  Waiter name:
-                  <span class="font-bold">{{ item.waiterName || "#" }}</span>
-                </p>
-                <p class="font-normal">
-                  Customer ID:
-                  <span class="font-bold">{{ item.userEmail || "#" }}</span>
-                </p>
-              </div>
-            </template>
-          </div>
-          <div class="flex justify-center items-center" v-if="loading">
-            <loading />
-          </div>
-          <div
-            class="flex items-center text-center h-96 bg-white"
-            v-else-if="items.length === 0"
-          >
-            <EmptyMessage title="No order found" />
-          </div>
-          <Observer @load="fetchItems" v-if="items.length > 0">
-            <Spinner
-              class="text-green-600 h-7 w-7"
-              v-if="items % perPage === 0"
+        <template v-else>
+          <div class="flex flex-col lg:flex-row justify-between pt-3 gap-5">
+            <TabTitle
+              :tabTitle="tabOrderType"
+              v-model="orderType"
+              :fullWidth="isMobile"
             />
-          </Observer>
-        </section>
+            <div class="flex gap-3 items-center">
+              <DatePicker
+                v-model="date"
+                type="date"
+                range
+                placeholder="Select date range"
+                prefix-class="performance-date-picker mx"
+              />
+              <font-awesome-icon
+                v-if="date && date[0] != null && date[1] != null"
+                :icon="['far', 'circle-xmark']"
+                class="text-xl cursor-pointer text-green-500 block lg:hidden"
+                @click="date = []"
+              />
+            </div>
+          </div>
+          <section>
+            <div
+              class="grid gap-3 my-3"
+              :class="
+                items.length > 3 || isMobile
+                  ? 'grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'
+                  : 'grid-cols-[repeat(auto-fit,_minmax(300px,_350px))]'
+              "
+            >
+              <template v-for="(item, i) in items">
+                <div
+                  v-if="checkStatus(item)"
+                  class="rounded-lg p-3 text-gray-600 relative cursor-pointer"
+                  :class="getClass(item.status)"
+                  :key="i"
+                  @click="openOrderDetails(item)"
+                >
+                  <small
+                    class="absolute right-3 top-1"
+                    :class="item.new ? 'text-green-500' : 'text-gray-400'"
+                    >{{ item.new ? "New" : i + 1 }}</small
+                  >
+                  <p
+                    class="font-normal flex justify-center items-center text-2xl mb-2"
+                  >
+                    <TableIcon class="w-10 mr-2" />
+                    <span class="font-bold">{{ item.tableName }}</span>
+                  </p>
+                  <p class="font-normal">
+                    Order type:
+                    <span class="font-bold">{{ item.orderType }}</span>
+                  </p>
+                  <p class="font-normal">
+                    Order No:
+                    <span class="font-bold">#{{ item.orderNumber }}</span>
+                  </p>
+                  <p
+                    class="font-normal"
+                    v-if="item.status === 'pending' || item.status === 'active'"
+                  >
+                    Order Time:
+                    <span class="font-bold" :key="refreshTrigger">{{
+                      showTime(item.created_at)
+                    }}</span>
+                  </p>
+                  <p class="font-normal" v-else>
+                    Order Date:
+                    <span class="font-bold">{{
+                      item.created_at | normalDate2
+                    }}</span>
+                  </p>
+                  <p class="font-normal" v-if="manager">
+                    Waiter name:
+                    <span class="font-bold">{{ item.waiterName || "#" }}</span>
+                  </p>
+                  <p class="font-normal">
+                    Customer ID:
+                    <span class="font-bold">{{ item.userEmail || "#" }}</span>
+                  </p>
+                </div>
+              </template>
+            </div>
+            <div class="flex justify-center items-center" v-if="loading">
+              <loading />
+            </div>
+            <div
+              class="flex items-center text-center h-96 bg-white"
+              v-else-if="items.length === 0"
+            >
+              <EmptyMessage title="No order found" />
+            </div>
+            <Observer @load="fetchItems" v-if="items.length > 0">
+              <Spinner
+                class="text-green-600 h-7 w-7"
+                v-if="items % perPage === 0"
+              />
+            </Observer>
+          </section>
+        </template>
       </div>
     </section>
 
@@ -143,13 +172,36 @@
         <CloseButton @click.native.prevent="modal = false" />
       </div>
       <hr class="my-3" />
-      <div class="grid grid-cols-1 lg:grid-cols-2 justify-between">
-        <p>Name: {{ orderDetails.userName }}</p>
-        <p>ID: {{ orderDetails.userEmail }}</p>
-        <p>Type: {{ orderDetails.orderType }}</p>
-        <p>Table: {{ orderDetails.tableName }}</p>
-        <p>Status: {{ orderDetails.status }}</p>
-        <p>Waiter: {{ orderDetails.waiterName }}</p>
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 justify-between text-gray-700"
+      >
+        <p>
+          <span class="font-semibold">Customer:</span>
+          {{ orderDetails.userName }}
+        </p>
+        <p>
+          <span class="font-semibold">ID:</span> {{ orderDetails.userEmail }}
+        </p>
+        <div class="flex items-center">
+          <span class="font-semibold">Type:</span> {{ orderDetails.orderType }}
+          <span
+            ><TableIcon
+              class="h-5"
+              v-if="orderDetails.orderType === 'Dine in'" />
+            <ParcelIcon class="h-5 ml-1" v-else
+          /></span>
+        </div>
+        <p>
+          <span class="font-semibold">Table:</span> {{ orderDetails.tableName }}
+        </p>
+        <p>
+          <span class="font-semibold">Status:</span>
+          <Badge :variant="orderDetails.status" :title="orderDetails.status" />
+        </p>
+        <p>
+          <span class="font-semibold">Waiter:</span>
+          {{ orderDetails.waiterName || "#" }}
+        </p>
       </div>
       <hr class="my-2" />
       <table class="flex flex-col flex-1 text-gray-700">
@@ -222,6 +274,13 @@
           type="button"
           class="w-full tracking-wide flex-1"
           @click.native.prevent="cancelOrder"
+          :disabled="
+            manager
+              ? false
+              : orderDetails.waiterID
+              ? $auth.user._id !== orderDetails.waiterID
+              : false
+          "
           :loading="cancelLoading"
           ><font-awesome-icon :icon="['fas', 'xmark']" /> Cancel order
         </Button>
@@ -240,6 +299,7 @@
           variant="green"
           class="w-full tracking-wide flex-1"
           @click.native.prevent="completeOrder"
+          :disabled="manager ? false : $auth.user._id !== orderDetails.waiterID"
           :loading="acceptLoading"
         >
           <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
@@ -257,7 +317,7 @@
         <Button
           v-if="orderDetails.status === 'complete'"
           variant="green"
-          class="w-full tracking-wide flex-1"
+          class="w-full tracking-wide flex-1 bg-"
           @click.native.prevent="modal = false"
         >
           <font-awesome-icon :icon="['fas', 'print']" />
@@ -274,12 +334,13 @@ import { mapGetters } from "vuex";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import TableIcon from "~/static/svg/table.svg";
+import ParcelIcon from "~/static/svg/parcel.svg";
 
 export default {
   name: "Order",
   layout: "dashboard",
   middleware: "managerOrWaiter",
-  components: { DatePicker, TableIcon },
+  components: { DatePicker, TableIcon, ParcelIcon },
   directives: { clickOutside: vClickOutside.directive },
   head() {
     return { title: "Order - " + this.pageTitle };
@@ -287,10 +348,11 @@ export default {
   data() {
     return {
       modal: false,
-      active: this.$route?.query?.tab || "Pending order",
+      active: this.$route?.query?.tab || "Table view",
       orderType: "All",
       date: [],
       items: [],
+      tables: [],
       perPage: 50,
       loading: true,
       cancelLoading: false,
@@ -306,6 +368,12 @@ export default {
     ...mapGetters(["isMobile", "pageTitle", "manager", "waiter"]),
     tabTitle() {
       return [
+        {
+          title: "Table view",
+          status: "pending",
+          icon: ["fas", "table-cells"],
+          iconClass: "text-purple-500",
+        },
         {
           title: "Pending order",
           status: "pending",
@@ -359,7 +427,11 @@ export default {
     });
   },
   mounted() {
-    this.fetchItems();
+    if (this.active === "Table view") {
+      this.fetchTables();
+    } else {
+      this.fetchItems();
+    }
     this.intervalId = setInterval(() => {
       this.refreshTrigger++;
     }, 1000);
@@ -392,12 +464,17 @@ export default {
         this.loading = false;
       }
     },
-    async updateStatus(status, i) {
+    async fetchTables() {
       try {
-        await this.$mowApi.updateOrderStatus({ status });
-        this.items[i].status = status;
+        this.loading = true;
+        const { orders } = await this.$mowApi.fetchTableOrder();
+        this.items = orders;
+        const { tables } = await this.$mowApi.fetchTable();
+        this.tables = tables;
       } catch (error) {
         console.error(error);
+      } finally {
+        this.loading = false;
       }
     },
     refetch() {
@@ -407,7 +484,11 @@ export default {
       this.acceptLoading = false;
       this.items = [];
       this.orderDetails = {};
-      this.fetchItems();
+      if (this.active === "Table view") {
+        this.fetchTables();
+      } else {
+        this.fetchItems();
+      }
     },
     reset() {
       this.loading = false;
@@ -443,13 +524,13 @@ export default {
     },
     getClass(status) {
       if (status === "pending") {
-        return "bg-amber-100 hover:bg-amber-200";
+        return "bg-amber-200 hover:bg-amber-300";
       } else if (status === "active") {
-        return "bg-sky-100 hover:bg-sky-200";
+        return "bg-sky-200 hover:bg-sky-300";
       } else if (status === "complete") {
-        return "bg-green-100 hover:bg-green-200";
+        return "bg-green-200 hover:bg-green-300";
       } else if (status === "cancel") {
-        return "bg-rose-100 hover:bg-rose-200";
+        return "bg-rose-200 hover:bg-rose-300";
       }
     },
     openOrderDetails(item) {
@@ -461,7 +542,7 @@ export default {
         if (confirm("Are you sure, you want to cancel?")) {
           this.cancelLoading = true;
           const status = "cancel";
-          await this.$userApi.cancelOrder({
+          await this.$mowApi.updateOrderStatus({
             _id: this.orderDetails._id,
             status,
             currentStatus: this.orderDetails.status,
@@ -480,7 +561,7 @@ export default {
       try {
         this.acceptLoading = true;
         const status = "active";
-        await this.$userApi.acceptOrder({
+        await this.$mowApi.updateOrderStatus({
           _id: this.orderDetails._id,
           status,
           currentStatus: this.orderDetails.status,
@@ -494,13 +575,14 @@ export default {
         this.acceptLoading = false;
       }
     },
-    async completeOrder() {
+    async updateOrder() {
       try {
         const status = "complete";
         this.acceptLoading = true;
-        await this.$userApi.completeOrder({
+        await this.$mowApi.updateOrderStatus({
           _id: this.orderDetails._id,
           status,
+          currentStatus: this.orderDetails.status,
         });
         this.$nuxt.$emit("success", "Order complete");
         this.modal = false;
@@ -556,6 +638,37 @@ export default {
         default:
           return number + "th";
       }
+    },
+    tableBgClass({ _id }) {
+      const find = this.items.find(({ tableID }) => tableID === _id);
+      if (find) {
+        if (find.waiterID && !this.manager) {
+          const data =
+            find.waiterID === this.$auth.user._id
+              ? this.getClass(find?.status)
+              : "bg-white";
+          return data;
+        } else {
+          return this.getClass(find?.status);
+        }
+      } else {
+        return "bg-white";
+      }
+    },
+    openOrder({ _id }) {
+      const find = this.items.find(({ tableID }) => tableID === _id);
+      if (find) {
+        this.openOrderDetails(find);
+      } else {
+        this.$nuxt.$emit("error", "This table has no order");
+      }
+    },
+    showTableTime({ _id }) {
+      const find = this.items.find(({ tableID }) => tableID === _id);
+      if (find) {
+        return this.showTime(find.created_at);
+      }
+      return null;
     },
   },
 };

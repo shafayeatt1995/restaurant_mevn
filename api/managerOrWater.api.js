@@ -5,11 +5,19 @@ export class MowApi extends BaseApi {
     this.api.setBaseURL(`/api/mow/`);
   }
 
+  fetchTable() {
+    return this.api.$get(`table`);
+  }
+
+  fetchTableOrder() {
+    return this.api.$get(`order-table`);
+  }
+
   fetchOrder(params) {
     return this.api.$get(`order`, { params });
   }
 
-  updateOrderStatus(body) {
-    return this.api.$post(`order/update-status`, body);
+  updateOrderStatus(params) {
+    return this.api.$get(`order/update-status`, { params });
   }
 }

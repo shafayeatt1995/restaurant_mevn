@@ -2,6 +2,23 @@ const { Table } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
 
 const controller = {
+  async fetchAllTable(req, res) {
+    try {
+      const { restaurantID } = req.user;
+
+      const tables = await Table.aggregate([
+        { $match: { restaurantID } },
+        { $sort: { _id: 1 } },
+      ]);
+      res.status(200).json({ tables });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
   async fetchTable(req, res) {
     try {
       const { page, perPage } = req.query;

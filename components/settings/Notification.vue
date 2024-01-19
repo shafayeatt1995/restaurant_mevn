@@ -75,7 +75,7 @@ export default {
           if (permission === "granted") {
             await navigator.serviceWorker.register("/sw.js", { scope: "/" });
 
-            $nuxt.$emit(
+            this.$nuxt.$emit(
               "success",
               "Your device added to the notification service"
             );

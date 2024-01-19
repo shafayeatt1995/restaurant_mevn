@@ -51,6 +51,42 @@ const totalQuantity = (items) => {
 };
 
 const controller = {
+  async fetchTableOrder(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const orders = await Order.aggregate([
+        {
+          $match: {
+            restaurantID,
+            status: { $in: ["pending", "active"] },
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            let: { waiterIdObj: { $toObjectId: "$waiterID" } },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$waiterIdObj"] } } },
+              { $project: { name: 1 } },
+            ],
+            as: "waiterName",
+          },
+        },
+        {
+          $addFields: {
+            waiterName: { $arrayElemAt: ["$waiterName.name", 0] },
+          },
+        },
+      ]);
+      res.status(200).json({ orders });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
   async createOrder(req, res) {
     try {
       const {
@@ -174,6 +210,7 @@ const controller = {
         .json({ success: false, message: "Internal server error" });
     }
   },
+
   async fetchOrder(req, res) {
     try {
       const { page, perPage, status, date, orderType } = req.query;
@@ -235,10 +272,11 @@ const controller = {
         .json({ success: false, message: "Internal server error" });
     }
   },
+
   async updateOrderStatus(req, res) {
     try {
       const { _id, status, currentStatus } = req.query;
-      const { _id: waiterID, restaurantID } = req.user;
+      const { _id: waiterID, name: waiterName, restaurantID } = req.user;
       const updateData = { status };
       if (currentStatus === "pending") {
         const checkExist = await Order.findOne({
@@ -246,13 +284,9 @@ const controller = {
           restaurantID,
           waiterID: { $exists: true },
         });
-        if (checkExist) {
-          res.status(422).json({
-            success: false,
-            message: "Someone already received this order",
-          });
-        } else {
+        if (!checkExist) {
           updateData.waiterID = waiterID;
+          updateData.waiterName = waiterName;
         }
       }
       await Order.updateOne(

@@ -21,8 +21,8 @@ const controller = {
 
   async login(req, res) {
     try {
-      const { _id, email, power, type } = req.user;
-      const payload = { _id, email, type };
+      const { _id, name, email, power, type } = req.user;
+      const payload = { _id, name, email, type };
       const restaurant = await Restaurant.findOne({ userID: _id });
 
       if (power === 420 && type === "admin") {
