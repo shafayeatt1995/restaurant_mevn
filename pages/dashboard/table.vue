@@ -30,6 +30,9 @@
         <template #updated_at="{ value }">{{ value | agoDate }}</template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
+            <Button variant="green" @click.native.prevent="generateQR(item)"
+              ><font-awesome-icon :icon="['fas', 'qrcode']" /> Generate QR
+            </Button>
             <Button variant="green" @click.native.prevent="editItem(item)"
               ><font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit</Button
@@ -53,23 +56,6 @@
           </div>
         </template>
       </TableResponsive>
-      <!-- <div class="flex flex-wrap gap-3">
-        <div
-          class="bg-gray-100 text-gray-600 rounded-xl px-10 py-5 flex justify-center items-center flex-col gap-3 hover:bg-green-600 transition-all duration-300 cursor-pointer hover:text-white border-2 border-gray-300 border-dashed hover:border-green-600"
-          v-for="(item, key) in items"
-          :key="`table-${key}`"
-        >
-          <TableIcon class="whitespace-nowrap w-8" />
-          {{ item.name }}
-        </div>
-        <div
-          class="bg-gray-100 text-gray-600 rounded-xl px-10 py-5 flex justify-center items-center flex-col gap-3 border-2 border-gray-300 hover:text-white hover:bg-green-600 transition-all duration-300 cursor-pointer border-dashed hover:border-solid hover:border-green-600"
-          @click="modal = true"
-        >
-          <font-awesome-icon :icon="['fas', 'plus']" class="text-2xl" />
-          Add table
-        </div>
-      </div> -->
       <Observer @load="fetchItem" v-if="items.length > 0">
         <Spinner class="text-green-600 h-7 w-7" v-if="items % perPage === 0" />
       </Observer>
@@ -110,17 +96,69 @@
         </div>
       </form>
     </Modal>
+    <Modal v-model="qrModal">
+      <div class="flex justify-between items-center">
+        <h3
+          class="text-lg font-medium leading-6 text-gray-600 capitalize"
+          id="modal-title"
+        >
+          Generate QR code
+        </h3>
+        <CloseButton @click.native.prevent="qrModal = false" />
+      </div>
+      <div>
+        <Input
+          v-for="(field, i) in qrCodeField"
+          :key="i"
+          :field="field"
+          v-model="qrCode"
+          :errors="errors"
+        />
+        <div class="flex flex-col items-center my-4">
+          <QrcodeVue
+            :value="url"
+            :size="qrCode.size"
+            level="H"
+            :background="qrCode.background"
+            :foreground="qrCode.foreground"
+          />
+          <p class="my-3">{{ name }}</p>
+        </div>
+
+        <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
+          <Button
+            variant="white"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="qrModal = false"
+          >
+            Close
+          </Button>
+
+          <Button
+            variant="green"
+            type="submit"
+            class="w-full tracking-wide flex-1"
+          >
+            <font-awesome-icon :icon="['fas', 'print']" />
+            Print QrCode
+          </Button>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import TableIcon from "~/static/svg/table.svg";
+import QrcodeVue from "qrcode.vue";
+
 export default {
   name: "Table",
   layout: "dashboard",
   middleware: "manager",
-  components: { TableIcon },
+  components: { TableIcon, QrcodeVue },
   head() {
     return { title: "Table - " + this.pageTitle };
   },
@@ -128,14 +166,16 @@ export default {
     return {
       click: true,
       modal: false,
-      form: {
-        name: "",
-      },
+      form: { name: "" },
+      qrCode: { size: 300, background: "#ffffff", foreground: "#000000" },
       editMode: false,
       items: [],
       perPage: 50,
       loading: true,
+      qrModal: false,
       errors: {},
+      url: "",
+      name: "",
     };
   },
   computed: {
@@ -143,12 +183,11 @@ export default {
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
-        { key: "created_at", label: "CREATED", span: "minmax(120PX, 1fr)" },
-        { key: "updated_at", label: "UPDATED", span: "minmax(120PX, 1fr)" },
+        { key: "serial", label: "SERIAL", span: "minmax(120PX, 1fr)" },
         {
           key: "actions",
           label: "Actions",
-          span: "minmax(260PX, 1fr)",
+          span: "minmax(380PX, 1fr)",
           hide: !this.isDev,
         },
       ];
@@ -159,6 +198,28 @@ export default {
           type: "text",
           placeholder: "Name",
           name: "name",
+        },
+      ];
+    },
+    qrCodeField() {
+      return [
+        {
+          type: "number",
+          placeholder: "Size",
+          name: "size",
+          label: { id: "Size", title: "Size" },
+        },
+        {
+          type: "color",
+          placeholder: "Background",
+          name: "background",
+          label: { id: "background", title: "Background" },
+        },
+        {
+          type: "color",
+          placeholder: "Foreground",
+          name: "foreground",
+          label: { id: "foreground", title: "Foreground" },
         },
       ];
     },
@@ -245,6 +306,11 @@ export default {
           this.click = true;
         }
       }
+    },
+    generateQR({ serial, name }) {
+      this.name = name;
+      this.url = `${window.location.origin}/${serial}/${this.$auth.user.restaurant.slug}`;
+      this.qrModal = true;
     },
   },
 };

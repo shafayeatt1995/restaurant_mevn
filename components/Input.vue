@@ -66,6 +66,14 @@
           :placeholder="field.placeholder"
         />
         <input
+          v-else-if="field.type === 'color'"
+          :type="field.type"
+          :id="field.label?.id"
+          class="block w-full bg-white border rounded-lg focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+          :name="field.name"
+          v-model="data[field.name]"
+        />
+        <input
           v-else
           :type="field.type"
           :id="field.label?.id"

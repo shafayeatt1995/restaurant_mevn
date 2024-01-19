@@ -49,6 +49,7 @@
     "passport": "0.5",
     "passport-google-oauth2": "^0.2.0",
     "postcss": "^8.4.17",
+    "qrcode.vue": "^1.7.0",
     "sass": "^1.69.7",
     "sass-loader": "10",
     "socket.io": "^2.3.0",
