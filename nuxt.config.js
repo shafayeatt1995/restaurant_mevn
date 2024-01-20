@@ -97,9 +97,7 @@ export default {
     defaults: { changefreq: "daily", priority: 1, lastmod: new Date() },
   },
 
-  axios: {
-    proxy: true,
-  },
+  axios: { proxy: true },
 
   auth: {
     strategies: {

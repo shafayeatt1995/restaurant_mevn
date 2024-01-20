@@ -84,8 +84,8 @@
               class="grid gap-3 my-3"
               :class="
                 items.length > 3 || isMobile
-                  ? 'grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'
-                  : 'grid-cols-[repeat(auto-fit,_minmax(300px,_350px))]'
+                  ? 'grid-cols-[repeat(auto-fit,_minmax(315px,_1fr))]'
+                  : 'grid-cols-[repeat(auto-fit,_minmax(300px,_340px))]'
               "
             >
               <template v-for="(item, i) in items">

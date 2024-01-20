@@ -114,7 +114,7 @@
           v-model="qrCode"
           :errors="errors"
         />
-        <div class="flex flex-col items-center my-4">
+        <div class="flex flex-col items-center my-4" id="qrCode">
           <QrcodeVue
             :value="url"
             :size="qrCode.size"
@@ -122,7 +122,7 @@
             :background="qrCode.background"
             :foreground="qrCode.foreground"
           />
-          <p class="my-3">{{ name }}</p>
+          <p class="my-3" id="qrCode">{{ name }}</p>
         </div>
 
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
@@ -139,6 +139,7 @@
             variant="green"
             type="submit"
             class="w-full tracking-wide flex-1"
+            @click.native.prevent="printQRCode"
           >
             <font-awesome-icon :icon="['fas', 'print']" />
             Print QrCode
@@ -311,6 +312,15 @@ export default {
       this.name = name;
       this.url = `${window.location.origin}/${serial}/${this.$auth.user.restaurant.slug}`;
       this.qrModal = true;
+    },
+    async printQRCode() {
+      console.log("ami anik");
+      this.$htmlToPaper("qrCode");
+      // this.$print({
+      //   name: "_blank",
+      //   specs: ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
+      //   styles: [],
+      // });
     },
   },
 };
