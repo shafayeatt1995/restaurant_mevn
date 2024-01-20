@@ -23,11 +23,6 @@
         :items="loading ? 10 : items"
         :skeleton="loading"
       >
-        <template #image="{ item }">
-          <img loading="lazy" :src="item.image" class="max-h-16" />
-        </template>
-        <template #created_at="{ value }">{{ value | agoDate }}</template>
-        <template #updated_at="{ value }">{{ value | agoDate }}</template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
             <Button variant="green" @click.native.prevent="generateQR(item)"
@@ -117,6 +112,7 @@
         <div ref="qrCode">
           <div class="flex flex-col items-center my-4">
             <QrcodeVue
+              id="svgCode"
               :value="url"
               :size="qrCode.size"
               level="H"
@@ -146,6 +142,15 @@
             <font-awesome-icon :icon="['fas', 'print']" />
             Print QrCode
           </Button>
+          <Button
+            variant="green"
+            type="submit"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="downloadQR"
+          >
+            <font-awesome-icon :icon="['fas', 'download']" />
+            Download QrCode
+          </Button>
         </div>
       </div>
     </Modal>
@@ -156,6 +161,7 @@
 import { mapGetters } from "vuex";
 import TableIcon from "~/static/svg/table.svg";
 import QrcodeVue from "qrcode.vue";
+import domtoimage from "dom-to-image";
 
 export default {
   name: "Table",
@@ -293,9 +299,7 @@ export default {
     reset() {
       this.form = {
         name: "",
-        image: "",
       };
-      this.selected = {};
       this.errors = {};
       this.editMode = false;
     },
@@ -303,9 +307,8 @@ export default {
       this.items = [];
       this.fetchItem();
     },
-    editItem({ _id, name, image }) {
-      this.form = { _id, name, image };
-      this.selected = { url: image };
+    editItem({ _id, name }) {
+      this.form = { _id, name };
       this.editMode = true;
       this.modal = true;
     },
@@ -351,6 +354,19 @@ export default {
             `);
 
       printWindow.print();
+    },
+    async downloadQR() {
+      try {
+        const svgContainer = document.querySelector("#svgCode");
+        const dataUrl = await domtoimage.toPng(svgContainer);
+
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = `${this.name}.png`;
+        link.click();
+      } catch (error) {
+        console.error("Error:", error);
+      }
     },
   },
 };
