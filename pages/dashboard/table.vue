@@ -114,15 +114,18 @@
           v-model="qrCode"
           :errors="errors"
         />
-        <div class="flex flex-col items-center my-4" id="qrCode">
-          <QrcodeVue
-            :value="url"
-            :size="qrCode.size"
-            level="H"
-            :background="qrCode.background"
-            :foreground="qrCode.foreground"
-          />
-          <p class="my-3" id="qrCode">{{ name }}</p>
+        <div ref="qrCode">
+          <div class="flex flex-col items-center my-4">
+            <QrcodeVue
+              :value="url"
+              :size="qrCode.size"
+              level="H"
+              render-as="svg"
+              :background="qrCode.background"
+              :foreground="qrCode.foreground"
+            />
+            <p class="my-3">{{ name }}</p>
+          </div>
         </div>
 
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
@@ -134,7 +137,6 @@
           >
             Close
           </Button>
-
           <Button
             variant="green"
             type="submit"
@@ -168,7 +170,12 @@ export default {
       click: true,
       modal: false,
       form: { name: "" },
-      qrCode: { size: 300, background: "#ffffff", foreground: "#000000" },
+      qrCode: {
+        size: 100,
+        background: "#ffffff",
+        foreground: "#000000",
+        page: 80,
+      },
       editMode: false,
       items: [],
       perPage: 50,
@@ -206,9 +213,19 @@ export default {
       return [
         {
           type: "number",
-          placeholder: "Size",
+          placeholder: "QR code Size",
           name: "size",
-          label: { id: "Size", title: "Size" },
+          label: { id: "Size", title: "QR code Size" },
+        },
+        {
+          type: "select",
+          placeholder: "Print page Size",
+          name: "page",
+          label: { id: "page", title: "Print page Size" },
+          options: [
+            { value: 80, label: "80mm" },
+            { value: 58, label: "58mm" },
+          ],
         },
         {
           type: "color",
@@ -314,13 +331,26 @@ export default {
       this.qrModal = true;
     },
     async printQRCode() {
-      console.log("ami anik");
-      this.$htmlToPaper("qrCode");
-      // this.$print({
-      //   name: "_blank",
-      //   specs: ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
-      //   styles: [],
-      // });
+      const printContent = this.$refs.qrCode.innerHTML;
+      const printWindow = window.open("", "_blank", "width=500,height=500");
+      printWindow.document.write(`
+        <html>
+          <head>
+            <style>
+              @media print {
+                body {
+                  width: ${this.qrCode.page}mm;
+                }
+              }
+            </style>
+          </head>
+          <body>
+            ${printContent.toString()}
+            </body>
+            </html>
+            `);
+
+      printWindow.print();
     },
   },
 };
