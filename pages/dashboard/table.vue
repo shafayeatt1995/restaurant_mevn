@@ -74,18 +74,13 @@
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
           <Button
             variant="white"
-            type="button"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="modal = false"
           >
             Cancel
           </Button>
 
-          <Button
-            variant="green"
-            type="submit"
-            class="w-full tracking-wide flex-1"
-          >
+          <Button variant="green" class="w-full tracking-wide flex-1">
             {{ editMode ? "Update" : "Create" }} table
           </Button>
         </div>
@@ -135,7 +130,6 @@
           </Button>
           <Button
             variant="green"
-            type="submit"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="printQRCode"
           >
@@ -144,7 +138,6 @@
           </Button>
           <Button
             variant="green"
-            type="submit"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="downloadQR"
           >
@@ -161,7 +154,9 @@
 import { mapGetters } from "vuex";
 import TableIcon from "~/static/svg/table.svg";
 import QrcodeVue from "qrcode.vue";
-import domtoimage from "dom-to-image";
+import domToImage from "dom-to-image";
+import domToPdf from "dom-to-pdf";
+import html2pdf from "html2pdf.js";
 
 export default {
   name: "Table",
@@ -193,7 +188,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isDev", "pageTitle"]),
+    ...mapGetters(["pageTitle"]),
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
@@ -202,7 +197,6 @@ export default {
           key: "actions",
           label: "Actions",
           span: "minmax(380PX, 1fr)",
-          hide: !this.isDev,
         },
       ];
     },
@@ -334,36 +328,70 @@ export default {
       this.qrModal = true;
     },
     async printQRCode() {
-      const printContent = this.$refs.qrCode.innerHTML;
-      const printWindow = window.open("", "_blank", "width=500,height=500");
-      printWindow.document.write(`
-        <html>
-          <head>
-            <style>
-              @media print {
-                body {
-                  width: ${this.qrCode.page}mm;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            ${printContent.toString()}
-            </body>
-            </html>
-            `);
+      const element = this.$refs.qrCode;
+      // const printWindow = window.open("", "_blank", "width=500,height=500");
+      // printWindow.document.write(`
+      //   <html>
+      //     <head>
+      //       <style>
+      //         @media print {
+      //           body {
+      //             width: ${this.qrCode.page}mm;
+      //           }
+      //         }
+      //       </style>
+      //     </head>
+      //     <body>
+      //       ${printContent.toString()}
+      //       </body>
+      //       </html>
+      //       `);
 
-      printWindow.print();
+      // printWindow.print();
+
+      try {
+        const options = {
+          margin: 10,
+          filename: "your_bill.pdf",
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        };
+
+        html2pdf(billElement, options).then((pdf) => {
+          // Open a new window for printing
+          const printWindow = window.open("", "_blank");
+
+          // Write the PDF content to the new window
+          printWindow.document.write(
+            "<html><head><title>Print</title></head><body>"
+          );
+          printWindow.document.write(
+            '<embed width="100%" height="100%" name="plugin" type="application/pdf" src="' +
+              pdf.output("datauristring") +
+              '" />'
+          );
+          printWindow.document.write("</body></html>");
+
+          // Close the document
+          printWindow.document.close();
+
+          // Print the window
+          printWindow.print();
+        });
+      } catch (error) {
+        console.error("Error generating or printing PDF:", error);
+      }
     },
     async downloadQR() {
       try {
         const svgContainer = document.querySelector("#svgCode");
-        const dataUrl = await domtoimage.toPng(svgContainer);
+        const dataUrl = await domToImage.toPng(svgContainer);
 
-        const link = document.createElement("a");
-        link.href = dataUrl;
-        link.download = `${this.name}.png`;
-        link.click();
+        // const link = document.createElement("a");
+        // link.href = dataUrl;
+        // link.download = `${this.name}.png`;
+        // link.click();
       } catch (error) {
         console.error("Error:", error);
       }

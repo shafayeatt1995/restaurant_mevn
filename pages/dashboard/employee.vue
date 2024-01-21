@@ -112,7 +112,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageTitle", "isDev"]),
+    ...mapGetters(["pageTitle"]),
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
@@ -121,7 +121,6 @@ export default {
           key: "actions",
           label: "Actions",
           span: "minmax(260PX, 1fr)",
-          hide: !this.isDev,
         },
       ];
     },

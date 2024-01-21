@@ -143,7 +143,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isDev", "pageTitle"]),
+    ...mapGetters(["pageTitle"]),
     fields() {
       return [
         { key: "email", label: "Email or ID", span: "minmax(100PX, 1fr)" },
