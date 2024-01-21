@@ -324,7 +324,7 @@ export default {
     },
     generateQR({ serial, name }) {
       this.name = name;
-      this.url = `${window.location.origin}/menu/${serial}/${this.$auth.user.restaurant.slug}`;
+      this.url = `${window.location.origin}/menu/${this.$auth.user.restaurant.slug}/${serial}`;
       this.qrModal = true;
     },
     async printQRCode() {
