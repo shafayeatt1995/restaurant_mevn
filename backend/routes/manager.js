@@ -23,6 +23,7 @@ const {
   updateEmployee,
   deleteEmployee,
   fetchDashboard,
+  updatePrintingDetails,
 } = require("@/backend/controllers/UserController");
 const {
   fetchTable,
@@ -115,6 +116,7 @@ router.patch("/employee", updateEmployeeVal, validation, updateEmployee);
 router.delete("/employee", deleteEmployee);
 
 router.get("/order", fetchOrder);
+router.post("/update-printing-details", updatePrintingDetails);
 
 router.post(
   "/update-restaurant-name",

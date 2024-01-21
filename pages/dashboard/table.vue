@@ -104,8 +104,8 @@
           v-model="qrCode"
           :errors="errors"
         />
-        <div ref="qrCode">
-          <div class="flex flex-col items-center my-4">
+        <div class="flex flex-col items-center my-4">
+          <div ref="qrCode">
             <QrcodeVue
               id="svgCode"
               :value="url"
@@ -115,8 +115,8 @@
               :background="qrCode.background"
               :foreground="qrCode.foreground"
             />
-            <p class="my-3">{{ name }}</p>
           </div>
+          <p class="my-3">{{ name }}</p>
         </div>
 
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
@@ -155,6 +155,7 @@ import { mapGetters } from "vuex";
 import TableIcon from "~/static/svg/table.svg";
 import QrcodeVue from "qrcode.vue";
 import domToImage from "dom-to-image";
+
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -327,29 +328,60 @@ export default {
       this.url = `${window.location.origin}/menu/${this.$auth.user.restaurant.slug}/${serial}`;
       this.qrModal = true;
     },
+    // async printQRCode() {
+    //   const printContent = this.$refs.qrCode;
+    //   const pdfOptions = { filename: "your_document.pdf" };
+
+    //   // Convert HTML to PDF
+    //   const canvas = await html2canvas(printContent);
+
+    //   // Specify width for the PDF
+    //   const pdfWidth = 47; // 80mm
+
+    //   // Calculate height based on aspect ratio
+    //   const aspectRatio = canvas.width / canvas.height;
+    //   const pdfHeight = pdfWidth / aspectRatio;
+
+    //   const pdf = new jsPDF({
+    //     unit: "mm",
+    //     format: [pdfWidth, pdfHeight],
+    //   });
+
+    //   pdf.addImage(
+    //     canvas.toDataURL("image/png"),
+    //     "PNG",
+    //     0,
+    //     0,
+    //     pdfWidth,
+    //     pdfHeight
+    //   );
+
+    //   // Open the PDF in a new window
+    //   const blobUrl = URL.createObjectURL(pdf.output("blob"));
+    //   window.open(blobUrl, "_blank");
+    // },
+
     async printQRCode() {
-      const elementToConvert = this.$refs.qrCode;
-      console.log(content);
-      // Use html2canvas to capture the HTML element
-      const canvas = await html2canvas(elementToConvert);
+      const printContent = this.$refs.qrCode.innerHTML;
+      const printWindow = window.open("", "_blank", "width=800,height=600");
+      printWindow.document.write(`
+      <html>
+        <head>
+          <style>
+            @media print {
+              body {
+                width: ${this.qrCode.page}mm;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          ${printContent.toString()}
+          </body>
+          </html>
+          `);
 
-      // Create a new jsPDF instance
-      const pdf = new jsPDF();
-
-      // Add the captured canvas to the PDF
-      pdf.addImage(
-        canvas.toDataURL("image/png"),
-        "PNG",
-        0,
-        0,
-        pdf.internal.pageSize.getWidth(),
-        pdf.internal.pageSize.getHeight()
-      );
-
-      // Save or print the PDF as needed
-      // For example, opening in a new window for printing
-      const blobUrl = URL.createObjectURL(pdf.output("blob"));
-      window.open(blobUrl, "_blank");
+      printWindow.print();
     },
     async downloadQR() {
       try {

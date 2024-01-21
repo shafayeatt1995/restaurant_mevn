@@ -12,6 +12,7 @@
         <TabTitle :tabTitle="tabTitle" v-model="activeTab" />
         <div class="mt-4">
           <SettingsNotification v-if="activeTab === 'Notification'" />
+          <SettingsPrinting v-if="activeTab === 'Printing'" />
         </div>
       </div>
     </section>
@@ -29,7 +30,10 @@ export default {
   },
   data() {
     return {
-      tabTitle: [{ title: "Notification", icon: ["far", "bell"] }],
+      tabTitle: [
+        { title: "Notification", icon: ["far", "bell"] },
+        { title: "Printing", icon: ["far", "newspaper"] },
+      ],
       activeTab: "Notification",
     };
   },

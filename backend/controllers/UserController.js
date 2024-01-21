@@ -498,7 +498,6 @@ const controller = {
   },
 
   async deleteEmployee(req, res) {
-    const mongoose = require("mongoose");
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -525,6 +524,39 @@ const controller = {
       console.error(error);
       await session.abortTransaction();
       await session.endSession();
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  },
+
+  async updatePrintingDetails(req, res) {
+    try {
+      const { restaurantID, _id: userID } = req.user;
+      const {
+        printName,
+        pageSize,
+        printAddress,
+        printPhone,
+        customMessage,
+        printImage,
+      } = req.body;
+
+      await Restaurant.updateOne(
+        { _id: restaurantID, userID },
+        {
+          printName,
+          pageSize,
+          printAddress,
+          printPhone,
+          customMessage,
+          printImage,
+        }
+      );
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
       res.status(500).json({
         success: false,
         message: "Internal server error",
