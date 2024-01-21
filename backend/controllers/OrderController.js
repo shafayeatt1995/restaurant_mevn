@@ -157,7 +157,7 @@ const controller = {
                   status: "pending",
                 },
               },
-              { new: true }
+              { new: true, sort: { _id: -1 } }
             );
             const restaurant = await Restaurant.findOne({ _id: restaurantID });
             if (restaurant) {

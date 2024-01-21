@@ -575,7 +575,7 @@ export default {
         this.acceptLoading = false;
       }
     },
-    async updateOrder() {
+    async completeOrder() {
       try {
         const status = "complete";
         this.acceptLoading = true;

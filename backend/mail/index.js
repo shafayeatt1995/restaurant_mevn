@@ -13,7 +13,7 @@ const verificationMail = async (data) => {
   //   if (error) {
   //     return console.error(error);
   //   }
-  //   console.log("Message sent: %s", info);
+  //   console.error("Message sent: %s", info);
   // });
 };
 
