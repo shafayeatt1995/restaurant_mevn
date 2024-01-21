@@ -155,8 +155,8 @@ import { mapGetters } from "vuex";
 import TableIcon from "~/static/svg/table.svg";
 import QrcodeVue from "qrcode.vue";
 import domToImage from "dom-to-image";
-import domToPdf from "dom-to-pdf";
-import html2pdf from "html2pdf.js";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export default {
   name: "Table",
@@ -324,74 +324,42 @@ export default {
     },
     generateQR({ serial, name }) {
       this.name = name;
-      this.url = `${window.location.origin}/${serial}/${this.$auth.user.restaurant.slug}`;
+      this.url = `${window.location.origin}/menu/${serial}/${this.$auth.user.restaurant.slug}`;
       this.qrModal = true;
     },
     async printQRCode() {
-      const element = this.$refs.qrCode;
-      // const printWindow = window.open("", "_blank", "width=500,height=500");
-      // printWindow.document.write(`
-      //   <html>
-      //     <head>
-      //       <style>
-      //         @media print {
-      //           body {
-      //             width: ${this.qrCode.page}mm;
-      //           }
-      //         }
-      //       </style>
-      //     </head>
-      //     <body>
-      //       ${printContent.toString()}
-      //       </body>
-      //       </html>
-      //       `);
+      const elementToConvert = this.$refs.qrCode;
+      console.log(content);
+      // Use html2canvas to capture the HTML element
+      const canvas = await html2canvas(elementToConvert);
 
-      // printWindow.print();
+      // Create a new jsPDF instance
+      const pdf = new jsPDF();
 
-      try {
-        const options = {
-          margin: 10,
-          filename: "your_bill.pdf",
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        };
+      // Add the captured canvas to the PDF
+      pdf.addImage(
+        canvas.toDataURL("image/png"),
+        "PNG",
+        0,
+        0,
+        pdf.internal.pageSize.getWidth(),
+        pdf.internal.pageSize.getHeight()
+      );
 
-        html2pdf(billElement, options).then((pdf) => {
-          // Open a new window for printing
-          const printWindow = window.open("", "_blank");
-
-          // Write the PDF content to the new window
-          printWindow.document.write(
-            "<html><head><title>Print</title></head><body>"
-          );
-          printWindow.document.write(
-            '<embed width="100%" height="100%" name="plugin" type="application/pdf" src="' +
-              pdf.output("datauristring") +
-              '" />'
-          );
-          printWindow.document.write("</body></html>");
-
-          // Close the document
-          printWindow.document.close();
-
-          // Print the window
-          printWindow.print();
-        });
-      } catch (error) {
-        console.error("Error generating or printing PDF:", error);
-      }
+      // Save or print the PDF as needed
+      // For example, opening in a new window for printing
+      const blobUrl = URL.createObjectURL(pdf.output("blob"));
+      window.open(blobUrl, "_blank");
     },
     async downloadQR() {
       try {
         const svgContainer = document.querySelector("#svgCode");
         const dataUrl = await domToImage.toPng(svgContainer);
 
-        // const link = document.createElement("a");
-        // link.href = dataUrl;
-        // link.download = `${this.name}.png`;
-        // link.click();
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = `${this.name}.png`;
+        link.click();
       } catch (error) {
         console.error("Error:", error);
       }
