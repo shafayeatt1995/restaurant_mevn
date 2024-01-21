@@ -176,7 +176,6 @@ export default {
         size: 100,
         background: "#ffffff",
         foreground: "#000000",
-        page: 80,
       },
       editMode: false,
       items: [],
@@ -189,7 +188,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageTitle"]),
+    ...mapGetters(["pageTitle", "printWidth"]),
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
@@ -217,16 +216,6 @@ export default {
           placeholder: "QR code Size",
           name: "size",
           label: { id: "Size", title: "QR code Size" },
-        },
-        {
-          type: "select",
-          placeholder: "Print page Size",
-          name: "page",
-          label: { id: "page", title: "Print page Size" },
-          options: [
-            { value: 80, label: "80mm" },
-            { value: 58, label: "58mm" },
-          ],
         },
         {
           type: "color",
@@ -364,24 +353,11 @@ export default {
     async printQRCode() {
       const printContent = this.$refs.qrCode.innerHTML;
       const printWindow = window.open("", "_blank", "width=800,height=600");
-      printWindow.document.write(`
-      <html>
-        <head>
-          <style>
-            @media print {
-              body {
-                width: ${this.qrCode.page}mm;
-              }
-            }
-          </style>
-        </head>
-        <body>
-          ${printContent.toString()}
-          </body>
-          </html>
-          `);
-
-      printWindow.print();
+      printWindow.document.write(
+        `<html><head><style>@media print {body {width: ${
+          this.printWidth
+        }mm;}}</style></head><body>${printContent.toString()}</body></html>`
+      );
     },
     async downloadQR() {
       try {
