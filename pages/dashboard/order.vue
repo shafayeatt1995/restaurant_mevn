@@ -141,6 +141,12 @@
                 </div>
               </template>
             </div>
+            <Observer @load="fetchItems" v-if="items.length > 0">
+              <Spinner
+                class="text-green-600 h-7 w-7"
+                v-if="items % perPage === 0"
+              />
+            </Observer>
             <div class="flex justify-center items-center" v-if="loading">
               <loading />
             </div>
@@ -150,12 +156,6 @@
             >
               <EmptyMessage title="No order found" />
             </div>
-            <Observer @load="fetchItems" v-if="items.length > 0">
-              <Spinner
-                class="text-green-600 h-7 w-7"
-                v-if="items % perPage === 0"
-              />
-            </Observer>
           </section>
         </template>
       </div>
@@ -246,14 +246,45 @@
           </td>
         </tr>
         <hr class="mt-1" />
-        <div class="flex justify-between my-2">
-          <p>Total Qty: {{ orderDetails.totalQty }}x</p>
-          <div class="flex flex-col">
-            <p class="text-right">
-              Total Price: ৳{{ orderDetails.totalPrice }}
-            </p>
-            <p class="text-rose-500 text-right">
-              Total discount: ৳{{ orderDetails.totalDiscount }}
+        <div class="flex flex-col">
+          <div class="flex justify-between">
+            <p>Total Price:</p>
+            <p>৳{{ orderDetails.totalPrice }}</p>
+          </div>
+          <div class="flex justify-between">
+            <p>Total discount:</p>
+            <p class="text-rose-500">৳{{ orderDetails.totalDiscount }}</p>
+          </div>
+          <div class="flex justify-between my-2">
+            <div class="flex">
+              <p>
+                {{
+                  vat
+                    ? `${vatName(vat).name || ""} (${
+                        vatName(vat).percent || ""
+                      }%)`
+                    : "Vat"
+                }}
+              </p>
+              <select
+                v-model="vat"
+                class="border border-gray-700 ml-2 rounded-lg"
+                v-if="manager"
+              >
+                <option value="">Select a vat</option>
+                <option
+                  :value="vat.percent"
+                  v-for="(vat, key) in vats"
+                  :key="key"
+                >
+                  {{ vat.name }}
+                </option>
+              </select>
+            </div>
+            <p>
+              ৳{{
+                vat ? (orderDetails.totalPrice * 3.33) / 100 : 0 | mathRound
+              }}
             </p>
           </div>
         </div>
@@ -318,10 +349,10 @@
           v-if="orderDetails.status === 'complete'"
           variant="green"
           class="w-full tracking-wide flex-1 bg-"
-          @click.native.prevent="printOrder"
+          @click.native.prevent="vat ? updateVat() : printOrder()"
         >
-          <font-awesome-icon :icon="['fas', 'print']" />
-          Print Order
+          <font-awesome-icon :icon="['fas', vat ? 'percent' : 'print']" />
+          {{ vat ? "Update vat" : "Print Order" }}
         </Button>
       </div>
     </Modal>
@@ -335,8 +366,6 @@ import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import TableIcon from "~/static/svg/table.svg";
 import ParcelIcon from "~/static/svg/parcel.svg";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 export default {
   name: "Order",
@@ -355,8 +384,9 @@ export default {
       date: [],
       items: [],
       tables: [],
-      taxes: [],
-      perPage: 50,
+      vats: [],
+      perPage: 30,
+      vat: "",
       loading: true,
       cancelLoading: false,
       acceptLoading: false,
@@ -461,8 +491,8 @@ export default {
           const { orders } = await this.$mowApi.fetchOrder(params);
           this.items = this.items.concat(orders);
         }
-        const { taxes } = await this.$mowApi.fetchTax();
-        this.taxes = taxes;
+        const { vats } = await this.$mowApi.fetchVat();
+        this.vats = vats;
       } catch (error) {
         console.error(error);
       } finally {
@@ -682,36 +712,11 @@ export default {
       printWindow.document.write(
         `<html><head><style></style></head><body>${printContent.outerHTML}</body></html>`
       );
-      // const pdfOptions = { filename: "your_document.pdf" };
-
-      // // Convert HTML to PDF
-      // const canvas = await html2canvas(printContent);
-
-      // // Specify width for the PDF
-      // const pdfWidth = this.printWidth; // 80mm
-
-      // // Calculate height based on aspect ratio
-      // const aspectRatio = canvas.width / canvas.height;
-      // const pdfHeight = pdfWidth / aspectRatio;
-
-      // const pdf = new jsPDF({
-      //   unit: "mm",
-      //   format: [pdfWidth, pdfHeight],
-      // });
-
-      // pdf.addImage(
-      //   canvas.toDataURL("image/png"),
-      //   "PNG",
-      //   0,
-      //   0,
-      //   pdfWidth,
-      //   pdfHeight
-      // );
-
-      // // Open the PDF in a new window
-      // const blobUrl = URL.createObjectURL(pdf.output("blob"));
-      // window.open(blobUrl, "_blank");
     },
+    vatName(vat) {
+      return this.vats.find(({ percent }) => percent === vat);
+    },
+    updateVat() {},
   },
 };
 </script>

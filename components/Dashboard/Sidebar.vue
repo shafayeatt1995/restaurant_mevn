@@ -107,8 +107,8 @@ export default {
         },
         {
           show: this.manager,
-          name: "dashboard-tax",
-          title: "Tax",
+          name: "dashboard-vat",
+          title: "Vat",
           icon: ["fas", "percent"],
         },
         {

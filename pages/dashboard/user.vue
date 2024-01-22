@@ -163,7 +163,7 @@ export default {
       },
       editMode: false,
       items: [],
-      perPage: 50,
+      perPage: 30,
       loading: true,
       errors: {},
     };

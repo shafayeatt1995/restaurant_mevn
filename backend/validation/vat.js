@@ -1,13 +1,13 @@
 const { check } = require("express-validator");
 
-const taxVal = [
+const vatVal = [
   check("name")
     .isLength({ min: 1 })
-    .withMessage("Tax name required")
+    .withMessage("Vat name required")
     .isLength({ max: 100 })
     .withMessage("Don't try to spam")
     .trim(),
-  check("percent").isLength({ min: 1 }).withMessage("Tax percent required"),
+  check("percent").isLength({ min: 1 }).withMessage("vat percent required"),
 ];
 
-module.exports = { taxVal };
+module.exports = { vatVal };

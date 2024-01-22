@@ -1,6 +1,6 @@
 export const state = () => ({
   images: [],
-  perPage: 50,
+  perPage: 30,
   isLoading: true,
   click: true,
 });

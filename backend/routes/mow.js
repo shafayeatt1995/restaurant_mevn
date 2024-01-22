@@ -7,9 +7,9 @@ const {
   fetchTableOrder,
 } = require("@/backend/controllers/OrderController");
 const { fetchAllTable } = require("@/backend/controllers/TableController");
-const { allTax } = require("@/backend/controllers/TaxController");
+const { allVat } = require("@/backend/controllers/VatController");
 
-router.get("/tax", allTax);
+router.get("/vat", allVat);
 router.get("/order", fetchOrder);
 router.get("/table", fetchAllTable);
 router.get("/order-table", fetchTableOrder);

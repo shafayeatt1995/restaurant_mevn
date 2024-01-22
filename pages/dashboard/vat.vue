@@ -4,14 +4,14 @@
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
       <div>
-        <h2 class="text-3xl font-medium text-gray-600">Tax</h2>
+        <h2 class="text-3xl font-medium text-gray-600">Vat</h2>
       </div>
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
         <Button variant="green" @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
             <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
-            <span class="mx-1 text-sm capitalize">Create new tax</span>
+            <span class="mx-1 text-sm capitalize">Create new vat</span>
           </div>
         </Button>
       </div>
@@ -41,8 +41,8 @@
           <div class="flex items-center text-center h-96 bg-white">
             <EmptyMessage
               @action="modal = true"
-              title="No tax found"
-              buttonText="Add tax"
+              title="No vat found"
+              buttonText="Add vat"
               :icon="['far', 'circle-xmark']"
               iconClass="rotate-45"
             />
@@ -56,7 +56,7 @@
         class="text-lg font-medium leading-6 text-gray-600 capitalize"
         id="modal-title"
       >
-        {{ editMode ? "Edit" : "Create new" }} tax
+        {{ editMode ? "Edit" : "Create new" }} vat
       </h3>
       <form class="mt-4" @submit.prevent="submit">
         <Input
@@ -81,7 +81,7 @@
             type="submit"
             class="w-full tracking-wide flex-1"
           >
-            {{ editMode ? "Update" : "Create" }} tax
+            {{ editMode ? "Update" : "Create" }} vat
           </Button>
         </div>
       </form>
@@ -92,11 +92,11 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  name: "Tax",
+  name: "Vat",
   layout: "dashboard",
   middleware: "manager",
   head() {
-    return { title: "Tax - " + this.pageTitle };
+    return { title: "Vat - " + this.pageTitle };
   },
   data() {
     return {
@@ -110,7 +110,7 @@ export default {
       items: [],
       loading: true,
       errors: {},
-      perPage: 50,
+      perPage: 30,
     };
   },
   computed: {
@@ -132,12 +132,12 @@ export default {
         {
           type: "text",
           name: "name",
-          label: { id: "name", title: "Tax name" },
+          label: { id: "name", title: "Vat name" },
         },
         {
           type: "text",
           name: "percent",
-          label: { id: "percent", title: "Tax percent %" },
+          label: { id: "percent", title: "Vat percent %" },
         },
       ];
     },
@@ -158,8 +158,8 @@ export default {
           page: this.items.length / this.perPage + 1,
         };
         if (Number.isInteger(params.page)) {
-          const { taxes } = await this.$managerApi.fetchTax(params);
-          this.items = this.items.concat(taxes);
+          const { vats } = await this.$managerApi.fetchVat(params);
+          this.items = this.items.concat(vats);
         }
       } catch (error) {
         this.$nuxt.$emit("error", error.response.data.message);
@@ -173,13 +173,13 @@ export default {
           this.click = false;
           this.errors = {};
           if (this.editMode) {
-            await this.$managerApi.updateTax(this.form);
+            await this.$managerApi.updateVat(this.form);
           } else {
-            await this.$managerApi.createTax(this.form);
+            await this.$managerApi.createVat(this.form);
           }
           this.$nuxt.$emit(
             "success",
-            `Tax ${this.editMode ? "updated" : "created"} successfully`
+            `Vat ${this.editMode ? "updated" : "created"} successfully`
           );
           this.refetch();
           this.modal = false;
@@ -213,7 +213,7 @@ export default {
         try {
           if (this.click) {
             this.click = false;
-            await this.$managerApi.deleteTax({ _id });
+            await this.$managerApi.deleteVat({ _id });
             this.items.splice(key, 1);
             this.click = true;
           }

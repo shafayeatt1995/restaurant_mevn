@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { isManager } = require("@/backend/middleware");
 const { createItemVal } = require("@/backend/validation/item");
-const { taxVal } = require("@/backend/validation/tax");
+const { vatVal } = require("@/backend/validation/vat");
 const {
   restaurantNameVal,
   createEmployeeVal,
@@ -62,11 +62,11 @@ const {
 } = require("@/backend/controllers/CategoryController");
 const { fetchOrder } = require("@/backend/controllers/OrderController");
 const {
-  fetchTax,
-  createTax,
-  updateTax,
-  deleteTax,
-} = require("@/backend/controllers/TaxController");
+  fetchVat,
+  createVat,
+  updateVat,
+  deleteVat,
+} = require("@/backend/controllers/VatController");
 const {
   createCategoryVal,
   createSubCategoryVal,
@@ -122,10 +122,10 @@ router.post("/employee", createEmployeeVal, validation, createEmployee);
 router.patch("/employee", updateEmployeeVal, validation, updateEmployee);
 router.delete("/employee", deleteEmployee);
 
-router.get("/tax", fetchTax);
-router.post("/tax", taxVal, validation, createTax);
-router.patch("/tax", taxVal, validation, updateTax);
-router.delete("/tax", deleteTax);
+router.get("/vat", fetchVat);
+router.post("/vat", vatVal, validation, createVat);
+router.patch("/vat", vatVal, validation, updateVat);
+router.delete("/vat", deleteVat);
 
 router.get("/order", fetchOrder);
 router.post("/update-printing-details", updatePrintingDetails);

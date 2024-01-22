@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const TaxSchema = new Schema(
+const VatSchema = new Schema(
   {
     restaurantID: { type: String, required: true },
     name: { type: String, required: true },
@@ -13,4 +13,4 @@ const TaxSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Tax", TaxSchema);
+module.exports = mongoose.model("Vat", VatSchema);

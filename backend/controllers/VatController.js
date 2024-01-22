@@ -1,13 +1,13 @@
-const { Tax } = require("@/backend/models");
+const { Vat } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
 
 const controller = {
-  async allTax(req, res) {
+  async allVat(req, res) {
     try {
       const { restaurantID } = req.user;
 
-      const taxes = await Tax.find({ restaurantID });
-      res.status(200).json({ taxes });
+      const vats = await Vat.find({ restaurantID });
+      res.status(200).json({ vats });
     } catch (error) {
       console.error(error);
       res
@@ -16,17 +16,17 @@ const controller = {
     }
   },
 
-  async fetchTax(req, res) {
+  async fetchVat(req, res) {
     try {
       const { page, perPage } = req.query;
       const { restaurantID } = req.user;
 
-      const taxes = await Tax.aggregate([
+      const vats = await Vat.aggregate([
         { $match: { restaurantID } },
         ...paginate(page, perPage),
         { $sort: { _id: 1 } },
       ]);
-      res.status(200).json({ taxes });
+      res.status(200).json({ vats });
     } catch (error) {
       console.error(error);
       res
@@ -35,12 +35,12 @@ const controller = {
     }
   },
 
-  async createTax(req, res) {
+  async createVat(req, res) {
     try {
       const { name, percent } = req.body;
       const { restaurantID } = req.user;
 
-      await Tax.create({ name, percent, restaurantID });
+      await Vat.create({ name, percent, restaurantID });
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
@@ -50,12 +50,12 @@ const controller = {
     }
   },
 
-  async updateTax(req, res) {
+  async updateVat(req, res) {
     try {
       const { _id, name, percent } = req.body;
       const { restaurantID } = req.user;
 
-      await Tax.updateOne({ _id, restaurantID }, { name, percent });
+      await Vat.updateOne({ _id, restaurantID }, { name, percent });
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
@@ -65,12 +65,12 @@ const controller = {
     }
   },
 
-  async deleteTax(req, res) {
+  async deleteVat(req, res) {
     try {
       const { _id } = req.query;
       const { restaurantID } = req.user;
 
-      await Tax.deleteOne({ _id, restaurantID });
+      await Vat.deleteOne({ _id, restaurantID });
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);

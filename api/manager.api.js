@@ -81,20 +81,20 @@ export class ManagerApi extends BaseApi {
     return this.api.$delete(`employee`, { params });
   }
 
-  fetchTax(params) {
-    return this.api.$get(`tax`, { params });
+  fetchVat(params) {
+    return this.api.$get(`vat`, { params });
   }
 
-  createTax(body) {
-    return this.api.$post(`tax`, body);
+  createVat(body) {
+    return this.api.$post(`vat`, body);
   }
 
-  updateTax(body) {
-    return this.api.$patch(`tax`, body);
+  updateVat(body) {
+    return this.api.$patch(`vat`, body);
   }
 
-  deleteTax(params) {
-    return this.api.$delete(`tax`, { params });
+  deleteVat(params) {
+    return this.api.$delete(`vat`, { params });
   }
 
   updateRestaurantName(body) {
