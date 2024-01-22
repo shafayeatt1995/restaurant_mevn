@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { isManager } = require("@/backend/middleware");
 const { createItemVal } = require("@/backend/validation/item");
+const { taxVal } = require("@/backend/validation/tax");
 const {
   restaurantNameVal,
   createEmployeeVal,
@@ -61,6 +62,12 @@ const {
 } = require("@/backend/controllers/CategoryController");
 const { fetchOrder } = require("@/backend/controllers/OrderController");
 const {
+  fetchTax,
+  createTax,
+  updateTax,
+  deleteTax,
+} = require("@/backend/controllers/TaxController");
+const {
   createCategoryVal,
   createSubCategoryVal,
 } = require("@/backend/validation/category");
@@ -114,6 +121,11 @@ router.get("/employee", fetchEmployee);
 router.post("/employee", createEmployeeVal, validation, createEmployee);
 router.patch("/employee", updateEmployeeVal, validation, updateEmployee);
 router.delete("/employee", deleteEmployee);
+
+router.get("/tax", fetchTax);
+router.post("/tax", taxVal, validation, createTax);
+router.patch("/tax", taxVal, validation, updateTax);
+router.delete("/tax", deleteTax);
 
 router.get("/order", fetchOrder);
 router.post("/update-printing-details", updatePrintingDetails);

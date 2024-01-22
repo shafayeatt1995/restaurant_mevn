@@ -20,4 +20,8 @@ export class MowApi extends BaseApi {
   updateOrderStatus(params) {
     return this.api.$get(`order/update-status`, { params });
   }
+
+  fetchTax() {
+    return this.api.$get(`tax`);
+  }
 }

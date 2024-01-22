@@ -2,7 +2,7 @@
   <aside
     id="sidebar"
     :class="isOpen ? 'translate-x-0 ease-in' : '-translate-x-full ease-out'"
-    class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed inset-y-0 left-0 z-30 min-h-screen space-y-6 text-gray-100 transition duration-200 transform lg:translate-x-0 lg:relative lg:inset-0 border-solid border-1 border-gray-200"
+    class="flex flex-col w-64 h-screen px-4 pt-8 pb-16 lg:pb-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed inset-y-0 left-0 z-30 min-h-screen space-y-6 text-gray-100 transition duration-200 transform lg:translate-x-0 lg:relative lg:inset-0 border-solid border-1 border-gray-200"
   >
     <nuxt-link :to="{ name: 'dashboard' }" class="mx-auto">
       <img loading="lazy" class="w-44" src="/full-logo.png" alt="logo" />
@@ -95,15 +95,21 @@ export default {
         },
         {
           show: this.manager,
+          name: "dashboard-block-list",
+          title: "Block List",
+          icon: ["fas", "users-slash"],
+        },
+        {
+          show: this.manager,
           name: "dashboard-restaurant",
           title: "Restaurant",
           icon: ["fas", "utensils"],
         },
         {
           show: this.manager,
-          name: "dashboard-block-list",
-          title: "Block List",
-          icon: ["fas", "users-slash"],
+          name: "dashboard-tax",
+          title: "Tax",
+          icon: ["fas", "percent"],
         },
         {
           show: this.manager || this.admin || this.waiter,

@@ -29,7 +29,6 @@ export const getters = {
   chef: (state) => state.auth?.user?.type === "chef" || false,
   user: (state) => state.auth?.user?.type === "user" || false,
   restaurantSlug: (state) => state.auth?.user?.restaurant?.slug || "",
-  printWidth: (state) => state.auth?.user?.restaurant?.pageSize || 70,
   scanDate(state) {
     if (state.auth?.user?.restaurant) {
       return new Date(state.auth?.user?.restaurant?.scanExp);

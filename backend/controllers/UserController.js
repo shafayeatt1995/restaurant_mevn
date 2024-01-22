@@ -534,20 +534,13 @@ const controller = {
   async updatePrintingDetails(req, res) {
     try {
       const { restaurantID, _id: userID } = req.user;
-      const {
-        printName,
-        pageSize,
-        printAddress,
-        printPhone,
-        customMessage,
-        printImage,
-      } = req.body;
+      const { printName, printAddress, printPhone, customMessage, printImage } =
+        req.body;
 
       await Restaurant.updateOne(
         { _id: restaurantID, userID },
         {
           printName,
-          pageSize,
           printAddress,
           printPhone,
           customMessage,

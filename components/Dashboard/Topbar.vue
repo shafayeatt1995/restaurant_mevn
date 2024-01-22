@@ -1,5 +1,7 @@
 <template>
-  <header class="flex items-center justify-between h-20 px-6 bg-white border-b">
+  <header
+    class="flex items-center justify-between h-20 px-6 bg-white sticky top-0 z-10"
+  >
     <div class="relative flex flex-col items-start">
       <template v-if="manager">
         <p class="text-gray-600">

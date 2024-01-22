@@ -204,7 +204,7 @@
         </p>
       </div>
       <hr class="my-2" />
-      <table class="flex flex-col flex-1 text-gray-700">
+      <table class="flex flex-col flex-1 text-gray-700" ref="orderDetails">
         <tr class="flex mb-2 text-lg font-semibold">
           <th class="pr-3">Qty</th>
           <th class="flex-1">Name</th>
@@ -318,7 +318,7 @@
           v-if="orderDetails.status === 'complete'"
           variant="green"
           class="w-full tracking-wide flex-1 bg-"
-          @click.native.prevent="modal = false"
+          @click.native.prevent="printOrder"
         >
           <font-awesome-icon :icon="['fas', 'print']" />
           Print Order
@@ -335,6 +335,8 @@ import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import TableIcon from "~/static/svg/table.svg";
 import ParcelIcon from "~/static/svg/parcel.svg";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export default {
   name: "Order",
@@ -353,6 +355,7 @@ export default {
       date: [],
       items: [],
       tables: [],
+      taxes: [],
       perPage: 50,
       loading: true,
       cancelLoading: false,
@@ -458,6 +461,8 @@ export default {
           const { orders } = await this.$mowApi.fetchOrder(params);
           this.items = this.items.concat(orders);
         }
+        const { taxes } = await this.$mowApi.fetchTax();
+        this.taxes = taxes;
       } catch (error) {
         console.error(error);
       } finally {
@@ -669,6 +674,43 @@ export default {
         return this.showTime(find.created_at);
       }
       return null;
+    },
+    async printOrder() {
+      console.log("ami anik");
+      const printContent = this.$refs.orderDetails;
+      const printWindow = window.open("", "_blank", "width=800,height=600");
+      printWindow.document.write(
+        `<html><head><style></style></head><body>${printContent.outerHTML}</body></html>`
+      );
+      // const pdfOptions = { filename: "your_document.pdf" };
+
+      // // Convert HTML to PDF
+      // const canvas = await html2canvas(printContent);
+
+      // // Specify width for the PDF
+      // const pdfWidth = this.printWidth; // 80mm
+
+      // // Calculate height based on aspect ratio
+      // const aspectRatio = canvas.width / canvas.height;
+      // const pdfHeight = pdfWidth / aspectRatio;
+
+      // const pdf = new jsPDF({
+      //   unit: "mm",
+      //   format: [pdfWidth, pdfHeight],
+      // });
+
+      // pdf.addImage(
+      //   canvas.toDataURL("image/png"),
+      //   "PNG",
+      //   0,
+      //   0,
+      //   pdfWidth,
+      //   pdfHeight
+      // );
+
+      // // Open the PDF in a new window
+      // const blobUrl = URL.createObjectURL(pdf.output("blob"));
+      // window.open(blobUrl, "_blank");
     },
   },
 };

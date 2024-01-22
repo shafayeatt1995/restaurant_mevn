@@ -9,4 +9,5 @@ module.exports = {
   Order: require("./order"),
   BlockUser: require("./blockUser"),
   PushNotification: require("./pushNotification"),
+  Tax: require("./tax"),
 };

@@ -156,9 +156,6 @@ import TableIcon from "~/static/svg/table.svg";
 import QrcodeVue from "qrcode.vue";
 import domToImage from "dom-to-image";
 
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-
 export default {
   name: "Table",
   layout: "dashboard",
@@ -188,7 +185,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageTitle", "printWidth"]),
+    ...mapGetters(["pageTitle"]),
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
@@ -354,9 +351,7 @@ export default {
       const printContent = this.$refs.qrCode.innerHTML;
       const printWindow = window.open("", "_blank", "width=800,height=600");
       printWindow.document.write(
-        `<html><head><style>@media print {body {width: ${
-          this.printWidth
-        }mm;}}</style></head><body>${printContent.toString()}</body></html>`
+        `<html><head><style></style></head><body>${printContent.toString()}</body></html>`
       );
     },
     async downloadQR() {

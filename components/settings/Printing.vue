@@ -43,7 +43,6 @@ export default {
         printAddress: this.$auth.user.restaurant.printAddress || "",
         printPhone: this.$auth.user.restaurant.printPhone || "",
         customMessage: this.$auth.user.restaurant.customMessage || "",
-        pageSize: this.$auth.user.restaurant.pageSize || 70,
       },
       imageModal: false,
       selected: { url: this.$auth.user.restaurant.printImage },
@@ -76,16 +75,6 @@ export default {
           placeholder: "Custom message",
           name: "customMessage",
           label: { id: "customMessage", title: "Custom message" },
-        },
-        {
-          type: "select",
-          placeholder: "Print page Size",
-          name: "pageSize",
-          label: { id: "page", title: "Print page Size" },
-          options: [
-            { value: 70, label: "80mm" },
-            { value: 47, label: "58mm" },
-          ],
         },
       ];
     },

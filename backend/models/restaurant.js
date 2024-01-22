@@ -13,7 +13,6 @@ const RestaurantSchema = new Schema(
     suspended: { type: Boolean, default: false, select: false },
     deleted: { type: Boolean, default: false, select: false },
     scanExp: { type: Date, default: new Date() },
-    pageSize: { type: Number, enum: [47, 70], default: 70 },
     printName: { type: String, default: "" },
     printAddress: { type: String, default: "" },
     printPhone: { type: String, default: "" },
