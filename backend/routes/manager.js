@@ -60,7 +60,10 @@ const {
   deleteSubCategory,
   updateSubCategorySerial,
 } = require("@/backend/controllers/CategoryController");
-const { fetchOrder } = require("@/backend/controllers/OrderController");
+const {
+  fetchOrder,
+  addServiceCharge,
+} = require("@/backend/controllers/OrderController");
 const {
   fetchVat,
   createVat,
@@ -128,6 +131,7 @@ router.patch("/vat", vatVal, validation, updateVat);
 router.delete("/vat", deleteVat);
 
 router.get("/order", fetchOrder);
+router.post("/add-service-charge", addServiceCharge);
 router.post("/update-printing-details", updatePrintingDetails);
 
 router.post(

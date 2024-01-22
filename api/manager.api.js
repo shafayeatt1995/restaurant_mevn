@@ -160,4 +160,8 @@ export class ManagerApi extends BaseApi {
   updatePrintingDetails(body) {
     return this.api.$post(`update-printing-details`, body);
   }
+
+  addServiceCharge(body) {
+    return this.api.$post(`add-service-charge`, body);
+  }
 }

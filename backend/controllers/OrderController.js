@@ -42,7 +42,7 @@ const calcTotalDiscount = (items) => {
   return items.reduce((total, value) => total + value.qty * value.discount, 0);
 };
 
-const calcTotalPrice = (items) => {
+const calcSubTotalPrice = (items) => {
   return items.reduce((total, value) => total + calcPrice(value), 0);
 };
 
@@ -140,11 +140,15 @@ const controller = {
               {
                 $push: { orderItems: newItem },
                 $set: {
+                  subTotalPrice:
+                    checkOrder.subTotalPrice + calcSubTotalPrice(orderItems),
                   totalPrice:
-                    checkOrder.totalPrice + calcTotalPrice(orderItems),
+                    checkOrder.totalPrice +
+                    calcSubTotalPrice(orderItems) -
+                    calcTotalDiscount(orderItems),
                   netPrice:
-                    checkOrder.netPrice +
-                    calcTotalPrice(orderItems) -
+                    checkOrder.totalPrice +
+                    calcSubTotalPrice(orderItems) -
                     calcTotalDiscount(orderItems),
                   totalDiscount:
                     checkOrder.totalDiscount + calcTotalDiscount(orderItems),
@@ -183,9 +187,11 @@ const controller = {
             tableID,
             tableName,
             orderItems,
-            totalPrice: calcTotalPrice(orderItems),
+            subTotalPrice: calcSubTotalPrice(orderItems),
+            totalPrice:
+              calcSubTotalPrice(orderItems) - calcTotalDiscount(orderItems),
             netPrice:
-              calcTotalPrice(orderItems) - calcTotalDiscount(orderItems),
+              calcSubTotalPrice(orderItems) - calcTotalDiscount(orderItems),
             totalDiscount: calcTotalDiscount(orderItems),
             totalQty: totalQuantity(orderItems),
             note,
@@ -296,6 +302,44 @@ const controller = {
         },
         updateData
       );
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async addServiceCharge(req, res) {
+    try {
+      const { _id, vat, additionalCharges: additional } = req.body;
+      const { restaurantID } = req.user;
+      const { totalPrice } = await Order.findOne({ _id, restaurantID });
+      const updateData = {
+        vatName: "Vat",
+        vat: 0,
+        vatAmount: 0,
+        additionalCharges: [],
+        additionalChargesAmount: 0,
+      };
+      if (vat) {
+        updateData.vatName = vat.name;
+        updateData.vat = vat.percent;
+        updateData.vatAmount = (totalPrice * vat.percent) / 100;
+      }
+      if (additional) {
+        updateData.additionalCharges = additional;
+        updateData.additionalChargesAmount = additional.reduce(
+          (t, { charge }) => t + +charge,
+          0
+        );
+      }
+      updateData.netPrice =
+        totalPrice + updateData.vatAmount + updateData.additionalChargesAmount;
+
+      await Order.updateOne({ _id, restaurantID }, { $set: updateData });
+
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);

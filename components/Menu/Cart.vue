@@ -21,7 +21,7 @@
           You are offline. Please check your internet connection
         </p>
         <p class="text-xl" v-else-if="totalQuantity > 0">
-          Order {{ totalQuantity }} for ৳{{ totalPrice - totalDiscount }}
+          Order {{ totalQuantity }} for ৳{{ subTotalPrice - totalDiscount }}
         </p>
         <p class="text-xl" v-else>Order</p>
         <p class="text-2xl">
@@ -135,7 +135,7 @@
             <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
             <div class="flex justify-between font-medium text-lg">
               <p>Total:</p>
-              <p>৳{{ totalPrice }}</p>
+              <p>৳{{ subTotalPrice }}</p>
             </div>
             <div class="flex justify-between text-md text-rose-500">
               <p>Discount:</p>
@@ -144,7 +144,7 @@
             <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
             <div class="flex justify-between font-medium text-xl">
               <p>Net total:</p>
-              <p>৳{{ totalPrice - totalDiscount }}</p>
+              <p>৳{{ subTotalPrice - totalDiscount }}</p>
             </div>
             <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
             <Input
@@ -228,7 +228,7 @@ export default {
         },
       ];
     },
-    totalPrice() {
+    subTotalPrice() {
       return this.cartItems.reduce(
         (total, value) => total + this.calcPrice(value),
         0

@@ -247,50 +247,101 @@
         </tr>
         <hr class="mt-1" />
         <div class="flex flex-col">
-          <div class="flex justify-between">
-            <p>Total Price:</p>
-            <p>৳{{ orderDetails.totalPrice }}</p>
+          <div class="flex justify-between font-bold">
+            <p>Sub total price:</p>
+            <p>৳{{ orderDetails.subTotalPrice }}</p>
           </div>
-          <div class="flex justify-between">
-            <p>Total discount:</p>
+          <div class="flex justify-between mb-2">
+            <p>Discount:</p>
             <p class="text-rose-500">৳{{ orderDetails.totalDiscount }}</p>
           </div>
-          <div class="flex justify-between my-2">
-            <div class="flex">
-              <p>
-                {{
-                  vat
-                    ? `${vatName(vat).name || ""} (${
-                        vatName(vat).percent || ""
-                      }%)`
-                    : "Vat"
-                }}
-              </p>
-              <select
-                v-model="vat"
-                class="border border-gray-700 ml-2 rounded-lg"
-                v-if="manager"
-              >
-                <option value="">Select a vat</option>
-                <option
-                  :value="vat.percent"
-                  v-for="(vat, key) in vats"
-                  :key="key"
-                >
-                  {{ vat.name }}
-                </option>
-              </select>
+          <hr />
+          <div class="flex justify-between font-bold">
+            <p>Total price:</p>
+            <p>৳{{ orderDetails.totalPrice }}</p>
+          </div>
+          <div v-if="orderDetails.status === 'complete'">
+            <div class="flex justify-between mb-2 mt-1">
+              <div class="flex">
+                <p>{{ showVatName }}</p>
+                <template v-if="manager">
+                  <select
+                    v-model="vat"
+                    :value="vat"
+                    @change="handleVatChange"
+                    class="border border-gray-700 ml-2 rounded-lg"
+                  >
+                    <option value="">Select a vat</option>
+                    <option
+                      :value="vat._id"
+                      v-for="(vat, key) in vats"
+                      :key="key"
+                    >
+                      {{ vat.name }}
+                    </option>
+                  </select>
+                </template>
+              </div>
+              <p>৳{{ showVatAmount | mathRound }}</p>
             </div>
-            <p>
-              ৳{{
-                vat ? (orderDetails.totalPrice * 3.33) / 100 : 0 | mathRound
-              }}
-            </p>
+            <div
+              class="flex justify-between"
+              v-for="(additional, i) in orderDetails.additionalCharges"
+              :key="'additional' + i"
+            >
+              <div class="flex items-center">
+                <p>
+                  {{ additional.name }}
+                  <span
+                    ><font-awesome-icon
+                      :icon="['fas', 'xmark']"
+                      class="text-red-500 cursor-pointer"
+                      @click="removeOrderAdditional(i)"
+                  /></span>
+                </p>
+              </div>
+              <p>৳{{ additional.charge | mathRound }}</p>
+            </div>
+            <div
+              class="flex justify-between mb-2"
+              v-for="(charge, key) in additionalCharges"
+              :key="key"
+            >
+              <div class="flex items-center">
+                <input
+                  v-model="charge.name"
+                  type="text"
+                  class="border border-gray-700 rounded-lg px-2"
+                  placeholder="Additional charge name"
+                />
+                <font-awesome-icon
+                  :icon="['fas', 'xmark']"
+                  class="text-red-500 cursor-pointer ml-1"
+                  @click="removeAdditional(key)"
+                />
+              </div>
+              <div class="flex">
+                ৳
+                <input
+                  v-model="charge.charge"
+                  type="number"
+                  class="border border-gray-700 rounded-lg w-16 text-right pl-2"
+                  placeholder="Additional charge amount"
+                  min="0"
+                />
+              </div>
+            </div>
+            <div class="flex justify-between mb-2 mt-1" v-if="manager">
+              <button @click="addNewCharge" class="underline text-sky-500">
+                + Add additional charge
+              </button>
+            </div>
           </div>
         </div>
-        <hr />
-        <div class="flex justify-center my-2 text-base">
-          Net Price: ৳{{ orderDetails.netPrice }}
+        <hr class="mt-1" />
+        <div class="flex justify-between mb-2 text-lg font-bold">
+          <p>Total Payable:</p>
+          <p>৳{{ totalPayable | mathRound }}</p>
         </div>
       </table>
       <div
@@ -329,8 +380,8 @@
           v-else-if="orderDetails.status === 'active'"
           variant="green"
           class="w-full tracking-wide flex-1"
-          @click.native.prevent="completeOrder"
-          :disabled="manager ? false : $auth.user._id !== orderDetails.waiterID"
+          @click.native.prevent="manager ? completeOrder() : ''"
+          :disabled="!manager"
           :loading="acceptLoading"
         >
           <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
@@ -348,11 +399,17 @@
         <Button
           v-if="orderDetails.status === 'complete'"
           variant="green"
-          class="w-full tracking-wide flex-1 bg-"
-          @click.native.prevent="vat ? updateVat() : printOrder()"
+          class="w-full tracking-wide flex-1"
+          :loading="updateLoading"
+          :disabled="!manager"
+          @click.native.prevent="
+            manager ? (updateMode ? updateVat() : printOrder()) : ''
+          "
         >
-          <font-awesome-icon :icon="['fas', vat ? 'percent' : 'print']" />
-          {{ vat ? "Update vat" : "Print Order" }}
+          <font-awesome-icon
+            :icon="['fas', updateMode ? 'percent' : 'print']"
+          />
+          {{ updateMode ? "Update vat" : "Print Order" }}
         </Button>
       </div>
     </Modal>
@@ -395,6 +452,9 @@ export default {
       refreshTrigger: 0,
       orderDetails: {},
       newOrder: false,
+      additionalCharges: [],
+      updateMode: false,
+      updateLoading: false,
     };
   },
   computed: {
@@ -437,6 +497,42 @@ export default {
     tabOrderType() {
       return [{ title: "All" }, { title: "Dine in" }, { title: "Parcel" }];
     },
+    additionalChargesAmount() {
+      const additionalCharge = this.additionalCharges.reduce(
+        (t, { charge }) => t + +charge,
+        0
+      );
+      const existCharge = this.orderDetails.additionalCharges.reduce(
+        (t, { charge }) => t + +charge,
+        0
+      );
+      return additionalCharge + existCharge;
+    },
+    showVatAmount() {
+      if (this.vat) {
+        return (
+          (this.orderDetails.totalPrice * this.vatName(this.vat).percent) / 100
+        );
+      } else {
+        return 0;
+      }
+    },
+    showVatName() {
+      if (this.vat) {
+        return `${this.vatName(this.vat).name || ""} (${
+          this.vatName(this.vat).percent || ""
+        }%)`;
+      } else {
+        return "Vat";
+      }
+    },
+    totalPayable() {
+      return (
+        this.orderDetails.totalPrice +
+        this.additionalChargesAmount +
+        this.showVatAmount
+      );
+    },
   },
   watch: {
     date() {
@@ -453,6 +549,11 @@ export default {
     orderType() {
       this.refetch();
     },
+    modal(val) {
+      if (!val) {
+        this.updateMode = false;
+      }
+    },
   },
   created() {
     this.$nuxt.$on("order-notification-socket-data", () => {
@@ -465,6 +566,7 @@ export default {
     } else {
       this.fetchItems();
     }
+    this.fetchVats();
     this.intervalId = setInterval(() => {
       this.refreshTrigger++;
     }, 1000);
@@ -474,6 +576,14 @@ export default {
     this.$nuxt.$off("order-notification-socket-data");
   },
   methods: {
+    async fetchVats() {
+      try {
+        const { vats } = await this.$mowApi.fetchVat();
+        this.vats = vats;
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async fetchItems() {
       try {
         this.loading = true;
@@ -491,8 +601,6 @@ export default {
           const { orders } = await this.$mowApi.fetchOrder(params);
           this.items = this.items.concat(orders);
         }
-        const { vats } = await this.$mowApi.fetchVat();
-        this.vats = vats;
       } catch (error) {
         console.error(error);
       } finally {
@@ -569,6 +677,10 @@ export default {
       }
     },
     openOrderDetails(item) {
+      const vat = this.vats.find(
+        ({ name, percent }) => name === item.vatName && percent === item.vat
+      );
+      this.vat = vat ? vat._id : "";
       this.orderDetails = item;
       this.modal = true;
     },
@@ -714,9 +826,55 @@ export default {
       );
     },
     vatName(vat) {
-      return this.vats.find(({ percent }) => percent === vat);
+      return this.vats.find(({ _id }) => _id === vat);
     },
-    updateVat() {},
+    async updateVat() {
+      try {
+        this.updateLoading = true;
+        const data = {
+          _id: this.orderDetails._id,
+        };
+        if (this.vat) {
+          const { name, percent } = this.vatName(this.vat);
+          data.vat = { name, percent };
+        }
+        if (this.additionalCharges) {
+          data.additionalCharges = [
+            ...(this.orderDetails?.additionalCharges || []),
+            ...this.additionalCharges,
+          ];
+        }
+        await this.$managerApi.addServiceCharge(data);
+        if (this.active !== "Table view") {
+          this.items = [];
+          this.fetchItems();
+        }
+        this.orderDetails.additionalCharges = data.additionalCharges;
+        this.additionalCharges = [];
+        this.updateMode = false;
+      } catch (error) {
+        console.log(error);
+        this.$nuxt.$emit("error", "Something Wrong! Please try Again");
+      } finally {
+        this.updateLoading = false;
+      }
+    },
+    addNewCharge() {
+      this.additionalCharges.push({ name: "", charge: 0 });
+      this.updateMode = true;
+    },
+    removeAdditional(key) {
+      this.additionalCharges.splice(key, 1);
+      this.updateMode = true;
+    },
+    removeOrderAdditional(key) {
+      this.orderDetails.additionalCharges.splice(key, 1);
+      this.updateMode = true;
+    },
+    handleVatChange(event) {
+      this.vat = event.target.value;
+      this.updateMode = true;
+    },
   },
 };
 </script>

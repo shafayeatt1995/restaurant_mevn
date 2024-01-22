@@ -95,6 +95,12 @@ export default {
         },
         {
           show: this.manager,
+          name: "dashboard-vat",
+          title: "Vat",
+          icon: ["fas", "percent"],
+        },
+        {
+          show: this.manager,
           name: "dashboard-block-list",
           title: "Block List",
           icon: ["fas", "users-slash"],
@@ -104,12 +110,6 @@ export default {
           name: "dashboard-restaurant",
           title: "Restaurant",
           icon: ["fas", "utensils"],
-        },
-        {
-          show: this.manager,
-          name: "dashboard-vat",
-          title: "Vat",
-          icon: ["fas", "percent"],
         },
         {
           show: this.manager || this.admin || this.waiter,

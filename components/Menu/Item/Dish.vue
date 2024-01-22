@@ -194,7 +194,7 @@
             <font-awesome-icon :icon="['fas', 'minus']" />
           </button>
           <div
-            class="bg-green-600 text-white h-14 w-36 text-xl flex justify-center items-center mt-[-16px] mr-[-40px] cursor-pointer rounded-full"
+            class="bg-green-600 text-white h-14 w-32 text-xl flex justify-center items-center mt-[-16px] mr-[-34px] cursor-pointer rounded-tl-full rounded-bl-full"
             v-if="getItemQty > 0"
             key="2"
           >
