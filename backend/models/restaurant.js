@@ -18,6 +18,8 @@ const RestaurantSchema = new Schema(
     printPhone: { type: String, default: "" },
     customMessage: { type: String, default: "" },
     printImage: { type: String, default: "" },
+    printEmail: { type: String, default: "" },
+    printWebsite: { type: String, default: "" },
   },
   {
     strict: true,

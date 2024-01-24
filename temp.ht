@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="margin: 0; padding: 0">
+    <table style="width: 100%">
+      <!-- <tr>
+        <td style="text-align: center">
+          <img
+            src="./static/full-logo.png"
+            style="max-width: 70%; max-height: 75px"
+          />
+        </td>
+      </tr> -->
+      <tr>
+        <td style="text-align: center">
+          <img
+            src="./static/favicon.jpeg"
+            style="max-width: 70%; max-height: 75px"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center; font-size: 24px">
+          <b>Restaurant name</b>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center">Batar mor, Naogaon</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">Mobile: 01728-293635</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">Email: shafayetalanik@gmail.com</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">Website: scaneating.com</td>
+      </tr>
+    </table>
+    <table style="width: 100%; margin-top: 10px">
+      <tr>
+        <td>
+          <div><b>Date:</b> 12/12/2024 12:26 pm</div>
+        </td>
+        <td>
+          <div><b>Table:</b> 123456</div>
+        </td>
+      </tr>
+      <tr colspan="2">
+        <td>
+          <div><b>Customer:</b> Shafayet Al Anik</div>
+        </td>
+      </tr>
+    </table>
+    <div style="border-bottom: 1px solid #000; margin-top: 10px"></div>
+    <table style="width: 100%; border-collapse: collapse; text-align: center">
+      <tr style="font-weight: 600; border-bottom: 1px solid #000">
+        <td style="width: calc(100% - 90px); border-right: 1px solid #000">
+          Name
+        </td>
+        <td style="width: 35px; border-right: 1px solid #000">Qty</td>
+        <td style="width: 60px">Price</td>
+      </tr>
+      <tr style="border-bottom: 1px dashed #000">
+        <td
+          style="
+            width: calc(100% - 90px);
+            border-right: 1px solid #000;
+            text-align: left;
+          "
+        >
+          <div>Amar nam anik</div>
+          <div>(Normal)</div>
+          <div><small>+Extra sauce</small></div>
+          <div><small>+Extra chess</small></div>
+        </td>
+        <td style="width: 35px; border-right: 1px solid #000">x9</td>
+        <td style="width: 60px">999.00</td>
+      </tr>
+      <tr style="border-bottom: 1px dashed #000">
+        <td
+          style="
+            width: calc(100% - 90px);
+            border-right: 1px solid #000;
+            text-align: left;
+          "
+        >
+          <div>Amar nam anik</div>
+          <div>(Normal)</div>
+          <div><small>+Extra sauce</small></div>
+          <div><small>+Extra chess</small></div>
+        </td>
+        <td style="width: 35px; border-right: 1px solid #000">x9</td>
+        <td style="width: 60px">999.00</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #000">
+        <td
+          style="
+            width: calc(100% - 90px);
+            border-right: 1px solid #000;
+            text-align: left;
+          "
+        >
+          <div>Amar nam anik</div>
+        </td>
+        <td style="width: 35px; border-right: 1px solid #000">x9</td>
+        <td style="width: 60px">999.00</td>
+      </tr>
+    </table>
+    <table style="width: 100%">
+      <tr style="font-weight: 600">
+        <td style="width: calc(100% - 60px)">Sub total</td>
+        <td style="width: 60px; text-align: right">999.00</td>
+      </tr>
+      <tr>
+        <td style="width: calc(100% - 60px)">Discount</td>
+        <td style="width: 60px; text-align: right">99.00</td>
+      </tr>
+    </table>
+    <div style="border-bottom: 1px solid #000"></div>
+    <table style="width: 100%">
+      <tr style="font-weight: 600">
+        <td style="width: calc(100% - 60px)">Total price</td>
+        <td style="width: 60px; text-align: right">999.00</td>
+      </tr>
+      <tr>
+        <td style="width: calc(100% - 60px)">Vat</td>
+        <td style="width: 60px; text-align: right">99.00</td>
+      </tr>
+      <tr>
+        <td style="width: calc(100% - 60px)">Additional service charge</td>
+        <td style="width: 60px; text-align: right">99.00</td>
+      </tr>
+    </table>
+    <div style="border-bottom: 1px solid #000"></div>
+    <table style="width: 100%">
+      <tr style="font-size: 18px; font-weight: 600">
+        <td style="width: calc(100% - 60px)">Total payable</td>
+        <td style="width: 60px; text-align: right">999.00</td>
+      </tr>
+    </table>
+    <p style="padding: 0 15px; text-align: center">
+      Thank you for coming Thank you for coming Thank you for coming Thank you
+      for coming
+    </p>
+    <center>
+      Technology Partner "scaneating.com"</a>
+    </center>
+  </body>
+</html>

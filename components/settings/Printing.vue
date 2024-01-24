@@ -42,6 +42,8 @@ export default {
         printName: this.$auth.user.restaurant.printName || "",
         printAddress: this.$auth.user.restaurant.printAddress || "",
         printPhone: this.$auth.user.restaurant.printPhone || "",
+        printEmail: this.$auth.user.restaurant.printEmail || "",
+        printWebsite: this.$auth.user.restaurant.printWebsite || "",
         customMessage: this.$auth.user.restaurant.customMessage || "",
       },
       imageModal: false,
@@ -69,6 +71,18 @@ export default {
           placeholder: "Restaurant phone",
           name: "printPhone",
           label: { id: "printPhone", title: "Restaurant phone" },
+        },
+        {
+          type: "text",
+          placeholder: "Restaurant email",
+          name: "printEmail",
+          label: { id: "printEmail", title: "Restaurant email" },
+        },
+        {
+          type: "text",
+          placeholder: "Restaurant website",
+          name: "printWebsite",
+          label: { id: "printWebsite", title: "Restaurant website" },
         },
         {
           type: "text",

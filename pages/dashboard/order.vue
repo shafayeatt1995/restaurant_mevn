@@ -204,7 +204,7 @@
         </p>
       </div>
       <hr class="my-2" />
-      <table class="flex flex-col flex-1 text-gray-700" ref="orderDetails">
+      <table class="flex flex-col flex-1 text-gray-700">
         <tr class="flex mb-2 text-lg font-semibold">
           <th class="pr-3">Qty</th>
           <th class="flex-1">Name</th>
@@ -282,7 +282,7 @@
                   </select>
                 </template>
               </div>
-              <p>৳{{ showVatAmount | mathRound }}</p>
+              <p>৳{{ showVatAmount | number }}</p>
             </div>
             <div
               class="flex justify-between"
@@ -300,7 +300,7 @@
                   /></span>
                 </p>
               </div>
-              <p>৳{{ additional.charge | mathRound }}</p>
+              <p>৳{{ additional.charge | number }}</p>
             </div>
             <div
               class="flex justify-between mb-2"
@@ -341,7 +341,7 @@
         <hr class="mt-1" />
         <div class="flex justify-between mb-2 text-lg font-bold">
           <p>Total Payable:</p>
-          <p>৳{{ totalPayable | mathRound }}</p>
+          <p>৳{{ totalPayable | number }}</p>
         </div>
       </table>
       <div
@@ -413,6 +413,12 @@
         </Button>
       </div>
     </Modal>
+    <PrintReceipt
+      :orderDetails="orderDetails"
+      :showVatName="showVatName"
+      :showVatAmount="showVatAmount"
+      v-if="orderDetails._id"
+    />
   </div>
 </template>
 
@@ -519,9 +525,9 @@ export default {
     },
     showVatName() {
       if (this.vat) {
-        return `${this.vatName(this.vat).name || ""} (${
+        return `${this.vatName(this.vat).name || ""} ${
           this.vatName(this.vat).percent || ""
-        }%)`;
+        }%`;
       } else {
         return "Vat";
       }
@@ -818,12 +824,7 @@ export default {
       return null;
     },
     async printOrder() {
-      console.log("ami anik");
-      const printContent = this.$refs.orderDetails;
-      const printWindow = window.open("", "_blank", "width=800,height=600");
-      printWindow.document.write(
-        `<html><head><style></style></head><body>${printContent.outerHTML}</body></html>`
-      );
+      this.$nuxt.$emit("trigger-print-receipt");
     },
     vatName(vat) {
       return this.vats.find(({ _id }) => _id === vat);

@@ -1,0 +1,208 @@
+<template>
+  <div style="font-size: 12px" ref="receipt">
+    <table style="width: 100%">
+      <tbody style="font-size: 12px">
+        <tr v-if="restaurant.printImage">
+          <td style="text-align: center; text-align: -webkit-center">
+            <img
+              :src="restaurant.printImage"
+              style="max-width: 70%; max-height: 75px"
+            />
+          </td>
+        </tr>
+        <tr v-if="restaurant.printName">
+          <td style="text-align: center; font-size: 16px">
+            <b>{{ restaurant.printName }}</b>
+          </td>
+        </tr>
+        <tr v-if="restaurant.printAddress">
+          <td style="text-align: center">{{ restaurant.printAddress }}</td>
+        </tr>
+        <tr v-if="restaurant.printPhone">
+          <td style="text-align: center">
+            Mobile: {{ restaurant.printPhone }}
+          </td>
+        </tr>
+        <tr v-if="restaurant.printEmail">
+          <td style="text-align: center">Email: {{ restaurant.printEmail }}</td>
+        </tr>
+        <tr v-if="restaurant.printWebsite">
+          <td style="text-align: center">
+            Website: {{ restaurant.printWebsite }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table style="width: 100%; margin-top: 10px">
+      <tbody style="font-size: 12px">
+        <tr>
+          <td>
+            <div>
+              <b>Date:</b>
+              {{ $moment().format("DD/MM/YYYY - HH:MMa") }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div><b>Table: </b> {{ orderDetails.tableName }}</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div><b>Customer:</b> {{ orderDetails.userName }}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="border-bottom: 1px solid #000; margin-top: 10px"></div>
+    <table style="width: 100%; border-collapse: collapse; text-align: center">
+      <tbody style="font-size: 12px">
+        <tr style="font-weight: 600; border-bottom: 1px solid #000">
+          <td style="width: calc(100% - 65px); border-right: 1px solid #000">
+            Name
+          </td>
+          <td style="width: 25px; border-right: 1px solid #000; padding: 0 5px">
+            Qty
+          </td>
+          <td style="width: 40px; padding: 0 5px">Price</td>
+        </tr>
+        <tr
+          :style="`border-bottom: 1px ${
+            key + 1 === orderDetails?.orderItems?.length ? 'solid' : 'dashed'
+          } #000`"
+          v-for="(item, key) in orderDetails.orderItems"
+          :key="key"
+        >
+          <td
+            style="
+              width: calc(100% - 65px);
+              border-right: 1px solid #000;
+              text-align: left;
+            "
+          >
+            <div>
+              {{ item.name }}
+              <span v-if="item.choice.name">({{ item.choice.name }})</span>
+            </div>
+            <div v-for="(addon, index) in item.addon" :key="`addon-${index}`">
+              <small>+ {{ addon.name }}</small>
+            </div>
+          </td>
+          <td style="width: 25px; border-right: 1px solid #000; padding: 0 5px">
+            x{{ item.qty }}
+          </td>
+          <td style="width: 40px; padding: 0 5px">
+            ৳{{ singleItemPrice(item) | number }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table style="width: 100%">
+      <tbody style="font-size: 12px">
+        <tr style="font-weight: 600">
+          <td style="width: calc(100% - 60px)">Sub total</td>
+          <td style="width: 60px; text-align: right">
+            {{ orderDetails.subTotalPrice | number }}
+          </td>
+        </tr>
+        <tr>
+          <td style="width: calc(100% - 60px)">Discount</td>
+          <td style="width: 60px; text-align: right">
+            {{ orderDetails.totalDiscount | number }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="border-bottom: 1px solid #000"></div>
+    <table style="width: 100%">
+      <tbody style="font-size: 12px">
+        <tr style="font-weight: 600">
+          <td style="width: calc(100% - 60px)">Total price</td>
+          <td style="width: 60px; text-align: right">
+            {{ orderDetails.totalPrice | number }}
+          </td>
+        </tr>
+        <tr>
+          <td style="width: calc(100% - 60px)">{{ showVatName }}</td>
+          <td style="width: 60px; text-align: right">
+            {{ showVatAmount | number }}
+          </td>
+        </tr>
+        <tr
+          v-for="(additional, i) in orderDetails.additionalCharges"
+          :key="'additional' + i"
+        >
+          <td style="width: calc(100% - 60px)">{{ additional.name }}</td>
+          <td style="width: 60px; text-align: right">
+            {{ additional.charge | number }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="border-bottom: 1px solid #000"></div>
+    <table style="width: 100%">
+      <tbody style="font-size: 12px">
+        <tr style="font-size: 15px; font-weight: 600">
+          <td style="width: calc(100% - 60px)">Total payable</td>
+          <td style="width: 60px; text-align: right">
+            ৳{{ totalPayable() | number }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="padding: 0 15px; text-align: center; font-size: 12px">
+      Thank you for coming
+    </p>
+    <center style="font-size: 12px">Technology Partner "scaneating.com"</center>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "PrintReceipt",
+  props: {
+    orderDetails: Object,
+    showVatName: String,
+    showVatAmount: Number,
+  },
+  computed: {
+    restaurant() {
+      return this.$auth.user.restaurant;
+    },
+  },
+  created() {
+    this.$nuxt.$on("trigger-print-receipt", () => this.printReceipt());
+  },
+  methods: {
+    calcPrice(item) {
+      const { qty, price, addon, choice } = item;
+      const addonPrice = addon.reduce((total, value) => total + value.price, 0);
+      return (price + addonPrice + (choice.price || 0)) * qty;
+    },
+    singleItemPrice(data) {
+      return this.calcPrice(data);
+    },
+    additionalChargesAmount() {
+      return this.orderDetails.additionalCharges.reduce(
+        (t, { charge }) => t + +charge,
+        0
+      );
+    },
+    totalPayable() {
+      return (
+        this.orderDetails.totalPrice +
+        this.additionalChargesAmount() +
+        this.showVatAmount
+      );
+    },
+    printReceipt() {
+      const printContent = this.$refs.receipt.innerHTML;
+      const printWindow = window.open("", "_blank", "width=800,height=600");
+      printWindow.document.write(
+        `<html><body style="margin: 0; padding: 0" >${printContent.toString()}</body></html>`
+      );
+    },
+  },
+};
+</script>

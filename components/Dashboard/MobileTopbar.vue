@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky top-0 z-20">
     <header class="text-gray-100 bg-gray-800 lg:hidden">
       <div class="container flex items-center justify-between p-4 mx-auto">
         <nuxt-link :to="{ name: 'dashboard' }" class="text-white">
@@ -46,7 +46,7 @@
 </template>
 <script>
 export default {
-  name: "MobileTopbar",
+  name: "MobileTopBar",
   data() {
     return {};
   },

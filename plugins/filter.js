@@ -27,6 +27,10 @@ Vue.filter("year", (value) => {
 });
 
 // Number Format
+Vue.filter("numberFloat", (value) => {
+  return parseFloat(value).toFixed(2);
+});
+
 Vue.filter("number", (value) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 });
