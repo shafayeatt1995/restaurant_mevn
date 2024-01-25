@@ -8,7 +8,9 @@ const {
 } = require("@/backend/controllers/OrderController");
 const { fetchAllTable } = require("@/backend/controllers/TableController");
 const { allVat } = require("@/backend/controllers/VatController");
+const { fetchDashboard } = require("@/backend/controllers/UserController");
 
+router.get("/dashboard", fetchDashboard);
 router.get("/vat", allVat);
 router.get("/order", fetchOrder);
 router.get("/table", fetchAllTable);

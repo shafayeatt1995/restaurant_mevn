@@ -1,5 +1,5 @@
 <template>
-  <div style="font-size: 12px" ref="receipt">
+  <div style="font-size: 12px; display: none" ref="receipt">
     <table style="width: 100%">
       <tbody style="font-size: 12px">
         <tr v-if="restaurant.printImage">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DashboardManager v-if="manager" />
+    <DashboardManager v-if="manager || waiter" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageTitle", "manager"]),
+    ...mapGetters(["pageTitle", "manager", "waiter"]),
   },
 };
 </script>

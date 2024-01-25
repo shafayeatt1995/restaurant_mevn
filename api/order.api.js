@@ -8,4 +8,8 @@ export class OrderApi extends BaseApi {
   createOrder(body) {
     return this.api.$post(`/`, body);
   }
+
+  print(body) {
+    return this.api.$post(`/print`, body);
+  }
 }

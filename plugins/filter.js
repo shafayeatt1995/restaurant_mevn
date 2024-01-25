@@ -36,7 +36,7 @@ Vue.filter("number", (value) => {
 });
 
 Vue.filter("currencyNumber", (value) => {
-  return value.toLocaleString("en-IN");
+  return value.toFixed(2);
 });
 
 Vue.filter("mathRound", (value) => {

@@ -7,7 +7,11 @@ const controller = {
   async fetchDashboard(req, res) {
     try {
       const { today, week, month } = req.query;
-      const { restaurantID } = req.user;
+      const { restaurantID, isWaiter, _id: authID } = req.user;
+      const waiterID = {};
+      if (isWaiter) {
+        waiterID.waiterID = authID;
+      }
 
       const [
         [todaySale],
@@ -22,6 +26,7 @@ const controller = {
           {
             $match: {
               restaurantID,
+              ...waiterID,
               created_at: {
                 $gt: convertDate(today, "start"),
                 $lt: convertDate(today, "end"),
@@ -41,6 +46,7 @@ const controller = {
           {
             $match: {
               restaurantID,
+              ...waiterID,
               created_at: {
                 $gt: convertDate(week[0], "start"),
                 $lt: convertDate(week[1], "end"),
@@ -60,6 +66,7 @@ const controller = {
           {
             $match: {
               restaurantID,
+              ...waiterID,
               created_at: {
                 $gt: convertDate(month[0], "start"),
                 $lt: convertDate(month[1], "end"),
@@ -79,6 +86,7 @@ const controller = {
           {
             $match: {
               restaurantID,
+              ...waiterID,
               status: "complete",
             },
           },
@@ -94,6 +102,7 @@ const controller = {
           {
             $match: {
               restaurantID,
+              ...waiterID,
               created_at: {
                 $gt: convertDate(today, "start"),
                 $lt: convertDate(today, "end"),
@@ -131,6 +140,7 @@ const controller = {
           {
             $match: {
               restaurantID,
+              ...waiterID,
               created_at: {
                 $gt: convertDate(week[0], "start"),
                 $lt: convertDate(week[1], "end"),
@@ -175,6 +185,7 @@ const controller = {
           {
             $match: {
               restaurantID,
+              ...waiterID,
               created_at: {
                 $gt: convertDate(month[0], "start"),
                 $lt: convertDate(month[1], "end"),

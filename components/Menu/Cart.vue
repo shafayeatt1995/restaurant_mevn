@@ -14,6 +14,9 @@
 
     <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-40 left-0 right-0">
       <div
+        ref="swipeContainer"
+        @touchstart="onTouchStart"
+        @touchend="onTouchEnd"
         class="flex justify-between items-center bg-black text-white py-4 px-5 rounded-t-3xl cursor-pointer gap-3"
         @click="show = $nuxt.isOffline ? false : !show"
       >
@@ -21,7 +24,8 @@
           You are offline. Please check your internet connection
         </p>
         <p class="text-xl" v-else-if="totalQuantity > 0">
-          Order {{ totalQuantity }} for ৳{{ subTotalPrice - totalDiscount }}
+          Order
+          {{ totalQuantity }} for ৳{{ subTotalPrice - totalDiscount }}
         </p>
         <p class="text-xl" v-else>Order</p>
         <p class="text-2xl">
@@ -133,27 +137,27 @@
               </tbody>
             </table>
             <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
-            <div class="flex justify-between font-medium text-lg">
+            <!-- <div class="flex justify-between font-medium text-lg">
               <p>Total:</p>
               <p>৳{{ subTotalPrice }}</p>
             </div>
             <div class="flex justify-between text-md text-rose-500">
               <p>Discount:</p>
               <p>৳{{ totalDiscount }}</p>
-            </div>
-            <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
+            </div> -->
+            <!-- <div class="border-t-2 border-gray-300 border-dashed my-3"></div> -->
             <div class="flex justify-between font-medium text-xl">
               <p>Net total:</p>
               <p>৳{{ subTotalPrice - totalDiscount }}</p>
             </div>
-            <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
-            <Input
+            <!-- <div class="border-t-2 border-gray-300 border-dashed my-3"></div> -->
+            <!-- <Input
               v-for="(field, i) in inputFields"
               :key="i"
               :field="field"
               v-model="form"
               :errors="errors"
-            />
+            /> -->
             <div class="mt-5">
               <small class="text-gray-400">
                 By clicking Order, you confirm your age is 18+ and you agree to
@@ -214,6 +218,7 @@ export default {
       loading: false,
       orderAnimation: false,
       errorMessage: null,
+      startY: 0,
     };
   },
   computed: {
@@ -325,6 +330,27 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    onTouchStart(event) {
+      this.startY = event.touches[0].clientY;
+    },
+    onTouchEnd(event) {
+      if (event.changedTouches.length) {
+        const endY = event.changedTouches[0].clientY;
+        const deltaY = endY - this.startY;
+
+        if (deltaY > 0) {
+          this.handleSwipeDown();
+        } else if (deltaY < 0) {
+          this.handleSwipeUp();
+        }
+      }
+    },
+    handleSwipeUp() {
+      this.show = true;
+    },
+    handleSwipeDown() {
+      this.show = false;
     },
   },
 };

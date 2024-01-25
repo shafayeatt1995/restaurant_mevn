@@ -24,4 +24,8 @@ export class MowApi extends BaseApi {
   fetchVat() {
     return this.api.$get(`vat`);
   }
+
+  fetchDashboard(params) {
+    return this.api.$get(`dashboard`, { params });
+  }
 }

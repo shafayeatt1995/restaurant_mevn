@@ -305,12 +305,12 @@ export default {
           todayPerformances,
           weeklyPerformances,
           monthlyPerformances,
-        } = await this.$managerApi.fetchDashboard(params);
+        } = await this.$mowApi.fetchDashboard(params);
 
         todaySale ? (this.today = todaySale) : null;
         weeklySale ? (this.weekly = weeklySale) : null;
         monthlySale ? (this.monthly = monthlySale) : null;
-        totalSale ? (this.total = totalSale) : null;
+        // totalSale ? (this.total = totalSale) : null;
         todayItems ? (this.todayItems = todayItems) : null;
         weeklyItems ? (this.weeklyItems = weeklyItems) : null;
         monthlyItems ? (this.monthlyItems = monthlyItems) : null;

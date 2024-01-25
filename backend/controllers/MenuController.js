@@ -10,7 +10,10 @@ const controller = {
   async fetchMenu(req, res) {
     try {
       const { slug, table } = req.query;
-      const restaurant = await Restaurant.findOne({ slug }).select({
+      const restaurant = await Restaurant.findOne({
+        slug,
+        scanExp: { $gt: new Date() },
+      }).select({
         logo: 1,
         name: 1,
       });
@@ -32,14 +35,9 @@ const controller = {
         categories,
         subCategories,
         items,
-        table: findTable || {
-          restaurantID: "655dbbb2860b71a2dabec31f",
-          name: "table-8",
-          serial: "table-8-rh",
-        },
+        table: findTable,
       });
     } catch (error) {
-      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });

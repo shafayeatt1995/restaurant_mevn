@@ -30,15 +30,17 @@ export default {
   },
   data() {
     return {
-      tabTitle: [
-        { title: "Notification", icon: ["far", "bell"] },
-        { title: "Printing", icon: ["far", "newspaper"] },
-      ],
       activeTab: "Notification",
     };
   },
   computed: {
-    ...mapGetters(["pageTitle"]),
+    ...mapGetters(["pageTitle", "manager"]),
+    tabTitle() {
+      return [
+        { title: "Notification", icon: ["far", "bell"] },
+        { title: "Printing", icon: ["far", "newspaper"], show: this.manager },
+      ];
+    },
   },
 };
 </script>

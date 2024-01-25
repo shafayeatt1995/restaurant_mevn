@@ -153,10 +153,6 @@ export class ManagerApi extends BaseApi {
     return this.api.$post(`item/copy`, body);
   }
 
-  fetchDashboard(params) {
-    return this.api.$get(`dashboard`, { params });
-  }
-
   updatePrintingDetails(body) {
     return this.api.$post(`update-printing-details`, body);
   }
