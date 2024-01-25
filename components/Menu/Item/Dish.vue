@@ -142,142 +142,146 @@
       </form>
     </Modal>
 
-    <MenuModal v-model="modal" v-if="modal">
-      <div
-        class="text-2xl absolute mt-3 ml-3 text-gray-700 h-12 w-12 rounded-full bg-gray-300 flex justify-center items-center cursor-pointer"
-        @click="modal = false"
-      >
-        <font-awesome-icon :icon="['fas', 'chevron-left']" />
-      </div>
-      <img
-        loading="lazy"
-        :src="modalItem.image"
-        class="h-[250px] w-full object-cover"
-      />
-      <div class="flex justify-between items-center px-4 py-2 shadow-lg gap-3">
-        <div class="flex items-center">
-          <img
-            loading="lazy"
-            :src="categoryImage"
-            class="object-cover w-12 h-12"
-          />
-          <img
-            loading="lazy"
-            :src="categoryImage"
-            class="object-cover w-12 h-12 absolute active-animation"
-            v-for="(_, i) in showAnimation"
-            :key="`animation-${i}`"
-          />
-          <p class="ml-2 capitalize">{{ modalItem.name }}</p>
-        </div>
-        <div>
-          <p v-if="modalItem.discount">
-            <del class="text-rose-500">৳{{ itemPrice }}</del>
-            ৳{{ itemPrice - modalItem.discountAmount }}
-          </p>
-          <p v-else>৳{{ itemPrice }}</p>
-        </div>
-      </div>
-      <div class="flex justify-end items-center">
-        <transition-group
-          name="slide"
-          mode="out-in"
-          tag="div"
-          class="flex justify-end items-center"
-        >
-          <button
-            class="bg-green-600 text-white h-14 w-14 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-[-48px] cursor-pointer relative z-10 shadow-[0_1px_3px_rgba(0,0,0,0.25)]"
-            @click="removeToCart"
-            v-if="getItemQty > 0"
-            key="1"
-          >
-            <font-awesome-icon :icon="['fas', 'minus']" />
-          </button>
-          <div
-            class="bg-green-600 text-white h-14 w-32 text-xl flex justify-center items-center mt-[-16px] mr-[-34px] cursor-pointer rounded-tl-full rounded-bl-full"
-            v-if="getItemQty > 0"
-            key="2"
-          >
-            <p class="ml-4">{{ getItemQty }}</p>
-          </div>
-        </transition-group>
-        <button
-          class="bg-green-600 text-white h-16 w-16 flex justify-center items-center mt-[-16px] mr-5 cursor-pointer shadow-[0_4px_4px_rgba(0,0,0,0.25)] relative z-10 transition-all duration-300 rounded-full"
-          @click="addCart"
-          key="3"
-        >
-          <!-- v-if="getItemQty > 0" -->
-          <font-awesome-icon :icon="['fas', 'plus']" class="text-3xl" />
-
-          <!-- <AddFoodIcon v-else class="mb-2" /> -->
-          <!-- <font-awesome-icon
-            v-else
-            :icon="['fas', 'cart-plus']"
-            class="text-2xl"
-          /> -->
-        </button>
-      </div>
-      <div class="px-4 my-5 text-gray-500">
-        {{ modalItem.description }}
-        <p class="mt-5">
-          <font-awesome-icon :icon="['far', 'clock']" /> Estimate time
-          {{ modalItem.estimateTime }} minutes
-        </p>
-      </div>
-      <hr />
-      <div
-        class="text-gray-500 px-5 my-5"
-        v-for="(choice, key) in modalItem.choices"
-        :key="`choice-${key}`"
-      >
-        <p class="mb-4">{{ choice.title }}</p>
+    <transition name="slideFullLeft">
+      <MenuModal v-model="modal" v-if="modal">
         <div
-          class="mt-1"
-          v-for="(option, index) in choice.options"
-          :key="`choice-option-${index}`"
+          class="text-2xl absolute mt-3 ml-3 text-gray-700 h-12 w-12 rounded-full bg-gray-300 flex justify-center items-center cursor-pointer"
+          @click="modal = false"
         >
+          <font-awesome-icon :icon="['fas', 'chevron-left']" />
+        </div>
+        <img
+          loading="lazy"
+          :src="modalItem.image"
+          class="h-[250px] w-full object-cover"
+        />
+        <div
+          class="flex justify-between items-center px-4 py-2 shadow-lg gap-3"
+        >
+          <div class="flex items-center">
+            <img
+              loading="lazy"
+              :src="categoryImage"
+              class="object-cover w-12 h-12"
+            />
+            <img
+              loading="lazy"
+              :src="categoryImage"
+              class="object-cover w-12 h-12 absolute active-animation"
+              v-for="(_, i) in showAnimation"
+              :key="`animation-${i}`"
+            />
+            <p class="ml-2 capitalize">{{ modalItem.name }}</p>
+          </div>
+          <div>
+            <p v-if="modalItem.discount">
+              <del class="text-rose-500">৳{{ itemPrice }}</del>
+              ৳{{ itemPrice - modalItem.discountAmount }}
+            </p>
+            <p v-else>৳{{ itemPrice }}</p>
+          </div>
+        </div>
+        <div class="flex justify-end items-center">
+          <transition-group
+            name="slide"
+            mode="out-in"
+            tag="div"
+            class="flex justify-end items-center"
+          >
+            <button
+              class="bg-green-600 text-white h-14 w-14 rounded-full text-3xl flex justify-center items-center mt-[-16px] mr-[-48px] cursor-pointer relative z-10 shadow-[0_1px_3px_rgba(0,0,0,0.25)]"
+              @click="removeToCart"
+              v-if="getItemQty > 0"
+              key="1"
+            >
+              <font-awesome-icon :icon="['fas', 'minus']" />
+            </button>
+            <div
+              class="bg-green-600 text-white h-14 w-32 text-xl flex justify-center items-center mt-[-16px] mr-[-34px] cursor-pointer rounded-tl-full rounded-bl-full"
+              v-if="getItemQty > 0"
+              key="2"
+            >
+              <p class="ml-4">{{ getItemQty }}</p>
+            </div>
+          </transition-group>
+          <button
+            class="bg-green-600 text-white h-16 w-16 flex justify-center items-center mt-[-16px] mr-5 cursor-pointer shadow-[0_4px_4px_rgba(0,0,0,0.25)] relative z-10 transition-all duration-300 rounded-full"
+            @click="addCart"
+            key="3"
+          >
+            <!-- v-if="getItemQty > 0" -->
+            <font-awesome-icon :icon="['fas', 'plus']" class="text-3xl" />
+
+            <!-- <AddFoodIcon v-else class="mb-2" /> -->
+            <!-- <font-awesome-icon
+              v-else
+              :icon="['fas', 'cart-plus']"
+              class="text-2xl"
+            /> -->
+          </button>
+        </div>
+        <div class="px-4 my-5 text-gray-500">
+          {{ modalItem.description }}
+          <p class="mt-5">
+            <font-awesome-icon :icon="['far', 'clock']" /> Estimate time
+            {{ modalItem.estimateTime }} minutes
+          </p>
+        </div>
+        <hr />
+        <div
+          class="text-gray-500 px-5 my-5"
+          v-for="(choice, key) in modalItem.choices"
+          :key="`choice-${key}`"
+        >
+          <p class="mb-4">{{ choice.title }}</p>
           <div
-            class="inline-flex items-center gap-2 cursor-pointer"
-            @click="setChoice(option)"
+            class="mt-1"
+            v-for="(option, index) in choice.options"
+            :key="`choice-option-${index}`"
           >
             <div
-              class="h-5 w-5 rounded-full border-white border-4 shadow-[0_0_0_2px_rgba(156,163,175,1)]"
-              :class="activeChoice._id === option._id ? 'bg-green-600' : ''"
-            ></div>
-            <p>{{ option.name }}</p>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div
-        class="text-gray-500 px-5 my-5"
-        v-for="(addon, key) in modalItem.addons"
-        :key="`addon-${key}`"
-      >
-        <p class="mb-4">{{ addon.title }}</p>
-        <div
-          class="mt-1"
-          v-for="(option, index) in addon.options"
-          :key="`addon-option-${index}`"
-        >
-          <div
-            class="flex justify-between gap-2 cursor-pointer items-center mb-3"
-            @click="setAddon(option)"
-          >
-            <div class="flex items-center gap-2">
+              class="inline-flex items-center gap-2 cursor-pointer"
+              @click="setChoice(option)"
+            >
               <div
-                class="h-5 w-5 border-white border-4 shadow-[0_0_0_2px_rgba(156,163,175,1)]"
-                :class="checkActiveAddon(option._id) ? 'bg-green-600' : ''"
+                class="h-5 w-5 rounded-full border-white border-4 shadow-[0_0_0_2px_rgba(156,163,175,1)]"
+                :class="activeChoice._id === option._id ? 'bg-green-600' : ''"
               ></div>
               <p>{{ option.name }}</p>
             </div>
-
-            <p>+ ৳{{ option.price }}</p>
           </div>
         </div>
-      </div>
-      <hr />
-    </MenuModal>
+        <hr />
+        <div
+          class="text-gray-500 px-5 my-5"
+          v-for="(addon, key) in modalItem.addons"
+          :key="`addon-${key}`"
+        >
+          <p class="mb-4">{{ addon.title }}</p>
+          <div
+            class="mt-1"
+            v-for="(option, index) in addon.options"
+            :key="`addon-option-${index}`"
+          >
+            <div
+              class="flex justify-between gap-2 cursor-pointer items-center mb-3"
+              @click="setAddon(option)"
+            >
+              <div class="flex items-center gap-2">
+                <div
+                  class="h-5 w-5 border-white border-4 shadow-[0_0_0_2px_rgba(156,163,175,1)]"
+                  :class="checkActiveAddon(option._id) ? 'bg-green-600' : ''"
+                ></div>
+                <p>{{ option.name }}</p>
+              </div>
+
+              <p>+ ৳{{ option.price }}</p>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </MenuModal>
+    </transition>
   </div>
 </template>
 
@@ -538,6 +542,16 @@ export default {
 </script>
 
 <style scoped>
+.slideFullLeft-leave-active,
+.slideFullLeft-enter-active {
+  transition: 0.2s;
+}
+.slideFullLeft-enter {
+  transform: translate(-100%, 0);
+}
+.slideFullLeft-leave-to {
+  transform: translate(-100%, 0);
+}
 .active-animation {
   animation: slideDown 1s ease-in-out;
 }
