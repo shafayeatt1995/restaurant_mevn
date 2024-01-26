@@ -13,9 +13,6 @@
           <EditButton @click.native.prevent="modal = true" v-if="editMode" />
         </p>
       </div>
-      <p class="text-2xl pr-2">
-        <font-awesome-icon :icon="['fas', 'bars']" />
-      </p>
       <!-- <Button>
         <font-awesome-icon :icon="['fas', 'file-invoice-dollar']" /> Request
         Bill

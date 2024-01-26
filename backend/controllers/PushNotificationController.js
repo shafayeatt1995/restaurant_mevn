@@ -7,8 +7,11 @@ const controller = {
     try {
       const { _id: userID } = req.user;
       const data = await PushNotification.findOne({ userID });
-      await webPush.sendNotification(data.subscription, "Ami anik");
-      res.status(200).json({ success: true, data });
+      const status = await webPush.sendNotification(
+        data.subscription,
+        "This is a test notification"
+      );
+      res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
       res
@@ -19,9 +22,12 @@ const controller = {
   async updateData(req, res) {
     try {
       const { endpoint, expirationTime, keys } = req.body;
-      const fullToken = req.cookies["auth._token.cookie"] || "";
+      const fullToken = req.cookies["auth._token.cookie"];
+      console.log(req.body);
+      console.log(fullToken);
       if (endpoint && keys && fullToken) {
         const { _id: userID, email } = await verifyCookieToken(fullToken);
+        console.log(userID, email);
         await PushNotification.findOneAndUpdate(
           { userID, email },
           {

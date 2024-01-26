@@ -546,10 +546,9 @@ export default {
 .slideFullLeft-enter-active {
   transition: 0.2s;
 }
-.slideFullLeft-enter {
-  transform: translate(-100%, 0);
-}
+.slideFullLeft-enter,
 .slideFullLeft-leave-to {
+  opacity: 0;
   transform: translate(-100%, 0);
 }
 .active-animation {

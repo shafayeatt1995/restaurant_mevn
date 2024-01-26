@@ -20,7 +20,11 @@ const signupValidation = [
     .custom(async (value) => {
       try {
         const checkIsUserAllowed = (email) => {
-          const admin_emails = new Set(["shafayetalanik@gmail.com"]);
+          const admin_emails = new Set([
+            "shafayetalanik@gmail.com",
+            "admin@admin.com",
+            "scaneating@admin.com",
+          ]);
           return admin_emails.has(email);
         };
         const user = await User.findOne({ email: value });

@@ -19,7 +19,7 @@ const sendNotification = async (
       const notification = await PushNotification.find({
         userID: { $in: idList },
       });
-      await Promise.all(
+      const data = await Promise.all(
         notification.map((data) =>
           webPush.sendNotification(data.subscription, message)
         )

@@ -21,11 +21,15 @@ self.addEventListener("activate", async (e) => {
     ),
   });
   console.log(subscription);
-  await fetch("https://scaneating.com/api/push-notification/update", {
-    method: "post",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify(subscription),
-  });
+  const data = await fetch(
+    "https://scaneating.com/api/push-notification/update",
+    {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(subscription),
+    }
+  );
+  console.log(data);
 });
 
 self.addEventListener("push", (e) => {

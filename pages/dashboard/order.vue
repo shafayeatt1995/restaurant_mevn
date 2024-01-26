@@ -872,7 +872,7 @@ export default {
         this.additionalCharges = [];
         this.updateMode = false;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         this.$nuxt.$emit("error", "Something Wrong! Please try Again");
       } finally {
         this.updateLoading = false;
