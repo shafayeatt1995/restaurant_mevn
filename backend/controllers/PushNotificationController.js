@@ -40,7 +40,10 @@ const controller = {
           { upsert: true, new: true, setDefaultsOnInsert: true }
         );
 
-        res.status(200).json({ success: true });
+        res.status(200).json({
+          success: true,
+          message: "service worker added successfully",
+        });
       } else {
         throw new Error("invalid data");
       }
