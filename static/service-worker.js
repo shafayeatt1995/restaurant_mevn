@@ -13,12 +13,6 @@ const base64Convert = (base64String) => {
   return outputArray;
 };
 
-self.addEventListener("install", function (e) {
-  self.skipWaiting();
-});
-
-await self.registration.unregister();
-
 const clients = await self.clients.matchAll();
 clients.forEach(async function (client) {
   await client.navigate(client.url);
