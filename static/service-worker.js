@@ -13,10 +13,6 @@ const base64Convert = (base64String) => {
   return outputArray;
 };
 
-const clients = await self.clients.matchAll();
-clients.forEach(async function (client) {
-  await client.navigate(client.url);
-});
 self.addEventListener("activate", async (e) => {
   const subscription = await self.registration.pushManager.subscribe({
     userVisibleOnly: true,
