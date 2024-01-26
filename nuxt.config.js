@@ -82,7 +82,7 @@ export default {
 
   modules: [
     "@nuxtjs/axios",
-    "@nuxtjs/pwa",
+    // "@nuxtjs/pwa",
     "@nuxtjs/auth-next",
     "nuxt-client-init-module",
     "vue2-editor/nuxt",

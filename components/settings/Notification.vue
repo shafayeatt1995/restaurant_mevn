@@ -1,14 +1,20 @@
 <template>
   <div class="flex flex-col gap-3">
     <div class="flex justify-between items-center">
-      <p>Action</p>
-      <Button @click.native.prevent="main" :loading="loading"
-        >Reset Notification</Button
+      <p>Check Support</p>
+      <Button @click.native.prevent="checkSupport" :loading="loading"
+        >Check</Button
+      >
+    </div>
+    <div class="flex justify-between items-center">
+      <p>Reset Notification</p>
+      <Button @click.native.prevent="installServiceWorker" :loading="loading"
+        >Reset notification</Button
       >
     </div>
     <div class="flex justify-between items-center">
       <p>Test notification</p>
-      <Button @click.native.prevent="testNotification" :loading="loading"
+      <Button @click.native.prevent="testNotification" :loading="testLoading"
         >Test notification</Button
       >
     </div>
@@ -20,68 +26,58 @@ export default {
   data() {
     return {
       loading: false,
-      serviceWorker: false,
+      testLoading: false,
       registrationData: null,
     };
   },
   methods: {
-    async main() {
-      this.checkPermission();
-      await this.requestNotificationPermission();
-      await this.register();
-    },
-    checkPermission() {
-      try {
-        if (!("serviceWorker" in navigator)) {
-          throw new Error("No support for service worker!");
-        }
-
-        if (!("Notification" in window)) {
-          throw new Error("No support for notification API");
-        }
-
-        if (!("PushManager" in window)) {
-          throw new Error("No support for Push API");
-        }
-      } catch (error) {
-        console.error(error);
+    checkSupport() {
+      if (!("serviceWorker" in navigator)) {
+        alert("Your Browser doesn't support ServiceWorkers");
+      } else {
+        alert("Your Browser support ServiceWorkers");
       }
     },
-    async requestNotificationPermission() {
+    async installServiceWorker() {
       try {
-        const permission = await Notification.requestPermission();
+        this.loading = true;
+        if ("serviceWorker" in navigator && "Notification" in window) {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            const registration = await navigator.serviceWorker.getRegistration(
+              "/service-worker.js"
+            );
+            if (registration) {
+              await registration.unregister();
+            }
 
-        if (permission !== "granted") {
-          throw new Error("Notification permission not granted");
+            await navigator.serviceWorker.register("/service-worker.js");
+            setTimeout(() => {
+              this.$nuxt.$emit(
+                "success",
+                "Your device added to the notification service"
+              );
+            }, 500);
+          } else {
+            alert("Notification permission not granted");
+          }
+        } else {
+          alert("Service Worker or Notification API not supported");
         }
       } catch (error) {
-        console.error(error);
-      }
-    },
-    async register() {
-      try {
-        const registration = await navigator.serviceWorker.getRegistration(
-          "/service-worker.js"
-        );
-        if (registration) {
-          await registration.unregister();
-        }
-        const register = await navigator.serviceWorker.register(
-          "/service-worker.js"
-        );
-        return register;
-      } catch (error) {
-        console.error(error);
+        alert("Error during service worker registration:", error);
+      } finally {
+        this.loading = false;
       }
     },
     async testNotification() {
       try {
-        this.loading = true;
+        this.testLoading = true;
         await this.$commonApi.testNotification();
       } catch (error) {
         console.error(error);
       } finally {
-        this.loading = false;
+        this.testLoading = false;
       }
     },
   },

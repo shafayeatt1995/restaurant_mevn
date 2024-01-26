@@ -14,17 +14,21 @@ const base64Convert = (base64String) => {
 };
 
 self.addEventListener("activate", async (e) => {
-  const subscription = await self.registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: base64Convert(
-      "BEjfeQ9ym633deePHh93i9o0OZyV8h9bvvLZfy21vR2AJOvpm26gqNaRk23wv7JiewVWh6yTqz7AK4zQ6kb6Y34"
-    ),
-  });
-  await fetch("https://scaneating.com/api/push-notification/update", {
-    method: "post",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify(subscription),
-  });
+  try {
+    const subscription = await self.registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: base64Convert(
+        "BEjfeQ9ym633deePHh93i9o0OZyV8h9bvvLZfy21vR2AJOvpm26gqNaRk23wv7JiewVWh6yTqz7AK4zQ6kb6Y34"
+      ),
+    });
+    await fetch("https://scaneating.com/api/push-notification/update", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(subscription),
+    });
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 self.addEventListener("push", (e) => {
