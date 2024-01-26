@@ -147,7 +147,7 @@
             </div> -->
             <!-- <div class="border-t-2 border-gray-300 border-dashed my-3"></div> -->
             <div class="flex justify-between font-medium text-xl">
-              <p>Net total:</p>
+              <p>Total:</p>
               <p>৳{{ subTotalPrice - totalDiscount }}</p>
             </div>
             <!-- <div class="border-t-2 border-gray-300 border-dashed my-3"></div> -->

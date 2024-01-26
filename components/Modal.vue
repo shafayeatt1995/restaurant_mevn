@@ -10,7 +10,7 @@
         key="1"
       >
         <div
-          class="flex items-center justify-center min-h-screen p-2 bg-gray-500 bg-opacity-70"
+          class="flex items-center justify-center min-h-screen bg-gray-500 bg-opacity-70"
         >
           <span
             class="hidden sm:inline-block sm:h-screen sm:align-middle"

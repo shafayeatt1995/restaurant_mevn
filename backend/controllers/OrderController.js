@@ -282,17 +282,37 @@ const controller = {
   async updateOrderStatus(req, res) {
     try {
       const { _id, status, currentStatus } = req.query;
-      const { _id: waiterID, name: waiterName, restaurantID } = req.user;
+      const {
+        _id: waiterID,
+        name: waiterName,
+        restaurantID,
+        isManager,
+      } = req.user;
       const updateData = { status };
+      const checkExist = await Order.findOne({
+        _id,
+        restaurantID,
+        waiterID: { $exists: true },
+      });
       if (currentStatus === "pending") {
-        const checkExist = await Order.findOne({
-          _id,
-          restaurantID,
-          waiterID: { $exists: true },
-        });
-        if (!checkExist) {
+        if (checkExist) {
+          if (waiterID !== checkExist.waiterID && !isManager) {
+            return res.status(422).json({
+              success: false,
+              message: "Someone already receive this order",
+            });
+          }
+        } else {
           updateData.waiterID = waiterID;
           updateData.waiterName = waiterName;
+        }
+      }
+      if (status === "cancel" && checkExist) {
+        if (waiterID !== checkExist.waiterID && !isManager) {
+          return res.status(422).json({
+            success: false,
+            message: "You can't cancel this order",
+          });
         }
       }
       await Order.updateOne(
@@ -349,10 +369,25 @@ const controller = {
     }
   },
 
-  async testPrint(req, res) {
+  async printOrderDetails(req, res) {
     try {
-      console.log(req.body);
+      const { orderID } = req.query;
+      const { restaurantID } = req.user;
+      global.io.emit(`print-item-list-${restaurantID}`, orderID);
       res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async fetchPrintOrder(req, res) {
+    try {
+      const { _id } = req.params;
+      const order = await Order.findOne({ _id });
+      res.status(200).json({ success: true, order });
     } catch (error) {
       console.error(error);
       res

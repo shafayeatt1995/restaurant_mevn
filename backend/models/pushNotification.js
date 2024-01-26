@@ -6,6 +6,7 @@ const PushNotificationSchema = new Schema(
     userID: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     subscription: { type: Object, required: true },
+    status: { type: Boolean, default: true },
   },
   {
     strict: true,

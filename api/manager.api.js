@@ -160,4 +160,8 @@ export class ManagerApi extends BaseApi {
   addServiceCharge(body) {
     return this.api.$post(`add-service-charge`, body);
   }
+
+  fetchPrintOrder(id) {
+    return this.api.$get(`order/print-details/${id}`);
+  }
 }

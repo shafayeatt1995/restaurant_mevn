@@ -397,6 +397,18 @@
           Close
         </Button>
         <Button
+          v-if="orderDetails.status === 'active'"
+          variant="green"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="printOrderDetails()"
+          :loading="acceptLoading"
+        >
+          <font-awesome-icon
+            :icon="['fas', updateMode ? 'percent' : 'print']"
+          />
+          Print order
+        </Button>
+        <Button
           v-if="orderDetails.status === 'complete'"
           variant="green"
           class="w-full tracking-wide flex-1"
@@ -706,6 +718,9 @@ export default {
         }
       } catch (error) {
         console.error(error);
+        if (error?.response?.data?.message) {
+          this.$nuxt.$emit("error", error?.response?.data.message);
+        }
       } finally {
         this.cancelLoading = false;
       }
@@ -724,6 +739,9 @@ export default {
         this.updateStatus(this.orderDetails._id, status);
       } catch (error) {
         console.error(error);
+        if (error?.response?.data?.message) {
+          this.$nuxt.$emit("error", error?.response?.data.message);
+        }
       } finally {
         this.acceptLoading = false;
       }
@@ -875,6 +893,19 @@ export default {
     handleVatChange(event) {
       this.vat = event.target.value;
       this.updateMode = true;
+    },
+    async printOrderDetails() {
+      try {
+        if (this.manager) {
+        } else {
+          await this.$mowApi.printOrderDetails({
+            orderID: this.orderDetails._id,
+          });
+          this.$nuxt.$emit("success", "Printing details send successfully");
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

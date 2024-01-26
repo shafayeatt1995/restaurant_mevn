@@ -10,6 +10,7 @@
       <Nuxt />
     </main>
     <RealtimeOrderNotification />
+    <RealtimePrintItemList />
   </div>
 </template>
 <script>

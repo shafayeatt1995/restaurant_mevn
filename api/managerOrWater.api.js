@@ -28,4 +28,8 @@ export class MowApi extends BaseApi {
   fetchDashboard(params) {
     return this.api.$get(`dashboard`, { params });
   }
+
+  printOrderDetails(params) {
+    return this.api.$get(`print-order-details`, { params });
+  }
 }
