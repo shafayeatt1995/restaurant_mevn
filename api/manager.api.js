@@ -164,4 +164,8 @@ export class ManagerApi extends BaseApi {
   fetchPrintOrder(id) {
     return this.api.$get(`order/print-details/${id}`);
   }
+
+  fetchPerformance(body) {
+    return this.api.$post(`performance`, body);
+  }
 }

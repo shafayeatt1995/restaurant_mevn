@@ -406,7 +406,7 @@
           <font-awesome-icon
             :icon="['fas', updateMode ? 'percent' : 'print']"
           />
-          Print order
+          Print Order item list
         </Button>
         <Button
           v-if="orderDetails.status === 'complete'"
@@ -421,7 +421,7 @@
           <font-awesome-icon
             :icon="['fas', updateMode ? 'percent' : 'print']"
           />
-          {{ updateMode ? "Update vat" : "Print Order" }}
+          {{ updateMode ? "Update vat" : "Print Receipt" }}
         </Button>
       </div>
     </Modal>

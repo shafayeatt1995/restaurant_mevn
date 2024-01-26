@@ -95,6 +95,12 @@ export default {
         },
         {
           show: this.manager,
+          name: "dashboard-performance",
+          title: "Performance",
+          icon: ["fas", "chart-simple"],
+        },
+        {
+          show: this.manager,
           name: "dashboard-vat",
           title: "Vat",
           icon: ["fas", "percent"],

@@ -2,6 +2,7 @@ const { User, Restaurant, Order } = require("@/backend/models");
 const { paginate, convertDate } = require("@/backend/utils");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Types;
 
 const controller = {
   async fetchDashboard(req, res) {
@@ -17,7 +18,7 @@ const controller = {
         [todaySale],
         [weeklySale],
         [monthlySale],
-        [totalSale],
+        // [totalSale],
         todayItems,
         weeklyItems,
         monthlyItems,
@@ -82,22 +83,22 @@ const controller = {
             },
           },
         ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              status: "complete",
-            },
-          },
-          {
-            $group: {
-              _id: null,
-              totalOrder: { $sum: 1 },
-              totalSale: { $sum: "$netPrice" },
-            },
-          },
-        ]),
+        // Order.aggregate([
+        //   {
+        //     $match: {
+        //       restaurantID,
+        //       ...waiterID,
+        //       status: "complete",
+        //     },
+        //   },
+        //   {
+        //     $group: {
+        //       _id: null,
+        //       totalOrder: { $sum: 1 },
+        //       totalSale: { $sum: "$netPrice" },
+        //     },
+        //   },
+        // ]),
         Order.aggregate([
           {
             $match: {
@@ -134,6 +135,9 @@ const controller = {
               itemName: "$itemDetails.name",
               itemImage: "$itemDetails.image",
             },
+          },
+          {
+            $limit: 10,
           },
         ]),
         Order.aggregate([
@@ -180,6 +184,9 @@ const controller = {
               itemImage: "$itemDetails.image",
             },
           },
+          {
+            $limit: 10,
+          },
         ]),
         Order.aggregate([
           {
@@ -225,6 +232,9 @@ const controller = {
               itemImage: "$itemDetails.image",
             },
           },
+          {
+            $limit: 10,
+          },
         ]),
       ]);
 
@@ -232,7 +242,7 @@ const controller = {
         todaySale,
         weeklySale,
         monthlySale,
-        totalSale,
+        // totalSale,
         todayItems,
         weeklyItems,
         monthlyItems,
@@ -568,6 +578,57 @@ const controller = {
         }
       );
       res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  },
+
+  async fetchPerformance(req, res) {
+    try {
+      const { restaurantID, _id: userID } = req.user;
+      const [startDate, endDate] = req.body.date;
+
+      const performance = await Order.aggregate([
+        {
+          $match: {
+            restaurantID,
+            status: "complete",
+            created_at: {
+              $gt: convertDate(startDate, "start"),
+              $lt: convertDate(endDate, "end"),
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            let: { waiterIdObj: { $toObjectId: "$waiterID" } },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$waiterIdObj"] } } },
+              { $project: { name: 1 } },
+            ],
+            as: "waiterName",
+          },
+        },
+        {
+          $addFields: {
+            waiterName: { $arrayElemAt: ["$waiterName.name", 0] },
+          },
+        },
+        {
+          $group: {
+            _id: "$waiterID",
+            name: { $first: "$waiterName" },
+            totalPrice: { $sum: "$netPrice" },
+            totalOrder: { $sum: "$totalQty" },
+          },
+        },
+      ]);
+      res.status(200).json({ success: true, performance });
     } catch (error) {
       console.error(error);
       res.status(500).json({
