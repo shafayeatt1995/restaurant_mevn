@@ -116,7 +116,7 @@ export default {
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
-        { key: "email", label: "ID", span: "minmax(100PX, 1fr)" },
+        { key: "email", label: "ID", span: "minmax(250PX, 1fr)" },
         {
           key: "actions",
           label: "Actions",

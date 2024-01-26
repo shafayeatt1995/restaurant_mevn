@@ -1,0 +1,16 @@
+{
+  "name": "ScanEating",
+  "short_name": "ScanEating",
+  "description": "Complete digital menu solution",
+  "start_url": "/demo",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1F2937",
+  "icons": [
+    {
+      "src": "/favicon.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
