@@ -13,14 +13,6 @@ const base64Convert = (base64String) => {
   return outputArray;
 };
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open("app-cache-v1").then((cache) => {
-      return cache.addAll(["/manifest.json"]);
-    })
-  );
-});
-
 self.addEventListener("activate", async (e) => {
   try {
     const subscription = await self.registration.pushManager.subscribe({
