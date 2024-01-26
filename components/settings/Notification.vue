@@ -1,27 +1,9 @@
 <template>
   <div class="flex flex-col gap-3">
     <div class="flex justify-between items-center">
-      <p>Check Support</p>
-      <Button @click.native.prevent="checkSupport" :loading="loading"
-        >Check</Button
-      >
-    </div>
-    <div class="flex justify-between items-center">
-      <p>Install service worker</p>
-      <Button @click.native.prevent="installServiceWorker" :loading="loading"
-        >Install service worker</Button
-      >
-    </div>
-    <div class="flex justify-between items-center">
-      <p>Check service worker</p>
-      <Button @click.native.prevent="checkServiceWorker" :loading="loading"
-        >Check service worker</Button
-      >
-    </div>
-    <div class="flex justify-between items-center">
-      <p>remove</p>
-      <Button @click.native.prevent="removeServiceWorker" :loading="loading"
-        >remove service worker</Button
+      <p>Action</p>
+      <Button @click.native.prevent="main" :loading="loading"
+        >Reset Notification</Button
       >
     </div>
     <div class="flex justify-between items-center">
@@ -43,97 +25,53 @@ export default {
     };
   },
   methods: {
-    checkSupport() {
-      if (!("serviceWorker" in navigator)) {
-        alert("Your Browser doesn't support ServiceWorkers");
-      } else {
-        alert("Your Browser support ServiceWorkers");
-      }
+    async main() {
+      this.checkPermission();
+      await this.requestNotificationPermission();
+      await this.register();
     },
-    async installServiceWorkerPermission() {
+    checkPermission() {
       try {
+        if (!("serviceWorker" in navigator)) {
+          throw new Error("No support for service worker!");
+        }
+
         if (!("Notification" in window)) {
-          alert("This browser does not support notifications");
-        } else {
-          const permission = await Notification.requestPermission();
-          if (permission === "granted") {
-            this.playNotificationSound();
-            alert("Notification permission is granted");
-          } else {
-            const requestPermission = await Notification.requestPermission();
-            if (requestPermission === "granted") {
-              alert("Notification permission granted");
-            } else {
-              alert("Notification permission denied");
-            }
-          }
+          throw new Error("No support for notification API");
+        }
+
+        if (!("PushManager" in window)) {
+          throw new Error("No support for Push API");
         }
       } catch (error) {
         console.error(error);
       }
     },
-    playNotificationSound() {
-      const audio = new Audio("/audio/order.mp3");
-      audio.play();
-    },
-    async installServiceWorker() {
+    async requestNotificationPermission() {
       try {
-        this.loading = true;
-        if ("serviceWorker" in navigator && "Notification" in window) {
-          const permission = await Notification.requestPermission();
-          if (permission === "granted") {
-            await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+        const permission = await Notification.requestPermission();
 
-            this.$nuxt.$emit(
-              "success",
-              "Your device added to the notification service"
-            );
-          } else {
-            alert("Notification permission not granted");
-          }
-        } else {
-          alert("Service Worker or Notification API not supported");
+        if (permission !== "granted") {
+          throw new Error("Notification permission not granted");
         }
       } catch (error) {
-        alert("Error during service worker registration:", error);
-      } finally {
-        this.loading = false;
+        console.error(error);
       }
     },
-    async checkServiceWorker() {
-      try {
-        if ("serviceWorker" in navigator) {
-          this.serviceWorker = true;
-          const registration = await navigator.serviceWorker.getRegistration(
-            "/sw.js"
-          );
-
-          if (registration) {
-            this.registrationData = registration;
-            alert("sw.js is installed:");
-          } else {
-            alert("sw.js is not installed");
-          }
-        } else {
-          alert("Service workers are not supported in this browser.");
-        }
-      } catch (error) {
-        alert("Error checking service worker:");
-      }
-    },
-    async removeServiceWorker() {
+    async register() {
       try {
         const registration = await navigator.serviceWorker.getRegistration(
-          "/sw.js"
+          "/service-worker.js"
         );
         if (registration) {
           await registration.unregister();
-          alert("Service Worker unregistered successfully");
-        } else {
-          alert("No service worker registered");
         }
+        const register = await navigator.serviceWorker.register(
+          "/service-worker.js"
+        );
+        return register;
       } catch (error) {
-        alert("Error during service worker unregistration:", error);
+        console.error(error);
       }
     },
     async testNotification() {

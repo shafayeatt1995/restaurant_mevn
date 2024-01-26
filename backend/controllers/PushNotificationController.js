@@ -7,13 +7,13 @@ const controller = {
     try {
       const { _id: userID } = req.user;
       const data = await PushNotification.findOne({ userID });
-      const status = await webPush.sendNotification(
+      await webPush.sendNotification(
         data.subscription,
         "This is a test notification"
       );
       res.status(200).json({ success: true });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Internal server error" });
@@ -23,11 +23,8 @@ const controller = {
     try {
       const { endpoint, expirationTime, keys } = req.body;
       const fullToken = req.cookies["auth._token.cookie"];
-      console.log(req.body);
-      console.log(fullToken);
       if (endpoint && keys && fullToken) {
         const { _id: userID, email } = await verifyCookieToken(fullToken);
-        console.log(userID, email);
         await PushNotification.findOneAndUpdate(
           { userID, email },
           {
