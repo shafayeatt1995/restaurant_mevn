@@ -1,6 +1,6 @@
 <template>
   <div style="font-size: 12px; display: none" ref="itemList">
-    <table style="width: 100%; margin-top: 10px">
+    <table style="width: 100%">
       <tbody style="font-size: 12px">
         <tr>
           <td>
@@ -17,7 +17,7 @@
         </tr>
       </tbody>
     </table>
-    <div style="border-bottom: 1px solid #000; margin-top: 10px"></div>
+    <div style="border-bottom: 1px solid #000; margin-top: 5px"></div>
     <table style="width: 100%; border-collapse: collapse; text-align: center">
       <tbody style="font-size: 12px">
         <tr style="font-weight: 600; border-bottom: 1px solid #000">
@@ -50,7 +50,7 @@
               <small>+ {{ addon.name }}</small>
             </div>
           </td>
-          <td style="width: 25px; border-right: 1px solid #000; padding: 0 5px">
+          <td style="width: 25px; border-right: 1px solid #000; padding: 0 2px">
             x{{ item.qty }}
           </td>
         </tr>
@@ -105,14 +105,10 @@ export default {
       printWindow.document.write(
         `<html><head><title>Print item list</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body style="margin: 0; padding: 0" >${printContent.toString()}</body></html>`
       );
-      //   printWindow.document.addEventListener("DOMContentLoaded", () => {
-      //     printWindow.print();
-      //     printWindow.onafterprint = () => printWindow.close();
-      //   });
-      printWindow.onload = () => {
+      printWindow.document.addEventListener("DOMContentLoaded", () => {
         printWindow.print();
         printWindow.onafterprint = () => printWindow.close();
-      };
+      });
     },
   },
 };

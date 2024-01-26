@@ -896,13 +896,10 @@ export default {
     },
     async printOrderDetails() {
       try {
-        if (this.manager) {
-        } else {
-          await this.$mowApi.printOrderDetails({
-            orderID: this.orderDetails._id,
-          });
-          this.$nuxt.$emit("success", "Printing details send successfully");
-        }
+        await this.$mowApi.printOrderDetails({
+          orderID: this.orderDetails._id,
+        });
+        this.$nuxt.$emit("success", "Printing details send successfully");
       } catch (error) {
         console.error(error);
       }
