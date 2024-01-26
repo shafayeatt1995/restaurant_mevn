@@ -1,8 +1,10 @@
 <template>
   <div class="flex flex-col gap-3">
     <div class="flex justify-between items-center">
-      <p>anik</p>
-      <Button @click.native.prevent="anik" :loading="loading">anik</Button>
+      <p>Check Support</p>
+      <Button @click.native.prevent="checkSupport" :loading="loading"
+        >Check</Button
+      >
     </div>
     <div class="flex justify-between items-center">
       <p>Install service worker</p>
@@ -41,6 +43,13 @@ export default {
     };
   },
   methods: {
+    checkSupport() {
+      if (!("serviceWorker" in navigator)) {
+        alert("Your Browser doesn't support ServiceWorkers");
+      } else {
+        alert("Your Browser support ServiceWorkers");
+      }
+    },
     async installServiceWorkerPermission() {
       try {
         if (!("Notification" in window)) {
@@ -91,7 +100,6 @@ export default {
         this.loading = false;
       }
     },
-
     async checkServiceWorker() {
       try {
         if ("serviceWorker" in navigator) {
@@ -111,13 +119,6 @@ export default {
         }
       } catch (error) {
         alert("Error checking service worker:");
-      }
-    },
-    anik() {
-      if (!("serviceWorker" in navigator)) {
-        alert("Your Browser doesn't support ServiceWorkers");
-      } else {
-        alert("Your Browser support ServiceWorkers");
       }
     },
     async removeServiceWorker() {
