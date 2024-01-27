@@ -31,14 +31,14 @@ export default {
   },
   data() {
     return {
-      activeTab: "Setting",
+      activeTab: "Notification",
     };
   },
   computed: {
     ...mapGetters(["pageTitle", "manager"]),
     tabTitle() {
       return [
-        { title: "Setting", icon: ["fas", "gear"], show: this.manager },
+        { title: "Setting", icon: ["fas", "gear"], show: false },
         { title: "Notification", icon: ["far", "bell"] },
         { title: "Printing", icon: ["far", "newspaper"], show: this.manager },
       ];

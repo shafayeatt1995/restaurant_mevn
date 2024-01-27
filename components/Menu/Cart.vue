@@ -202,7 +202,6 @@ import ParcelIcon from "~/static/svg/parcel.svg";
 export default {
   name: "MenuCart",
   components: { TableIcon, ParcelIcon },
-  props: { restaurant: Object },
   data() {
     return {
       show: false,
@@ -249,9 +248,6 @@ export default {
     totalQuantity() {
       return this.cartItems.reduce((total, value) => total + value.qty, 0);
     },
-    authOrder() {
-      return this.restaurant.authOrder ?? true;
-    },
   },
   created() {
     this.$nuxt.$on("addToCartAnimation", () => {
@@ -296,50 +292,34 @@ export default {
       const item = this.cartItems[key];
       return item.qty * item.discount;
     },
-    async placeOrder() {
-      try {
-        this.loading = true;
-        this.errorMessage = null;
-        const body = {
-          restaurantID: this.restaurantID,
-          tableID: this.table._id,
-          userEmail: this.$auth.user.email,
-          userName: this.$auth.user.name,
-          tableName: this.table.name,
-          orderItems: this.cartItems,
-          ...this.form,
-        };
-        await this.$orderApi.createOrder(body);
-        this.clearCart();
-        this.show = false;
-        this.orderAnimation = true;
-        setTimeout(() => {
-          this.orderAnimation = false;
-        }, 4000);
-      } catch (error) {
-        console.error(error);
-        if (error?.response?.data?.message) {
-          this.errorMessage = error?.response?.data?.message;
-        }
-      } finally {
-        this.loading = false;
-      }
-    },
     async submit() {
       try {
-        if (!this.authOrder) {
-          this.placeOrder();
+        if (this.$auth.loggedIn) {
+          this.loading = true;
+          this.errorMessage = null;
+          const body = {
+            restaurantID: this.restaurantID,
+            tableID: this.table._id,
+            userEmail: this.$auth.user.email,
+            userName: this.$auth.user.name,
+            tableName: this.table.name,
+            orderItems: this.cartItems,
+            ...this.form,
+          };
+          await this.$orderApi.createOrder(body);
+          this.clearCart();
+          this.show = false;
+          this.orderAnimation = true;
+          setTimeout(() => {
+            this.orderAnimation = false;
+          }, 4000);
         } else {
-          if (this.$auth.loggedIn) {
-            this.placeOrder();
-          } else {
-            if (confirm(`Please verify with your gmail?`)) {
-              window.localStorage.setItem(
-                "socialLogin",
-                JSON.stringify(this.$route.params)
-              );
-              window.open("/api/auth/social-login/google", "_self");
-            }
+          if (confirm(`Please verify with your gmail?`)) {
+            window.localStorage.setItem(
+              "socialLogin",
+              JSON.stringify(this.$route.params)
+            );
+            window.open("/api/auth/social-login/google", "_self");
           }
         }
       } catch (error) {
@@ -347,6 +327,8 @@ export default {
         if (error?.response?.data?.message) {
           this.errorMessage = error?.response?.data?.message;
         }
+      } finally {
+        this.loading = false;
       }
     },
     onTouchStart(event) {

@@ -45,7 +45,7 @@ export default {
       },
       {
         type: "text/javascript",
-        src: `${process.env.BASE_URL}/gtag.js`,
+        src: `/gtag.js`,
         body: true,
       },
     ],

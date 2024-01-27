@@ -29,7 +29,7 @@
         >www.scaneating.com</nuxt-link
       ><sup class="text-base">®</sup>
     </p>
-    <MenuCart v-if="!editMode" :restaurant="restaurant" />
+    <MenuCart v-if="!editMode" />
     <div class="mb-16"></div>
   </div>
 </template>

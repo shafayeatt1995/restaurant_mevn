@@ -7,9 +7,15 @@
       >
     </div>
     <div class="flex justify-between items-center">
-      <p>Reset Notification</p>
+      <p>Disconnect notification</p>
+      <Button @click.native.prevent="uninstallServiceWorker" :loading="loading"
+        >Disconnect notification</Button
+      >
+    </div>
+    <div class="flex justify-between items-center">
+      <p>Connect notification</p>
       <Button @click.native.prevent="installServiceWorker" :loading="loading"
-        >Reset notification</Button
+        >Connect notification</Button
       >
     </div>
     <div class="flex justify-between items-center">
@@ -44,20 +50,38 @@ export default {
         if ("serviceWorker" in navigator && "Notification" in window) {
           const permission = await Notification.requestPermission();
           if (permission === "granted") {
-            const registration = await navigator.serviceWorker.getRegistration(
-              "/service-worker.js"
-            );
-            if (registration) {
-              await registration.unregister();
-            }
-
-            await navigator.serviceWorker.register("/service-worker.js");
+            await navigator.serviceWorker.register("/sw.js");
             setTimeout(() => {
               this.$nuxt.$emit(
                 "success",
                 "Your device added to the notification service"
               );
             }, 500);
+          } else {
+            alert("Notification permission not granted");
+          }
+        } else {
+          alert("Service Worker or Notification API not supported");
+        }
+      } catch (error) {
+        alert("Error during service worker registration:", error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async uninstallServiceWorker() {
+      try {
+        this.loading = true;
+        if ("serviceWorker" in navigator && "Notification" in window) {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            const registrations =
+              await navigator.serviceWorker.getRegistrations();
+
+            for (const registration of registrations) {
+              await registration.unregister();
+            }
+            alert("Your device removed from notification service");
           } else {
             alert("Notification permission not granted");
           }
