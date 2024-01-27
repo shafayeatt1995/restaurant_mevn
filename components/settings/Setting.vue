@@ -27,7 +27,7 @@ export default {
           `Fake order protection is ${this.authOrder ? "Enabled" : "Disabled"}`
         );
       } catch (error) {
-        console.log(error);
+        console.error(error);
         this.$nuxt.$emit(
           "error",
           `Fake order protection is not ${

@@ -16,6 +16,7 @@ const controller = {
       }).select({
         logo: 1,
         name: 1,
+        authOrder: 1,
       });
       const findTable = await Table.findOne({
         restaurantID: restaurant._id,
