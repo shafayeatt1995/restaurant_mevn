@@ -637,6 +637,22 @@ const controller = {
       });
     }
   },
+
+  async toggleProtection(req, res) {
+    try {
+      const { restaurantID: _id, _id: userID } = req.user;
+      await Restaurant.updateOne({ _id, userID }, [
+        { $set: { authOrder: { $eq: [false, "$authOrder"] } } },
+      ]);
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  },
 };
 
 module.exports = controller;

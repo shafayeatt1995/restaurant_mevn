@@ -168,4 +168,8 @@ export class ManagerApi extends BaseApi {
   fetchPerformance(body) {
     return this.api.$post(`performance`, body);
   }
+
+  toggleProtection() {
+    return this.api.$get(`toggle-protection`);
+  }
 }

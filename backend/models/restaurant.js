@@ -20,6 +20,7 @@ const RestaurantSchema = new Schema(
     printImage: { type: String, default: "" },
     printEmail: { type: String, default: "" },
     printWebsite: { type: String, default: "" },
+    authOrder: { type: Boolean, default: false },
   },
   {
     strict: true,

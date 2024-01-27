@@ -25,6 +25,7 @@ const {
   deleteEmployee,
   updatePrintingDetails,
   fetchPerformance,
+  toggleProtection,
 } = require("@/backend/controllers/UserController");
 const {
   fetchTable,
@@ -135,6 +136,7 @@ router.post("/add-service-charge", addServiceCharge);
 router.post("/update-printing-details", updatePrintingDetails);
 
 router.post("/performance", fetchPerformance);
+router.get("/toggle-protection", toggleProtection);
 
 router.post(
   "/update-restaurant-name",

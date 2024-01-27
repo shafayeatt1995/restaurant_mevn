@@ -11,8 +11,9 @@
       <div class="p-4 bg-white">
         <TabTitle :tabTitle="tabTitle" v-model="activeTab" />
         <div class="mt-4">
-          <SettingsNotification v-if="activeTab === 'Notification'" />
-          <SettingsPrinting v-if="activeTab === 'Printing'" />
+          <SettingsSetting v-if="activeTab === 'Setting'" />
+          <SettingsNotification v-else-if="activeTab === 'Notification'" />
+          <SettingsPrinting v-else-if="activeTab === 'Printing'" />
         </div>
       </div>
     </section>
@@ -30,13 +31,14 @@ export default {
   },
   data() {
     return {
-      activeTab: "Notification",
+      activeTab: "Setting",
     };
   },
   computed: {
     ...mapGetters(["pageTitle", "manager"]),
     tabTitle() {
       return [
+        { title: "Setting", icon: ["fas", "gear"], show: this.manager },
         { title: "Notification", icon: ["far", "bell"] },
         { title: "Printing", icon: ["far", "newspaper"], show: this.manager },
       ];
