@@ -56,7 +56,9 @@ export default {
                 "success",
                 "Your device added to the notification service"
               );
-            }, 500);
+
+              this.loading = false;
+            }, 5000);
           } else {
             alert("Notification permission not granted");
           }
@@ -64,9 +66,8 @@ export default {
           alert("Service Worker or Notification API not supported");
         }
       } catch (error) {
-        alert("Error during service worker registration:", error);
-      } finally {
         this.loading = false;
+        alert("Error during service worker registration:", error);
       }
     },
     async uninstallServiceWorker() {
@@ -79,6 +80,11 @@ export default {
 
             for (const registration of registrations) {
               await registration.unregister();
+
+              await registration.active.postMessage({
+                type: "STOP_SERVICE_WORKER",
+              });
+              registration.active.postMessage({ type: "SKIP_WAITING" });
             }
             alert("Your device removed from notification service");
           } else {
