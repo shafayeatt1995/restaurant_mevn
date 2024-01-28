@@ -3,6 +3,7 @@ const {
   BlockUser,
   Restaurant,
   PushNotification,
+  Table,
 } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
 const webPush = require("web-push");
@@ -388,6 +389,55 @@ const controller = {
       const { _id } = req.params;
       const order = await Order.findOne({ _id });
       res.status(200).json({ success: true, order });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async getOrder(req, res) {
+    try {
+      const { serial, slug } = req.query;
+      const { email: userEmail } = req.user;
+      const table = await Table.findOne({ serial });
+      const restaurant = await Restaurant.findOne({ slug });
+      const order = await Order.findOne({
+        userEmail,
+        restaurantID: restaurant._id,
+        tableID: table._id,
+        status: { $in: ["active", "pending"] },
+      });
+      res.status(200).json({ success: true, order });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async billRequest(req, res) {
+    try {
+      const { serial, slug } = req.query;
+      const { email: userEmail } = req.user;
+      const table = await Table.findOne({ serial });
+      const restaurant = await Restaurant.findOne({ slug });
+      const order = await Order.findOne({
+        userEmail,
+        restaurantID: restaurant._id,
+        tableID: table._id,
+        status: { $in: ["active", "pending"] },
+      });
+      Notification.create({
+        restaurantID: restaurant._id,
+        type: "requestBill",
+        additional: { orderID: order._id },
+        body: `Table: ${table.name} is request his bill`,
+      });
+      global.io.emit(`request-bill-${restaurantID}`);
+      res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
       res

@@ -20,6 +20,37 @@
         <button
           class="transition-colors duration-300 rounded-lg p-2 focus:outline-none hover:bg-gray-100"
           @click="dropdownOpen = !dropdownOpen"
+        ></button>
+
+        <div
+          class="absolute right-0 z-50 w-56 p-2 bg-white border rounded-lg top-16 lg:top-20"
+          v-if="dropdownOpen"
+          v-click-outside="() => (dropdownOpen = false)"
+        >
+          <div
+            class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+          >
+            <nuxt-link :to="{ name: 'dashboard-settings' }">
+              <font-awesome-icon :icon="['fas', 'gear']" class="text-xl" />
+              <span class="mx-4 font-medium">Logout</span>
+            </nuxt-link>
+          </div>
+          <div
+            class="px-4 py-2 text-rose-500 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100 flex items-center"
+            @click="logOut()"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'arrow-right-from-bracket']"
+              class="text-xl"
+            />
+            <span class="mx-4 font-medium">Logout</span>
+          </div>
+        </div>
+      </div>
+      <div class="relative">
+        <button
+          class="transition-colors duration-300 rounded-lg p-2 focus:outline-none hover:bg-gray-100"
+          @click="dropdownOpen = !dropdownOpen"
         >
           <span class="sr-only">User Menu</span>
           <div class="flex items-center md:-mx-2">

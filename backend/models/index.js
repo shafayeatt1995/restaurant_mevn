@@ -10,4 +10,5 @@ module.exports = {
   BlockUser: require("./blockUser"),
   PushNotification: require("./pushNotification"),
   Vat: require("./vat"),
+  Notification: require("./notification"),
 };

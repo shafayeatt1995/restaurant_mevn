@@ -20,4 +20,12 @@ export class UserApi extends BaseApi {
   completeOrder(params) {
     return this.api.$get(`order/complete`, { params });
   }
+
+  getOrder(params) {
+    return this.api.$get(`order`, { params });
+  }
+
+  billRequest(params) {
+    return this.api.$get(`bill-request`, { params });
+  }
 }

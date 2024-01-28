@@ -102,7 +102,7 @@ export default {
           printImage: this.selected.url,
         });
         await this.$auth.fetchUser();
-        $nuxt.$emit("success", "Printing details updated successfully");
+        this.$nuxt.$emit("success", "Printing details updated successfully");
       } catch (error) {
         console.error(error);
       } finally {

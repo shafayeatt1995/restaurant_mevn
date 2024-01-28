@@ -22,7 +22,7 @@ export default {
       try {
         await this.$managerApi.toggleProtection();
         this.authOrder = !this.authOrder;
-        $nuxt.$emit(
+        this.$nuxt.$emit(
           "success",
           `Fake order protection is ${this.authOrder ? "Enabled" : "Disabled"}`
         );

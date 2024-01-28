@@ -55,7 +55,7 @@
             ? 'mb-0'
             : showAnimation
             ? 'mb-[-55vh]'
-            : totalQuantity > 0
+            : totalQuantity > 0 || !!existOrder
             ? 'mb-[-75vh]'
             : 'mb-[-85vh]'
         "
@@ -79,7 +79,9 @@
             <table class="w-full">
               <tbody>
                 <tr class="mb-4">
-                  <td class="py-2 font-medium text-lg">Qty</td>
+                  <td class="py-2 font-medium text-lg" @click="getOrder">
+                    Qty
+                  </td>
                   <td class="py-2 text-center">
                     <div class="font-medium text-lg">Name</div>
                   </td>
@@ -178,6 +180,16 @@
             </div>
           </div>
         </div>
+        <div v-else-if="existOrder">
+          <p class="text-gray-700 text-center text-xl mt-5">
+            If your food is complete then click the button for request your bill
+          </p>
+          <div class="flex justify-center mt-4">
+            <Button @click.native.prevent="requestBill"
+              >Request your bill</Button
+            >
+          </div>
+        </div>
         <div class="h-full flex flex-col justify-center items-center" v-else>
           <img loading="lazy" src="/images/not-found.png" />
           <p class="text-2xl mt-2 text-gray-600">Nothing to order</p>
@@ -219,6 +231,8 @@ export default {
       orderAnimation: false,
       errorMessage: null,
       startY: 0,
+      existOrder: null,
+      click: true,
     };
   },
   computed: {
@@ -270,7 +284,7 @@ export default {
 
       path: "/lottie/hurrah.json",
     });
-    // lottie.setSpeed(0.5);
+    this.getOrder();
   },
   methods: {
     ...mapActions("cart", [
@@ -313,6 +327,7 @@ export default {
           setTimeout(() => {
             this.orderAnimation = false;
           }, 4000);
+          this.getOrder();
         } else {
           if (confirm(`Please verify with your gmail?`)) {
             window.localStorage.setItem(
@@ -351,6 +366,32 @@ export default {
     },
     handleSwipeDown() {
       this.show = false;
+    },
+    async getOrder() {
+      try {
+        if (this.$auth.loggedIn) {
+          const data = await this.$userApi.getOrder({
+            serial: this.$route.params.table,
+            slug: this.$route.params.slug,
+          });
+          this.existOrder = data;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async requestBill() {
+      try {
+        if (this.$auth.loggedIn) {
+          const data = await this.$userApi.billRequest({
+            serial: this.$route.params.table,
+            slug: this.$route.params.slug,
+          });
+          this.$nuxt.$emit("success", "Your bill is being processing");
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

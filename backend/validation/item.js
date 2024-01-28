@@ -15,7 +15,7 @@ const createItemVal = [
     .isNumeric()
     .withMessage("Price must be a number")
     .isInt({ min: 1 })
-    .withMessage("Price must be a non-negative number"),
+    .withMessage("Price couldn't be a non-negative number or a decimal number"),
   check("discount").isBoolean().withMessage("Please select Discount"),
   check("discountAmount").custom((value, { req }) => {
     if (req.body.discount === true) {
@@ -39,7 +39,7 @@ const createItemVal = [
   check("estimateTime")
     .optional()
     .isNumeric()
-    .withMessage("Estimate time must be a number"),
+    .withMessage("Estimate time must be a number of minute"),
 ];
 
 module.exports = { createItemVal };
