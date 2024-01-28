@@ -71,7 +71,6 @@ export default {
     },
     async uninstallServiceWorker() {
       try {
-        this.loading = true;
         if ("serviceWorker" in navigator && "Notification" in window) {
           const permission = await Notification.requestPermission();
           if (permission === "granted") {
@@ -90,8 +89,6 @@ export default {
         }
       } catch (error) {
         alert("Error during service worker registration:", error);
-      } finally {
-        this.loading = false;
       }
     },
     async testNotification() {

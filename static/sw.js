@@ -21,6 +21,7 @@ self.addEventListener("activate", async (e) => {
         "BEjfeQ9ym633deePHh93i9o0OZyV8h9bvvLZfy21vR2AJOvpm26gqNaRk23wv7JiewVWh6yTqz7AK4zQ6kb6Y34"
       ),
     });
+    console.log(subscription);
     await fetch("https://scaneating.com/api/push-notification/update", {
       method: "post",
       headers: { "Content-type": "application/json" },
