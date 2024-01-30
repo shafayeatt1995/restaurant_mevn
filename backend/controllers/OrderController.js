@@ -4,6 +4,7 @@ const {
   Restaurant,
   PushNotification,
   Table,
+  Notification,
 } = require("@/backend/models");
 const { paginate } = require("@/backend/utils");
 const webPush = require("web-push");
@@ -430,14 +431,29 @@ const controller = {
         tableID: table._id,
         status: { $in: ["active", "pending"] },
       });
-      Notification.create({
+      const notification = await Notification.create({
         restaurantID: restaurant._id,
         type: "requestBill",
         additional: { orderID: order._id },
-        body: `Table: ${table.name} is request his bill`,
+        title: `Requesting bill`,
+        body: `Table: ${table.name} is requesting his bill`,
       });
-      global.io.emit(`request-bill-${restaurantID}`);
+      global.io.emit(`request-bill-${restaurant._id}`, notification);
       res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  async fetchOrderDetails(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { orderID: _id } = req.query;
+      const order = await Order.findOne({ _id, restaurantID });
+      res.status(200).json({ success: true, order });
     } catch (error) {
       console.error(error);
       res

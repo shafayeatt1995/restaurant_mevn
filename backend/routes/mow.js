@@ -6,6 +6,7 @@ const {
   updateOrderStatus,
   fetchTableOrder,
   printOrderDetails,
+  fetchOrderDetails,
 } = require("@/backend/controllers/OrderController");
 const { fetchAllTable } = require("@/backend/controllers/TableController");
 const { allVat } = require("@/backend/controllers/VatController");
@@ -17,6 +18,7 @@ router.get("/order", fetchOrder);
 router.get("/table", fetchAllTable);
 router.get("/order-table", fetchTableOrder);
 router.get("/order/update-status", updateOrderStatus);
+router.get("/order/details", fetchOrderDetails);
 router.get("/print-order-details", printOrderDetails);
 
 module.exports = router;

@@ -197,11 +197,17 @@ export default {
       );
     },
     printReceipt() {
-      const printContent = this.$refs.receipt.innerHTML;
-      const printWindow = window.open("", "_blank", "width=800,height=600");
-      printWindow.document.write(
-        `<html><body style="margin: 0; padding: 0" >${printContent.toString()}</body></html>`
-      );
+      try {
+        setTimeout(() => {
+          const printContent = this.$refs.receipt.innerHTML;
+          const printWindow = window.open("", "_blank");
+          printWindow.document.write(
+            `<html><body style="margin: 0; padding: 0" >${printContent.toString()}</body></html>`
+          );
+        }, 500);
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

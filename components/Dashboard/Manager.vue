@@ -182,7 +182,7 @@
                 :src="item.itemImage"
                 :alt="item.itemName"
               />
-              <p class="flex-1 font-semibold">{{ item.itemName }} ami anik</p>
+              <p class="flex-1 font-semibold">{{ item.itemName }}</p>
               <p class="text-center">{{ item.totalQuantity }}</p>
             </template>
           </div>

@@ -32,4 +32,8 @@ export class MowApi extends BaseApi {
   printOrderDetails(params) {
     return this.api.$get(`print-order-details`, { params });
   }
+
+  fetchOrderDetails(params) {
+    return this.api.$get(`order/details`, { params });
+  }
 }

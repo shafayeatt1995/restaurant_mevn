@@ -577,6 +577,9 @@ export default {
     this.$nuxt.$on("order-notification-socket-data", () => {
       this.newOrder = true;
     });
+    this.$nuxt.$on("openOrderDetails", (orderID) =>
+      this.fetchOrderDetails(orderID)
+    );
   },
   mounted() {
     if (this.active === "Table view") {
@@ -592,6 +595,7 @@ export default {
   beforeDestroy() {
     clearInterval(this.intervalId);
     this.$nuxt.$off("order-notification-socket-data");
+    this.$nuxt.$off("openOrderDetails");
   },
   methods: {
     async fetchVats() {
@@ -900,6 +904,16 @@ export default {
           orderID: this.orderDetails._id,
         });
         this.$nuxt.$emit("success", "Printing details send successfully");
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async fetchOrderDetails(orderID) {
+      try {
+        const { order } = await this.$mowApi.fetchOrderDetails({
+          orderID,
+        });
+        this.openOrderDetails(order);
       } catch (error) {
         console.error(error);
       }

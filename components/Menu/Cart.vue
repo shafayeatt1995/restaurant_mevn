@@ -370,11 +370,11 @@ export default {
     async getOrder() {
       try {
         if (this.$auth.loggedIn) {
-          const data = await this.$userApi.getOrder({
+          const { order } = await this.$userApi.getOrder({
             serial: this.$route.params.table,
             slug: this.$route.params.slug,
           });
-          this.existOrder = data;
+          this.existOrder = order;
         }
       } catch (error) {
         console.error(error);
@@ -383,11 +383,31 @@ export default {
     async requestBill() {
       try {
         if (this.$auth.loggedIn) {
-          const data = await this.$userApi.billRequest({
-            serial: this.$route.params.table,
-            slug: this.$route.params.slug,
-          });
+          const lastTimestamp = localStorage.getItem("disableRequest");
+          if (lastTimestamp) {
+            const currentTimestamp = Math.floor(
+              new Date().getTime() / 1000 / 60
+            );
+            const Timestamp = Math.floor(
+              new Date(lastTimestamp).getTime() / 1000 / 60
+            );
+            if (currentTimestamp - Timestamp > 1 || true) {
+              await this.$userApi.billRequest({
+                serial: this.$route.params.table,
+                slug: this.$route.params.slug,
+              });
+              localStorage.setItem("disableRequest", new Date());
+            }
+          }
           this.$nuxt.$emit("success", "Your bill is being processing");
+        } else {
+          if (confirm(`Please verify with your gmail?`)) {
+            window.localStorage.setItem(
+              "socialLogin",
+              JSON.stringify(this.$route.params)
+            );
+            window.open("/api/auth/social-login/google", "_self");
+          }
         }
       } catch (error) {
         console.error(error);

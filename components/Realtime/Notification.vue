@@ -5,18 +5,13 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "RealtimePrintItemList",
-  data() {
-    return {
-      orderDetails: {},
-    };
-  },
   computed: {
     ...mapGetters(["baseUrl", "manager"]),
   },
   mounted() {
     if (this.$auth?.user?.restaurant?._id && this.manager) {
-      socket.on(`request-bill-${restaurantID}`, () => {
-        this.$emit("refetch");
+      socket.on(`request-bill-${this.$auth?.user?.restaurant?._id}`, (data) => {
+        this.$emit("refetch", data);
       });
     }
   },

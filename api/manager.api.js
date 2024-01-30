@@ -172,4 +172,20 @@ export class ManagerApi extends BaseApi {
   toggleProtection() {
     return this.api.$get(`toggle-protection`);
   }
+
+  fetchNotification(params) {
+    return this.api.$get(`notification`, { params });
+  }
+
+  fetchNewNotification() {
+    return this.api.$get(`notification/new`);
+  }
+
+  toggleNotification(params) {
+    return this.api.$get(`notification/toggle`, { params });
+  }
+
+  markAllNotification() {
+    return this.api.$get(`notification/mark`);
+  }
 }

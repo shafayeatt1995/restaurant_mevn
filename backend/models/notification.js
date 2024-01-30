@@ -6,8 +6,9 @@ const NotificationSchema = new Schema(
     restaurantID: { type: String, required: true },
     type: { type: String, required: true },
     additional: { type: Object },
+    title: { type: String, required: true },
     body: { type: String, required: true },
-    mark: { type: String, default: false },
+    mark: { type: Boolean, default: false },
   },
   {
     strict: true,

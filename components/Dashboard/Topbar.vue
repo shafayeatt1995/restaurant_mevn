@@ -1,10 +1,10 @@
 <template>
   <header
-    class="flex items-center justify-between h-20 px-6 bg-white sticky top-0 z-10"
+    class="flex items-center justify-between h-20 px-4 lg:px-6 bg-white sticky top-0 z-10"
   >
     <div class="relative flex flex-col items-start">
       <template v-if="manager">
-        <p class="text-gray-600">
+        <p class="text-gray-600 text-xs lg:text-sm">
           Subscription Exp:
           <span
             :class="activeScan ? '' : 'text-rose-500'"
@@ -16,38 +16,8 @@
     </div>
 
     <div class="flex items-center">
-      <div class="relative">
-        <button
-          class="transition-colors duration-300 rounded-lg p-2 focus:outline-none hover:bg-gray-100"
-          @click="dropdownOpen = !dropdownOpen"
-        ></button>
-
-        <div
-          class="absolute right-0 z-50 w-56 p-2 bg-white border rounded-lg top-16 lg:top-20"
-          v-if="dropdownOpen"
-          v-click-outside="() => (dropdownOpen = false)"
-        >
-          <div
-            class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-          >
-            <nuxt-link :to="{ name: 'dashboard-settings' }">
-              <font-awesome-icon :icon="['fas', 'gear']" class="text-xl" />
-              <span class="mx-4 font-medium">Logout</span>
-            </nuxt-link>
-          </div>
-          <div
-            class="px-4 py-2 text-rose-500 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100 flex items-center"
-            @click="logOut()"
-          >
-            <font-awesome-icon
-              :icon="['fas', 'arrow-right-from-bracket']"
-              class="text-xl"
-            />
-            <span class="mx-4 font-medium">Logout</span>
-          </div>
-        </div>
-      </div>
-      <div class="relative">
+      <DashboardTopbarNotification v-if="manager" />
+      <div class="relative" v-click-outside="() => (dropdownOpen = false)">
         <button
           class="transition-colors duration-300 rounded-lg p-2 focus:outline-none hover:bg-gray-100"
           @click="dropdownOpen = !dropdownOpen"
@@ -80,9 +50,8 @@
         </button>
 
         <div
-          class="absolute right-0 z-50 w-56 p-2 bg-white border rounded-lg top-16 lg:top-20"
+          class="absolute right-0 z-50 w-56 p-2 bg-white border rounded-lg"
           v-if="dropdownOpen"
-          v-click-outside="() => (dropdownOpen = false)"
         >
           <div
             class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
@@ -121,35 +90,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      "manager",
-      "scanDate",
-      "activeScan",
-      "activeAnalytic",
-      "analyticDate",
-    ]),
+    ...mapGetters(["manager", "scanDate", "activeScan"]),
 
     showScanDate() {
       if (this.activeScan) {
         const timeDifference = this.scanDate - this.currentDate;
-        const seconds = Math.floor(timeDifference / 1000);
-
-        const days = Math.floor(seconds / 86400);
-        const hours = Math.floor((seconds % 86400) / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
-
-        return `${days}:${this.formatTime(hours)}:${this.formatTime(
-          minutes
-        )}:${this.formatTime(remainingSeconds)}`;
-      } else {
-        return "Expired";
-      }
-    },
-
-    showAnalyticDate() {
-      if (this.activeAnalytic) {
-        const timeDifference = this.analyticDate - this.currentDate;
         const seconds = Math.floor(timeDifference / 1000);
 
         const days = Math.floor(seconds / 86400);

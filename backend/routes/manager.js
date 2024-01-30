@@ -73,6 +73,12 @@ const {
   deleteVat,
 } = require("@/backend/controllers/VatController");
 const {
+  fetchNotification,
+  toggleNotification,
+  markAllNotification,
+  fetchNewNotification,
+} = require("@/backend/controllers/NotificationController");
+const {
   createCategoryVal,
   createSubCategoryVal,
 } = require("@/backend/validation/category");
@@ -129,6 +135,14 @@ router.get("/vat", fetchVat);
 router.post("/vat", vatVal, validation, createVat);
 router.patch("/vat", vatVal, validation, updateVat);
 router.delete("/vat", deleteVat);
+
+router.get("/notification", fetchNotification);
+router.get("/notification/new", fetchNewNotification);
+router.get("/notification/toggle", toggleNotification);
+router.get("/notification/mark", markAllNotification);
+// router.post("/vat", vatVal, validation, createVat);
+// router.patch("/vat", vatVal, validation, updateVat);
+// router.delete("/vat", deleteVat);
 
 router.get("/order", fetchOrder);
 router.get("/order/print-details/:_id", fetchPrintOrder);
