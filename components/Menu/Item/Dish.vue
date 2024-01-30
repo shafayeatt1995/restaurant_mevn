@@ -549,7 +549,8 @@ export default {
 .slideFullLeft-enter,
 .slideFullLeft-leave-to {
   opacity: 0;
-  transform: translate(-100%, 0);
+  /* transform: translate(-100%, 0); */
+  transform: translate(-100vw, 0);
 }
 .active-animation {
   animation: slideDown 1s ease-in-out;

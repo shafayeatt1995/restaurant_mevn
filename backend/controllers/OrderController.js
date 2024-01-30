@@ -166,6 +166,14 @@ const controller = {
               { new: true, sort: { _id: -1 } }
             );
             const restaurant = await Restaurant.findOne({ _id: restaurantID });
+            const notification = await Notification.create({
+              restaurantID,
+              type: "updateOrder",
+              additional: { orderID: update._id },
+              title: `Order updated`,
+              body: `Table: ${tableName} order: #${update.orderNumber} is updated`,
+            });
+
             if (restaurant) {
               const { userID } = restaurant;
               sendNotification(`id`, `${tableName} order is updated`, [
@@ -173,7 +181,7 @@ const controller = {
                 update.waiterID ?? "",
               ]);
             }
-            global.io.emit(`order-notification-${restaurantID}`);
+            global.io.emit(`order-notification-${restaurantID}`, notification);
             res.status(200).json({ success: true });
           } else {
             res.status(422).json({
@@ -182,7 +190,7 @@ const controller = {
             });
           }
         } else {
-          await Order.create({
+          const order = await Order.create({
             userEmail,
             userName,
             restaurantID,
@@ -200,6 +208,13 @@ const controller = {
             orderType,
           });
           const restaurant = await Restaurant.findOne({ _id: restaurantID });
+          const notification = await Notification.create({
+            restaurantID,
+            type: "updateOrder",
+            additional: { orderID: order._id },
+            title: `New Order`,
+            body: `Receive new order from Table: ${tableName} order: #${update.orderNumber}`,
+          });
           if (restaurant) {
             const { userID, waiter } = restaurant;
             sendNotification(`id`, `Receive new order from ${tableName}`, [
@@ -207,7 +222,7 @@ const controller = {
               ...waiter,
             ]);
           }
-          global.io.emit(`order-notification-${restaurantID}`);
+          global.io.emit(`order-notification-${restaurantID}`, notification);
           res.status(200).json({ success: true });
         }
       }

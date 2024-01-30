@@ -79,9 +79,7 @@
             <table class="w-full">
               <tbody>
                 <tr class="mb-4">
-                  <td class="py-2 font-medium text-lg" @click="getOrder">
-                    Qty
-                  </td>
+                  <td class="py-2 font-medium text-lg">Qty</td>
                   <td class="py-2 text-center">
                     <div class="font-medium text-lg">Name</div>
                   </td>
@@ -95,7 +93,7 @@
                   <td class="py-2">
                     <div class="font-medium">
                       {{ cart.name }}
-                      <span v-if="cart.choice?.name"
+                      <span v-if="cart.choice?.name" class="text-gray-500"
                         >({{ cart.choice?.name }})</span
                       >
                     </div>
@@ -369,11 +367,9 @@ export default {
     },
     async getOrder() {
       try {
-        if (this.$auth.loggedIn) {
-          const { order } = await this.$userApi.getOrder({
-            serial: this.$route.params.table,
-            slug: this.$route.params.slug,
-          });
+        const { table: serial, slug } = this.$route.params;
+        if (this.$auth.loggedIn && serial && slug) {
+          const { order } = await this.$userApi.getOrder({ serial, slug });
           this.existOrder = order;
         }
       } catch (error) {

@@ -1,12 +1,11 @@
 <template>
-  <div
-    class="lg:w-[450px] w-full mx-auto overflow-hidden bg-gray-100 shadow-2xl"
-  >
+  <div class="lg:w-[450px] w-full mx-auto bg-gray-100 shadow-2xl">
     <MenuRestaurantName :editMode="editMode" :restaurant="restaurant" />
     <MenuCategory
       :editMode="editMode"
       :categories="categories"
       :activeCategory.sync="activeCategory"
+      class="sticky top-0 z-20"
     />
     <MenuSubCategory
       :editMode="editMode"

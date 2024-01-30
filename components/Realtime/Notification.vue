@@ -13,11 +13,18 @@ export default {
       socket.on(`request-bill-${this.$auth?.user?.restaurant?._id}`, (data) => {
         this.$emit("refetch", data);
       });
+      socket.on(
+        `order-notification-${this.$auth?.user?.restaurant?._id}`,
+        (data) => {
+          this.$emit("refetch", data);
+        }
+      );
     }
   },
   beforeDestroy() {
     if (this.$auth?.user?.restaurant?._id && this.manager) {
-      socket.off(`print-item-list-${this.$auth?.user?.restaurant?._id}`);
+      socket.off(`request-bill-${this.$auth?.user?.restaurant?._id}`);
+      socket.off(`order-notification-${this.$auth?.user?.restaurant?._id}`);
     }
   },
 };

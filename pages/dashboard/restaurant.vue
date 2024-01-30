@@ -8,7 +8,10 @@
     </div>
     <div class="absolute right-2 top-2 flex gap-2">
       Edit mode
-      <ToggleSwitch v-model="editMode" />
+      <ToggleSwitch
+        :value="editMode"
+        @click.native.prevent="editMode = !editMode"
+      />
     </div>
     <div class="overflow-hidden pt-12 lg:pt-0">
       <Menu

@@ -830,12 +830,17 @@ export default {
         return "bg-white";
       }
     },
-    openOrder({ _id }) {
+    openOrder({ _id, serial }) {
       const find = this.items.find(({ tableID }) => tableID === _id);
       if (find) {
         this.openOrderDetails(find);
       } else {
-        this.$nuxt.$emit("error", "This table has no order");
+        const routeUrl = this.$router.resolve({
+          name: "menu-slug-table",
+          params: { slug: this.$auth.user.restaurant.slug, table: serial },
+        }).href;
+
+        window.open(routeUrl, "_blank");
       }
     },
     showTableTime({ _id }) {
