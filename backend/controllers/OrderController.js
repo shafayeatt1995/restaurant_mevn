@@ -85,7 +85,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -210,10 +210,10 @@ const controller = {
           const restaurant = await Restaurant.findOne({ _id: restaurantID });
           const notification = await Notification.create({
             restaurantID,
-            type: "updateOrder",
+            type: "newOrder",
             additional: { orderID: order._id },
             title: `New Order`,
-            body: `Receive new order from Table: ${tableName} order: #${update.orderNumber}`,
+            body: `Receive new order from Table: ${tableName} Order: #${order.orderNumber}`,
           });
           if (restaurant) {
             const { userID, waiter } = restaurant;
@@ -230,7 +230,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -292,7 +292,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -344,7 +344,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -382,7 +382,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -396,7 +396,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -409,7 +409,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -430,7 +430,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -459,7 +459,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -473,7 +473,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 };

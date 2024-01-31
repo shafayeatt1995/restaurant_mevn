@@ -15,7 +15,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -49,7 +49,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 
@@ -82,7 +82,7 @@ const controller = {
       console.error(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
 

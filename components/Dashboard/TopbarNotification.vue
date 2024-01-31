@@ -31,13 +31,13 @@
         <li v-for="(notification, key) in items" :key="key">
           <hr />
           <button
-            class="w-full flex flex-col gap-2 border-stroke px-4 p-2 hover:bg-gray-200 text-gray-700"
+            class="w-full flex flex-col border-stroke px-4 p-2 hover:bg-gray-200 text-gray-700"
             :class="notification.mark ? 'bg-white' : 'bg-gray-100'"
             @click="markNotification(notification)"
           >
-            <p class="text-sm"></p>
-            {{ notification.body }}
-            <p class="text-xs text-right">
+            <p class="font-bold">{{ notification.title }}</p>
+            <p class="text-left">{{ notification.body }}</p>
+            <p class="text-xs self-end">
               {{ notification.created_at | agoDate }}
             </p>
           </button>
@@ -118,9 +118,14 @@ export default {
           );
           if (index !== -1) {
             this.items[index].mark = true;
+            --this.unread;
           }
         }
-        if (notification.type === "requestBill") {
+        if (
+          notification.type === "requestBill" ||
+          notification.type === "updateOrder" ||
+          notification.type === "newOrder"
+        ) {
           this.$router.push({
             name: "dashboard-order",
             params: { order_id: notification.additional.orderID },

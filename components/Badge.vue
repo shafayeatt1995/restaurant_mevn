@@ -21,6 +21,8 @@ export default {
     variantClass() {
       if (this.variant === "green") {
         return "text-green-500 bg-green-100/60";
+      } else if (this.variant === "complete") {
+        return "text-green-500 bg-green-100/60";
       } else if (this.variant === "blue") {
         return "text-blue-500 bg-blue-100/60";
       } else if (this.variant === "gray") {
@@ -42,6 +44,8 @@ export default {
       } else if (this.variant === "sky") {
         return "text-sky-500 bg-sky-100/60";
       } else if (this.variant === "rose") {
+        return "text-rose-500 bg-rose-100/60";
+      } else if (this.variant === "cancel") {
         return "text-rose-500 bg-rose-100/60";
       } else if (this.variant === "white") {
         return "text-grey-700 bg-white border border-gray-100";

@@ -76,7 +76,7 @@ export default {
       }
     } catch (err) {
       console.error(err?.response?.data?.message || err);
-      error({ statusCode: 500, message: "Internal Server Error" });
+      error({ statusCode: 500, message: "Something wrong. Please try again" });
     }
   },
   mounted() {

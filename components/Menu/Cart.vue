@@ -380,6 +380,7 @@ export default {
       try {
         if (this.$auth.loggedIn) {
           const lastTimestamp = localStorage.getItem("disableRequest");
+          console.log(lastTimestamp);
           if (lastTimestamp) {
             const currentTimestamp = Math.floor(
               new Date().getTime() / 1000 / 60
@@ -387,13 +388,19 @@ export default {
             const Timestamp = Math.floor(
               new Date(lastTimestamp).getTime() / 1000 / 60
             );
-            if (currentTimestamp - Timestamp > 1 || true) {
+            if (currentTimestamp - Timestamp > 5) {
               await this.$userApi.billRequest({
                 serial: this.$route.params.table,
                 slug: this.$route.params.slug,
               });
               localStorage.setItem("disableRequest", new Date());
             }
+          } else {
+            await this.$userApi.billRequest({
+              serial: this.$route.params.table,
+              slug: this.$route.params.slug,
+            });
+            localStorage.setItem("disableRequest", new Date());
           }
           this.$nuxt.$emit("success", "Your bill is being processing");
         } else {

@@ -7,7 +7,9 @@ const isAdmin = async (req, res, next) => {
       res.status(403).send({ success: false, message: "Access denied" });
     }
   } catch (err) {
-    res.status(500).send({ success: false, message: "Internal server error" });
+    res
+      .status(500)
+      .send({ success: false, message: "Something wrong. Please try again" });
   }
 };
 

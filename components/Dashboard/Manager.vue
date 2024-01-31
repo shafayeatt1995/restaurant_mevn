@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="px-6">
+    <section class="px-2 lg:px-6">
       <div>
         <h2 class="text-3xl font-medium text-gray-600 mb-2">
           {{ $auth.user.restaurant.name }}'s Dashboard
@@ -8,9 +8,52 @@
       </div>
     </section>
 
+    <section
+      class="my-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 min-[1600px]:grid-cols-6 px-2 lg:px-6"
+    >
+      <div
+        class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3"
+      >
+        <div class="flex w-auto flex-row items-center">
+          <div
+            class="rounded-full bg-gray-100 h-10 w-10 flex justify-center items-center"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'chart-simple']"
+              class="text-blue-700 text-xl"
+            />
+          </div>
+        </div>
+        <div class="h-50 ml-4 flex w-auto flex-col justify-center">
+          <p class="font-dm text-sm font-medium text-gray-600">
+            Today Earnings
+          </p>
+          <h4 class="text-xl font-bold text-gray-700">$340.5</h4>
+        </div>
+      </div>
+      <div
+        class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3"
+      >
+        <div class="flex w-auto flex-row items-center">
+          <div
+            class="rounded-full bg-gray-100 h-10 w-10 flex justify-center items-center"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'chart-simple']"
+              class="text-blue-700 text-xl"
+            />
+          </div>
+        </div>
+        <div class="h-50 ml-4 flex w-auto flex-col justify-center">
+          <p class="font-dm text-sm font-medium text-gray-600">Today Sale</p>
+          <h4 class="text-xl font-bold text-gray-700">$340.5</h4>
+        </div>
+      </div>
+    </section>
+
     <section class="grid grid-cols-1 gap-4 px-6 lg:grid-cols-3">
       <div
-        class="flex flex-col items-center px-2 py-4 bg-white rounded-lg shadow-md shadow-gray-200"
+        class="flex flex-col items-center px-2 py-4 bg-white rounded-2xl shadow-md shadow-gray-200"
       >
         <h2 class="text-xl text-gray-600 mb-3">Today</h2>
         <div class="flex justify-center w-full gap-8">
@@ -59,7 +102,7 @@
       </div>
 
       <div
-        class="flex flex-col items-center px-2 py-4 bg-white rounded-lg shadow-md shadow-gray-200"
+        class="flex flex-col items-center px-2 py-4 bg-white rounded-2xl shadow-md shadow-gray-200"
       >
         <h2 class="text-xl text-gray-600 mb-3">Last 7 days</h2>
         <div class="flex justify-evenly w-full">
@@ -108,7 +151,7 @@
       </div>
 
       <div
-        class="flex flex-col items-center px-2 py-4 bg-white rounded-lg shadow-md shadow-gray-200"
+        class="flex flex-col items-center px-2 py-4 bg-white rounded-2xl shadow-md shadow-gray-200"
       >
         <h2 class="text-xl text-gray-600 mb-3">This month</h2>
         <div class="flex justify-evenly w-full">
@@ -156,7 +199,7 @@
         </div>
       </div>
 
-      <div class="py-4 bg-white rounded-lg shadow-md shadow-gray-200">
+      <div class="py-4 bg-white rounded-2xl shadow-md shadow-gray-200">
         <p class="px-3 text-center text-xl text-gray-600 mb-3 font-semibold">
           Today's Best Sales
         </p>
@@ -189,7 +232,7 @@
         </div>
       </div>
 
-      <div class="py-4 bg-white rounded-lg shadow-md shadow-gray-200">
+      <div class="py-4 bg-white rounded-2xl shadow-md shadow-gray-200">
         <p class="px-3 text-center text-xl text-gray-600 mb-3 font-semibold">
           Last 7 days best Sales
         </p>
@@ -226,7 +269,7 @@
         </div>
       </div>
 
-      <div class="py-4 bg-white rounded-lg shadow-md shadow-gray-200">
+      <div class="py-4 bg-white rounded-2xl shadow-md shadow-gray-200">
         <p class="px-3 text-center text-xl text-gray-600 mb-3 font-semibold">
           This month best Sales
         </p>
