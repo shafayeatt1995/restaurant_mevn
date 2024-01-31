@@ -59,7 +59,9 @@ export default {
     "~/plugins",
     "~/plugins/api.js",
     "~/plugins/filter.js",
-    { src: "~/plugins/toast.js", ssr: false },
+    { src: "~/plugins/toast.js", mode: "client" },
+    { src: "~/plugins/apexChart.js", mode: "client" },
+    { src: "~/plugins/datePicker.js", mode: "client" },
   ],
 
   components: true,

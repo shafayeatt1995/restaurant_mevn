@@ -1,8 +1,8 @@
+const mongoose = require("mongoose");
 const { User, Restaurant, Order } = require("@/backend/models");
 const { paginate, convertDate } = require("@/backend/utils");
 const bcrypt = require("bcryptjs");
-const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Types;
+const moment = require("moment");
 
 const controller = {
   async fetchDashboard(req, res) {
@@ -14,15 +14,7 @@ const controller = {
         waiterID.waiterID = authID;
       }
 
-      const [
-        [todaySale],
-        [weeklySale],
-        [monthlySale],
-        // [totalSale],
-        todayItems,
-        weeklyItems,
-        monthlyItems,
-      ] = await Promise.all([
+      const [[todaySale], [weeklySale], [monthlySale]] = await Promise.all([
         Order.aggregate([
           {
             $match: {
@@ -81,172 +73,11 @@ const controller = {
               totalOrder: { $sum: 1 },
               totalSale: { $sum: "$netPrice" },
             },
-          },
-        ]),
-        // Order.aggregate([
-        //   {
-        //     $match: {
-        //       restaurantID,
-        //       ...waiterID,
-        //       status: "complete",
-        //     },
-        //   },
-        //   {
-        //     $group: {
-        //       _id: null,
-        //       totalOrder: { $sum: 1 },
-        //       totalSale: { $sum: "$netPrice" },
-        //     },
-        //   },
-        // ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: convertDate(today, "start"),
-                $lt: convertDate(today, "end"),
-              },
-              status: "complete",
-            },
-          },
-          { $unwind: "$orderItems" },
-          {
-            $group: {
-              _id: "$orderItems._id",
-              totalQuantity: { $sum: "$orderItems.qty" },
-            },
-          },
-          { $sort: { totalQuantity: -1 } },
-          {
-            $lookup: {
-              from: "items",
-              localField: "_id",
-              foreignField: "_id",
-              as: "itemDetails",
-            },
-          },
-          { $unwind: "$itemDetails" },
-          {
-            $project: {
-              _id: 1,
-              totalQuantity: 1,
-              itemName: "$itemDetails.name",
-              itemImage: "$itemDetails.image",
-            },
-          },
-          {
-            $limit: 10,
-          },
-        ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: convertDate(week[0], "start"),
-                $lt: convertDate(week[1], "end"),
-              },
-              status: "complete",
-            },
-          },
-          {
-            $unwind: "$orderItems",
-          },
-          {
-            $group: {
-              _id: "$orderItems._id",
-              itemName: { $first: "$orderItems.name" },
-              totalQuantity: { $sum: "$orderItems.qty" },
-            },
-          },
-          {
-            $sort: {
-              totalQuantity: -1,
-            },
-          },
-          {
-            $lookup: {
-              from: "items",
-              localField: "_id",
-              foreignField: "_id",
-              as: "itemDetails",
-            },
-          },
-          { $unwind: "$itemDetails" },
-          {
-            $project: {
-              _id: 1,
-              totalQuantity: 1,
-              itemName: "$itemDetails.name",
-              itemImage: "$itemDetails.image",
-            },
-          },
-          {
-            $limit: 10,
-          },
-        ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: convertDate(month[0], "start"),
-                $lt: convertDate(month[1], "end"),
-              },
-              status: "complete",
-            },
-          },
-          {
-            $unwind: "$orderItems",
-          },
-          {
-            $group: {
-              _id: "$orderItems._id",
-              itemName: { $first: "$orderItems.name" },
-              totalQuantity: { $sum: "$orderItems.qty" },
-            },
-          },
-          {
-            $sort: {
-              totalQuantity: -1,
-            },
-          },
-          {
-            $lookup: {
-              from: "items",
-              localField: "_id",
-              foreignField: "_id",
-              as: "itemDetails",
-            },
-          },
-          { $unwind: "$itemDetails" },
-          {
-            $project: {
-              _id: 1,
-              totalQuantity: 1,
-              itemName: "$itemDetails.name",
-              itemImage: "$itemDetails.image",
-            },
-          },
-          {
-            $limit: 10,
           },
         ]),
       ]);
 
-      res.status(200).json({
-        todaySale,
-        weeklySale,
-        monthlySale,
-        // totalSale,
-        todayItems,
-        weeklyItems,
-        monthlyItems,
-      });
+      res.status(200).json({ todaySale, weeklySale, monthlySale });
     } catch (error) {
       console.error(error);
       res.status(500).json({

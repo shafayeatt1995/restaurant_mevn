@@ -476,6 +476,37 @@ const controller = {
         .json({ success: false, message: "Something wrong. Please try again" });
     }
   },
+
+  async chartSalesData(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { date } = req.query;
+      const startDate = moment(date).startOf("month").toDate();
+      const endDate = moment(date).endOf("month").toDate();
+
+      const chartData = await Order.aggregate([
+        {
+          $match: {
+            restaurantID,
+            created_at: { $gte: startDate, $lte: endDate },
+          },
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: "%d-%m-%Y", date: "$created_at" } },
+            totalNetPrice: { $sum: "$netPrice" },
+          },
+        },
+      ]);
+      res.status(200).json({ success: true, chartData });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
 };
 
 module.exports = controller;

@@ -65,6 +65,7 @@ const {
   fetchOrder,
   fetchPrintOrder,
   addServiceCharge,
+  chartSalesData,
 } = require("@/backend/controllers/OrderController");
 const {
   fetchVat,
@@ -158,5 +159,7 @@ router.post(
   validation,
   updateRestaurantName
 );
+
+router.get("/chart-sales-data", chartSalesData);
 
 module.exports = router;
