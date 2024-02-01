@@ -7,6 +7,12 @@
       >
     </div>
     <div class="flex justify-between items-center">
+      <p>Request notification permission</p>
+      <Button @click.native.prevent="requestPermission" :loading="loading"
+        >Request permission</Button
+      >
+    </div>
+    <div class="flex justify-between items-center">
       <p>Disconnect notification</p>
       <Button @click.native.prevent="uninstallServiceWorker" :loading="loading"
         >Disconnect notification</Button
@@ -16,6 +22,12 @@
       <p>Connect notification</p>
       <Button @click.native.prevent="installServiceWorker" :loading="loading"
         >Connect notification</Button
+      >
+    </div>
+    <div class="flex justify-between items-center">
+      <p>Check service worker</p>
+      <Button @click.native.prevent="checkServiceWorker" :loading="testLoading"
+        >Check</Button
       >
     </div>
     <div class="flex justify-between items-center">
@@ -58,7 +70,7 @@ export default {
               );
 
               this.loading = false;
-            }, 5000);
+            }, 2000);
           } else {
             alert("Notification permission not granted");
           }
@@ -105,6 +117,29 @@ export default {
         console.error(error);
       } finally {
         this.testLoading = false;
+      }
+    },
+    async requestPermission() {
+      try {
+        const permission = await Notification.requestPermission();
+        alert(`Notification permission ${permission}`);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async checkServiceWorker() {
+      try {
+        const registration = await navigator.serviceWorker.getRegistration(
+          "/sw.js"
+        );
+        console.log(registration);
+        if (registration) {
+          alert("Service worker is installed.");
+        } else {
+          alert("Service worker is not installed.");
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
   },
