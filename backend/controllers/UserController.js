@@ -76,7 +76,7 @@ const controller = {
           },
         ]),
       ]);
-
+      console.log(todaySale, weeklySale, monthlySale);
       res.status(200).json({ todaySale, weeklySale, monthlySale });
     } catch (error) {
       console.error(error);

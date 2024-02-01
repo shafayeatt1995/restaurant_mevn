@@ -188,12 +188,4 @@ export class ManagerApi extends BaseApi {
   markAllNotification() {
     return this.api.$get(`notification/mark`);
   }
-
-  chartSalesData(params) {
-    return this.api.$get(`chart-sales-data`, { params });
-  }
-
-  recentOrder() {
-    return this.api.$get(`recent-order`);
-  }
 }

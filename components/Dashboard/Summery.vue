@@ -1,6 +1,6 @@
 <template>
   <section
-    class="my-3 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 min-[1600px]:grid-cols-6 px-2 lg:px-6"
+    class="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 min-[1600px]:grid-cols-6 px-2 lg:px-6"
   >
     <div
       class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3 shadow-md"
@@ -124,7 +124,7 @@
           This Month Order
         </p>
         <h4 class="text-xl font-bold text-gray-700">
-          {{ weekly?.totalOrder || 0 }}
+          {{ monthly?.totalOrder || 0 }}
         </h4>
       </div>
     </div>

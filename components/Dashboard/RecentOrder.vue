@@ -36,7 +36,9 @@
               <font-awesome-icon :icon="getStatue(order.status).icon" />
               {{ order.status }}
             </td>
-            <td class="pt-5 font-medium">৳{{ order.netPrice }}</td>
+            <td class="pt-5 font-medium">
+              ৳{{ order.netPrice | currencyNumber }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -59,7 +61,7 @@ export default {
   methods: {
     async fetchItems() {
       try {
-        const { orders } = await this.$managerApi.recentOrder();
+        const { orders } = await this.$mowApi.recentOrder();
         this.items = orders;
       } catch (error) {
         console.error(error);

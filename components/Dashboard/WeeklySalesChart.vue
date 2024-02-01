@@ -1,50 +1,53 @@
 <template>
-  <div class="px-2 lg:px-6 my-4">
-    <div class="rounded-2xl shadow-lg bg-white p-3">
-      <div class="flex flex-col lg:flex-row justify-between lg:items-center">
-        <h3 class="font-semibold text-xl text-gray-700 py-2 px-2">
-          Monthly Sales Details
-        </h3>
-        <DatePicker
-          v-if="!chartLoader"
-          v-model="filterDate"
-          type="month"
-          placeholder="Select month"
-          prefix-class="xmx"
-        />
-      </div>
-      <div
-        v-if="chartLoader"
-        class="w-full flex justify-center items-center h-96"
-      >
-        <Spinner class="text-green-600" />
-      </div>
-      <apexchart
-        v-else
-        height="450"
-        type="area"
-        :options="chartOptions"
-        :series="series"
+  <div class="rounded-2xl shadow-lg bg-white p-3">
+    <div class="flex flex-col lg:flex-row justify-between lg:items-center">
+      <h3 class="font-semibold text-xl text-gray-700 py-2 px-2">
+        Weekly Sales Details
+      </h3>
+      <DatePicker
+        v-if="!chartLoader"
+        v-model="filterDate"
+        type="week"
+        placeholder="Select week"
+        prefix-class="xmx"
+        :lang="lang"
       />
     </div>
+    <div
+      v-if="chartLoader"
+      class="w-full flex justify-center items-center h-96"
+    >
+      <Spinner class="text-green-600" />
+    </div>
+    <apexchart
+      v-else
+      height="450"
+      type="area"
+      :options="chartOptions"
+      :series="series"
+    />
   </div>
 </template>
 <script>
 export default {
-  name: "MonthlySalesChart",
+  name: "WeeklySalesChart",
   data() {
     return {
+      lang: {
+        formatLocale: {
+          firstDayOfWeek: 0,
+        },
+        monthBeforeYear: false,
+      },
       filterDate: new Date(),
       chartLoader: true,
       series: [{ name: "Sales", data: [] }],
       chartOptions: {
         chart: {
-          type: "area",
           toolbar: { show: false },
           zoom: { enabled: false },
         },
         dataLabels: { enabled: false },
-        stroke: { curve: "smooth" },
         xaxis: {
           type: "category",
           labels: {
@@ -119,12 +122,14 @@ export default {
     async getSalesLog() {
       try {
         this.chartLoader = true;
-        const start = this.$moment(this.filterDate).startOf("month").toDate();
-        const end = this.$moment(this.filterDate).endOf("month").toDate();
-        const dates = this.getBetweenDates(start, end);
-        const { chartData } = await this.$mowApi.chartSalesData({
-          date: [start, end],
-        });
+        const inputDate = this.$moment(this.filterDate);
+        const date = [
+          inputDate.clone().startOf("week").add(0, "days").toDate(),
+          inputDate.clone().endOf("week").add(0, "days").toDate(),
+        ];
+        const dates = this.getBetweenDates(date[0], date[1]);
+
+        const { chartData } = await this.$mowApi.chartSalesData({ date });
         this.series[0].data = this.mergeDates(dates, chartData);
       } catch (error) {
         console.error(error);
@@ -165,4 +170,11 @@ $primary-color: #16a34a;
 $default-color: #555;
 
 @import "~vue2-datepicker/scss/index.scss";
+
+.xmx-input {
+  &:hover,
+  &:focus {
+    border-color: #16a34a !important;
+  }
+}
 </style>

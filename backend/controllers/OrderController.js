@@ -481,12 +481,19 @@ const controller = {
     try {
       const { restaurantID } = req.user;
       const [start, end] = req.query.date;
+      const { isWaiter, _id } = req.user;
+      const waiterID = {};
+      if (isWaiter) {
+        waiterID.waiterID = _id;
+      }
 
       const chartData = await Order.aggregate([
         {
           $match: {
             restaurantID,
             created_at: { $gte: new Date(start), $lte: new Date(end) },
+            status: "complete",
+            ...waiterID,
           },
         },
         {
@@ -508,10 +515,13 @@ const controller = {
 
   async recentOrder(req, res) {
     try {
-      const { restaurantID } = req.user;
-
+      const { restaurantID, isWaiter, _id } = req.user;
+      const waiterID = {};
+      if (isWaiter) {
+        waiterID.waiterID = _id;
+      }
       const orders = await Order.aggregate([
-        { $match: { restaurantID } },
+        { $match: { restaurantID, ...waiterID } },
         { $project: { orderNumber: 1, tableName: 1, status: 1, netPrice: 1 } },
         { $sort: { orderNumber: -1 } },
         { $limit: 10 },

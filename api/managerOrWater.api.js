@@ -36,4 +36,12 @@ export class MowApi extends BaseApi {
   fetchOrderDetails(params) {
     return this.api.$get(`order/details`, { params });
   }
+
+  chartSalesData(params) {
+    return this.api.$get(`chart-sales-data`, { params });
+  }
+
+  recentOrder() {
+    return this.api.$get(`recent-order`);
+  }
 }

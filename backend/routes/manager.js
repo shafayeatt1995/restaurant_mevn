@@ -65,8 +65,6 @@ const {
   fetchOrder,
   fetchPrintOrder,
   addServiceCharge,
-  chartSalesData,
-  recentOrder,
 } = require("@/backend/controllers/OrderController");
 const {
   fetchVat,
@@ -147,7 +145,6 @@ router.get("/notification/mark", markAllNotification);
 // router.delete("/vat", deleteVat);
 
 router.get("/order", fetchOrder);
-router.get("/recent-order", recentOrder);
 router.get("/order/print-details/:_id", fetchPrintOrder);
 router.post("/add-service-charge", addServiceCharge);
 router.post("/update-printing-details", updatePrintingDetails);
@@ -161,7 +158,5 @@ router.post(
   validation,
   updateRestaurantName
 );
-
-router.get("/chart-sales-data", chartSalesData);
 
 module.exports = router;
