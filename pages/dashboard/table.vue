@@ -33,6 +33,7 @@
               Edit</Button
             >
             <Button
+              v-if="isDev"
               variant="red"
               @click.native.prevent="deleteItem(item._id, index)"
               ><font-awesome-icon :icon="['far', 'trash-can']" />Delete</Button
@@ -189,7 +190,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageTitle"]),
+    ...mapGetters(["pageTitle", "isDev"]),
     fields() {
       return [
         { key: "name", label: "NAME", span: "minmax(100PX, 1fr)" },
