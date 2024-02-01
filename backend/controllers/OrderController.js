@@ -480,15 +480,13 @@ const controller = {
   async chartSalesData(req, res) {
     try {
       const { restaurantID } = req.user;
-      const { date } = req.query;
-      const startDate = moment(date).startOf("month").toDate();
-      const endDate = moment(date).endOf("month").toDate();
+      const [start, end] = req.query.date;
 
       const chartData = await Order.aggregate([
         {
           $match: {
             restaurantID,
-            created_at: { $gte: startDate, $lte: endDate },
+            created_at: { $gte: new Date(start), $lte: new Date(end) },
           },
         },
         {
@@ -499,6 +497,26 @@ const controller = {
         },
       ]);
       res.status(200).json({ success: true, chartData });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
+  async recentOrder(req, res) {
+    try {
+      const { restaurantID } = req.user;
+
+      const orders = await Order.aggregate([
+        { $match: { restaurantID } },
+        { $project: { orderNumber: 1, tableName: 1, status: 1, netPrice: 1 } },
+        { $sort: { orderNumber: -1 } },
+        { $limit: 10 },
+      ]);
+      res.status(200).json({ success: true, orders });
     } catch (error) {
       console.error(error);
       res.status(500).json({

@@ -192,4 +192,8 @@ export class ManagerApi extends BaseApi {
   chartSalesData(params) {
     return this.api.$get(`chart-sales-data`, { params });
   }
+
+  recentOrder() {
+    return this.api.$get(`recent-order`);
+  }
 }

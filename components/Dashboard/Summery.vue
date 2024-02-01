@@ -3,7 +3,7 @@
     class="my-3 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 min-[1600px]:grid-cols-6 px-2 lg:px-6"
   >
     <div
-      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3"
+      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3 shadow-md"
     >
       <div class="flex w-auto flex-row items-center">
         <div
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div
-      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3"
+      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3 shadow-md"
     >
       <div class="flex w-auto flex-row items-center">
         <div
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div
-      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3"
+      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3 shadow-md"
     >
       <div class="flex w-auto flex-row items-center">
         <div
@@ -65,7 +65,7 @@
       </div>
     </div>
     <div
-      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3"
+      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3 shadow-md"
     >
       <div class="flex w-auto flex-row items-center">
         <div
@@ -87,7 +87,7 @@
       </div>
     </div>
     <div
-      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3"
+      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3 shadow-md"
     >
       <div class="flex w-auto flex-row items-center">
         <div
@@ -107,7 +107,7 @@
       </div>
     </div>
     <div
-      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3"
+      class="relative flex bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex-grow items-center rounded-2xl p-3 shadow-md"
     >
       <div class="flex w-auto flex-row items-center">
         <div

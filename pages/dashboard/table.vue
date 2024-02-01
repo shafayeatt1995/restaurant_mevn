@@ -74,13 +74,18 @@
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
           <Button
             variant="white"
+            type="button"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="modal = false"
           >
             Cancel
           </Button>
 
-          <Button variant="green" class="w-full tracking-wide flex-1">
+          <Button
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            type="submit"
+          >
             {{ editMode ? "Update" : "Create" }} table
           </Button>
         </div>
@@ -105,15 +110,15 @@
           :errors="errors"
         />
         <div class="flex flex-col items-center my-4">
-          <div ref="qrCode">
+          <div id="svgCode" class="border-8 border-white">
             <QrcodeVue
-              id="svgCode"
               :value="url"
               :size="qrCode.size"
               level="H"
               render-as="svg"
               :background="qrCode.background"
               :foreground="qrCode.foreground"
+              margin="10"
             />
           </div>
           <p class="my-3">{{ name }}</p>
@@ -166,11 +171,10 @@ export default {
   },
   data() {
     return {
-      click: true,
       modal: false,
       form: { name: "" },
       qrCode: {
-        size: 100,
+        size: 300,
         background: "#ffffff",
         foreground: "#000000",
       },
@@ -256,31 +260,23 @@ export default {
     },
     async submit() {
       try {
-        if (this.click) {
-          this.click = false;
-          if (this.editMode) {
-            await this.$managerApi.updateTable(this.form);
-          } else {
-            await this.$managerApi.createTable(this.form);
-          }
-          this.$nuxt.$emit(
-            "success",
-            `Table ${this.editMode ? "updated" : "created"} successfully`
-          );
-          this.refetch();
-          this.modal = false;
-          this.click = true;
+        if (this.editMode) {
+          await this.$managerApi.updateTable(this.form);
+        } else {
+          await this.$managerApi.createTable(this.form);
         }
+        this.$nuxt.$emit(
+          "success",
+          `Table ${this.editMode ? "updated" : "created"} successfully`
+        );
+        this.refetch();
+        this.modal = false;
       } catch (error) {
         this.errors = error?.response?.data?.errors;
-      } finally {
-        this.click = true;
       }
     },
     reset() {
-      this.form = {
-        name: "",
-      };
+      this.form = { name: "" };
       this.errors = {};
       this.editMode = false;
     },
@@ -296,16 +292,10 @@ export default {
     async deleteItem(_id, key) {
       if (confirm("Are you sure, you want to delete?")) {
         try {
-          if (this.click) {
-            this.click = false;
-            await this.$managerApi.deleteTable({ _id });
-            this.items.splice(key, 1);
-            this.click = true;
-          }
+          await this.$managerApi.deleteTable({ _id });
+          this.items.splice(key, 1);
         } catch (error) {
           this.$nuxt.$emit("error", error.response.data.message);
-        } finally {
-          this.click = true;
         }
       }
     },
@@ -314,39 +304,6 @@ export default {
       this.url = `${window.location.origin}/menu/${this.$auth.user.restaurant.slug}/${serial}`;
       this.qrModal = true;
     },
-    // async printQRCode() {
-    //   const printContent = this.$refs.qrCode;
-    //   const pdfOptions = { filename: "your_document.pdf" };
-
-    //   // Convert HTML to PDF
-    //   const canvas = await html2canvas(printContent);
-
-    //   // Specify width for the PDF
-    //   const pdfWidth = 47; // 80mm
-
-    //   // Calculate height based on aspect ratio
-    //   const aspectRatio = canvas.width / canvas.height;
-    //   const pdfHeight = pdfWidth / aspectRatio;
-
-    //   const pdf = new jsPDF({
-    //     unit: "mm",
-    //     format: [pdfWidth, pdfHeight],
-    //   });
-
-    //   pdf.addImage(
-    //     canvas.toDataURL("image/png"),
-    //     "PNG",
-    //     0,
-    //     0,
-    //     pdfWidth,
-    //     pdfHeight
-    //   );
-
-    //   // Open the PDF in a new window
-    //   const blobUrl = URL.createObjectURL(pdf.output("blob"));
-    //   window.open(blobUrl, "_blank");
-    // },
-
     async printQRCode() {
       const printContent = this.$refs.qrCode.innerHTML;
       const printWindow = window.open("", "_blank", "width=800,height=600");

@@ -9,7 +9,7 @@
           <span
             :class="activeScan ? '' : 'text-rose-500'"
             class="font-semibold"
-            >{{ activeScan ? showScanDate : "Expired" }}</span
+            >{{ showScanDate }}</span
           >
         </p>
       </template>
@@ -93,10 +93,10 @@ export default {
     ...mapGetters(["manager", "scanDate", "activeScan"]),
 
     showScanDate() {
-      if (this.activeScan) {
-        const timeDifference = this.scanDate - this.currentDate;
-        const seconds = Math.floor(timeDifference / 1000);
+      const timeDifference = this.scanDate - this.currentDate;
 
+      if (timeDifference > 0) {
+        const seconds = Math.floor(timeDifference / 1000);
         const days = Math.floor(seconds / 86400);
         const hours = Math.floor((seconds % 86400) / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
@@ -106,7 +106,17 @@ export default {
           minutes
         )}:${this.formatTime(remainingSeconds)}`;
       } else {
-        return "Expired";
+        // Display negative countdown
+        const positiveTimeDifference = Math.abs(timeDifference);
+        const seconds = Math.floor(positiveTimeDifference / 1000);
+        const days = Math.floor(seconds / 86400);
+        const hours = Math.floor((seconds % 86400) / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        return `-${days}:${this.formatTime(hours)}:${this.formatTime(
+          minutes
+        )}:${this.formatTime(remainingSeconds)}`;
       }
     },
   },

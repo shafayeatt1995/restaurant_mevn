@@ -1,18 +1,16 @@
 <template>
-  <div class="px-2 lg:px-6">
+  <div class="px-2 lg:px-6 my-3">
     <div class="border rounded-2xl shadow-lg bg-white p-3">
       <div class="flex flex-col lg:flex-row justify-between lg:items-center">
-        <h3
-          class="font-semibold text-xl text-gray-700 py-2 px-2"
-          @click="getSalesLog"
-        >
-          Sales Over Time
+        <h3 class="font-semibold text-xl text-gray-700 py-2 px-2">
+          Monthly sales Details
         </h3>
         <DatePicker
           v-if="!chartLoader"
           v-model="filterDate"
           type="month"
           placeholder="Select month"
+          prefix-class="xmx"
         />
       </div>
       <transition name="fade" mode="out-in">
@@ -35,7 +33,7 @@
 </template>
 <script>
 export default {
-  name: "SalesChart",
+  name: "MonthlySalesChart",
   data() {
     return {
       filterDate: new Date(),
@@ -77,6 +75,14 @@ export default {
             },
           },
         },
+        yaxis: {
+          show: true,
+          labels: {
+            formatter(val) {
+              return val.toLocaleString("en-IN");
+            },
+          },
+        },
         markers: {
           size: 0,
           strokeWidth: 25,
@@ -90,9 +96,10 @@ export default {
         tooltip: {
           enabled: true,
           followCursor: true,
-          style: {
-            fontSize: "12px",
-            fontFamily: "Poppins, sans-serif",
+          y: {
+            formatter(val) {
+              return val.toLocaleString("en-IN");
+            },
           },
         },
         grid: { padding: { right: 40 } },
@@ -114,17 +121,15 @@ export default {
     async getSalesLog() {
       try {
         this.chartLoader = true;
+        const start = this.$moment(this.filterDate).startOf("month").toDate();
+        const end = this.$moment(this.filterDate).endOf("month").toDate();
+        const dates = this.getBetweenDates(start, end);
         const { chartData } = await this.$managerApi.chartSalesData({
-          date: this.filterDate,
+          date: [start, end],
         });
-        const startDate = this.$moment(this.filterDate)
-          .startOf("month")
-          .toDate();
-        const endDate = this.$moment(this.filterDate).endOf("month").toDate();
-        const dates = this.getBetweenDates(startDate, endDate);
         this.series[0].data = this.mergeDates(dates, chartData);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         this.chartLoader = false;
       }
@@ -136,6 +141,7 @@ export default {
         (_, index) => this.$moment(startDate).add(index, "days").toDate()
       );
     },
+
     mergeDates(dateArray, netPriceArray) {
       return dateArray.map((date) => {
         const matchingObject = netPriceArray.find(({ _id }) => {
@@ -154,3 +160,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+$namespace: "xmx";
+$primary-color: #16a34a;
+$default-color: #555;
+
+@import "~vue2-datepicker/scss/index.scss";
+</style>

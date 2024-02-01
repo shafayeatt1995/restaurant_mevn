@@ -8,7 +8,10 @@
       </div>
     </section>
     <DashboardSummery />
-    <DashboardSalesChart />
+    <DashboardMonthlySalesChart />
+    <div class="my-3 px-2 lg:px-6 grid grid-cols-1 lg:grid-cols-2">
+      <DashboardRecentOrder />
+    </div>
   </div>
 </template>
 <script>

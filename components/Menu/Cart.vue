@@ -380,7 +380,6 @@ export default {
       try {
         if (this.$auth.loggedIn) {
           const lastTimestamp = localStorage.getItem("disableRequest");
-          console.log(lastTimestamp);
           if (lastTimestamp) {
             const currentTimestamp = Math.floor(
               new Date().getTime() / 1000 / 60
