@@ -84,7 +84,7 @@ export default {
 
   modules: [
     "@nuxtjs/axios",
-    // "@nuxtjs/pwa",
+    "@nuxtjs/pwa",
     "@nuxtjs/auth-next",
     "nuxt-client-init-module",
     "vue2-editor/nuxt",
@@ -136,19 +136,19 @@ export default {
     },
   },
 
-  // pwa: {
-  //   icon: { fileName: "favicon.jpeg" },
-  //   manifest: {
-  //     lang: "en",
-  //     name: process.env.APP_NAME || "ScanEating",
-  //     short_name: process.env.APP_NAME || "ScanEating",
-  //     start_url: "/demo",
-  //     theme_color: "#1F2937",
-  //     background_color: "#FFFFFF",
-  //     orientation: "portrait",
-  //   },
-  //   workbox: { swTemplate: "static/service-worker.js" },
-  // },
+  pwa: {
+    icon: { fileName: "favicon.jpeg" },
+    manifest: {
+      lang: "en",
+      name: process.env.APP_NAME || "ScanEating",
+      short_name: process.env.APP_NAME || "ScanEating",
+      start_url: "/demo",
+      theme_color: "#1F2937",
+      background_color: "#FFFFFF",
+      orientation: "portrait",
+    },
+    workbox: { swTemplate: "static/sw.js" },
+  },
 
   router: { middleware: ["auth"] },
 

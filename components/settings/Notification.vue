@@ -26,9 +26,7 @@
     </div>
     <div class="flex justify-between items-center">
       <p>Check service worker</p>
-      <Button @click.native.prevent="checkServiceWorker" :loading="testLoading"
-        >Check</Button
-      >
+      <Button @click.native.prevent="checkServiceWorker">Check</Button>
     </div>
     <div class="flex justify-between items-center">
       <p>Test notification</p>
