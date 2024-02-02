@@ -100,6 +100,7 @@
                 name: 'menu-slug-table',
                 params: { slug: '1c', table: 'table-1-lx' },
               }"
+              target="_blank"
             >
               Demo Menu
             </NuxtLink>
