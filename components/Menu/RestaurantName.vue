@@ -8,15 +8,11 @@
           :src="restaurant.logo"
           alt="avatar"
         />
-        <p class="text-xl font-semibold">
+        <p class="text-xl font-semibold text-gray-700">
           {{ restaurant.name }}
           <EditButton @click.native.prevent="modal = true" v-if="editMode" />
         </p>
       </div>
-      <!-- <Button>
-        <font-awesome-icon :icon="['fas', 'file-invoice-dollar']" /> Request
-        Bill
-      </Button> -->
     </div>
     <Modal v-model="modal">
       <form class="mt-3" @submit.prevent="updateRestaurant">

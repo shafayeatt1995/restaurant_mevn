@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="grid gap-3 mt-3 px-2"
+      class="grid gap-3 mt-3"
       :class="align === 'single' ? 'grid-cols-1' : 'grid-cols-2'"
       v-if="['single', 'multiple'].includes(align)"
     >
@@ -86,7 +86,7 @@
           >
             {{ item.name }}
           </p>
-          <div class="flex justify-between">
+          <div class="flex justify-between text-gray-600">
             <small>
               <font-awesome-icon :icon="['far', 'clock']" />
               {{ item.estimateTime }}
@@ -102,6 +102,16 @@
           </div>
         </div>
       </div>
+    </div>
+    <div
+      v-if="items?.length === 0"
+      class="flex flex-col justify-center items-center w-full bg-white py-12"
+    >
+      <font-awesome-icon
+        :icon="['fas', 'pizza-slice']"
+        class="text-5xl text-green-500"
+      />
+      <p class="text-gray-700 mt-1">No items found in this category</p>
     </div>
 
     <Modal v-model="editCategoryMode">
@@ -236,7 +246,7 @@
               @click="setChoice(option)"
             >
               <div
-                class="h-5 w-5 rounded-full border-white border-4 shadow-[0_0_0_2px_rgba(156,163,175,1)]"
+                class="h-5 w-5 rounded-full border-white border-4 shadow-[0_0_0_2px_rgba(156,163,175,1)] text-gray-800"
                 :class="activeChoice._id === option._id ? 'bg-green-600' : ''"
               ></div>
               <p>{{ option.name }}</p>

@@ -23,6 +23,7 @@
       :categories="categories"
       :subCategories="subCategories"
       :items="items"
+      :featureCategories="featureCategories"
       :featureItems="featureItems"
       :isFeatureCategory="isFeatureCategory"
     />

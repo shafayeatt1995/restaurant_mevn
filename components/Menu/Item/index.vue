@@ -1,7 +1,9 @@
 <template>
   <div class="px-2">
     <div class="flex justify-between my-3 items-center px-2">
-      <p class="text-lg font-medium">All {{ activeCategoryName }} items</p>
+      <p class="text-lg font-medium capitalize text-gray-700">
+        All {{ activeCategoryName }} items
+      </p>
       <div class="flex gap-1 text-2xl">
         <p
           class="transition-all duration-300 w-10 h-10 flex justify-center items-center rounded-md"
@@ -156,6 +158,7 @@ export default {
     subCategories: Array,
     items: Array,
     featureItems: Array,
+    featureCategories: Array,
     isFeatureCategory: Boolean,
   },
   data() {
@@ -258,10 +261,17 @@ export default {
       }
     },
     activeCategoryName() {
-      const find = this.categories.find(
-        ({ _id }) => _id === this.activeCategory
-      );
-      return find?.name || "";
+      if (this.isFeatureCategory) {
+        const find = this.featureCategories.find(
+          ({ _id }) => _id === this.activeCategory
+        );
+        return find?.name || "";
+      } else {
+        const find = this.categories.find(
+          ({ _id }) => _id === this.activeCategory
+        );
+        return find?.name || "";
+      }
     },
   },
   watch: {

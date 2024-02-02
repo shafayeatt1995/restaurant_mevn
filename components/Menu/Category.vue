@@ -21,7 +21,7 @@
             class="object-cover w-14 h-14"
           />
         </div>
-        <p class="flex text-sm whitespace-nowrap">
+        <p class="flex text-sm whitespace-nowrap text-gray-800">
           <span class="capitalize">{{ item.name }}</span>
           <span v-if="editMode" class="ml-2">
             |
@@ -43,7 +43,9 @@
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
         </div>
-        <p class="mx-2 flex text-sm whitespace-nowrap">Add Feature category</p>
+        <p class="mx-2 flex text-sm whitespace-nowrap text-gray-800">
+          Add Feature category
+        </p>
       </div>
       <div
         v-for="(item, key) in categories"
@@ -63,7 +65,7 @@
             class="object-cover w-14 h-14"
           />
         </div>
-        <p class="flex text-sm whitespace-nowrap">
+        <p class="flex text-sm whitespace-nowrap text-gray-800">
           <span class="capitalize">{{ item.name }}</span>
           <span v-if="editMode" class="ml-2">
             |
@@ -85,7 +87,7 @@
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
         </div>
-        <p class="mx-2 flex text-sm whitespace-nowrap">Add</p>
+        <p class="mx-2 flex text-sm whitespace-nowrap text-gray-800">Add</p>
       </div>
     </div>
     <Modal v-model="modal">
@@ -199,7 +201,7 @@
                     >
                       {{ item.name }}
                     </p>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between text-gray-600">
                       <small>
                         <font-awesome-icon :icon="['far', 'clock']" />
                         {{ item.estimateTime }}

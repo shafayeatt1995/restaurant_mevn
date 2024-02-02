@@ -87,7 +87,7 @@
             </h3>
             <p class="mt-3 text-gray-600 text-base lg:text-xl">
               Take your restaurant one step further! It's time to dive into the
-              digital world! Give your customers a modern experience with a menu
+              digital world. Give your customers a modern experience with a menu
               they can access on their smartphones using a simple QR code. No
               more paper menus – just scan, browse, and order
               <span class="text-2xl">😊</span>
@@ -120,7 +120,7 @@
           class="flex items-center justify-center flex-1 mt-6 lg:mt-0 lg:w-1/2 h-full"
         >
           <img
-            class="w-full lg:max-w-full h-full object-contain"
+            class="max-w-full h-full object-contain"
             src="/images/menu.png"
             alt="menu image"
           />

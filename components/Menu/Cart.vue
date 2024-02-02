@@ -180,10 +180,11 @@
         </div>
         <div v-else-if="existOrder">
           <p class="text-gray-700 text-center text-xl mt-5">
-            If your food is complete then click the button for request your bill
+            If your food is finished then click the button for request your bill
           </p>
-          <div class="flex justify-center mt-4">
-            <Button @click.native.prevent="requestBill"
+          <div class="flex flex-col justify-center items-center mt-5">
+            <img loading="lazy" src="/images/eating.png" class="w-1/2" />
+            <Button @click.native.prevent="requestBill" class="mt-5"
               >Request your bill</Button
             >
           </div>
