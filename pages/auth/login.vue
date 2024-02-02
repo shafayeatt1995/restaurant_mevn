@@ -12,7 +12,7 @@
     </div>
     <div class="px-6 py-8 md:px-8 flex items-center flex-1">
       <form class="w-full" @submit.prevent="login">
-        <img loading="lazy" class="w-20" src="/favicon.png" alt="logo" />
+        <img loading="lazy" class="w-20" src="/logo.png" alt="logo" />
 
         <h1
           class="mt-3 text-2xl font-semibold text-gray-600 capitalize sm:text-3xl"

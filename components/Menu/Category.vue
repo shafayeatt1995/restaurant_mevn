@@ -307,7 +307,7 @@ export default {
   }
 
   .x-scroll::-webkit-scrollbar-thumb {
-    border-radius: 8px;
+    border-radius: 12px;
     background-color: #a0a0a0;
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
   }

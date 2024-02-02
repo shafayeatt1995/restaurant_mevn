@@ -130,7 +130,6 @@ export default {
         const registration = await navigator.serviceWorker.getRegistration(
           "/sw.js"
         );
-        console.log(registration);
         if (registration) {
           alert("Service worker is installed.");
         } else {

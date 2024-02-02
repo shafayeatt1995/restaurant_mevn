@@ -15,7 +15,7 @@
         class="w-full"
         @submit.prevent="emailMode ? signup() : (emailMode = true)"
       >
-        <img loading="lazy" class="w-20" src="/favicon.png" alt="logo" />
+        <img loading="lazy" class="w-20" src="/logo.png" alt="logo" />
 
         <h1
           class="mt-3 text-2xl font-semibold text-gray-600 capitalize sm:text-3xl"
