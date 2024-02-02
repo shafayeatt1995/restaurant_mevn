@@ -4,19 +4,7 @@
       class="overflow-x-auto flex gap-6 px-3 pt-4 flex-nowrap items-stretch bg-white z-10 pb-3 x-scroll"
     >
       <div
-        v-if="editMode"
-        class="flex flex-col items-center justify-between relative cursor-pointer"
-        @click="openFeatureModal"
-      >
-        <div
-          class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-3"
-        >
-          <font-awesome-icon :icon="['fas', 'plus']" />
-        </div>
-        <p class="mx-2 flex text-sm whitespace-nowrap">Add Feature category</p>
-      </div>
-      <div
-        v-for="(item, key) in categories"
+        v-for="(item, key) in featureCategories"
         :key="key"
         class="flex flex-col items-center relative gap-2 cursor-pointer"
         @click="selectCategory(item)"
@@ -30,7 +18,49 @@
           <img
             loading="lazy"
             :src="item.image"
-            class="object-cover w-14 h-14 rounded-full"
+            class="object-cover w-14 h-14"
+          />
+        </div>
+        <p class="flex text-sm whitespace-nowrap">
+          <span class="capitalize">{{ item.name }}</span>
+          <span v-if="editMode" class="ml-2">
+            |
+            <font-awesome-icon
+              :icon="['fas', 'pencil']"
+              class="ml-2"
+              @click.stop="edit(item)"
+            />
+          </span>
+        </p>
+      </div>
+      <div
+        v-if="editMode"
+        class="flex flex-col items-center justify-between relative cursor-pointer"
+        @click="openFeatureModal"
+      >
+        <div
+          class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-3"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </div>
+        <p class="mx-2 flex text-sm whitespace-nowrap">Add Feature category</p>
+      </div>
+      <div
+        v-for="(item, key) in categories"
+        :key="'category-' + key"
+        class="flex flex-col items-center relative gap-2 cursor-pointer"
+        @click="selectCategory(item)"
+      >
+        <div
+          class="flex justify-center items-center w-16 h-16 transition-all duration-300 rounded-xl"
+          :class="
+            activeCategory === item._id ? 'bg-green-500' : 'bg-transparent'
+          "
+        >
+          <img
+            loading="lazy"
+            :src="item.image"
+            class="object-cover w-14 h-14"
           />
         </div>
         <p class="flex text-sm whitespace-nowrap">
@@ -80,7 +110,8 @@
               </p>
             </template>
             <p v-else class="text-gray-600 text-xl">
-              Create {{ featureMode ? "feature" : "" }} category
+              {{ editItem ? "Update" : "Create" }}
+              {{ featureMode ? "feature" : "" }} category
             </p>
           </div>
 
@@ -131,7 +162,7 @@
                 :class="showItems ? 'rotate-180' : 'rotate-0'"
               />
             </button>
-            <slide-up-down :active="showItems" :duration="200">
+            <slide-up-down :active="showItems" :duration="300">
               <Input
                 v-for="(field, i) in fields"
                 :key="i"
@@ -150,10 +181,11 @@
                     class="absolute left-0 right-0 top-0 bottom-0 bg-black/70 z-10 flex justify-center items-center"
                     v-if="selectedItems.includes(item._id)"
                   >
-                    <font-awesome-icon
-                      :icon="['fas', 'circle-check']"
-                      class="text-green-500 text-5xl"
-                    />
+                    <p
+                      class="text-white bg-green-600 w-10 h-10 rounded-full flex justify-center items-center text-2xl"
+                    >
+                      {{ getSerialNumber(item._id) + 1 }}
+                    </p>
                   </div>
                   <img
                     loading="lazy"
@@ -222,7 +254,7 @@
             @click.native.prevent="submit"
           >
             {{ editItem ? "Update" : "Create" }}
-            {{ featureMode ? "feature" : "" }} category anik
+            {{ featureMode ? "feature" : "" }} category
           </Button>
         </div>
       </div>
@@ -237,6 +269,7 @@ export default {
   props: {
     editMode: Boolean,
     categories: Array,
+    featureCategories: Array,
     items: Array,
     activeCategory: String,
   },
@@ -268,12 +301,30 @@ export default {
       ];
     },
     moveLeft() {
-      const key = this.categories.findIndex(({ _id }) => _id === this.form._id);
-      return key === 0;
+      if (this.featureMode) {
+        const key = this.featureCategories.findIndex(
+          ({ _id }) => _id === this.form._id
+        );
+        return key === 0;
+      } else {
+        const key = this.categories.findIndex(
+          ({ _id }) => _id === this.form._id
+        );
+        return key === 0;
+      }
     },
     moveRight() {
-      const key = this.categories.findIndex(({ _id }) => _id === this.form._id);
-      return key + 1 === this.categories.length;
+      if (this.featureMode) {
+        const key = this.featureCategories.findIndex(
+          ({ _id }) => _id === this.form._id
+        );
+        return key + 1 === this.featureCategories.length;
+      } else {
+        const key = this.categories.findIndex(
+          ({ _id }) => _id === this.form._id
+        );
+        return key + 1 === this.categories.length;
+      }
     },
     fields() {
       return [
@@ -324,21 +375,15 @@ export default {
         const data = { ...this.form, image: this.selected.url };
         if (this.editItem) {
           if (this.featureMode) {
-            await this.$managerApi.updateFeatureCategory({
-              ...data,
-              items: selectedItems,
-            });
+            data.items = this.selectedItems;
+            await this.$managerApi.updateFeatureCategory(data);
           } else {
             await this.$managerApi.updateCategory(data);
           }
         } else {
           if (this.featureMode) {
-            console.log("ami anik");
-            await this.$managerApi.createFeatureCategory({
-              ...data,
-              items: selectedItems,
-            });
-            console.log(data);
+            data.items = this.selectedItems;
+            await this.$managerApi.createFeatureCategory(data);
           } else {
             await this.$managerApi.createCategory(data);
           }
@@ -359,6 +404,12 @@ export default {
       }
     },
     edit(data) {
+      if (data.items) {
+        this.selectedItems = data.items.filter((id) =>
+          this.items.some(({ _id }) => _id === id)
+        );
+        this.featureMode = true;
+      }
       this.editItem = true;
       const { image, name, _id } = data;
       this.form = { name, _id };
@@ -396,30 +447,64 @@ export default {
     async alignCategory(val) {
       try {
         if (val === "left") {
-          const key = this.categories.findIndex(
-            ({ _id }) => _id === this.form._id
-          );
-          const itemOne = this.categories[key];
-          const itemTwo = this.categories[key - 1];
-          if (itemOne && itemTwo) {
-            const serialData = [
-              { _id: itemOne._id, serial: itemTwo.serial },
-              { _id: itemTwo._id, serial: itemOne.serial },
-            ];
-            await this.$managerApi.UpdateCategorySerial({ serialData });
+          if (this.featureMode) {
+            const key = this.featureCategories.findIndex(
+              ({ _id }) => _id === this.form._id
+            );
+            const itemOne = this.featureCategories[key];
+            const itemTwo = this.featureCategories[key - 1];
+            if (itemOne && itemTwo) {
+              const serialData = [
+                { _id: itemOne._id, serial: itemTwo.serial },
+                { _id: itemTwo._id, serial: itemOne.serial },
+                { featureMode: this.featureMode },
+              ];
+              await this.$managerApi.UpdateCategorySerial({ serialData });
+            }
+          } else {
+            const key = this.categories.findIndex(
+              ({ _id }) => _id === this.form._id
+            );
+            const itemOne = this.categories[key];
+            const itemTwo = this.categories[key - 1];
+            if (itemOne && itemTwo) {
+              const serialData = [
+                { _id: itemOne._id, serial: itemTwo.serial },
+                { _id: itemTwo._id, serial: itemOne.serial },
+                { featureMode: this.featureMode },
+              ];
+              await this.$managerApi.UpdateCategorySerial({ serialData });
+            }
           }
         } else if (val === "right") {
-          const key = this.categories.findIndex(
-            ({ _id }) => _id === this.form._id
-          );
-          const itemOne = this.categories[key];
-          const itemTwo = this.categories[key + 1];
-          if (itemOne && itemTwo) {
-            const serialData = [
-              { _id: itemOne._id, serial: itemTwo.serial },
-              { _id: itemTwo._id, serial: itemOne.serial },
-            ];
-            await this.$managerApi.UpdateCategorySerial({ serialData });
+          if (this.featureMode) {
+            const key = this.featureCategories.findIndex(
+              ({ _id }) => _id === this.form._id
+            );
+            const itemOne = this.featureCategories[key];
+            const itemTwo = this.featureCategories[key + 1];
+            if (itemOne && itemTwo) {
+              const serialData = [
+                { _id: itemOne._id, serial: itemTwo.serial },
+                { _id: itemTwo._id, serial: itemOne.serial },
+                { featureMode: this.featureMode },
+              ];
+              await this.$managerApi.UpdateCategorySerial({ serialData });
+            }
+          } else {
+            const key = this.categories.findIndex(
+              ({ _id }) => _id === this.form._id
+            );
+            const itemOne = this.categories[key];
+            const itemTwo = this.categories[key + 1];
+            if (itemOne && itemTwo) {
+              const serialData = [
+                { _id: itemOne._id, serial: itemTwo.serial },
+                { _id: itemTwo._id, serial: itemOne.serial },
+                { featureMode: this.featureMode },
+              ];
+              await this.$managerApi.UpdateCategorySerial({ serialData });
+            }
           }
         }
         this.modal = false;
@@ -443,6 +528,9 @@ export default {
       } else {
         this.selectedItems.push(id);
       }
+    },
+    getSerialNumber(id) {
+      return this.selectedItems.findIndex((_id) => _id === id);
     },
   },
 };

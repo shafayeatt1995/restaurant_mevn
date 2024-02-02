@@ -4,6 +4,7 @@
     <MenuCategory
       :editMode="editMode"
       :categories="categories"
+      :featureCategories="featureCategories"
       :items="items"
       :activeCategory.sync="activeCategory"
       class="sticky top-0 z-20"
@@ -13,6 +14,7 @@
       :activeCategory="activeCategory"
       :activeSubCategory.sync="activeSubCategory"
       :subCategories="subCategories"
+      :isFeatureCategory="isFeatureCategory"
     />
     <MenuItem
       :editMode="editMode"
@@ -21,6 +23,8 @@
       :categories="categories"
       :subCategories="subCategories"
       :items="items"
+      :featureItems="featureItems"
+      :isFeatureCategory="isFeatureCategory"
     />
 
     <p class="text-center py-5">
@@ -41,6 +45,7 @@ export default {
     editMode: Boolean,
     items: Array,
     categories: Array,
+    featureCategories: Array,
     subCategories: Array,
     restaurant: Object,
   },
@@ -51,13 +56,35 @@ export default {
       activeSubCategory: null,
     };
   },
+  computed: {
+    isFeatureCategory() {
+      return this.featureCategories.some(
+        ({ _id }) => _id === this.activeCategory
+      );
+    },
+    featureItems() {
+      if (this.isFeatureCategory) {
+        const find = this.featureCategories.find(
+          ({ _id }) => _id === this.activeCategory
+        );
+        if (find) {
+          return find.items;
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
+    },
+  },
   watch: {
     activeCategory() {
       this.activeSubCategory = null;
     },
   },
   created() {
-    this.activeCategory = this.categories[0]?._id;
+    this.activeCategory =
+      this.featureCategories[0]?._id || this.categories[0]?._id;
   },
   methods: {},
 };

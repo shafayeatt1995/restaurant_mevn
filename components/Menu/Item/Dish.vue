@@ -209,15 +209,7 @@
             @click="addCart"
             key="3"
           >
-            <!-- v-if="getItemQty > 0" -->
             <font-awesome-icon :icon="['fas', 'plus']" class="text-3xl" />
-
-            <!-- <AddFoodIcon v-else class="mb-2" /> -->
-            <!-- <font-awesome-icon
-              v-else
-              :icon="['fas', 'cart-plus']"
-              class="text-2xl"
-            /> -->
           </button>
         </div>
         <div class="px-4 my-5 text-gray-500">

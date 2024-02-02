@@ -89,18 +89,31 @@ const controller = {
       const { restaurantID } = req.user;
       const { serialData } = req.body;
 
-      const [itemOne, itemTwo] = serialData;
+      const [itemOne, itemTwo, { featureMode }] = serialData;
       if (itemOne && itemTwo) {
-        await Category.updateOne(
-          { _id: itemOne._id, restaurantID },
-          { serial: itemOne.serial },
-          { session }
-        );
-        await Category.updateOne(
-          { _id: itemTwo._id, restaurantID },
-          { serial: itemTwo.serial },
-          { session }
-        );
+        if (featureMode) {
+          await FeatureCategory.updateOne(
+            { _id: itemOne._id, restaurantID },
+            { serial: itemOne.serial },
+            { session }
+          );
+          await FeatureCategory.updateOne(
+            { _id: itemTwo._id, restaurantID },
+            { serial: itemTwo.serial },
+            { session }
+          );
+        } else {
+          await Category.updateOne(
+            { _id: itemOne._id, restaurantID },
+            { serial: itemOne.serial },
+            { session }
+          );
+          await Category.updateOne(
+            { _id: itemTwo._id, restaurantID },
+            { serial: itemTwo.serial },
+            { session }
+          );
+        }
       }
       await session.commitTransaction();
       await session.endSession();

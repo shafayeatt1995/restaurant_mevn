@@ -1,6 +1,10 @@
 <template>
   <slide-up-down
-    :active="(this.editMode || !!categories.length) && !!activeCategory"
+    :active="
+      (this.editMode || !!categories.length) &&
+      !!activeCategory &&
+      !isFeatureCategory
+    "
     :duration="300"
   >
     <div>
@@ -127,6 +131,7 @@ export default {
     activeCategory: String,
     activeSubCategory: String,
     subCategories: Array,
+    isFeatureCategory: Boolean,
   },
   data() {
     return {

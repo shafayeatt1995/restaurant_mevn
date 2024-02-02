@@ -4,6 +4,7 @@
       :categories="categories"
       :restaurant="restaurant"
       :subCategories="subCategories"
+      :featureCategories="featureCategories"
       :items="items"
     />
     <modal v-model="errorModel">
@@ -44,6 +45,7 @@ export default {
       items: [],
       categories: [],
       subCategories: [],
+      featureCategories: [],
       restaurant: {},
       table: {},
       socialLogin: null,
@@ -61,14 +63,21 @@ export default {
         params,
       });
       if (res.data.table) {
-        const { restaurant, categories, subCategories, items, table } =
-          res.data;
+        const {
+          restaurant,
+          categories,
+          subCategories,
+          items,
+          table,
+          featureCategories,
+        } = res.data;
         return {
           restaurant,
           categories,
           subCategories,
           items,
           table,
+          featureCategories,
           socialLogin: null,
         };
       } else {

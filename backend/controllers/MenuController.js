@@ -4,6 +4,7 @@ const {
   SubCategory,
   Item,
   Table,
+  FeatureCategory,
 } = require("@/backend/models");
 
 const controller = {
@@ -27,15 +28,20 @@ const controller = {
       const categories = await Category.find({
         restaurantID: restaurant._id,
       }).sort({ serial: 1 });
+      const featureCategories = await FeatureCategory.find({
+        restaurantID: restaurant._id,
+      }).sort({ serial: 1 });
       const subCategories = await SubCategory.find({
         restaurantID: restaurant._id,
       }).sort({ serial: 1 });
       const items = await Item.find({
         restaurantID: restaurant._id,
       }).sort({ serial: -1 });
+
       res.status(200).json({
         restaurant,
         categories,
+        featureCategories,
         subCategories,
         items,
         table: findTable,

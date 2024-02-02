@@ -19,6 +19,7 @@
         :categories="categories"
         :restaurant="restaurant"
         :subCategories="subCategories"
+        :featureCategories="featureCategories"
         :items="items"
       />
     </div>
@@ -40,6 +41,7 @@ export default {
       categories: [],
       subCategories: [],
       items: [],
+      featureCategories: [],
       editMode: true,
     };
   },
@@ -49,8 +51,21 @@ export default {
       let res = await axios.get(store.getters.baseUrl + "/api/menu", {
         params,
       });
-      const { restaurant, categories, subCategories, items } = res.data;
-      return { restaurant, categories, subCategories, items, editMode: true };
+      const {
+        restaurant,
+        categories,
+        subCategories,
+        items,
+        featureCategories,
+      } = res.data;
+      return {
+        restaurant,
+        categories,
+        subCategories,
+        items,
+        featureCategories,
+        editMode: true,
+      };
     } catch (err) {
       console.error(err?.response?.data?.message || err);
       error({ statusCode: 500, message: "Something wrong. Please try again" });
@@ -75,11 +90,18 @@ export default {
         let res = await axios.get(this.baseUrl + "/api/menu", {
           params,
         });
-        const { restaurant, categories, subCategories, items } = res.data;
+        const {
+          restaurant,
+          categories,
+          subCategories,
+          items,
+          featureCategories,
+        } = res.data;
         this.restaurant = restaurant;
         this.categories = categories;
         this.subCategories = subCategories;
         this.items = items;
+        this.featureCategories = featureCategories;
       } catch (error) {
         console.error(error);
       }

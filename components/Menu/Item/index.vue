@@ -22,7 +22,7 @@
     <div
       class="flex flex-col gap-2 items-center my-3 p-3 bg-white shadow-lg cursor-pointer hover:bg-gray-400 transition-all duration-300 rounded-lg"
       @click="modal = true"
-      v-if="editMode && activeCategory"
+      v-if="editMode && activeCategory && !isFeatureCategory"
     >
       <p
         class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl"
@@ -155,6 +155,8 @@ export default {
     categories: Array,
     subCategories: Array,
     items: Array,
+    featureItems: Array,
+    isFeatureCategory: Boolean,
   },
   data() {
     return {
@@ -239,14 +241,21 @@ export default {
       return key + 1 === this.filterItem.length;
     },
     filterItem() {
-      return this.items.filter(
-        ({ categoryID, subCategoryID, status }) =>
-          categoryID === this.activeCategory &&
-          (this.editMode ? true : status === true) &&
-          (this.activeSubCategory === null
-            ? true
-            : subCategoryID === this.activeSubCategory)
-      );
+      if (this.isFeatureCategory) {
+        const find = this.featureItems.map((id) =>
+          this.items.find(({ _id }) => _id === id)
+        );
+        return find.filter((val) => val !== undefined);
+      } else {
+        return this.items.filter(
+          ({ categoryID, subCategoryID, status }) =>
+            categoryID === this.activeCategory &&
+            (this.editMode ? true : status === true) &&
+            (this.activeSubCategory === null
+              ? true
+              : subCategoryID === this.activeSubCategory)
+        );
+      }
     },
     activeCategoryName() {
       const find = this.categories.find(
