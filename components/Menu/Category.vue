@@ -4,6 +4,18 @@
       class="overflow-x-auto flex gap-6 px-3 pt-4 flex-nowrap items-stretch bg-white z-10 pb-3 x-scroll"
     >
       <div
+        v-if="editMode"
+        class="flex flex-col items-center justify-between relative cursor-pointer"
+        @click="openFeatureModal"
+      >
+        <div
+          class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-3"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </div>
+        <p class="mx-2 flex text-sm whitespace-nowrap">Add Feature category</p>
+      </div>
+      <div
         v-for="(item, key) in categories"
         :key="key"
         class="flex flex-col items-center relative gap-2 cursor-pointer"
@@ -47,7 +59,7 @@
       </div>
     </div>
     <Modal v-model="modal">
-      <form class="mt-3" @submit.prevent="submit">
+      <div class="mt-3">
         <div class="flex justify-between items-center mb-3">
           <div class="flex gap-4 text-gray-600">
             <template v-if="editItem">
@@ -67,7 +79,9 @@
                 Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
               </p>
             </template>
-            <p v-else class="text-gray-600 text-xl">Create category</p>
+            <p v-else class="text-gray-600 text-xl">
+              Create {{ featureMode ? "feature" : "" }} category
+            </p>
           </div>
 
           <CloseButton @click.native.prevent="modal = false" />
@@ -81,7 +95,7 @@
         />
         <div
           @click="imageModal = true"
-          class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
+          class="border rounded-lg flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
         >
           <img
             loading="lazy"
@@ -94,7 +108,9 @@
               :icon="['far', 'image']"
               class="text-8xl text-green-600"
             />
-            <p class="text-lg px-10 text-gray-700">Select an Category image</p>
+            <p class="text-lg px-10 text-gray-700">
+              Select a {{ featureMode ? "feature" : "" }} Category image
+            </p>
           </template>
         </div>
         <small class="text-rose-700" v-if="errors?.image">
@@ -102,6 +118,80 @@
             {{ errors.image.msg }}
           </i>
         </small>
+        <template v-if="featureMode">
+          <div class="border my-3 p-2 rounded-lg">
+            <button
+              class="text-gray-700 flex justify-between w-full items-center"
+              @click="showItems = !showItems"
+            >
+              <span>{{ selectedItems.length }} Items Select</span>
+              <font-awesome-icon
+                :icon="['fas', 'chevron-down']"
+                class="transition-all duration-200"
+                :class="showItems ? 'rotate-180' : 'rotate-0'"
+              />
+            </button>
+            <slide-up-down :active="showItems" :duration="200">
+              <Input
+                v-for="(field, i) in fields"
+                :key="i"
+                :field="field"
+                v-model="search"
+                :errors="errors"
+              />
+              <div class="grid gap-3 grid-cols-2 mt-2">
+                <div
+                  class="flex-column bg-white rounded-xl shadow-lg cursor-pointer relative select-none"
+                  v-for="(item, key) in getItems"
+                  :key="key"
+                  @click="selectItem(item._id)"
+                >
+                  <div
+                    class="absolute left-0 right-0 top-0 bottom-0 bg-black/70 z-10 flex justify-center items-center"
+                    v-if="selectedItems.includes(item._id)"
+                  >
+                    <font-awesome-icon
+                      :icon="['fas', 'circle-check']"
+                      class="text-green-500 text-5xl"
+                    />
+                  </div>
+                  <img
+                    loading="lazy"
+                    :src="item.image"
+                    class="w-full object-cover"
+                    :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
+                  />
+                  <div class="p-2 text-sm items-center">
+                    <p
+                      class="capitalize font-medium overflow-hidden whitespace-nowrap text-ellipsis"
+                    >
+                      {{ item.name }}
+                    </p>
+                    <div class="flex justify-between">
+                      <small>
+                        <font-awesome-icon :icon="['far', 'clock']" />
+                        {{ item.estimateTime }}
+                        minutes
+                      </small>
+                      <div>
+                        <small v-if="item.discount">
+                          <del class="text-rose-500">৳{{ item.price }}</del>
+                          ৳{{ item.price - item.discountAmount }}
+                        </small>
+                        <small v-else> ৳{{ item.price }} </small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </slide-up-down>
+          </div>
+          <small class="text-rose-700" v-if="errors?.items">
+            <i>
+              {{ errors.items.msg }}
+            </i>
+          </small>
+        </template>
         <div
           class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
         >
@@ -129,11 +219,13 @@
             type="submit"
             class="w-full tracking-wide flex-1"
             :loading="loading"
+            @click.native.prevent="submit"
           >
-            {{ editItem ? "Update" : "Create" }} category
+            {{ editItem ? "Update" : "Create" }}
+            {{ featureMode ? "feature" : "" }} category anik
           </Button>
         </div>
-      </form>
+      </div>
     </Modal>
     <ImageModal v-model="imageModal" :selected.sync="selected" />
   </div>
@@ -142,15 +234,23 @@
 <script>
 export default {
   name: "MenuCategory",
-  props: { editMode: Boolean, categories: Array, activeCategory: String },
+  props: {
+    editMode: Boolean,
+    categories: Array,
+    items: Array,
+    activeCategory: String,
+  },
   data() {
     return {
       modal: false,
       imageModal: false,
       editItem: false,
-      form: {
-        name: "",
-      },
+      featureMode: false,
+      showItems: false,
+      align: "anik",
+      selectedItems: [],
+      form: { name: "" },
+      search: { search: "" },
       errors: {},
       selected: {},
       loading: false,
@@ -174,6 +274,25 @@ export default {
     moveRight() {
       const key = this.categories.findIndex(({ _id }) => _id === this.form._id);
       return key + 1 === this.categories.length;
+    },
+    fields() {
+      return [
+        {
+          type: "text",
+          placeholder: "Search",
+          icon: ["fas", "magnifying-glass"],
+          name: "search",
+        },
+      ];
+    },
+    getItems() {
+      if (this.search.search) {
+        return this.items.filter(({ name }) =>
+          name.toLowerCase().includes(this.search.search.toLowerCase())
+        );
+      } else {
+        return this.items;
+      }
     },
   },
   watch: {
@@ -204,15 +323,33 @@ export default {
         this.loading = true;
         const data = { ...this.form, image: this.selected.url };
         if (this.editItem) {
-          await this.$managerApi.updateCategory(data);
+          if (this.featureMode) {
+            await this.$managerApi.updateFeatureCategory({
+              ...data,
+              items: selectedItems,
+            });
+          } else {
+            await this.$managerApi.updateCategory(data);
+          }
         } else {
-          await this.$managerApi.createCategory(data);
+          if (this.featureMode) {
+            console.log("ami anik");
+            await this.$managerApi.createFeatureCategory({
+              ...data,
+              items: selectedItems,
+            });
+            console.log(data);
+          } else {
+            await this.$managerApi.createCategory(data);
+          }
         }
         this.$nuxt.$emit("refetchMenu");
         this.modal = false;
         this.$nuxt.$emit(
           "success",
-          `Category ${this.editItem ? "updated" : "created"} successfully`
+          `Feature category ${
+            this.editItem ? "updated" : "created"
+          } successfully`
         );
       } catch (error) {
         this.errors = error?.response?.data?.errors;
@@ -232,7 +369,10 @@ export default {
       this.form = { name: "" };
       this.selected = {};
       this.errors = {};
+      this.selectedItems = [];
       this.editItem = false;
+      this.featureMode = false;
+      this.showItems = false;
     },
     async deleteItem() {
       try {
@@ -291,6 +431,18 @@ export default {
     },
     selectCategory({ _id }) {
       this.$emit("update:activeCategory", _id);
+    },
+    openFeatureModal() {
+      this.featureMode = true;
+      this.modal = true;
+    },
+    selectItem(id) {
+      const i = this.selectedItems.findIndex((_id) => _id === id);
+      if (i !== -1) {
+        this.selectedItems.splice(i, 1);
+      } else {
+        this.selectedItems.push(id);
+      }
     },
   },
 };

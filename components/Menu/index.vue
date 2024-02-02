@@ -4,6 +4,7 @@
     <MenuCategory
       :editMode="editMode"
       :categories="categories"
+      :items="items"
       :activeCategory.sync="activeCategory"
       class="sticky top-0 z-20"
     />

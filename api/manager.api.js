@@ -188,4 +188,12 @@ export class ManagerApi extends BaseApi {
   markAllNotification() {
     return this.api.$get(`notification/mark`);
   }
+
+  createFeatureCategory(body) {
+    return this.api.$post(`feature-category`, body);
+  }
+
+  updateFeatureCategory(body) {
+    return this.api.$patch(`feature-category`, body);
+  }
 }

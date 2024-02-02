@@ -11,4 +11,5 @@ module.exports = {
   PushNotification: require("./pushNotification"),
   Vat: require("./vat"),
   Notification: require("./notification"),
+  FeatureCategory: require("./featureCategory"),
 };

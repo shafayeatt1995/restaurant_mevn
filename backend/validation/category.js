@@ -9,6 +9,16 @@ const createCategoryVal = [
     .trim(),
   check("image").isLength({ min: 1 }).withMessage(`Image required`),
 ];
+const createFeatureCategoryVal = [
+  check("name")
+    .isLength({ min: 1 })
+    .withMessage("Category name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim(),
+  check("image").isLength({ min: 1 }).withMessage(`Image required`),
+  check("items").isArray({ min: 1 }).withMessage(`Select minimum 1 items`),
+];
 
 const createSubCategoryVal = [
   check("name")
@@ -25,4 +35,8 @@ const createSubCategoryVal = [
     .trim(),
 ];
 
-module.exports = { createCategoryVal, createSubCategoryVal };
+module.exports = {
+  createCategoryVal,
+  createSubCategoryVal,
+  createFeatureCategoryVal,
+};

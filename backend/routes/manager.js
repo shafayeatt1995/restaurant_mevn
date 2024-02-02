@@ -60,6 +60,8 @@ const {
   updateSubCategory,
   deleteSubCategory,
   updateSubCategorySerial,
+  createFeatureCategory,
+  updateFeatureCategory,
 } = require("@/backend/controllers/CategoryController");
 const {
   fetchOrder,
@@ -81,6 +83,7 @@ const {
 const {
   createCategoryVal,
   createSubCategoryVal,
+  createFeatureCategoryVal,
 } = require("@/backend/validation/category");
 
 router.use(isManager);
@@ -100,6 +103,18 @@ router.post("/category", createCategoryVal, validation, createCategory);
 router.patch("/category", createCategoryVal, validation, updateCategory);
 router.delete("/category", deleteCategory);
 router.post("/update-category-serial", updateCategorySerial);
+router.post(
+  "/feature-category",
+  createFeatureCategoryVal,
+  validation,
+  createFeatureCategory
+);
+router.patch(
+  "/feature-category",
+  createFeatureCategoryVal,
+  validation,
+  updateFeatureCategory
+);
 
 router.post(
   "/sub-category",

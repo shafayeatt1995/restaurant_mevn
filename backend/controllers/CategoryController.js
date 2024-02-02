@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
-const { Category, SubCategory, Item } = require("@/backend/models");
+const {
+  Category,
+  SubCategory,
+  Item,
+  FeatureCategory,
+} = require("@/backend/models");
 const { paginate, randomKey } = require("@/backend/utils");
 
 const controller = {
@@ -194,6 +199,44 @@ const controller = {
       console.error(error);
       await session.abortTransaction();
       await session.endSession();
+      res
+        .status(500)
+        .json({ success: false, message: "Something wrong. Please try again" });
+    }
+  },
+
+  async createFeatureCategory(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const { name, image, items } = req.body;
+
+      await FeatureCategory.create({
+        name,
+        image,
+        restaurantID,
+        items,
+      });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Something wrong. Please try again" });
+    }
+  },
+
+  async updateFeatureCategory(req, res) {
+    try {
+      const { _id, image, name, items } = req.body;
+      const { restaurantID } = req.user;
+
+      await FeatureCategory.updateOne(
+        { _id, restaurantID },
+        { name, image, items }
+      );
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Something wrong. Please try again" });
