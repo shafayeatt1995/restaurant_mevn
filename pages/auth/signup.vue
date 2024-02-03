@@ -78,16 +78,19 @@
               />
             </svg>
 
-            <span class="mx-2">Sign up with Google (Recomanded)</span>
+            <span class="mx-2">Sign up with Google (Recommended)</span>
           </button>
 
           <div class="mt-6 text-center">
-            <Nuxt-link
-              :to="{ name: 'auth-login' }"
-              class="text-sm text-green-500 hover:underline"
-            >
-              Already have a account? Sign in
-            </Nuxt-link>
+            <p class="text-gray-700 text-lg">
+              Already have a account?
+              <nuxt-link
+                :to="{ name: 'auth-login' }"
+                class="text-green-500 hover:underline font-bold text"
+              >
+                Sign in
+              </nuxt-link>
+            </p>
           </div>
         </div>
       </form>

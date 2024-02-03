@@ -60,14 +60,18 @@ const controller = {
     session.startTransaction();
     try {
       const { restaurantID } = req.user;
-      const { _id } = req.query;
+      const { _id, featureMode } = req.query;
 
-      await Category.deleteOne({ _id, restaurantID }, { session });
-      await SubCategory.deleteMany(
-        { categoryID: _id, restaurantID },
-        { session }
-      );
-      await Item.deleteMany({ categoryID: _id, restaurantID }, { session });
+      if (featureMode) {
+        await FeatureCategory.deleteOne({ _id, restaurantID }, { session });
+      } else {
+        await Category.deleteOne({ _id, restaurantID }, { session });
+        await SubCategory.deleteMany(
+          { categoryID: _id, restaurantID },
+          { session }
+        );
+        await Item.deleteMany({ categoryID: _id, restaurantID }, { session });
+      }
 
       await session.commitTransaction();
       await session.endSession();

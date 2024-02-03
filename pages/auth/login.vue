@@ -19,6 +19,22 @@
         >
           sign In
         </h1>
+        <div class="flex justify-center" v-if="$route.query.demo === true">
+          <div class="flex flex-col justify-center max-w-96">
+            <div class="grid grid-cols-2 gap-10 border py-2 px-3 items-center">
+              <p class="text-gray-700">Manager</p>
+              <Button @click.native.prevent="demoSign('manager')"
+                >sign In</Button
+              >
+            </div>
+            <div class="grid grid-cols-2 gap-10 border py-2 px-3 items-center">
+              <p class="text-gray-700">Waiter</p>
+              <Button @click.native.prevent="demoSign('waiter')"
+                >sign In</Button
+              >
+            </div>
+          </div>
+        </div>
 
         <Input
           v-for="(field, i) in fields"
@@ -69,12 +85,15 @@
           </button>
 
           <div class="mt-6 text-center">
-            <nuxt-link
-              :to="{ name: 'auth-signup' }"
-              class="text-sm text-green-500 hover:underline"
-            >
-              Don’t have an account yet? Sign up
-            </nuxt-link>
+            <p class="text-gray-700 text-lg">
+              Don’t have an account yet?
+              <nuxt-link
+                :to="{ name: 'auth-signup' }"
+                class="text-green-500 hover:underline font-bold text"
+              >
+                Sign up
+              </nuxt-link>
+            </p>
           </div>
         </div>
       </form>
@@ -137,6 +156,18 @@ export default {
     },
     socialLogin() {
       window.open("/api/auth/social-login/google", "_self");
+    },
+    async demoSign(type) {
+      if (type === "manager") {
+        await this.$auth.loginWith("cookie", {
+          data: { email: "manager@demo.com", password: "12345678" },
+        });
+      } else {
+        await this.$auth.loginWith("cookie", {
+          data: { email: "waiter@demo.com", password: "12345678" },
+        });
+      }
+      this.$router.push({ name: "dashboard" });
     },
   },
 };

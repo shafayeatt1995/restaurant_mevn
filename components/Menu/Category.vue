@@ -435,7 +435,10 @@ export default {
           )
         ) {
           this.deleteLoading = true;
-          await this.$managerApi.deleteCategory({ _id: this.form._id });
+          await this.$managerApi.deleteCategory({
+            _id: this.form._id,
+            featureMode: this.featureMode,
+          });
           this.$nuxt.$emit("refetchMenu");
           this.modal = false;
           this.$nuxt.$emit("success", "Category Deleted successfully");

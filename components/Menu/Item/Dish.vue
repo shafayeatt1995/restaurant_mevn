@@ -5,107 +5,109 @@
       :class="align === 'single' ? 'grid-cols-1' : 'grid-cols-2'"
       v-if="['single', 'multiple'].includes(align)"
     >
-      <div
-        class="flex-column bg-white rounded-xl shadow-lg cursor-pointer relative select-none"
-        v-for="(item, key) in items"
-        :key="key"
-        @click="openItem(item)"
-      >
-        <div class="absolute top-2 left-2" v-if="editMode">
-          <ToggleSwitch
-            @click.native.prevent.stop="toggleStatus(key)"
-            :value="item.status"
-            size="small"
-          />
-        </div>
+      <template v-for="(item, key) in items">
         <div
-          class="absolute top-0 left-0 bg-green-500 text-white w-8 h-8 flex justify-center items-center rounded-tl-xl rounded-bl-none rounded-br-xl rounded-tr-none"
-          v-if="orderCount(item._id) > 0"
+          class="flex-column bg-white rounded-xl shadow-lg cursor-pointer relative select-none"
+          :key="key"
+          v-if="editor || item.status"
+          @click="openItem(item)"
         >
-          {{ orderCount(item._id) }}
-        </div>
-        <div class="absolute right-2 top-2 flex items-center" v-if="editMode">
-          <div class="relative">
-            <button
-              class="rounded-full h-8 w-8 flex justify-center items-center focus:outline-none bg-gray-200"
-              @click.stop="openDropdown(key)"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-5 h-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-                />
-              </svg>
-            </button>
-
-            <div
-              class="absolute right-0 z-50 w-44 p-2 bg-white border rounded-lg top-10"
-              v-if="dropdown === key"
-              v-click-outside="onClickOutside"
-            >
-              <p
-                class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                @click.stop="editItem(item)"
-              >
-                Edit
-              </p>
-              <p
-                class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                @click.stop="changeCategory(item)"
-              >
-                Change category
-              </p>
-              <p
-                class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                @click.stop="copyItem(item)"
-              >
-                Copy
-              </p>
-              <p
-                class="px-4 py-2 text-rose-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
-                @click.stop="deleteItem(item)"
-              >
-                Delete
-              </p>
-            </div>
+          <div class="absolute top-2 left-2" v-if="editMode">
+            <ToggleSwitch
+              @click.native.prevent.stop="toggleStatus(key)"
+              :value="item.status"
+              size="small"
+            />
           </div>
-        </div>
-        <img
-          loading="lazy"
-          :src="item.image"
-          class="w-full object-cover"
-          :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
-        />
-        <div class="p-2 text-sm items-center">
-          <p
-            class="capitalize font-medium overflow-hidden whitespace-nowrap text-ellipsis"
+          <div
+            class="absolute top-0 left-0 bg-green-500 text-white w-8 h-8 flex justify-center items-center rounded-tl-xl rounded-bl-none rounded-br-xl rounded-tr-none"
+            v-if="orderCount(item._id) > 0"
           >
-            {{ item.name }}
-          </p>
-          <div class="flex justify-between text-gray-600">
-            <small>
-              <font-awesome-icon :icon="['far', 'clock']" />
-              {{ item.estimateTime }}
-              minutes
-            </small>
-            <div>
-              <small v-if="item.discount">
-                <del class="text-rose-500">৳{{ item.price }}</del>
-                ৳{{ item.price - item.discountAmount }}
+            {{ orderCount(item._id) }}
+          </div>
+          <div class="absolute right-2 top-2 flex items-center" v-if="editMode">
+            <div class="relative">
+              <button
+                class="rounded-full h-8 w-8 flex justify-center items-center focus:outline-none bg-gray-200"
+                @click.stop="openDropdown(key)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                  />
+                </svg>
+              </button>
+
+              <div
+                class="absolute right-0 z-50 w-44 p-2 bg-white border rounded-lg top-10"
+                v-if="dropdown === key"
+                v-click-outside="onClickOutside"
+              >
+                <p
+                  class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+                  @click.stop="editItem(item)"
+                >
+                  Edit
+                </p>
+                <p
+                  class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+                  @click.stop="changeCategory(item)"
+                >
+                  Change category
+                </p>
+                <p
+                  class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+                  @click.stop="copyItem(item)"
+                >
+                  Copy
+                </p>
+                <p
+                  class="px-4 py-2 text-rose-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+                  @click.stop="deleteItem(item)"
+                >
+                  Delete
+                </p>
+              </div>
+            </div>
+          </div>
+          <img
+            loading="lazy"
+            :src="item.image"
+            class="w-full object-cover"
+            :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
+          />
+          <div class="p-2 text-sm items-center">
+            <p
+              class="capitalize font-medium overflow-hidden whitespace-nowrap text-ellipsis"
+            >
+              {{ item.name }}
+            </p>
+            <div class="flex justify-between text-gray-600">
+              <small>
+                <font-awesome-icon :icon="['far', 'clock']" />
+                {{ item.estimateTime }}
+                minutes
               </small>
-              <small v-else> ৳{{ item.price }} </small>
+              <div>
+                <small v-if="item.discount">
+                  <del class="text-rose-500">৳{{ item.price }}</del>
+                  ৳{{ item.price - item.discountAmount }}
+                </small>
+                <small v-else> ৳{{ item.price }} </small>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </template>
     </div>
     <div
       v-if="items?.length === 0"
-      class="flex flex-col justify-center items-center w-full bg-white py-12"
+      class="flex flex-col justify-center items-center w-full bg-white py-12 shadow-xl rounded-lg"
     >
       <font-awesome-icon
         :icon="['fas', 'pizza-slice']"
@@ -375,6 +377,9 @@ export default {
           this.compareArrays(this.activeAddon, addon)
       );
       return item?.qty || 0;
+    },
+    editor() {
+      return this.$route.name === "dashboard-restaurant";
     },
   },
   watch: {
