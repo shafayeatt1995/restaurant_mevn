@@ -111,7 +111,10 @@
           :errors="errors"
         />
         <div class="flex flex-col items-center my-4">
-          <div id="svgCode" class="border-8 border-white">
+          <div
+            id="svgCode"
+            :style="`border: ${qrCode.margin}px solid ${qrCode.background}`"
+          >
             <QrcodeVue
               :value="url"
               :size="qrCode.size"
@@ -176,6 +179,7 @@ export default {
       form: { name: "" },
       qrCode: {
         size: 300,
+        margin: 10,
         background: "#ffffff",
         foreground: "#000000",
       },
@@ -218,6 +222,12 @@ export default {
           placeholder: "QR code Size",
           name: "size",
           label: { id: "Size", title: "QR code Size" },
+        },
+        {
+          type: "number",
+          placeholder: "QR code margin",
+          name: "margin",
+          label: { id: "margin", title: "QR code margin" },
         },
         {
           type: "color",
