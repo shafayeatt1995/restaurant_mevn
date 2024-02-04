@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="bg-white">
-      <nav class="sticky top-0 bg-white shadow-md">
+      <nav class="sticky top-0 bg-white shadow-md z-10">
         <div
           class="container px-4 py-4 mx-auto md:flex md:justify-between md:items-center"
         >
@@ -71,8 +71,8 @@
       </nav>
 
       <div
-        class="container px-4 py-16 mx-auto"
-        style="height: calc(100vh - 60px)"
+        class="container px-4 py-8 lg:py-16 mx-auto"
+        :style="isMobile ? `` : `height: calc(100vh - 60px)`"
       >
         <div class="items-center flex h-full flex-col lg:flex-row">
           <div class="flex-1">
@@ -118,29 +118,74 @@
           </div>
 
           <div
-            class="flex items-center justify-center flex-1 mt-6 lg:mt-0 lg:w-1/2 h-full"
+            class="hidden lg:flex items-center justify-center lg:flex-1 lg:mt-0 lg:w-1/2 lg:h-full"
           >
             <img
-              class="max-w-full h-full object-contain"
-              src="/images/menu.png"
+              class="max-w-full h-96 lg:h-full object-contain"
+              src="/images/menu.webp"
               alt="menu image"
             />
           </div>
         </div>
       </div>
     </header>
-    <section>
-      <div class="flex justify-center">
+    <section class="container px-4 py-4 mx-auto">
+      <div class="flex flex-col justify-center items-center">
         <h1 class="text-3xl text-gray-700 font-bold">How does it Work?</h1>
+        <p class="text-gray-600">
+          Provide fantastic experience to your customers!
+        </p>
       </div>
-      <div class="flex justify-between">
-        <div class="flex flex-col">1. Get QR</div>
+      <div class="flex flex-col lg:flex-row justify-between text-gray-600 mt-8">
+        <div class="flex flex-col justify-center items-center mb-8">
+          <h3 class="text-2xl font-semibold">1. Get QR</h3>
+          <img loading="lazy" src="/images/qr.webp" class="max-w-64 h-auto" />
+          <p class="text-gray-600 lg:px-16">
+            Connect with us today and collect your QR code that perfectly
+            matches the personality of your establishment.
+          </p>
+        </div>
+        <div class="lg:flex justify-center items-center hidden">
+          <img loading="lazy" src="/images/arrow-top.png" />
+        </div>
+        <div class="flex flex-col justify-center items-center mb-8">
+          <h3 class="text-2xl font-semibold">2. Add categories & items</h3>
+          <img
+            loading="lazy"
+            src="/images/items.webp"
+            class="max-w-64 h-auto"
+          />
+          <p class="text-gray-600 lg:px-16">
+            Fill your menu with a variety of categories, sub-categories, items,
+            prices, discounts etc. We'll create the menu for you.
+          </p>
+        </div>
+        <div class="hidden lg:flex justify-center items-center">
+          <img
+            loading="lazy"
+            src="/images/arrow-bottom.png"
+            class="w-28 h-auto"
+          />
+        </div>
+        <div class="flex flex-col justify-center items-center mb-8">
+          <h3 class="text-2xl font-semibold">3. Start receiving orders</h3>
+          <img
+            loading="lazy"
+            src="/images/order.webp"
+            class="max-w-64 h-auto"
+          />
+          <p class="text-gray-600 lg:px-16">
+            Fill your menu with a variety of categories, sub-categories, items,
+            prices, discounts etc. We'll create the menu for you.
+          </p>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "indexPage",
   auth: false,
@@ -148,6 +193,9 @@ export default {
     return {
       isOpen: false,
     };
+  },
+  computed: {
+    ...mapGetters(["isMobile"]),
   },
 };
 </script>
