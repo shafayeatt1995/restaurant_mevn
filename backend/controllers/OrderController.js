@@ -300,7 +300,14 @@ const controller = {
 
   async updateOrderStatus(req, res) {
     try {
-      const { _id, status, currentStatus } = req.query;
+      const {
+        _id,
+        status,
+        currentStatus,
+        setWaiterID,
+        setWaiterName,
+        managerMode = false,
+      } = req.query;
       const {
         _id: waiterID,
         name: waiterName,
@@ -322,8 +329,8 @@ const controller = {
             });
           }
         } else {
-          updateData.waiterID = waiterID;
-          updateData.waiterName = waiterName;
+          updateData.waiterID = managerMode ? setWaiterID : waiterID;
+          updateData.waiterName = managerMode ? setWaiterName : waiterName;
         }
       }
       if (status === "cancel" && checkExist) {

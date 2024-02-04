@@ -437,6 +437,53 @@
         </Button>
       </div>
     </Modal>
+    <Modal v-model="selectWaiterModal" v-if="selectWaiterModal">
+      <div class="flex justify-between items-center">
+        <h3
+          class="text-lg font-medium leading-6 text-gray-600 capitalize"
+          id="modal-title"
+        >
+          Select a waiter
+        </h3>
+        <CloseButton @click.native.prevent="selectWaiterModal = false" />
+      </div>
+      <hr class="my-3" />
+      <div class="grid gap-3 grid-cols-[repeat(auto-fit,_minmax(150px,_1fr))]">
+        <div
+          class="group flex flex-col justify-center items-center border py-4 px-1 hover:text-white hover:bg-green-600 cursor-pointer transition-all duration-200 rounded-lg"
+          :class="
+            selectEmployee === waiter._id ? 'text-white bg-green-600' : ''
+          "
+          v-for="(waiter, key) in employees"
+          :key="key"
+          @click="selectEmployee = waiter._id"
+        >
+          <font-awesome-icon
+            :icon="['far', 'circle-user']"
+            class="text-5xl text-green-500 group-hover:text-white transition-all duration-200"
+            :class="
+              selectEmployee === waiter._id ? 'text-white bg-green-600' : ''
+            "
+          />
+          <p
+            class="text-gray-700 group-hover:text-white transition-all duration-200 text-lg"
+            :class="
+              selectEmployee === waiter._id ? 'text-white bg-green-600' : ''
+            "
+          >
+            {{ waiter.name }}
+          </p>
+        </div>
+      </div>
+      <hr class="my-3" />
+      <div class="flex justify-end">
+        <Button
+          :disabled="selectEmployee == null"
+          @click.native.prevent="acceptOrder"
+          >Order Assign</Button
+        >
+      </div>
+    </Modal>
     <PrintReceipt
       :orderDetails="orderDetails"
       :showVatName="showVatName"
@@ -483,9 +530,12 @@ export default {
       orderDetails: {},
       newOrder: false,
       additionalCharges: [],
+      employees: [],
       updateMode: false,
       updateLoading: false,
       tableSlug: false,
+      selectWaiterModal: false,
+      selectEmployee: null,
     };
   },
   computed: {
@@ -601,6 +651,11 @@ export default {
         this.updateMode = false;
       }
     },
+    selectWaiterModal(val) {
+      if (!val) {
+        this.selectEmployee = null;
+      }
+    },
   },
   created() {
     this.$nuxt.$on("order-notification-socket-data", () => {
@@ -617,6 +672,9 @@ export default {
       this.fetchItems();
     }
     this.fetchVats();
+    if (this.manager) {
+      this.fetchEmploy();
+    }
     this.intervalId = setInterval(() => {
       this.refreshTrigger++;
     }, 1000);
@@ -749,6 +807,7 @@ export default {
           this.$nuxt.$emit("success", "Order canceled");
           this.modal = false;
           this.updateStatus(this.orderDetails._id, status);
+          this.refetch();
         }
       } catch (error) {
         console.error(error);
@@ -759,18 +818,43 @@ export default {
         this.cancelLoading = false;
       }
     },
-    async acceptOrder() {
+    async fetchEmploy() {
+      try {
+        const { employees } = await this.$managerApi.fetchAllEmployee();
+        this.employees = employees;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    getWaiter() {
+      return (
+        this.employees.find(({ _id }) => _id === this.selectEmployee) || false
+      );
+    },
+    async accOrder() {
       try {
         this.acceptLoading = true;
         const status = "active";
-        await this.$mowApi.updateOrderStatus({
+        const body = {
           _id: this.orderDetails._id,
           status,
           currentStatus: this.orderDetails.status,
-        });
+        };
+        if (
+          this.selectWaiterModal &&
+          this.selectEmployee !== null &&
+          this.getWaiter()
+        ) {
+          body.managerMode = true;
+          body.setWaiterID = this.getWaiter()._id;
+          body.setWaiterName = this.getWaiter().name;
+        }
+        await this.$mowApi.updateOrderStatus(body);
         this.$nuxt.$emit("success", "Order accept");
         this.modal = false;
+        this.selectWaiterModal = false;
         this.updateStatus(this.orderDetails._id, status);
+        this.refetch();
       } catch (error) {
         console.error(error);
         if (error?.response?.data?.message) {
@@ -778,6 +862,21 @@ export default {
         }
       } finally {
         this.acceptLoading = false;
+      }
+    },
+    acceptOrder() {
+      try {
+        if (this.manager && !this.orderDetails.waiterID) {
+          if (this.selectWaiterModal && this.selectEmployee !== null) {
+            this.accOrder();
+          } else {
+            this.selectWaiterModal = true;
+          }
+        } else if (this.waiter) {
+          this.accOrder();
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
     async completeOrder() {
@@ -793,6 +892,7 @@ export default {
           this.$nuxt.$emit("success", "Order complete");
           this.modal = false;
           this.updateStatus(this.orderDetails._id, status);
+          this.refetch();
         }
       } catch (error) {
         console.error(error);
@@ -867,12 +967,11 @@ export default {
       if (find) {
         this.openOrderDetails(find, serial);
       } else {
-        const routeUrl = this.$router.resolve({
+        this.$router.push({
           name: "menu-slug-table",
           params: { slug: this.$auth.user.restaurant.slug, table: serial },
-        }).href;
-
-        window.open(routeUrl, "_blank");
+          query: { manualOrder: true },
+        });
       }
     },
     showTableTime({ _id }) {
@@ -956,13 +1055,11 @@ export default {
       }
     },
     addItem() {
-      const routeObject = {
+      this.$router.push({
         name: "menu-slug-table",
         params: { slug: this.restaurantSlug, table: this.tableSlug },
         query: { additionalMode: true, email: this.orderDetails.userEmail },
-      };
-      const routeURL = this.$router.resolve(routeObject).href;
-      window.open(routeURL, "_blank");
+      });
       this.modal = false;
     },
   },

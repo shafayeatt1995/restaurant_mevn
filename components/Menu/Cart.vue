@@ -323,15 +323,15 @@ export default {
             orderItems: this.cartItems,
             ...this.form,
           };
-          const { additionalMode, email } = this.$route.query;
+          const { additionalMode, email, manualOrder } = this.$route.query;
           if (additionalMode && email) {
             body.additionalMode = true;
             body.externalUserEmail = email;
           }
           await this.$orderApi.createOrder(body);
           this.clearCart();
-          if (additionalMode && email) {
-            window.close();
+          if ((additionalMode && email) || manualOrder) {
+            this.$router.push({ name: "dashboard-order" });
           } else {
             this.show = false;
             this.orderAnimation = true;

@@ -150,7 +150,6 @@ export default {
         await this.$managerApi.markAllNotification();
         this.items = this.items.map((data) => ({ ...data, mark: true }));
         this.unread = 0;
-        this.$nuxt.$emit("success", "All notification mark as read");
       } catch (error) {
         console.error(error);
       }

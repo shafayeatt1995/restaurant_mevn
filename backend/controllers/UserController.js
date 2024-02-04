@@ -286,6 +286,25 @@ const controller = {
     }
   },
 
+  async fetchAllEmployee(req, res) {
+    try {
+      const { restaurantID, _id } = req.user;
+      const restaurant = await Restaurant.findOne({
+        _id: restaurantID,
+        userID: _id,
+      });
+      const { waiter } = restaurant;
+      const employees = await User.find({ _id: { $in: waiter } });
+      res.status(200).json({ success: true, employees });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
   async createEmployee(req, res) {
     const session = await mongoose.startSession();
     session.startTransaction();

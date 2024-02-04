@@ -69,6 +69,10 @@ export class ManagerApi extends BaseApi {
     return this.api.$get(`employee`);
   }
 
+  fetchAllEmployee() {
+    return this.api.$get(`employee-all`);
+  }
+
   createEmployee(body) {
     return this.api.$post(`employee`, body);
   }

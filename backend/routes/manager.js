@@ -26,6 +26,7 @@ const {
   updatePrintingDetails,
   fetchPerformance,
   toggleProtection,
+  fetchAllEmployee,
 } = require("@/backend/controllers/UserController");
 const {
   fetchTable,
@@ -142,6 +143,7 @@ router.patch("/block-user", updateBlockVal, validation, updateBlockUser);
 router.delete("/block-user", deleteBlockUser);
 
 router.get("/employee", fetchEmployee);
+router.get("/employee-all", fetchAllEmployee);
 router.post("/employee", createEmployeeVal, validation, createEmployee);
 router.patch("/employee", updateEmployeeVal, validation, updateEmployee);
 router.delete("/employee", deleteEmployee);

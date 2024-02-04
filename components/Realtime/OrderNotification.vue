@@ -1,10 +1,5 @@
 <template>
-  <audio
-    ref="audioPlayer"
-    src="/audio/order.mp3"
-    @loadeddata="playSound"
-    class="hidden"
-  ></audio>
+  <audio ref="audioPlayer" src="/audio/order.mp3" class="hidden"></audio>
 </template>
 <script>
 import socket from "@/utils/socket";
@@ -37,7 +32,9 @@ export default {
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
             const notification = new Notification(
-              `New order received from ${data.tableName}`
+              `New order received ${
+                data.tableName ? "from " + data.tableName : ""
+              }`
             );
             notification.onclick = function () {
               window.open(`${this.baseUrl}/dashboard/order`, "_blank");
