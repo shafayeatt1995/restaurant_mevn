@@ -1,4 +1,11 @@
-<template></template>
+<template>
+  <audio
+    ref="audioPlayer"
+    src="/audio/order.mp3"
+    @loadeddata="playSound"
+    class="hidden"
+  ></audio>
+</template>
 <script>
 import socket from "@/utils/socket";
 import { mapGetters } from "vuex";
@@ -32,7 +39,6 @@ export default {
             const notification = new Notification(
               `New order received from ${data.tableName}`
             );
-
             notification.onclick = function () {
               window.open(`${this.baseUrl}/dashboard/order`, "_blank");
             };
@@ -42,6 +48,14 @@ export default {
         });
       } else {
         alert("Notification API not supported in this browser");
+      }
+      this.playSound();
+    },
+    async playSound() {
+      try {
+        this.$refs.audioPlayer.play();
+      } catch (error) {
+        console.log(error);
       }
     },
   },

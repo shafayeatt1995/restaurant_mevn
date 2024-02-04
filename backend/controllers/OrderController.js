@@ -100,6 +100,8 @@ const controller = {
         orderItems,
         note,
         orderType,
+        additionalMode = false,
+        externalUserEmail,
       } = req.body;
 
       const blockUser = await BlockUser.findOne({
@@ -120,7 +122,7 @@ const controller = {
           status: { $in: ["pending", "active"] },
         });
         if (checkOrder) {
-          if (checkOrder.userEmail === userEmail) {
+          if (checkOrder.userEmail === userEmail || additionalMode) {
             const checkAdditionalOrderNumber = checkOrder.orderItems.reduce(
               (max, current) =>
                 current.AdditionalOrderNumber > max
@@ -137,7 +139,7 @@ const controller = {
               {
                 restaurantID,
                 tableID,
-                userEmail,
+                userEmail: additionalMode ? externalUserEmail : userEmail,
               },
               {
                 $push: { orderItems: newItem },
@@ -160,7 +162,7 @@ const controller = {
                     orderType === checkOrder.orderType
                       ? orderType
                       : `Dine in & Parcel`,
-                  status: "pending",
+                  status: additionalMode ? "active" : "pending",
                 },
               },
               { new: true, sort: { _id: -1 } }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="overflow-x-auto flex gap-6 px-3 pt-4 flex-nowrap items-stretch bg-white z-10 pb-3 x-scroll"
+      class="overflow-x-auto flex gap-6 px-3 pt-4 flex-nowrap items-stretch bg-white z-10 pb-3"
     >
       <div
         v-for="(item, key) in featureCategories"
@@ -541,7 +541,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 @media (min-width: 1024px) {
   .x-scroll {
     scrollbar-color: #a0a0a0 rgba(255, 255, 255, 0.6);
@@ -557,4 +557,4 @@ export default {
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
   }
 }
-</style>
+</style> -->

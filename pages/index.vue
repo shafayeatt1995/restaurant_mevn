@@ -131,7 +131,7 @@
     </header>
     <section class="container px-4 py-4 mx-auto">
       <div class="flex flex-col justify-center items-center">
-        <h1 class="text-3xl text-gray-700 font-bold">How does it Work?</h1>
+        <h1 class="text-4xl text-gray-700 font-bold">How does it Work?</h1>
         <p class="text-gray-600">
           Provide fantastic experience to your customers!
         </p>

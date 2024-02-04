@@ -344,6 +344,32 @@
           <p>৳{{ totalPayable | number }}</p>
         </div>
       </table>
+
+      <div
+        class="flex flex-col lg:flex-row mt-4 gap-4"
+        v-if="orderDetails.status === 'active'"
+      >
+        <Button
+          variant="green"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="printOrderDetails()"
+          :disabled="AddItemDisabled"
+        >
+          <font-awesome-icon
+            :icon="['fas', updateMode ? 'percent' : 'print']"
+          />
+          Print for chef
+        </Button>
+        <Button
+          variant="green"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="addItem"
+          :disabled="AddItemDisabled"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+          Add additional Item
+        </Button>
+      </div>
       <div
         class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
       >
@@ -396,7 +422,7 @@
           <font-awesome-icon :icon="['fas', 'xmark']" />
           Close
         </Button>
-        <Button
+        <!-- <Button
           v-if="orderDetails.status === 'active'"
           variant="green"
           class="w-full tracking-wide flex-1"
@@ -407,7 +433,7 @@
             :icon="['fas', updateMode ? 'percent' : 'print']"
           />
           Print Order item list
-        </Button>
+        </Button> -->
         <Button
           v-if="orderDetails.status === 'complete'"
           variant="green"
@@ -473,10 +499,17 @@ export default {
       additionalCharges: [],
       updateMode: false,
       updateLoading: false,
+      tableSlug: false,
     };
   },
   computed: {
-    ...mapGetters(["isMobile", "pageTitle", "manager", "waiter"]),
+    ...mapGetters([
+      "isMobile",
+      "pageTitle",
+      "manager",
+      "waiter",
+      "restaurantSlug",
+    ]),
     tabTitle() {
       return [
         {
@@ -550,6 +583,16 @@ export default {
         this.additionalChargesAmount +
         this.showVatAmount
       );
+    },
+    AddItemDisabled() {
+      if (this.manager) {
+        return false;
+      } else {
+        console.log();
+        return this.orderDetails.waiterID === this.$auth.user._id
+          ? false
+          : true;
+      }
     },
   },
   watch: {
@@ -698,10 +741,11 @@ export default {
         return "bg-rose-200 hover:bg-rose-300";
       }
     },
-    openOrderDetails(item) {
+    openOrderDetails(item, serial) {
       const vat = this.vats.find(
         ({ name, percent }) => name === item.vatName && percent === item.vat
       );
+      this.tableSlug = serial ?? null;
       this.vat = vat ? vat._id : "";
       this.orderDetails = item;
       this.modal = true;
@@ -752,16 +796,18 @@ export default {
     },
     async completeOrder() {
       try {
-        const status = "complete";
-        this.acceptLoading = true;
-        await this.$mowApi.updateOrderStatus({
-          _id: this.orderDetails._id,
-          status,
-          currentStatus: this.orderDetails.status,
-        });
-        this.$nuxt.$emit("success", "Order complete");
-        this.modal = false;
-        this.updateStatus(this.orderDetails._id, status);
+        if (confirm(`Are you sure, you want to complete this order?`)) {
+          const status = "complete";
+          this.acceptLoading = true;
+          await this.$mowApi.updateOrderStatus({
+            _id: this.orderDetails._id,
+            status,
+            currentStatus: this.orderDetails.status,
+          });
+          this.$nuxt.$emit("success", "Order complete");
+          this.modal = false;
+          this.updateStatus(this.orderDetails._id, status);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -833,7 +879,7 @@ export default {
     openOrder({ _id, serial }) {
       const find = this.items.find(({ tableID }) => tableID === _id);
       if (find) {
-        this.openOrderDetails(find);
+        this.openOrderDetails(find, serial);
       } else {
         const routeUrl = this.$router.resolve({
           name: "menu-slug-table",
@@ -922,6 +968,16 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    addItem() {
+      const routeObject = {
+        name: "menu-slug-table",
+        params: { slug: this.restaurantSlug, table: this.tableSlug },
+        query: { additionalMode: true, email: this.orderDetails.userEmail },
+      };
+      const routeURL = this.$router.resolve(routeObject).href;
+      window.open(routeURL, "_blank");
+      this.modal = false;
     },
   },
 };

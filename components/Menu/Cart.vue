@@ -274,7 +274,11 @@ export default {
     this.$nuxt.$off("addToCartAnimation");
   },
   mounted() {
-    this.setCartItems();
+    const { additionalMode, email } = this.$route.query;
+    if (additionalMode && email) {
+    } else {
+      this.setCartItems();
+    }
     lottie.loadAnimation({
       container: this.$refs.loader,
       renderer: "svg",
@@ -319,14 +323,23 @@ export default {
             orderItems: this.cartItems,
             ...this.form,
           };
+          const { additionalMode, email } = this.$route.query;
+          if (additionalMode && email) {
+            body.additionalMode = true;
+            body.externalUserEmail = email;
+          }
           await this.$orderApi.createOrder(body);
           this.clearCart();
-          this.show = false;
-          this.orderAnimation = true;
-          setTimeout(() => {
-            this.orderAnimation = false;
-          }, 4000);
-          this.getOrder();
+          if (additionalMode && email) {
+            window.close();
+          } else {
+            this.show = false;
+            this.orderAnimation = true;
+            setTimeout(() => {
+              this.orderAnimation = false;
+            }, 4000);
+            this.getOrder();
+          }
         } else {
           if (confirm(`Please verify with your gmail?`)) {
             window.localStorage.setItem(
