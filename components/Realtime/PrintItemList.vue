@@ -15,6 +15,11 @@
             <div><b>Table: </b> {{ orderDetails?.tableName }}</div>
           </td>
         </tr>
+        <tr>
+          <td>
+            <div><b>Waiter: </b> {{ orderDetails?.waiterName }}</div>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div style="border-bottom: 1px solid #000; margin-top: 5px"></div>
@@ -42,7 +47,7 @@
               text-align: left;
             "
           >
-            <div>
+            <div style="font-size: 20px">
               {{ item.name }}
               <span v-if="item.choice.name">({{ item.choice.name }})</span>
             </div>
@@ -51,7 +56,7 @@
             </div>
           </td>
           <td style="width: 25px; border-right: 1px solid #000; padding: 0 2px">
-            x{{ item.qty }}
+            <div style="font-size: 20px">x{{ item.qty }}</div>
           </td>
         </tr>
       </tbody>
@@ -100,15 +105,26 @@ export default {
       }
     },
     printReceipt() {
-      const printContent = this.$refs.itemList.innerHTML;
-      const printWindow = window.open("", "_blank");
-      printWindow.document.write(
-        `<html><head><title>Print item list</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body style="margin: 0; padding: 0" >${printContent.toString()}</body></html>`
-      );
-      printWindow.document.addEventListener("DOMContentLoaded", () => {
-        printWindow.print();
-        printWindow.onafterprint = () => printWindow.close();
-      });
+      try {
+        this.$nextTick(() => {
+          const printContent = this.$refs.itemList.innerHTML;
+          const printWindow = window.open(
+            "",
+            "_blank",
+            "height: 100%, width: 100%"
+          );
+          printWindow.document.write(
+            `<html><body style="margin: 0; padding: 0" >${printContent.toString()}</body></html>`
+          );
+          printWindow.document.close();
+          printWindow.print();
+          printWindow.onafterprint = () => {
+            printWindow.close();
+          };
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

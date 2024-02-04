@@ -198,13 +198,22 @@ export default {
     },
     printReceipt() {
       try {
-        setTimeout(() => {
+        this.$nextTick(() => {
           const printContent = this.$refs.receipt.innerHTML;
-          const printWindow = window.open("", "_blank");
-          printWindow.document.write(
-            `<html><body style="margin: 0; padding: 0" >${printContent.toString()}</body></html>`
+          const printWindow = window.open(
+            "",
+            "_blank",
+            "height: 100%, width: 100%"
           );
-        }, 500);
+          printWindow.document.write(
+            `<html><body style="margin: 0; padding: 0">${printContent}</body></html>`
+          );
+          printWindow.document.close();
+          printWindow.print();
+          printWindow.onafterprint = () => {
+            printWindow.close();
+          };
+        });
       } catch (error) {
         console.error(error);
       }

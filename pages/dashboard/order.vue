@@ -355,9 +355,7 @@
           @click.native.prevent="printOrderDetails()"
           :disabled="AddItemDisabled"
         >
-          <font-awesome-icon
-            :icon="['fas', updateMode ? 'percent' : 'print']"
-          />
+          <font-awesome-icon :icon="['fas', 'print']" />
           Print for chef
         </Button>
         <Button
@@ -422,18 +420,6 @@
           <font-awesome-icon :icon="['fas', 'xmark']" />
           Close
         </Button>
-        <!-- <Button
-          v-if="orderDetails.status === 'active'"
-          variant="green"
-          class="w-full tracking-wide flex-1"
-          @click.native.prevent="printOrderDetails()"
-          :loading="acceptLoading"
-        >
-          <font-awesome-icon
-            :icon="['fas', updateMode ? 'percent' : 'print']"
-          />
-          Print Order item list
-        </Button> -->
         <Button
           v-if="orderDetails.status === 'complete'"
           variant="green"
