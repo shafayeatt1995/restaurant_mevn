@@ -34,5 +34,6 @@ export default {
 <style>
 body {
   font-family: "Nunito", sans-serif;
+  scroll-behavior: smooth;
 }
 </style>

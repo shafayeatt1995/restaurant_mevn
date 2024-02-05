@@ -19,8 +19,7 @@ export const actions = {
 };
 
 export const getters = {
-  pageTitle: (state) =>
-    state.auth?.user?.restaurant?.name || process.env.APP_NAME || "ScanEating",
+  pageTitle: (state) => process.env.APP_NAME || "ScanEating",
   windowWidth: (state) => state.windowWidth,
   admin: (state) =>
     (state.auth?.user?.is_admin && state.auth?.user?.type === "admin") || false,

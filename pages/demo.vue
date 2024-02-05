@@ -18,8 +18,6 @@
 </template>
 
 <script>
-// import printJS from "print-js";
-
 export default {
   name: "DemoPage",
   auth: false,

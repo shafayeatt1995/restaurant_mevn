@@ -4,7 +4,7 @@
       <div class="flex items-center">
         <img
           loading="lazy"
-          class="object-cover w-12 h-12 mr-2 rounded-full"
+          class="object-cover w-auto h-12 mr-2 rounded-full"
           :src="restaurant.logo"
           alt="avatar"
         />
