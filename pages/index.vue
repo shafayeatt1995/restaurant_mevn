@@ -69,10 +69,7 @@
       </div>
     </nav>
     <header class="bg-white" id="home">
-      <div
-        class="relative overflow-hidden"
-        :style="isMobile ? `` : `height: calc(100vh - 60px)`"
-      >
+      <div class="relative overflow-hidden lg:h-[calc(100vh_-_60px)]">
         <div class="relative container px-4 py-8 lg:py-16 mx-auto h-full z-[2]">
           <div class="items-center flex h-full flex-col lg:flex-row">
             <div class="flex-1 flex flex-col justify-center">
@@ -122,7 +119,7 @@
             </div>
 
             <div
-              class="hidden lg:flex items-center justify-center lg:flex-1 lg:mt-0 lg:w-1/2 lg:h-full animate-bouncy infinite"
+              class="flex items-center justify-center lg:flex-1 lg:w-1/2 lg:h-full animate-bouncy infinite mt-10 lg:mt-0"
             >
               <img
                 class="max-w-full h-96 lg:h-[70vh] object-contain"
@@ -133,10 +130,8 @@
           </div>
         </div>
 
-        <div class="absolute bottom-0 left-0 right-0 z-[1]">
-          <client-only>
-            <Wave />
-          </client-only>
+        <div class="absolute bottom-0 left-0 right-0 z-[1] hidden lg:block">
+          <Wave />
         </div>
       </div>
     </header>
@@ -239,7 +234,7 @@
           </h1>
         </div>
         <hr class="my-6 border-gray-200" />
-        <div>
+        <div v-for="(faq, key) in faqs" :key="key">
           <div>
             <button
               class="flex items-center focus:outline-none justify-between w-full"
@@ -256,12 +251,12 @@
             <div class="flex mt-8 md:mx-10">
               <span class="border border-green-500"></span>
 
-              <p class="max-w-3xl px-4 text-gray-500">
+              <div class="w-full px-4 text-gray-600">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni,
                 eum quae. Harum officiis reprehenderit ex quia ducimus minima id
                 provident molestias optio nam vel, quidem iure voluptatem,
                 repellat et ipsa.
-              </p>
+              </div>
             </div>
           </div>
           <hr class="my-8 border-gray-200" />
@@ -422,10 +417,8 @@
           </div>
         </div>
       </div>
-      <div class="absolute bottom-0 left-0 right-0 z-[1]">
-        <client-only>
-          <Wave />
-        </client-only>
+      <div class="absolute bottom-0 left-0 right-0 z-[1] hidden lg:block">
+        <Wave />
       </div>
     </section>
     <footer class="bg-white shadow">
@@ -526,6 +519,12 @@ export default {
           icon: ["fas", "headset"],
           title: "CustomerSupport",
           body: "we're all about outstanding customer support. Our dedicated team is here to assist you promptly and effectively. We're not just offering a product or service – we're committed to ensuring your success with top-notch support every step of the way.",
+        },
+      ],
+      faqs: [
+        {
+          question: "",
+          answer: "",
         },
       ],
     };
