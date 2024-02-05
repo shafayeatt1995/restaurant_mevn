@@ -191,7 +191,7 @@
         </div>
       </div>
     </section>
-    <section class="bg-gray-50 py-10" id="feature">
+    <section class="py-10 bg-gray-50" id="feature">
       <div class="container px-4 py-4 mx-auto">
         <div class="flex flex-col justify-center items-center">
           <h1 class="text-4xl text-gray-700 font-bold">
@@ -225,7 +225,47 @@
         </div>
       </div>
     </section>
-    <section class="bg-white py-10 relative" id="contact">
+    <section class="bg-white py-10">
+      <div class="container px-6 mx-auto">
+        <div class="flex flex-col justify-center items-center">
+          <h1 class="text-4xl text-gray-700 font-bold text-center">
+            Frequently Asked
+            <span class="text-green-500 underline decoration-green-500"
+              >Questions</span
+            >
+          </h1>
+        </div>
+        <hr class="my-6 border-gray-200" />
+        <div>
+          <div>
+            <button
+              class="flex items-center focus:outline-none justify-between w-full"
+            >
+              <h1 class="pr-3 text-lg text-gray-700 text-left">
+                How can I pay for my appointment ?
+              </h1>
+              <p class="text-green-500">
+                <!-- <font-awesome-icon :icon="['fas', 'plus']" /> -->
+                <font-awesome-icon :icon="['fas', 'minus']" />
+              </p>
+            </button>
+
+            <div class="flex mt-8 md:mx-10">
+              <span class="border border-green-500"></span>
+
+              <p class="max-w-3xl px-4 text-gray-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni,
+                eum quae. Harum officiis reprehenderit ex quia ducimus minima id
+                provident molestias optio nam vel, quidem iure voluptatem,
+                repellat et ipsa.
+              </p>
+            </div>
+          </div>
+          <hr class="my-8 border-gray-200" />
+        </div>
+      </div>
+    </section>
+    <section class="bg-gray-50 py-10 relative" id="contact">
       <div class="container px-6 mx-auto relative z-[2]">
         <div class="flex justify-center items-center flex-col">
           <h1 class="mt-2 text-4xl font-bold text-gray-700">
@@ -238,7 +278,7 @@
 
         <div class="grid grid-cols-1 gap-12 mt-10 lg:grid-cols-2">
           <div
-            class="grid grid-cols-1 gap-6 md:grid-cols-2 p-4 rounded-xl backdrop-blur-md bg-gray-100/30"
+            class="grid grid-cols-1 gap-4 md:grid-cols-2 p-4 rounded-xl backdrop-blur-md bg-white/40"
           >
             <div class="rounded-xl p-4 backdrop-blur-lg bg-white/70">
               <span
@@ -325,9 +365,7 @@
               <a href="tel:01645478912" class="text-green-500">01645-478912</a>
             </div>
           </div>
-          <div
-            class="p-4 py-6 rounded-xl bg-gray-50 md:p-8 backdrop-blur-md bg-gray-100/30"
-          >
+          <div class="p-4 py-6 rounded-xl md:p-8 backdrop-blur-md bg-white/50">
             <form>
               <div class="-mx-2 md:items-center md:flex">
                 <div class="flex-1 px-2">
