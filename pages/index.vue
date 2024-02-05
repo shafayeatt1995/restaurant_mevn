@@ -132,8 +132,11 @@
             </div>
           </div>
         </div>
+
         <div class="absolute bottom-0 left-0 right-0 z-[1]" v-if="!isMobile">
-          <Wave />
+          <client-only>
+            <Wave />
+          </client-only>
         </div>
       </div>
     </header>
@@ -420,7 +423,9 @@
         </div>
       </div>
       <div class="absolute bottom-0 left-0 right-0 z-[1]" v-if="!isMobile">
-        <Wave />
+        <client-only>
+          <Wave />
+        </client-only>
       </div>
     </section>
     <footer class="bg-white shadow">
