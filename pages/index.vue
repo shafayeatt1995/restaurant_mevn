@@ -133,7 +133,7 @@
           </div>
         </div>
 
-        <div class="absolute bottom-0 left-0 right-0 z-[1]" v-if="!isMobile">
+        <div class="absolute bottom-0 left-0 right-0 z-[1]">
           <client-only>
             <Wave />
           </client-only>
@@ -422,7 +422,7 @@
           </div>
         </div>
       </div>
-      <div class="absolute bottom-0 left-0 right-0 z-[1]" v-if="!isMobile">
+      <div class="absolute bottom-0 left-0 right-0 z-[1]">
         <client-only>
           <Wave />
         </client-only>

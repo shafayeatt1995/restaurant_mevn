@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col rounded-2xl bg-white p-4 shadow-md">
     <div class="flex items-center justify-between">
-      <div class="text-xl font-bold text-gray-700">Recent orders</div>
+      <div class="text-xl font-semibold text-gray-700">Recent orders</div>
     </div>
     <div class="mt-2">
       <table class="w-full">
