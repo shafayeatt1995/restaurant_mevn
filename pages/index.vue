@@ -485,7 +485,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Wave from "@/static/images/wave.svg";
+import Wave from "~/static/images/wave.svg";
 export default {
   name: "indexPage",
   auth: false,
