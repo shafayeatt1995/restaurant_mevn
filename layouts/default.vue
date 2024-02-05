@@ -32,8 +32,11 @@ export default {
 </script>
 
 <style>
+*,
+html {
+  scroll-behavior: smooth;
+}
 body {
   font-family: "Nunito", sans-serif;
-  scroll-behavior: smooth;
 }
 </style>

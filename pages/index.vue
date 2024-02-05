@@ -52,6 +52,11 @@
             >
             <a
               class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
+              href="#faq"
+              >FAQ</a
+            >
+            <a
+              class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
               href="#contact"
               >Contact</a
             >
@@ -135,61 +140,68 @@
         </div>
       </div>
     </header>
-    <section class="container px-4 py-4 mx-auto" id="process">
-      <div class="flex flex-col justify-center items-center mt-10 mb-5">
-        <h1 class="text-4xl text-gray-700 font-bold">
-          How does it
-          <span class="text-green-500 underline decoration-green-500">Work</span
-          >?
-        </h1>
-        <p class="text-gray-600">
-          Provide fantastic experience to your customers!
-        </p>
-      </div>
-      <div
-        class="flex flex-col lg:flex-row justify-between text-gray-600 lg:mt-8"
-      >
-        <div class="flex flex-col justify-center items-center mb-8">
-          <h3 class="text-2xl font-semibold mb-3">1. Get QR</h3>
-          <img loading="lazy" src="/images/qr.webp" class="max-w-64 h-auto" />
-          <p class="text-gray-600 px-4 mt-3">
-            Connect with us today and collect your QR code that perfectly
-            matches the personality of your establishment.
+    <section class="bg-white" id="process">
+      <div class="container px-4 py-4 mx-auto" id="process">
+        <div class="flex flex-col justify-center items-center mt-10 mb-5">
+          <h1 class="text-4xl text-gray-700 font-bold">
+            How does it
+            <span class="text-green-500 underline decoration-green-500"
+              >Work</span
+            >?
+          </h1>
+          <p class="text-gray-600 text-center">
+            Provide fantastic experience to your customers!
           </p>
         </div>
-        <div class="lg:flex justify-center items-center hidden">
-          <img loading="lazy" src="/images/arrow-top.png" class="w-52" />
-        </div>
-        <div class="flex flex-col justify-center items-center mb-8">
-          <h3 class="text-2xl font-semibold mb-3">2. Add categories & items</h3>
-          <img
-            loading="lazy"
-            src="/images/items.webp"
-            class="max-w-64 h-auto"
-          />
-          <p class="text-gray-600 px-4 mt-3">
-            Fill your menu with a variety of categories, sub-categories, items,
-            prices, discounts etc. We'll create the menu for you.
-          </p>
-        </div>
-        <div class="hidden lg:flex justify-center items-center">
-          <img loading="lazy" src="/images/arrow-bottom.png" class="w-52" />
-        </div>
-        <div class="flex flex-col justify-center items-center mb-8">
-          <h3 class="text-2xl font-semibold mb-3">3. Start receiving orders</h3>
-          <img
-            loading="lazy"
-            src="/images/order.webp"
-            class="max-w-64 h-auto"
-          />
-          <p class="text-gray-600 px-4 mt-3">
-            Fill your menu with a variety of categories, sub-categories, items,
-            prices, discounts etc. We'll create the menu for you.
-          </p>
+        <div
+          class="flex flex-col lg:flex-row justify-between text-gray-600 lg:mt-8"
+        >
+          <div class="flex flex-col justify-center items-center mb-8">
+            <h3 class="text-2xl font-semibold mb-3">1. Get QR</h3>
+            <img loading="lazy" src="/images/qr.webp" class="max-w-64 h-auto" />
+            <p class="text-gray-600 px-4 mt-3">
+              Connect with us today and collect your QR code that perfectly
+              matches the personality of your establishment.
+            </p>
+          </div>
+          <div class="lg:flex justify-center items-center hidden">
+            <img loading="lazy" src="/images/arrow-top.png" class="w-52" />
+          </div>
+          <div class="flex flex-col justify-center items-center mb-8">
+            <h3 class="text-2xl font-semibold mb-3">
+              2. Add categories & items
+            </h3>
+            <img
+              loading="lazy"
+              src="/images/items.webp"
+              class="max-w-64 h-auto"
+            />
+            <p class="text-gray-600 px-4 mt-3">
+              Fill your menu with a variety of categories, sub-categories,
+              items, prices, discounts etc. We'll create the menu for you.
+            </p>
+          </div>
+          <div class="hidden lg:flex justify-center items-center">
+            <img loading="lazy" src="/images/arrow-bottom.png" class="w-52" />
+          </div>
+          <div class="flex flex-col justify-center items-center mb-8">
+            <h3 class="text-2xl font-semibold mb-3">
+              3. Start receiving orders
+            </h3>
+            <img
+              loading="lazy"
+              src="/images/order.webp"
+              class="max-w-64 h-auto"
+            />
+            <p class="text-gray-600 px-4 mt-3">
+              Fill your menu with a variety of categories, sub-categories,
+              items, prices, discounts etc. We'll create the menu for you.
+            </p>
+          </div>
         </div>
       </div>
     </section>
-    <section class="py-10 bg-gray-50" id="feature">
+    <section class="py-10 bg-green-50" id="feature">
       <div class="container px-4 py-4 mx-auto">
         <div class="flex flex-col justify-center items-center">
           <h1 class="text-4xl text-gray-700 font-bold">
@@ -223,7 +235,7 @@
         </div>
       </div>
     </section>
-    <section class="bg-white py-10">
+    <section class="bg-white py-10" id="faq">
       <div class="container px-6 mx-auto">
         <div class="flex flex-col justify-center items-center">
           <h1 class="text-4xl text-gray-700 font-bold text-center">
@@ -233,37 +245,40 @@
             >
           </h1>
         </div>
-        <hr class="my-6 border-gray-200" />
-        <div v-for="(faq, key) in faqs" :key="key">
+        <hr class="mt-8 border-gray-200" />
+        <div v-for="(faq, key) in faqs" :key="key" class="py-4 border-b">
           <div>
             <button
               class="flex items-center focus:outline-none justify-between w-full"
+              @click="activeFaq = activeFaq === key ? null : key"
             >
               <h1 class="pr-3 text-lg text-gray-700 text-left">
-                How can I pay for my appointment ?
+                {{ faq.question }}
               </h1>
               <p class="text-green-500">
-                <!-- <font-awesome-icon :icon="['fas', 'plus']" /> -->
-                <font-awesome-icon :icon="['fas', 'minus']" />
+                <font-awesome-icon
+                  :icon="['fas', 'minus']"
+                  v-if="key === activeFaq"
+                />
+                <font-awesome-icon :icon="['fas', 'plus']" v-else />
               </p>
             </button>
 
-            <div class="flex mt-8 md:mx-10">
-              <span class="border border-green-500"></span>
+            <slide-up-down :active="key === activeFaq" :duration="300">
+              <div class="flex pt-4 md:mx-10">
+                <span class="border border-green-500"></span>
 
-              <div class="w-full px-4 text-gray-600">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni,
-                eum quae. Harum officiis reprehenderit ex quia ducimus minima id
-                provident molestias optio nam vel, quidem iure voluptatem,
-                repellat et ipsa.
+                <div
+                  class="w-full px-4 text-gray-600"
+                  v-html="faq.answer"
+                ></div>
               </div>
-            </div>
+            </slide-up-down>
           </div>
-          <hr class="my-8 border-gray-200" />
         </div>
       </div>
     </section>
-    <section class="bg-gray-50 py-10 relative" id="contact">
+    <section class="bg-green-50 py-10 relative" id="contact">
       <div class="container px-6 mx-auto relative z-[2]">
         <div class="flex justify-center items-center flex-col">
           <h1 class="mt-2 text-4xl font-bold text-gray-700">
@@ -318,7 +333,7 @@
                 Our friendly team is here to help.
               </p>
               <a
-                href="https://wa.me/01728293635"
+                href="https://wa.me/01301546040/?text=Hello"
                 target="_blank"
                 class="text-green-500"
                 >Start chat <font-awesome-icon :icon="['far', 'comment-dots']"
@@ -340,7 +355,7 @@
                 Come say hello at our office HQ.
               </p>
               <p class="text-green-500">Kirtipur, Naogaon, Dhaka</p>
-              <p class="text-green-500">Staff Quarter, Dhanmondi, dhaka</p>
+              <p class="text-green-500">Staff Quarter, Dhanmondi, Dhaka</p>
             </div>
 
             <div class="rounded-xl p-4 backdrop-blur-lg bg-white/70">
@@ -363,7 +378,9 @@
               <a href="tel:01645478912" class="text-green-500">01645-478912</a>
             </div>
           </div>
-          <div class="p-4 py-6 rounded-xl md:p-8 backdrop-blur-md bg-white/50">
+          <div
+            class="px-2 lg:px-4 py-6 rounded-xl md:p-8 backdrop-blur-md bg-white/50"
+          >
             <form>
               <div class="-mx-2 md:items-center md:flex">
                 <div class="flex-1 px-2">
@@ -421,7 +438,7 @@
         <Wave />
       </div>
     </section>
-    <footer class="bg-white shadow">
+    <footer class="bg-white shadow my-6 lg:my-0">
       <div
         class="container flex flex-col items-center justify-between px-6 lg:py-8 mx-auto lg:flex-row"
       >
@@ -458,6 +475,12 @@
             Feature
           </a>
           <a
+            href="#faq"
+            class="text-gray-600 transition-colors duration-300 hover:text-green-500"
+          >
+            FAQ
+          </a>
+          <a
             href="#contact"
             class="text-gray-600 transition-colors duration-300 hover:text-green-500"
           >
@@ -468,7 +491,7 @@
         <p class="mt-6 text-gray-500 lg:mt-0">
           © Copyright 2023
           <nuxt-link :to="{ name: 'index' }" class="underline">
-            Scas<span class="text-green-500">Eating</span>.</nuxt-link
+            ScanEating.</nuxt-link
           >
         </p>
       </div>
@@ -489,6 +512,7 @@ export default {
   data() {
     return {
       isOpen: false,
+      activeFaq: null,
       features: [
         {
           icon: ["fas", "qrcode"],
@@ -523,8 +547,102 @@ export default {
       ],
       faqs: [
         {
-          question: "",
-          answer: "",
+          question: "Do my customers need an app to scan a QR Code?",
+          answer: `No, they can simply use their phone cameras.`,
+        },
+        {
+          question: "Will all age groups know how to scan a QR Code?",
+          answer: `QR Codes have become common, and most customers, regardless of age are familiar with their use. Additionally, most smartphones come with built-in QR Code scanners, eliminating the need for a separate app.`,
+        },
+        {
+          question:
+            "Can I upload a new menu in the future and re-use the same QR Code?",
+          answer: `Our system supports dynamic QR Codes. It means the QR Code remains the same even when changing your menu. As a result, customers scanning the code will see your latest menu.`,
+        },
+        {
+          question: `How can my 4 waiters view ScanEating orders?`,
+          answer: `Generate separate login credentials for each of your waiters in your restaurant's admin panel. Instruct them to log in at scaneating.com using the provided details. This will enable them to access and view all received ScanEating orders.`,
+        },
+        {
+          question: `Does ScanEating work with POS systems?`,
+          answer: `ScanEating can seamlessly integrate with your POS system with the Active subscription package (coming soon). Menu items sync with POS and ScanEating orders push to your POS.`,
+        },
+        {
+          question:
+            "Why ScanEating app is not listed in the play store at the moment?",
+          answer: `We utilize a progressive web application that functions similarly to a traditional app. You can easily install it on your smartphone by following these two steps:
+        <ol class="list-disc">
+          <li>
+            For iOS Safari: Tap the "Share" button and choose "Add to Home Screen". Tap "Add" in the top right corner, and you will find our app icon on your Apple smartphone.
+            </li>
+          <li>
+            For Android Chrome: Tap the "three dot" icon in the top right corner to access the menu. Select "Add to Home screen." Tap the "Add" button in the popup, and you will see our app icon on your Android smartphone.
+            </li>
+          </ol>`,
+        },
+        {
+          question: "Can my QR code expire?",
+          answer: `As long as you keep using our service, your QR code and ScanEating menu link will remain active indefinitely.`,
+        },
+        {
+          question: "Would you be able to create a menu for me?",
+          answer: `Yes, I can help you to create a menu for your restaurant. If you have specific requirements or features you'd like to include, please provide us for make a better menu for you.`,
+        },
+        {
+          question:
+            "What are the preferred image size and format for ScanEating?",
+          answer: `For optimal display, we accept all popular image formats like jpeg, png, webp, etc.`,
+        },
+        {
+          question:
+            "Do I have to enable ordering or can I use ScanEating just for the menu?",
+          answer: `You can simply turn off the ordering feature and use our platform solely for creating and displaying your menu.`,
+        },
+        {
+          question:
+            "Is it possible for customers to pay for their orders using credit cards, Bkash, Nagad or others?",
+          answer: `No, we are in the process of integrating credit card and mobile payment systems such as credit cards, Bkash, Nagad, which will be available very soon.`,
+        },
+        {
+          question: "Can I handle menu uploads myself?",
+          answer: `Absolutely! ScanEating offers a user-friendly platform for effortlessly creating and customizing your menu.`,
+        },
+        {
+          question: "Can one profile manage multiple restaurants?",
+          answer: `Scaneating lets you manage several restaurants, each with unique menus (Coming soon).`,
+        },
+        // {
+        //   question: "Can I quickly generate a menu?",
+        //   answer: `Of course! Scaneating provides ready-to-use templates for quick menu creation, or you can design a unique one yourself.`,
+        // },
+        {
+          question: "Can I create a menu without images?",
+          answer: `A menu can not be created without photos since images are mandatory.`,
+        },
+        {
+          question: "Can I cancel my subscription anytime?",
+          answer: `Absolutely! You're free to cancel your subscription at any time.`,
+        },
+        {
+          question: "Can I upgrade my account?",
+          answer: `For now, you can contact with us. We are implementing auto upgrade process (Coming soon)`,
+        },
+        {
+          question:
+            "If you don't make a payment, will your menu and QR code remain active?",
+          answer: `Your menu and QR Code will stay active for 15 more days, and there will adjust charges from your next payment.`,
+        },
+        {
+          question: "What should be the size of the QR Codes?",
+          answer: `The QR Code size depends on the phone's distance. For table placement, 4 cm should suffice. A larger size would be ideal for further distances, like at a counter.`,
+        },
+        {
+          question: "Where should I place the QR Codes?",
+          answer: `QR Code menus work for dine-in and pickup. Paste QR Codes on tables.`,
+        },
+        {
+          question: "Will my smart menu download on my customers' smartphones?",
+          answer: `No, ScanEating QR Codes don't force a PDF download. Customers browse the smart menu, place their orders, and exit the browser.`,
         },
       ],
     };

@@ -540,21 +540,3 @@ export default {
   },
 };
 </script>
-
-<!-- <style lang="scss" scoped>
-@media (min-width: 1024px) {
-  .x-scroll {
-    scrollbar-color: #a0a0a0 rgba(255, 255, 255, 0.6);
-  }
-  .x-scroll::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 12px;
-  }
-
-  .x-scroll::-webkit-scrollbar-thumb {
-    border-radius: 12px;
-    background-color: #a0a0a0;
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-  }
-}
-</style> -->
