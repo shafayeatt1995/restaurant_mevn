@@ -93,9 +93,14 @@
                   <td class="py-2">
                     <div class="font-medium">
                       {{ cart.name }}
-                      <span v-if="cart.choice?.name" class="text-gray-500"
-                        >({{ cart.choice?.name }})</span
+                    </div>
+                    <div class="flex flex-col text-gray-500">
+                      <small
+                        v-for="(choice, index) in cart.choice"
+                        :key="`choice-${index}`"
                       >
+                        + {{ choice.name }}
+                      </small>
                     </div>
                     <div class="flex flex-col text-gray-500">
                       <small
@@ -300,7 +305,11 @@ export default {
       const { qty, price, addon, choice } = item;
 
       const addonPrice = addon.reduce((total, value) => total + value.price, 0);
-      return (price + addonPrice + (choice.price || 0)) * qty;
+      const choicePrice = choice.reduce(
+        (total, value) => total + value.price,
+        0
+      );
+      return (price + addonPrice + choicePrice) * qty;
     },
     singleItemPrice(key) {
       return this.calcPrice(this.cartItems[key]);

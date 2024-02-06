@@ -183,7 +183,7 @@
           class="h-[250px] w-full object-cover"
         />
         <div
-          class="flex justify-between items-center px-4 py-2 shadow-lg gap-3"
+          class="flex justify-between items-center px-4 py-2 shadow-lg gap-3 sticky top-0 z-10 bg-white"
         >
           <div class="flex items-center">
             <img
@@ -208,7 +208,7 @@
             <p v-else>৳{{ itemPrice }}</p>
           </div>
         </div>
-        <div class="flex justify-end items-center">
+        <div class="flex justify-end items-center sticky top-16 z-20">
           <transition-group
             name="slide"
             mode="out-in"
@@ -241,7 +241,7 @@
         </div>
         <div class="px-4 my-5 text-gray-500">
           {{ modalItem.description }}
-          <p class="mt-5">
+          <p class="mt-5" v-if="modalItem.estimateTime">
             <font-awesome-icon :icon="['far', 'clock']" /> Estimate time
             {{ modalItem.estimateTime }} minutes
           </p>
@@ -254,21 +254,26 @@
         >
           <p class="mb-4">{{ choice.title }}</p>
           <div
-            class="mt-1"
+            class="mt-2"
             v-for="(option, index) in choice.options"
             :key="`choice-option-${index}`"
           >
             <div
-              class="inline-flex items-center gap-2 cursor-pointer"
-              @click="setChoice(option)"
+              class="flex items-center justify-between gap-2 cursor-pointer"
+              @click="setChoice(option, key)"
             >
-              <div
-                class="h-5 w-5 rounded-full border-white border-4 shadow-[0_0_0_2px_rgba(156,163,175,1)] text-gray-800"
-                :class="activeChoice._id === option._id ? 'bg-green-600' : ''"
-              ></div>
-              <p>{{ option.name }}</p>
+              <div class="flex items-center gap-2">
+                <div
+                  class="h-5 w-5 rounded-full border-white border-4 shadow-[0_0_0_2px_rgba(156,163,175,1)] text-gray-800"
+                  :class="getActiveChoice(option._id) ? 'bg-green-600' : ''"
+                ></div>
+                <p>{{ option.name }}</p>
+              </div>
+
+              <p>+ ৳{{ option.price }}</p>
             </div>
           </div>
+          <hr class="my-5" v-if="modalItem.choices.length !== key + 1" />
         </div>
         <hr />
         <div
@@ -327,7 +332,7 @@ export default {
       modal: false,
       dropdown: null,
       modalItem: {},
-      activeChoice: {},
+      activeChoice: [],
       activeAddon: [],
       editCategory: {},
       editCategoryMode: false,
@@ -355,7 +360,10 @@ export default {
     itemPrice() {
       return (
         this.modalItem.price +
-        (this.activeChoice.price || 0) +
+        this.activeChoice.reduce(
+          (total, value) => total + (value.price || 0),
+          0
+        ) +
         this.activeAddon.reduce((total, value) => total + (value.price || 0), 0)
       );
     },
@@ -385,10 +393,11 @@ export default {
       ];
     },
     getItemQty() {
+      console.log(this.cartItems);
       const item = this.cartItems.find(
         ({ _id, choice, addon }) =>
           _id === this.modalItem._id &&
-          choice._id === this.activeChoice._id &&
+          this.compareArrays(this.activeChoice, choice) &&
           this.compareArrays(this.activeAddon, addon)
       );
       return item?.qty || 0;
@@ -403,9 +412,12 @@ export default {
     },
     modalItem(val) {
       if (val.choices) {
-        this.activeChoice = val?.choices[0]?.options[0] || {};
+        this.activeChoice =
+          val?.choices.map(({ options }) => {
+            return options[0];
+          }) || [];
       } else {
-        this.activeChoice = {};
+        this.activeChoice = [];
       }
     },
     editCategoryMode(val) {
@@ -431,8 +443,9 @@ export default {
         history.go(1);
       };
     },
-    setChoice(option) {
-      this.activeChoice = option;
+    setChoice(option, key) {
+      this.activeChoice.splice(key, 1);
+      this.activeChoice.splice(key, 0, option);
     },
     setAddon(option) {
       const index = this.activeAddon.findIndex(({ _id }) => _id === option._id);
@@ -507,7 +520,7 @@ export default {
       }
     },
     resetSelect() {
-      this.activeChoice = {};
+      this.activeChoice = [];
       this.activeAddon = [];
       this.modalItem = {};
       this.showAnimation = [];
@@ -517,7 +530,7 @@ export default {
       const data = {
         _id,
         name,
-        choice: { ...this.activeChoice },
+        choice: [...this.activeChoice],
         addon: [...this.activeAddon],
         price,
         discount: discount ? discountAmount : 0,
@@ -530,7 +543,7 @@ export default {
       const data = {
         _id,
         name,
-        choice: { ...this.activeChoice },
+        choice: [...this.activeChoice],
         addon: [...this.activeAddon],
         qty: 1,
       };
@@ -558,6 +571,9 @@ export default {
       return this.cartItems
         .filter(({ _id }) => id === _id)
         .reduce((total, value) => total + value.qty, 0);
+    },
+    getActiveChoice(id) {
+      return this.activeChoice.some(({ _id }) => _id === id) || false;
     },
   },
 };

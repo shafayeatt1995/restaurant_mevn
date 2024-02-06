@@ -38,8 +38,12 @@ const createItemVal = [
     .withMessage("Description must be a text"),
   check("estimateTime")
     .optional()
-    .isNumeric()
-    .withMessage("Estimate time must be a number of minute"),
+    .custom((value, { req }) => {
+      if (value && isNaN(value)) {
+        throw new Error("Estimate time must be a number of minute");
+      }
+      return true;
+    }),
 ];
 
 module.exports = { createItemVal };

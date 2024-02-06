@@ -225,7 +225,14 @@
             </small>
             <p class="font-medium text-wrap">
               {{ cart.name }}
-              <span v-if="cart.choice?.name">({{ cart.choice?.name }})</span>
+            </p>
+            <p class="flex flex-col text-gray-500">
+              <small
+                v-for="(choice, index) in cart.choice"
+                :key="`choice-${index}`"
+              >
+                + {{ choice.name }}
+              </small>
             </p>
             <p class="flex flex-col text-gray-500">
               <small

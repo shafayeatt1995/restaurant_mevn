@@ -1,5 +1,12 @@
 <template>
-  <div class="lg:w-[450px] w-full mx-auto bg-gray-100 shadow-2xl">
+  <div class="lg:w-[450px] w-full mx-auto bg-gray-100">
+    <div class="flex bg-white">
+      <Button :to="{ name: 'dashboard-order' }" v-if="manualOrder"
+        ><font-awesome-icon :icon="['fas', 'angle-left']" /> Back to
+        Order</Button
+      >
+    </div>
+
     <MenuRestaurantName :editMode="editMode" :restaurant="restaurant" />
     <MenuCategory
       :editMode="editMode"
@@ -76,6 +83,10 @@ export default {
       } else {
         return [];
       }
+    },
+    manualOrder() {
+      const { manualOrder, additionalMode, email } = this.$route.query;
+      return (manualOrder || additionalMode, email) ?? false;
     },
   },
   watch: {

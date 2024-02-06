@@ -9,7 +9,7 @@ export const mutations = {
     const key = state.cartItems.findIndex(({ _id, choice, addon }) => {
       return (
         _id === payload._id &&
-        choice._id === payload.choice._id &&
+        compareArrays(payload.choice, choice) &&
         compareArrays(payload.addon, addon)
       );
     });
@@ -24,7 +24,7 @@ export const mutations = {
     const key = state.cartItems.findIndex(({ _id, choice, addon }) => {
       return (
         _id === payload._id &&
-        choice._id === payload.choice._id &&
+        compareArrays(payload.choice, choice) &&
         compareArrays(payload.addon, addon)
       );
     });

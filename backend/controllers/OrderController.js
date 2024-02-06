@@ -10,34 +10,28 @@ const { paginate } = require("@/backend/utils");
 const webPush = require("web-push");
 const moment = require("moment");
 
-const sendNotification = async (
-  name,
-  message = "",
-  idList = [],
-  emailList = []
-) => {
+const sendNotification = async (name, message = "", idList = []) => {
   try {
     if (name === "id") {
       const notification = await PushNotification.find({
         userID: { $in: idList },
       });
-      const data = await Promise.all(
+      await Promise.all(
         notification.map((data) =>
           webPush.sendNotification(data.subscription, message)
         )
       );
     } else if (name === "email") {
     }
-  } catch (err) {
-    console.error(err);
-  }
+  } catch (err) {}
 };
 
 const calcPrice = (item) => {
   const { qty, price, addon, choice } = item;
 
-  const addonPrice = addon.reduce((total, value) => total + value.price, 0);
-  return (price + addonPrice + (choice.price || 0)) * qty;
+  const addonPrice = addon.reduce((t, val) => t + (val?.price || 0), 0);
+  const choicePrice = choice.reduce((t, val) => t + (val?.price || 0), 0);
+  return (price + addonPrice + choicePrice) * qty;
 };
 
 const calcTotalDiscount = (items) => {
@@ -104,6 +98,14 @@ const controller = {
         externalUserEmail,
       } = req.body;
 
+      const { isManager, isWaiter, _id, name } = req.user;
+      const waiterData = {};
+      if (isWaiter) {
+        waiterData.status = "active";
+        waiterData.waiterID = _id;
+        waiterData.waiterName = name;
+      }
+
       const blockUser = await BlockUser.findOne({
         restaurantID,
         email: userEmail,
@@ -168,13 +170,19 @@ const controller = {
               { new: true, sort: { _id: -1 } }
             );
             const restaurant = await Restaurant.findOne({ _id: restaurantID });
-            const notification = await Notification.create({
-              restaurantID,
-              type: "updateOrder",
-              additional: { orderID: update._id },
-              title: `Order updated`,
-              body: `Table: ${tableName} order: #${update.orderNumber} is updated`,
-            });
+            if (!isManager) {
+              const notification = await Notification.create({
+                restaurantID,
+                type: "updateOrder",
+                additional: { orderID: update._id },
+                title: `Order updated`,
+                body: `Table: ${tableName} order: #${update.orderNumber} is updated`,
+              });
+              global.io.emit(
+                `order-notification-${restaurantID}`,
+                notification
+              );
+            }
 
             if (restaurant) {
               const { userID } = restaurant;
@@ -183,7 +191,6 @@ const controller = {
                 update.waiterID ?? "",
               ]);
             }
-            global.io.emit(`order-notification-${restaurantID}`, notification);
             res.status(200).json({ success: true });
           } else {
             res.status(422).json({
@@ -208,15 +215,9 @@ const controller = {
             totalQty: totalQuantity(orderItems),
             note,
             orderType,
+            ...waiterData,
           });
           const restaurant = await Restaurant.findOne({ _id: restaurantID });
-          const notification = await Notification.create({
-            restaurantID,
-            type: "newOrder",
-            additional: { orderID: order._id },
-            title: `New Order`,
-            body: `Receive new order from Table: ${tableName} Order: #${order.orderNumber}`,
-          });
           if (restaurant) {
             const { userID, waiter } = restaurant;
             sendNotification(`id`, `Receive new order from ${tableName}`, [
@@ -224,7 +225,17 @@ const controller = {
               ...waiter,
             ]);
           }
-          global.io.emit(`order-notification-${restaurantID}`, notification);
+          if (!isManager) {
+            const notification = await Notification.create({
+              restaurantID,
+              type: "newOrder",
+              additional: { orderID: order._id },
+              title: `New Order`,
+              body: `Receive new order from Table: ${tableName} Order: #${order.orderNumber}`,
+            });
+
+            global.io.emit(`order-notification-${restaurantID}`, notification);
+          }
           res.status(200).json({ success: true });
         }
       }

@@ -17,7 +17,7 @@ const additionalChargesSchema = new Schema({
 const orderItemSchema = new Schema({
   AdditionalOrderNumber: { type: Number, default: 1 },
   name: { type: String, required: true },
-  choice: { type: ChoiceSchema, required: false },
+  choice: [ChoiceSchema],
   addon: [AddonSchema],
   price: { type: Number, required: true },
   discount: { type: Number, required: true },
