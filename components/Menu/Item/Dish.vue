@@ -82,6 +82,13 @@
             class="w-full object-cover"
             :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
           />
+          <img
+            loading="lazy"
+            v-else
+            src="/images/default-img.jpg"
+            class="w-full object-cover"
+            :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
+          />
           <div class="p-2 text-sm items-center">
             <p
               class="capitalize font-medium overflow-hidden whitespace-nowrap text-ellipsis"
@@ -169,7 +176,12 @@
           :src="modalItem.image"
           class="h-[250px] w-full object-cover"
         />
-        <div v-else class=" h-16"></div>
+        <img
+          loading="lazy"
+          v-else
+          src="/images/default-img.jpg"
+          class="h-[250px] w-full object-cover"
+        />
         <div
           class="flex justify-between items-center px-4 py-2 shadow-lg gap-3"
         >
