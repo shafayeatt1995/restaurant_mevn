@@ -24,12 +24,7 @@
     </table>
     <div style="margin-top: 5px"></div>
     <table
-      style="
-        width: 100%;
-        border-collapse: collapse;
-        text-align: center;
-        border: 1px solid #000;
-      "
+      style="width: 100%;border-collapse: collapse;text-align: center;border: 1px solid #000"
     >
       <tbody style="font-size: 12px">
         <tr style="font-weight: 600; border-bottom: 1px solid #000">
@@ -125,9 +120,9 @@ export default {
           );
           printWindow.document.close();
           printWindow.print();
-          printWindow.onafterprint = () => {
-            printWindow.close();
-          };
+          // printWindow.onafterprint = () => {
+          //   printWindow.close();
+          // };
         });
       } catch (error) {
         console.error(error);
