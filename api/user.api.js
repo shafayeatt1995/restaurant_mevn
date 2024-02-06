@@ -32,4 +32,8 @@ export class UserApi extends BaseApi {
   updateProfile(params) {
     return this.api.$get(`update-profile`, { params });
   }
+
+  updatePassword(params) {
+    return this.api.$get(`update-password`, { params });
+  }
 }

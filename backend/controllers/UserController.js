@@ -517,6 +517,22 @@ const controller = {
       });
     }
   },
+
+  async updatePassword(req, res) {
+    try {
+      const { _id } = req.user;
+      const { new: password } = req.query;
+      const hashPassword = await bcrypt.hashSync(password, 10);
+      await User.updateOne({ _id }, { password: hashPassword });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
 };
 
 module.exports = controller;

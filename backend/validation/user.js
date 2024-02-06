@@ -1,4 +1,5 @@
 const { check } = require("express-validator");
+const bcrypt = require("bcryptjs");
 const { User, Restaurant } = require("@/backend/models");
 
 const createUserVal = [
@@ -185,10 +186,55 @@ const updateProfileVal = [
     .trim(),
 ];
 
+const updatePasswordVal = [
+  check("old")
+    .notEmpty()
+    .withMessage("Old password is required")
+    .isLength({ min: 4 })
+    .withMessage("Old password must be at least 4 characters")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .custom(async (value, { req }) => {
+      const user = await User.findOne({ _id: req.user._id }, { password: 1 });
+      const check = await bcrypt.compare(value, user.password);
+      if (!check) {
+        throw new Error("Old password is not correct");
+      }
+      return true;
+    }),
+  check("new")
+    .notEmpty()
+    .withMessage("New password is required")
+    .isLength({ min: 4 })
+    .withMessage("New password must be at least 4 characters")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .custom((value, { req }) => {
+      if (value === req.query.old) {
+        throw new Error("New password cannot be the same as the old password");
+      }
+      return true;
+    }),
+  check("confirm")
+    .notEmpty()
+    .withMessage("Confirm password is required")
+    .isLength({ min: 4 })
+    .withMessage("Confirm password must be at least 4 characters")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .custom((value, { req }) => {
+      if (value !== req.query.new) {
+        throw new Error("Passwords do not match");
+      }
+      return true;
+    }),
+];
+
 module.exports = {
   createUserVal,
   restaurantNameVal,
   createEmployeeVal,
   updateEmployeeVal,
   updateProfileVal,
+  updatePasswordVal,
 };

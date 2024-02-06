@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-  name: "SettingsNotification",
+  name: "SettingsProfile",
   data() {
     return {
       form: {
@@ -42,9 +42,10 @@ export default {
     async updateProfile() {
       try {
         this.loading = true;
+        this.errors = {};
         await this.$userApi.updateProfile(this.form);
         await this.$auth.fetchUser();
-        this.$nuxt.$emit("success", "Printing details updated successfully");
+        this.$nuxt.$emit("success", "Profile updated successfully");
       } catch (error) {
         this.errors = error?.response?.data?.errors;
       } finally {

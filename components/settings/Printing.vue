@@ -35,7 +35,7 @@
 </template>
 <script>
 export default {
-  name: "SettingsNotification",
+  name: "SettingsPrint",
   data() {
     return {
       form: {

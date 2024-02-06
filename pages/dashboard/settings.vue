@@ -15,6 +15,7 @@
           <SettingsNotification v-else-if="activeTab === 'Notification'" />
           <SettingsPrinting v-else-if="activeTab === 'Printing'" />
           <SettingsProfile v-else-if="activeTab === 'Profile'" />
+          <SettingsPassword v-else-if="activeTab === 'Password'" />
         </div>
       </div>
     </section>
@@ -45,9 +46,9 @@ export default {
           icon: ["fas", "circle-user"],
         },
         {
-          title: "password",
+          title: "Password",
           icon: ["fas", "key"],
-          show: !this.$auth.user.socialAccount,
+          show: this.manager,
         },
         { title: "Printing", icon: ["fas", "newspaper"], show: this.manager },
         { title: "Notification", icon: ["far", "bell"], show: false },
