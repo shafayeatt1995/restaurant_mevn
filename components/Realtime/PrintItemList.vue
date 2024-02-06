@@ -23,14 +23,7 @@
       </tbody>
     </table>
     <div style="margin-top: 5px"></div>
-    <table
-      style="
-        width: 100%;
-        border-collapse: collapse;
-        text-align: center;
-        border: 1px solid #000;
-      "
-    >
+    <table style="width: 100%; border-collapse: collapse; text-align: center; border: 1px solid #000">
       <tbody style="font-size: 12px">
         <tr style="font-weight: 600; border-bottom: 1px solid #000">
           <td style="width: calc(100% - 30px); border-right: 1px solid #000">
@@ -47,21 +40,15 @@
           v-for="(item, key) in orderDetails?.orderItems"
           :key="key"
         >
-          <td
-            style="
-              width: calc(100% - 30px);
-              border-right: 1px solid #000;
-              text-align: left;
-            "
-          >
-            <div style="font-size: 20px">
+          <td style="width: calc(100% - 30px); border-right: 1px solid #000; text-align: left">
+            <div style="font-size: 20px; font-weight: 700;">
               {{ item.name }}
             </div>
             <div v-for="(choice, index) in item.choice" :key="`choice-${index}`">
-              <small>+ {{ choice.name }}</small>
+              <p style="margin: 0;">+ {{ choice.name }}</p>
             </div>
             <div v-for="(addon, index) in item.addon" :key="`addon-${index}`">
-              <small>+ {{ addon.name }}</small>
+              <p style="margin: 0;">+ {{ addon.name }}</p>
             </div>
           </td>
           <td style="width: 25px; border-right: 1px solid #000; padding: 0 2px">
@@ -117,17 +104,17 @@ export default {
       try {
         this.$nextTick(() => {
           const printContent = this.$refs?.itemList?.innerHTML;
-          if (printContent) {
+          if(printContent){
             const printWindow = window.open("", "_blank");
             printWindow.document.write(
-              `<html><body style="margin: 0; padding: 0 3px 0 0">${printContent.toString()}</body></html>`
-            );
-            printWindow.document.close();
-            printWindow.print();
-            printWindow.onafterprint = () => {
-              printWindow.close();
-            };
-          }
+              `<html><body style="padding: 0; margin: 0 5px 0 0">${printContent.toString()}</body></html>`
+              );
+              printWindow.document.close();
+              printWindow.print();
+              printWindow.onafterprint = () => {
+                 printWindow.close();
+              };
+            }
         });
       } catch (error) {
         console.error(error);

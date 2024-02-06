@@ -1,5 +1,6 @@
 <template>
   <div>
+    First convert your image from here <a href="https://www.resizepixel.com/" class=" text-sky-600 underline" target="_blank">Here</a>
     <div
       @click="imageModal = true"
       class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"

@@ -205,7 +205,7 @@ export default {
           if (printContent) {
             const printWindow = window.open("", "_blank");
             printWindow.document.write(
-              `<html><body style="margin: 0; padding: 0 3px 0 0">${printContent}</body></html>`
+              `<html><body style="padding: 0; margin: 0 5px 0 0">${printContent}</body></html>`
             );
             printWindow.document.close();
             printWindow.print();
