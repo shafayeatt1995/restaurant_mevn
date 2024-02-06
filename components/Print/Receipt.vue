@@ -55,8 +55,15 @@
         </tr>
       </tbody>
     </table>
-    <div style="border-bottom: 1px solid #000; margin-top: 10px"></div>
-    <table style="width: 100%; border-collapse: collapse; text-align: center">
+    <div style="margin-top: 10px"></div>
+    <table
+      style="
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        border: 1px solid #000;
+      "
+    >
       <tbody style="font-size: 12px">
         <tr style="font-weight: 600; border-bottom: 1px solid #000">
           <td style="width: calc(100% - 65px); border-right: 1px solid #000">
