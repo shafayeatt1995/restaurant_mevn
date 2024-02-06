@@ -210,10 +210,9 @@ export default {
           const printWindow = window.open(
             "",
             "_blank",
-            "height: 100%, width: 100%"
           );
           printWindow.document.write(
-            `<html><body style="margin: 0; padding: 0 3px">${printContent}</body></html>`
+            `<html><body style="margin: 0; padding: 0 3px 0 0">${printContent}</body></html>`
           );
           printWindow.document.close();
           printWindow.print();
