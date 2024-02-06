@@ -19,12 +19,19 @@ export default {
           this.$emit("refetch", data);
         }
       );
+      socket.on(
+        `order-cancel-request-${this.$auth?.user?.restaurant?._id}`,
+        (data) => {
+          this.$emit("refetch", data);
+        }
+      );
     }
   },
   beforeDestroy() {
     if (this.$auth?.user?.restaurant?._id && this.manager) {
       socket.off(`request-bill-${this.$auth?.user?.restaurant?._id}`);
       socket.off(`order-notification-${this.$auth?.user?.restaurant?._id}`);
+      socket.off(`order-cancel-request-${this.$auth?.user?.restaurant?._id}`);
     }
   },
 };

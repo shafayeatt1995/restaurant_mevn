@@ -176,8 +176,8 @@
         class="grid grid-cols-1 lg:grid-cols-2 justify-between text-gray-700"
       >
         <p>
-          <span class="font-semibold">Customer:</span>
-          {{ orderDetails.userName }}
+          <span class="font-semibold">Order No:</span>
+          #{{ orderDetails.orderNumber }}
         </p>
         <p>
           <span class="font-semibold">ID:</span> {{ orderDetails.userEmail }}
@@ -380,8 +380,9 @@
       >
         <Button
           v-if="
-            orderDetails.status === 'active' ||
-            orderDetails.status === 'pending'
+            (orderDetails.status === 'active' ||
+              orderDetails.status === 'pending') &&
+            manager
           "
           variant="red"
           type="button"
@@ -395,7 +396,22 @@
               : false
           "
           :loading="cancelLoading"
-          ><font-awesome-icon :icon="['fas', 'xmark']" /> Cancel order
+        >
+          <font-awesome-icon :icon="['fas', 'xmark']" /> Cancel order
+        </Button>
+        <Button
+          v-if="
+            (orderDetails.status === 'active' ||
+              orderDetails.status === 'pending') &&
+            waiter
+          "
+          variant="red"
+          type="button"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="sendCancelRequest"
+          :loading="cancelLoading"
+        >
+          <font-awesome-icon :icon="['fas', 'xmark']" /> Send cancel request
         </Button>
         <Button
           v-if="orderDetails.status === 'pending'"
@@ -925,12 +941,11 @@ export default {
       const timeDifference = new Date() - new Date(date);
       const seconds = Math.floor(timeDifference / 1000);
 
-      const days = Math.floor(seconds / 86400);
-      const hours = Math.floor((seconds % 86400) / 3600);
+      const hours = Math.floor(seconds / 3600);
       const minutes = Math.floor((seconds % 3600) / 60);
       const remainingSeconds = seconds % 60;
 
-      return `${days}:${this.formatTime(hours)}:${this.formatTime(
+      return `${this.formatTime(hours)}:${this.formatTime(
         minutes
       )}:${this.formatTime(remainingSeconds)}`;
     },
@@ -1081,7 +1096,19 @@ export default {
     async requestBill() {
       try {
         await this.$userApi.billRequest({ tableID: this.orderDetails.tableID });
+        this.modal = false;
         this.$nuxt.$emit("success", "Billing request send successfully");
+      } catch (error) {
+        this.$nuxt.$emit("error", "Something wrong! Please try again");
+        console.error(error);
+      }
+    },
+    async sendCancelRequest() {
+      try {
+        await this.$mowApi.sendCancelRequest({
+          orderID: this.orderDetails._id,
+        });
+        this.$nuxt.$emit("success", "Cancel request send successfully");
       } catch (error) {
         this.$nuxt.$emit("error", "Something wrong! Please try again");
         console.error(error);

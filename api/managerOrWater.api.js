@@ -44,4 +44,8 @@ export class MowApi extends BaseApi {
   recentOrder() {
     return this.api.$get(`recent-order`);
   }
+
+  sendCancelRequest(params) {
+    return this.api.$get(`cancel-request`, { params });
+  }
 }

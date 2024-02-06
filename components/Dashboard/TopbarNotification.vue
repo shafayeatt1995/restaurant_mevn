@@ -124,6 +124,7 @@ export default {
         if (
           notification.type === "requestBill" ||
           notification.type === "updateOrder" ||
+          notification.type === "cancelOrderRequest" ||
           notification.type === "newOrder"
         ) {
           this.$router.push({

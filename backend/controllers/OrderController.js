@@ -471,7 +471,7 @@ const controller = {
           restaurantID: restaurant._id,
           type: "requestBill",
           additional: { orderID: order._id },
-          title: `Requesting bill`,
+          title: `Requesting Bill`,
           body: `Table: ${table.name} is requesting his bill`,
         });
         global.io.emit(`request-bill-${restaurant._id}`, notification);
@@ -486,7 +486,7 @@ const controller = {
           restaurantID,
           type: "requestBill",
           additional: { orderID: order._id },
-          title: `Requesting bill`,
+          title: `Requesting Bill`,
           body: `Table: ${table.name} is requesting his bill`,
         });
         global.io.emit(`request-bill-${restaurantID}`, notification);
@@ -564,6 +564,31 @@ const controller = {
         { $limit: 10 },
       ]);
       res.status(200).json({ success: true, orders });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
+  async sendCancelRequest(req, res) {
+    try {
+      const { restaurantID, name } = req.user;
+      const { orderID: _id } = req.query;
+      const order = await Order.findOne({ _id });
+      if (order) {
+        const notification = await Notification.create({
+          restaurantID,
+          type: "cancelOrderRequest",
+          additional: { orderID: order._id },
+          title: `Order Cancel Request`,
+          body: `Waiter: ${name} send a cancel request. Order No: #${order.orderNumber}`,
+        });
+        global.io.emit(`order-cancel-request-${restaurantID}`, notification);
+      }
+      res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
       res.status(500).json({
