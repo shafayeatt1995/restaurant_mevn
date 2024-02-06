@@ -456,24 +456,41 @@ const controller = {
 
   async billRequest(req, res) {
     try {
-      const { serial, slug } = req.query;
-      const { email: userEmail } = req.user;
-      const table = await Table.findOne({ serial });
-      const restaurant = await Restaurant.findOne({ slug });
-      const order = await Order.findOne({
-        userEmail,
-        restaurantID: restaurant._id,
-        tableID: table._id,
-        status: { $in: ["active", "pending"] },
-      });
-      const notification = await Notification.create({
-        restaurantID: restaurant._id,
-        type: "requestBill",
-        additional: { orderID: order._id },
-        title: `Requesting bill`,
-        body: `Table: ${table.name} is requesting his bill`,
-      });
-      global.io.emit(`request-bill-${restaurant._id}`, notification);
+      const { serial, slug, tableID } = req.query;
+      const { email: userEmail, restaurantID } = req.user;
+      if (serial && slug) {
+        const table = await Table.findOne({ serial });
+        const restaurant = await Restaurant.findOne({ slug });
+        const order = await Order.findOne({
+          userEmail,
+          restaurantID: restaurant._id,
+          tableID: table._id,
+          status: { $in: ["active", "pending"] },
+        });
+        const notification = await Notification.create({
+          restaurantID: restaurant._id,
+          type: "requestBill",
+          additional: { orderID: order._id },
+          title: `Requesting bill`,
+          body: `Table: ${table.name} is requesting his bill`,
+        });
+        global.io.emit(`request-bill-${restaurant._id}`, notification);
+      } else if (tableID) {
+        const table = await Table.findOne({ _id: tableID });
+        const order = await Order.findOne({
+          restaurantID,
+          tableID: table._id,
+          status: { $in: ["active", "pending"] },
+        });
+        const notification = await Notification.create({
+          restaurantID,
+          type: "requestBill",
+          additional: { orderID: order._id },
+          title: `Requesting bill`,
+          body: `Table: ${table.name} is requesting his bill`,
+        });
+        global.io.emit(`request-bill-${restaurantID}`, notification);
+      }
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);

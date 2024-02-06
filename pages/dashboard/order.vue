@@ -408,15 +408,24 @@
           Accept order
         </Button>
         <Button
-          v-else-if="orderDetails.status === 'active'"
+          v-else-if="orderDetails.status === 'active' && manager"
           variant="green"
           class="w-full tracking-wide flex-1"
           @click.native.prevent="manager ? completeOrder() : ''"
-          :disabled="!manager"
           :loading="acceptLoading"
         >
           <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
           Complete order
+        </Button>
+        <Button
+          v-else-if="orderDetails.status === 'active' && waiter"
+          variant="green"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="requestBill"
+          :loading="acceptLoading"
+        >
+          <font-awesome-icon :icon="['fas', 'file-lines']" class="mr-1" />
+          Send billing request
         </Button>
         <Button
           v-else
@@ -1068,6 +1077,15 @@ export default {
         query: { additionalMode: true, email: this.orderDetails.userEmail },
       });
       this.modal = false;
+    },
+    async requestBill() {
+      try {
+        await this.$userApi.billRequest({ tableID: this.orderDetails.tableID });
+        this.$nuxt.$emit("success", "Billing request send successfully");
+      } catch (error) {
+        this.$nuxt.$emit("error", "Something wrong! Please try again");
+        console.error(error);
+      }
     },
   },
 };
