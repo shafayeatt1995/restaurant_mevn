@@ -38,7 +38,7 @@
             <a
               class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
               href="#home"
-              >Home</a
+              >Home Anik</a
             >
             <a
               class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
