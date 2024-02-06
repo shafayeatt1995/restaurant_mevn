@@ -8,7 +8,7 @@ const createItemVal = [
     .isLength({ max: 100 })
     .withMessage("Don't try to spam")
     .trim(),
-  check("image").isLength({ min: 1 }).withMessage(`Image required`),
+  // check("image").isLength({ min: 1 }).withMessage(`Image required`),
   check("choices").isArray().withMessage("Choices must be an array"),
   check("addons").isArray().withMessage("Addons must be an array"),
   check("price")

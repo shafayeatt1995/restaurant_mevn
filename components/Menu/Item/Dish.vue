@@ -77,6 +77,7 @@
           </div>
           <img
             loading="lazy"
+            v-if="item.image"
             :src="item.image"
             class="w-full object-cover"
             :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
@@ -164,9 +165,11 @@
         </div>
         <img
           loading="lazy"
+          v-if="modalItem.image"
           :src="modalItem.image"
           class="h-[250px] w-full object-cover"
         />
+        <div v-else class=" h-16"></div>
         <div
           class="flex justify-between items-center px-4 py-2 shadow-lg gap-3"
         >

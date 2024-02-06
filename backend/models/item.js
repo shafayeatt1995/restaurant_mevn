@@ -25,7 +25,7 @@ const ItemSchema = new Schema(
     subCategoryID: { type: String, required: false },
     name: { type: String, required: true },
     slug: { type: String, unique: true, required: true },
-    image: { type: String, required: true },
+    image: { type: String, default: '' },
     choices: [ChoicesSchema],
     addons: [AddonsSchema],
     price: { type: Number, required: true },
