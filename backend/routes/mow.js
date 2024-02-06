@@ -10,6 +10,7 @@ const {
   chartSalesData,
   recentOrder,
   sendCancelRequest,
+  updateOrderItem,
 } = require("@/backend/controllers/OrderController");
 const { fetchAllTable } = require("@/backend/controllers/TableController");
 const { allVat } = require("@/backend/controllers/VatController");
@@ -26,5 +27,6 @@ router.get("/print-order-details", printOrderDetails);
 router.get("/chart-sales-data", chartSalesData);
 router.get("/recent-order", recentOrder);
 router.get("/cancel-request", sendCancelRequest);
+router.post("/update-order-item", updateOrderItem);
 
 module.exports = router;

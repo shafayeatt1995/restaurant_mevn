@@ -223,8 +223,21 @@
             >
               Additional order {{ th(cart.AdditionalOrderNumber - 1) }} time
             </small>
-            <p class="font-medium text-wrap">
+            <p class="font-medium text-wrap flex items-center">
               {{ cart.name }}
+              <span
+                v-if="
+                  orderDetails &&
+                  orderDetails?.orderItems &&
+                  orderDetails?.orderItems?.length > 1 &&
+                  (orderDetails.status === 'pending' ||
+                    orderDetails.status === 'active')
+                "
+                class="text-rose-600 ml-3 text-lg cursor-pointer"
+                @click="removeItems(cart)"
+              >
+                <font-awesome-icon :icon="['far', 'circle-xmark']" />
+              </span>
             </p>
             <p class="flex flex-col text-gray-500">
               <small
@@ -256,16 +269,16 @@
         <div class="flex flex-col">
           <div class="flex justify-between font-bold">
             <p>Sub total price:</p>
-            <p>৳{{ orderDetails.subTotalPrice }}</p>
+            <p>৳{{ subTotalPrice }}</p>
           </div>
           <div class="flex justify-between mb-2">
             <p>Discount:</p>
-            <p class="text-rose-500">৳{{ orderDetails.totalDiscount }}</p>
+            <p class="text-rose-500">৳{{ totalDiscount }}</p>
           </div>
           <hr />
           <div class="flex justify-between font-bold">
             <p>Total price:</p>
-            <p>৳{{ orderDetails.totalPrice }}</p>
+            <p>৳{{ subTotalPrice - totalDiscount }}</p>
           </div>
           <div v-if="orderDetails.status === 'complete'">
             <div class="flex justify-between mb-2 mt-1">
@@ -368,11 +381,17 @@
         <Button
           variant="green"
           class="w-full tracking-wide flex-1"
-          @click.native.prevent="addItem"
+          @click.native.prevent="deleteMode ? updateOrder() : addItem()"
           :disabled="AddItemDisabled"
+          :loading="updateLoading"
         >
-          <font-awesome-icon :icon="['fas', 'plus']" />
-          Add additional Item
+          <template v-if="deleteMode"
+            ><font-awesome-icon :icon="['far', 'pen-to-square']" /> Update order
+          </template>
+          <div v-else>
+            <font-awesome-icon :icon="['fas', 'plus']" />
+            Add additional Item
+          </div>
         </Button>
       </div>
       <div
@@ -569,6 +588,8 @@ export default {
       updateLoading: false,
       tableSlug: false,
       selectWaiterModal: false,
+      deleteMode: false,
+      updateLoading: false,
       selectEmployee: null,
     };
   },
@@ -663,6 +684,18 @@ export default {
           : true;
       }
     },
+    subTotalPrice() {
+      return this.orderDetails.orderItems.reduce(
+        (total, value) => total + this.calcPrice(value),
+        0
+      );
+    },
+    totalDiscount() {
+      return this.orderDetails.orderItems.reduce(
+        (total, value) => total + value.qty * value.discount,
+        0
+      );
+    },
   },
   watch: {
     date() {
@@ -682,6 +715,7 @@ export default {
     modal(val) {
       if (!val) {
         this.updateMode = false;
+        this.deleteMode = false;
       }
     },
     selectWaiterModal(val) {
@@ -718,6 +752,16 @@ export default {
     this.$nuxt.$off("openOrderDetails");
   },
   methods: {
+    calcPrice(item) {
+      const { qty, price, addon, choice } = item;
+
+      const addonPrice = addon.reduce((total, value) => total + value.price, 0);
+      const choicePrice = choice.reduce(
+        (total, value) => total + value.price,
+        0
+      );
+      return (price + addonPrice + choicePrice) * qty;
+    },
     async fetchVats() {
       try {
         const { vats } = await this.$mowApi.fetchVat();
@@ -779,13 +823,8 @@ export default {
       this.loading = false;
       this.cancelLoading = false;
       this.acceptLoading = false;
+      this.deleteMode = false;
       this.orderDetails = {};
-    },
-    calcPrice(item) {
-      const { qty, price, addon, choice } = item;
-
-      const addonPrice = addon.reduce((total, value) => total + value.price, 0);
-      return (price + addonPrice + (choice.price || 0)) * qty;
     },
     singleItemPrice(data) {
       return this.calcPrice(data);
@@ -824,7 +863,7 @@ export default {
       );
       this.tableSlug = serial ?? null;
       this.vat = vat ? vat._id : "";
-      this.orderDetails = item;
+      this.orderDetails = { ...item };
       this.modal = true;
     },
     async cancelOrder() {
@@ -997,7 +1036,8 @@ export default {
     openOrder({ _id, serial }) {
       const find = this.items.find(({ tableID }) => tableID === _id);
       if (find) {
-        this.openOrderDetails(find, serial);
+        const newItem = JSON.parse(JSON.stringify(find));
+        this.openOrderDetails(newItem, serial);
       } else {
         this.$router.push({
           name: "menu-slug-table",
@@ -1113,6 +1153,33 @@ export default {
       } catch (error) {
         this.$nuxt.$emit("error", "Something wrong! Please try again");
         console.error(error);
+      }
+    },
+    removeItems(item) {
+      if (this.orderDetails.orderItems.length > 1) {
+        const index = this.orderDetails.orderItems.findIndex(
+          ({ _id }) => item._id === _id
+        );
+        if (index !== -1) {
+          this.orderDetails.orderItems.splice(index, 1);
+        }
+        this.deleteMode = true;
+      }
+    },
+    async updateOrder() {
+      try {
+        this.updateLoading = true;
+        await this.$mowApi.updateOrderItem({
+          orderID: this.orderDetails._id,
+          orderItems: this.orderDetails.orderItems,
+        });
+        this.refetch();
+        this.modal = false;
+        this.$nuxt.$emit("success", "Order item update successfully");
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.updateLoading = false;
       }
     },
   },

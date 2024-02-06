@@ -393,7 +393,6 @@ export default {
       ];
     },
     getItemQty() {
-      console.log(this.cartItems);
       const item = this.cartItems.find(
         ({ _id, choice, addon }) =>
           _id === this.modalItem._id &&

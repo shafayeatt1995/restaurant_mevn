@@ -48,4 +48,8 @@ export class MowApi extends BaseApi {
   sendCancelRequest(params) {
     return this.api.$get(`cancel-request`, { params });
   }
+
+  updateOrderItem(body) {
+    return this.api.$post(`update-order-item`, body);
+  }
 }

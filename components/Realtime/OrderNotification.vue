@@ -52,7 +52,7 @@ export default {
       try {
         this.$refs.audioPlayer.play();
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },

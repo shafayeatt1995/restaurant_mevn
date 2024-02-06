@@ -597,6 +597,44 @@ const controller = {
       });
     }
   },
+
+  async updateOrderItem(req, res) {
+    try {
+      const { restaurantID, name, isManager, isWaiter, _id } = req.user;
+      const { orderItems, orderID } = req.body;
+      const waiterData = {};
+
+      if (isWaiter) {
+        waiterData.waiterID = _id;
+      }
+
+      await Order.updateOne(
+        { _id: orderID, restaurantID, ...waiterData },
+        {
+          $set: {
+            orderItems,
+            subTotalPrice: calcSubTotalPrice(orderItems),
+
+            totalPrice:
+              calcSubTotalPrice(orderItems) - calcTotalDiscount(orderItems),
+
+            netPrice:
+              calcSubTotalPrice(orderItems) - calcTotalDiscount(orderItems),
+
+            totalDiscount: calcTotalDiscount(orderItems),
+            totalQty: totalQuantity(orderItems),
+          },
+        }
+      );
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
 };
 
 module.exports = controller;
