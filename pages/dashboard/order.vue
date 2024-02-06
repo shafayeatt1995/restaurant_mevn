@@ -409,6 +409,7 @@
           type="button"
           class="w-full tracking-wide flex-1"
           @click.native.prevent="sendCancelRequest"
+          :disabled="AddItemDisabled"
           :loading="cancelLoading"
         >
           <font-awesome-icon :icon="['fas', 'xmark']" /> Send cancel request
@@ -438,6 +439,7 @@
           variant="green"
           class="w-full tracking-wide flex-1"
           @click.native.prevent="requestBill"
+          :disabled="AddItemDisabled"
           :loading="acceptLoading"
         >
           <font-awesome-icon :icon="['fas', 'file-lines']" class="mr-1" />
@@ -656,7 +658,6 @@ export default {
       if (this.manager) {
         return false;
       } else {
-        console.log();
         return this.orderDetails.waiterID === this.$auth.user._id
           ? false
           : true;
@@ -924,7 +925,7 @@ export default {
           this.$nuxt.$emit("success", "Order complete");
           this.modal = false;
           this.updateStatus(this.orderDetails._id, status);
-          this.refetch();
+          // this.refetch();
         }
       } catch (error) {
         console.error(error);

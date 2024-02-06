@@ -24,7 +24,12 @@
     </table>
     <div style="margin-top: 5px"></div>
     <table
-      style="width: 100%;border-collapse: collapse;text-align: center;border: 1px solid #000"
+      style="
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        border: 1px solid #000;
+      "
     >
       <tbody style="font-size: 12px">
         <tr style="font-weight: 600; border-bottom: 1px solid #000">
@@ -51,7 +56,9 @@
           >
             <div style="font-size: 20px">
               {{ item.name }}
-              <span v-if="item.choice.name">({{ item.choice.name }})</span>
+            </div>
+            <div v-for="(choice, index) in item.choice" :key="`choice-${index}`">
+              <small>+ {{ choice.name }}</small>
             </div>
             <div v-for="(addon, index) in item.addon" :key="`addon-${index}`">
               <small>+ {{ addon.name }}</small>
@@ -109,19 +116,18 @@ export default {
     printReceipt() {
       try {
         this.$nextTick(() => {
-          const printContent = this.$refs.itemList.innerHTML;
-          const printWindow = window.open(
-            "",
-            "_blank",
-          );
-          printWindow.document.write(
-            `<html><body style="margin: 0; padding: 0 3px 0 0">${printContent.toString()}</body></html>`
-          );
-          printWindow.document.close();
-          printWindow.print();
-          printWindow.onafterprint = () => {
-            printWindow.close();
-          };
+          const printContent = this.$refs?.itemList?.innerHTML;
+          if (printContent) {
+            const printWindow = window.open("", "_blank");
+            printWindow.document.write(
+              `<html><body style="margin: 0; padding: 0 3px 0 0">${printContent.toString()}</body></html>`
+            );
+            printWindow.document.close();
+            printWindow.print();
+            printWindow.onafterprint = () => {
+              printWindow.close();
+            };
+          }
         });
       } catch (error) {
         console.error(error);

@@ -316,11 +316,13 @@ export default {
       this.qrModal = true;
     },
     async printQRCode() {
-      const printContent = this.$refs.qrCode.innerHTML;
-      const printWindow = window.open("", "_blank", "width=800,height=600");
-      printWindow.document.write(
-        `<html><head><style></style></head><body>${printContent.toString()}</body></html>`
-      );
+      const printContent = this.$refs?.qrCode?.innerHTML;
+      if (printContent) {
+        const printWindow = window.open("", "_blank", "width=800,height=600");
+        printWindow.document.write(
+          `<html><body>${printContent.toString()}</body></html>`
+        );
+      }
     },
     async downloadQR() {
       try {

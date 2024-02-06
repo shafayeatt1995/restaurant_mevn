@@ -57,12 +57,7 @@
     </table>
     <div style="margin-top: 10px"></div>
     <table
-      style="
-        width: 100%;
-        border-collapse: collapse;
-        text-align: center;
-        border: 1px solid #000;
-      "
+      style="width: 100%;border-collapse: collapse;text-align: center;border: 1px solid #000;"
     >
       <tbody style="font-size: 12px">
         <tr style="font-weight: 600; border-bottom: 1px solid #000">
@@ -206,19 +201,18 @@ export default {
     printReceipt() {
       try {
         this.$nextTick(() => {
-          const printContent = this.$refs.receipt.innerHTML;
-          const printWindow = window.open(
-            "",
-            "_blank",
-          );
-          printWindow.document.write(
-            `<html><body style="margin: 0; padding: 0 3px 0 0">${printContent}</body></html>`
-          );
-          printWindow.document.close();
-          printWindow.print();
-          printWindow.onafterprint = () => {
-            printWindow.close();
-          };
+          const printContent = this.$refs?.receipt?.innerHTML;
+          if (printContent) {
+            const printWindow = window.open("", "_blank");
+            printWindow.document.write(
+              `<html><body style="margin: 0; padding: 0 3px 0 0">${printContent}</body></html>`
+            );
+            printWindow.document.close();
+            printWindow.print();
+            printWindow.onafterprint = () => {
+              printWindow.close();
+            };
+          }
         });
       } catch (error) {
         console.error(error);
