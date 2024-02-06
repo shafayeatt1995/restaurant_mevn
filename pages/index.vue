@@ -438,7 +438,7 @@
         <Wave />
       </div>
     </section>
-    <footer class="bg-white shadow my-6 lg:my-0">
+    <footer class="bg-white shadow py-6 lg:my-0">
       <div
         class="container flex flex-col items-center justify-between px-6 lg:py-8 mx-auto lg:flex-row"
       >
