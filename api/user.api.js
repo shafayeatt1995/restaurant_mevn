@@ -28,4 +28,8 @@ export class UserApi extends BaseApi {
   billRequest(params) {
     return this.api.$get(`bill-request`, { params });
   }
+
+  updateProfile(params) {
+    return this.api.$get(`update-profile`, { params });
+  }
 }

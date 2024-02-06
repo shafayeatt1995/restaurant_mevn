@@ -502,6 +502,21 @@ const controller = {
       });
     }
   },
+
+  async updateProfile(req, res) {
+    try {
+      const { _id } = req.user;
+      const { name } = req.query;
+      await User.updateOne({ _id }, { name });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
 };
 
 module.exports = controller;

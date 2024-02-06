@@ -176,9 +176,19 @@ const updateEmployeeVal = [
     .withMessage("Don't try to spam"),
 ];
 
+const updateProfileVal = [
+  check("name")
+    .isLength({ min: 1 })
+    .withMessage("Name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim(),
+];
+
 module.exports = {
   createUserVal,
   restaurantNameVal,
   createEmployeeVal,
   updateEmployeeVal,
+  updateProfileVal,
 };

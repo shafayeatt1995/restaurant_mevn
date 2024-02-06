@@ -14,6 +14,7 @@
           <SettingsSetting v-if="activeTab === 'Setting'" />
           <SettingsNotification v-else-if="activeTab === 'Notification'" />
           <SettingsPrinting v-else-if="activeTab === 'Printing'" />
+          <SettingsProfile v-else-if="activeTab === 'Profile'" />
         </div>
       </div>
     </section>
@@ -31,15 +32,24 @@ export default {
   },
   data() {
     return {
-      activeTab: "Printing",
+      activeTab: "Profile",
     };
   },
   computed: {
-    ...mapGetters(["pageTitle", "manager"]),
+    ...mapGetters(["pageTitle", "manager", "waiter"]),
     tabTitle() {
       return [
         { title: "Setting", icon: ["fas", "gear"], show: false },
-        { title: "Printing", icon: ["far", "newspaper"], show: this.manager },
+        {
+          title: "Profile",
+          icon: ["fas", "circle-user"],
+        },
+        {
+          title: "password",
+          icon: ["fas", "key"],
+          show: !this.$auth.user.socialAccount,
+        },
+        { title: "Printing", icon: ["fas", "newspaper"], show: this.manager },
         { title: "Notification", icon: ["far", "bell"], show: false },
       ];
     },
