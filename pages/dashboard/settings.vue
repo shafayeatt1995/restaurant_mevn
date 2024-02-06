@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      activeTab: "Notification",
+      activeTab: "Printing",
     };
   },
   computed: {
@@ -40,7 +40,7 @@ export default {
       return [
         { title: "Setting", icon: ["fas", "gear"], show: false },
         { title: "Printing", icon: ["far", "newspaper"], show: this.manager },
-        { title: "Notification", icon: ["far", "bell"] },
+        { title: "Notification", icon: ["far", "bell"], show: false },
       ];
     },
   },
