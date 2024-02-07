@@ -34,7 +34,7 @@
           class="block w-full py-2 text-gray-700 bg-white border rounded-lg focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
           :class="field.icon ? 'px-11' : ' px-4'"
         >
-          <option value="">{{ field.placeholder }}</option>
+          <option value="" v-if="field.showEmptySelect ?? true">{{ field.placeholder }}</option>
           <option
             :value="option.value"
             v-for="(option, i) in field.options"

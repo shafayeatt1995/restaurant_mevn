@@ -40,6 +40,7 @@ const OrderSchema = new Schema(
     totalDiscount: { type: Number, required: true },
     totalQty: { type: Number, required: true },
     note: { type: String, default: "" },
+    cancelReason: { type: String, },
     orderType: { type: String, enum: ["Parcel", "Dine in"], required: true },
     status: {
       type: String,

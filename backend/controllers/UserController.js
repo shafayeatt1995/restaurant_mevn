@@ -14,7 +14,14 @@ const controller = {
         waiterID.waiterID = authID;
       }
 
-      const [[todaySale], [weeklySale], [monthlySale]] = await Promise.all([
+      const [
+        [todaySale],
+        [weeklySale],
+        [monthlySale],
+        [{ dailyCancel }],
+        [{ weeklyCancel }],
+        [{ monthlyCancel }],
+      ] = await Promise.all([
         Order.aggregate([
           {
             $match: {
@@ -75,8 +82,57 @@ const controller = {
             },
           },
         ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              ...waiterID,
+              created_at: {
+                $gt: convertDate(today, "start"),
+                $lt: convertDate(today, "end"),
+              },
+              status: "complete",
+            },
+          },
+          { $count: "dailyCancel" },
+        ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              ...waiterID,
+              created_at: {
+                $gt: convertDate(week[0], "start"),
+                $lt: convertDate(week[1], "end"),
+              },
+              status: "complete",
+            },
+          },
+          { $count: "weeklyCancel" },
+        ]),
+        Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              ...waiterID,
+              created_at: {
+                $gt: convertDate(month[0], "start"),
+                $lt: convertDate(month[1], "end"),
+              },
+              status: "complete",
+            },
+          },
+          { $count: "monthlyCancel" },
+        ]),
       ]);
-      res.status(200).json({ todaySale, weeklySale, monthlySale });
+      res.status(200).json({
+        todaySale,
+        weeklySale,
+        monthlySale,
+        dailyCancel,
+        weeklyCancel,
+        monthlyCancel,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({

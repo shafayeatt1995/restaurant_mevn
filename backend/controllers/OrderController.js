@@ -318,6 +318,7 @@ const controller = {
         setWaiterID,
         setWaiterName,
         managerMode = false,
+        cancelReason,
       } = req.query;
       const {
         _id: waiterID,
@@ -351,6 +352,9 @@ const controller = {
             message: "You can't cancel this order",
           });
         }
+      }
+      if (status === "cancel" && cancelReason) {
+        updateData.cancelReason = cancelReason;
       }
       await Order.updateOne(
         {

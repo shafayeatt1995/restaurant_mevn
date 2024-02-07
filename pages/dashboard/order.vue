@@ -537,6 +537,20 @@
         >
       </div>
     </Modal>
+    <Modal v-model="cancelModal" v-if="cancelModal">
+      <form @submit.prevent="cancelOrder">
+        <Input
+          v-for="(field, i) in cancelInputFields"
+          :key="i"
+          :field="field"
+          v-model="cancelForm"
+          :errors="errors"
+        />
+        <div class="flex justify-end mt-4">
+          <Button variant="red" type="submit">Cancel order</Button>
+        </div>
+      </form>
+    </Modal>
     <PrintReceipt
       :orderDetails="orderDetails"
       :showVatName="showVatName"
@@ -591,6 +605,8 @@ export default {
       deleteMode: false,
       updateLoading: false,
       selectEmployee: null,
+      cancelModal: false,
+      cancelForm: { cancelReason: "Wrong order" },
     };
   },
   computed: {
@@ -696,6 +712,23 @@ export default {
         0
       );
     },
+    cancelInputFields() {
+      const list = [
+        "Wrong order",
+        "Item Unavailability",
+        "Bad Quality",
+        "Others",
+      ];
+      return [
+        {
+          type: "select",
+          name: "cancelReason",
+          label: { id: "cancelReason", title: "Select cancel reason" },
+          options: list.map((data) => ({ value: data, label: data })),
+          showEmptySelect: false,
+        },
+      ];
+    },
   },
   watch: {
     date() {
@@ -716,6 +749,11 @@ export default {
       if (!val) {
         this.updateMode = false;
         this.deleteMode = false;
+      }
+    },
+    cancelModal(val) {
+      if (!val) {
+        this.cancelForm.cancelReason = "Wrong order";
       }
     },
     selectWaiterModal(val) {
@@ -868,24 +906,27 @@ export default {
     },
     async cancelOrder() {
       try {
-        if (confirm("Are you sure, you want to cancel?")) {
+        if (this.cancelModal) {
           this.cancelLoading = true;
+          this.errors = {};
           const status = "cancel";
           await this.$mowApi.updateOrderStatus({
             _id: this.orderDetails._id,
             status,
             currentStatus: this.orderDetails.status,
+            ...this.cancelForm,
           });
           this.$nuxt.$emit("success", "Order canceled");
           this.modal = false;
+          this.cancelModal = false;
           this.updateStatus(this.orderDetails._id, status);
           this.refetch();
+        } else {
+          this.cancelModal = true;
         }
       } catch (error) {
         console.error(error);
-        if (error?.response?.data?.message) {
-          this.$nuxt.$emit("error", error?.response?.data.message);
-        }
+        this.errors = error?.response?.data?.errors;
       } finally {
         this.cancelLoading = false;
       }
