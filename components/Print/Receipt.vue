@@ -31,6 +31,16 @@
             Website: {{ restaurant.printWebsite }}
           </td>
         </tr>
+        <tr v-if="restaurant.bin">
+          <td style="text-align: center">
+            BIN: {{ restaurant.bin }}
+          </td>
+        </tr>
+        <tr v-if="restaurant.mushak">
+          <td style="text-align: center">
+            Mushak: {{ restaurant.mushak }}
+          </td>
+        </tr>
       </tbody>
     </table>
     <table style="width: 100%; margin-top: 10px">

@@ -412,6 +412,8 @@ const controller = {
         printImage,
         printEmail,
         printWebsite,
+        bin,
+        mushak,
       } = req.body;
 
       await Restaurant.updateOne(
@@ -424,6 +426,8 @@ const controller = {
           printImage,
           printEmail,
           printWebsite,
+          bin,
+          mushak,
         }
       );
       res.status(200).json({ success: true });

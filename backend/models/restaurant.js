@@ -19,6 +19,8 @@ const RestaurantSchema = new Schema(
     customMessage: { type: String, default: "" },
     printImage: { type: String, default: "" },
     printEmail: { type: String, default: "" },
+    bin: { type: String, default: "" },
+    mushak: { type: String, default: "" },
     printWebsite: { type: String, default: "" },
     authOrder: { type: Boolean, default: false },
   },

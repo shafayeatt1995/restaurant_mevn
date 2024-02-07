@@ -46,6 +46,8 @@ export default {
         printEmail: this.$auth.user.restaurant.printEmail || "",
         printWebsite: this.$auth.user.restaurant.printWebsite || "",
         customMessage: this.$auth.user.restaurant.customMessage || "",
+        bin: this.$auth.user.restaurant.bin || "",
+        mushak: this.$auth.user.restaurant.mushak || "",
       },
       imageModal: false,
       selected: { url: this.$auth.user.restaurant.printImage },
@@ -84,6 +86,18 @@ export default {
           placeholder: "Restaurant website",
           name: "printWebsite",
           label: { id: "printWebsite", title: "Restaurant website" },
+        },
+        {
+          type: "text",
+          placeholder: "Bin",
+          name: "bin",
+          label: { id: "bin", title: "Bin" },
+        },
+        {
+          type: "text",
+          placeholder: "Mushak",
+          name: "mushak",
+          label: { id: "mushak", title: "Mushak" },
         },
         {
           type: "text",
