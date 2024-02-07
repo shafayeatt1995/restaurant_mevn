@@ -37,20 +37,29 @@
       <tbody style="font-size: 12px">
         <tr>
           <td>
-            <div>
-              <b>Date:</b>
-              {{ $moment().format("DD/MM/YYYY - HH:MMa") }}
+            <div style="text-align: left;">
+              Date:
+              {{ $moment(orderDetails.created_at).format("DD/MM/YYYY") }}
+            </div>
+          </td>
+          <td>
+            <div style="text-align: right;">
+              Time:
+              {{ $moment(orderDetails.created_at).format("hh:mm A") }}
             </div>
           </td>
         </tr>
         <tr>
           <td>
-            <div><b>Table: </b> {{ orderDetails.tableName }}</div>
+            <div style="text-align: left;">Table: {{ orderDetails.tableName }}</div>
+          </td>
+          <td>
+            <div style="text-align: right;">Order No: #{{ orderDetails.orderNumber }}</div>
           </td>
         </tr>
         <tr>
           <td>
-            <div><b>Customer:</b> {{ orderDetails.userName }}</div>
+            <div style="text-align: left;">Waiter: {{ orderDetails.waiterName }}</div>
           </td>
         </tr>
       </tbody>
