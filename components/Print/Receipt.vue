@@ -95,7 +95,7 @@
             x{{ item.qty }}
           </td>
           <td style="width: 40px; padding: 0 5px">
-            ৳{{ singleItemPrice(item) | number }}
+            {{ singleItemPrice(item) | number }}
           </td>
         </tr>
       </tbody>
@@ -148,7 +148,7 @@
         <tr style="font-size: 15px; font-weight: 600">
           <td style="width: calc(100% - 60px)">Total payable</td>
           <td style="width: 60px; text-align: right">
-            ৳{{ totalPayable() | number }}
+            {{ totalPayable() | number }}
           </td>
         </tr>
       </tbody>
