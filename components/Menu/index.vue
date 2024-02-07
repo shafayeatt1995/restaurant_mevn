@@ -86,7 +86,7 @@ export default {
     },
     manualOrder() {
       const { manualOrder, additionalMode, email } = this.$route.query;
-      return (manualOrder || additionalMode, email) ?? false;
+      return (manualOrder || additionalMode && email) ?? false;
     },
   },
   watch: {
