@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageTitle", "manager", "waiter"]),
+    ...mapGetters(["pageTitle", "manager", "waiter", "isDev"]),
     tabTitle() {
       return [
         { title: "Setting", icon: ["fas", "gear"], show: false },
@@ -53,7 +53,11 @@ export default {
         },
         { title: "Printing", icon: ["fas", "newspaper"], show: this.manager },
         { title: "Notification", icon: ["far", "bell"], show: false },
-        { title: "Printer", icon: ["fas", "print"], show: this.manager },
+        {
+          title: "Printer",
+          icon: ["fas", "print"],
+          show: this.isDev ?? this.manager,
+        },
       ];
     },
   },
