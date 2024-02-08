@@ -18,9 +18,9 @@ const controller = {
         [todaySale],
         [weeklySale],
         [monthlySale],
-        [{ dailyCancel }],
-        [{ weeklyCancel }],
-        [{ monthlyCancel }],
+        [dailyCancel],
+        [weeklyCancel],
+        [monthlyCancel],
       ] = await Promise.all([
         Order.aggregate([
           {
@@ -129,9 +129,9 @@ const controller = {
         todaySale,
         weeklySale,
         monthlySale,
-        dailyCancel,
-        weeklyCancel,
-        monthlyCancel,
+        dailyCancel: dailyCancel?.dailyCancel ?? 0,
+        weeklyCancel: weeklyCancel?.weeklyCancel ?? 0,
+        monthlyCancel: monthlyCancel?.monthlyCancel ?? 0,
       });
     } catch (error) {
       console.error(error);

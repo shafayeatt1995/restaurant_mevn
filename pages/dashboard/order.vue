@@ -58,11 +58,14 @@
         </div>
         <template v-else>
           <div class="flex flex-col lg:flex-row justify-between pt-3 gap-5">
-            <TabTitle
-              :tabTitle="tabOrderType"
-              v-model="orderType"
-              :fullWidth="isMobile"
-            />
+            <div class="flex items-center justify-between lg:justify-start">
+              <TabTitle
+                :tabTitle="tabOrderType"
+                v-model="orderType"
+                :fullWidth="isMobile"
+              />
+              <p class="text-gray-700">Total order {{ orderCount }}</p>
+            </div>
             <div class="flex gap-3 items-center">
               <DatePicker
                 v-model="date"
@@ -137,6 +140,12 @@
                   <p class="font-normal">
                     Customer ID:
                     <span class="font-bold">{{ item.userEmail || "#" }}</span>
+                  </p>
+                  <p class="font-normal" v-if="item.cancelReason">
+                    Cancel Reason:
+                    <span class="font-bold">{{
+                      item.cancelReason || "#"
+                    }}</span>
                   </p>
                 </div>
               </template>
@@ -582,6 +591,7 @@ export default {
       modal: false,
       active: this.$route?.query?.tab || "Table view",
       orderType: "All",
+      orderCount: 0,
       date: [],
       items: [],
       tables: [],
