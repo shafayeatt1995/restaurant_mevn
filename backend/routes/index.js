@@ -5,16 +5,6 @@ const { isAuthenticated } = require("@/backend/middleware");
 router.use("/auth", require("./auth"));
 router.use("/menu", require("./menu"));
 
-router.use(isAuthenticated);
-router.use("/push-notification", require("./push-notification"));
-router.use("/order", require("./order"));
-router.use("/admin", require("./admin"));
-router.use("/manager", require("./manager"));
-router.use("/user", require("./user"));
-router.use("/item", require("./item"));
-router.use("/mow", require("./mow"));
-
-const selectedPrinter = "DIR-E58";
 router.get("/print", async (req, res) => {
   try {
     const print = `<p>Amar nam shafayet Al-ANik</p>`;
@@ -24,5 +14,13 @@ router.get("/print", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+router.use(isAuthenticated);
+router.use("/push-notification", require("./push-notification"));
+router.use("/order", require("./order"));
+router.use("/admin", require("./admin"));
+router.use("/manager", require("./manager"));
+router.use("/user", require("./user"));
+router.use("/item", require("./item"));
+router.use("/mow", require("./mow"));
 
 module.exports = router;
