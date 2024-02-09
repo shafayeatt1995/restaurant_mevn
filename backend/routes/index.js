@@ -8,10 +8,10 @@ router.use("/menu", require("./menu"));
 router.get("/print", async (req, res) => {
   try {
     const print = `<p>Amar nam shafayet Al-ANik</p>`;
-    res.status(200).json({ success: true, print });
+    res.status(200).send(print);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(500).send("");
   }
 });
 router.use(isAuthenticated);
