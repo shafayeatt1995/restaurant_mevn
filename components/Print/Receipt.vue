@@ -6,7 +6,7 @@
           <td style="text-align: center; text-align: -webkit-center">
             <img
               :src="restaurant.printImage"
-              style="max-width: 70%; max-height: 75px"
+              style="max-width: 70%; max-height: 95px"
             />
           </td>
         </tr>
@@ -32,14 +32,10 @@
           </td>
         </tr>
         <tr v-if="restaurant.bin">
-          <td style="text-align: center">
-            BIN: {{ restaurant.bin }}
-          </td>
+          <td style="text-align: center">BIN: {{ restaurant.bin }}</td>
         </tr>
         <tr v-if="restaurant.mushak">
-          <td style="text-align: center">
-            Mushak: {{ restaurant.mushak }}
-          </td>
+          <td style="text-align: center">Mushak: {{ restaurant.mushak }}</td>
         </tr>
       </tbody>
     </table>
@@ -61,15 +57,21 @@
         </tr>
         <tr>
           <td>
-            <div style="text-align: left;">Table: {{ orderDetails.tableName }}</div>
+            <div style="text-align: left;">
+              Table: {{ orderDetails.tableName }}
+            </div>
           </td>
           <td>
-            <div style="text-align: right;">Order No: #{{ orderDetails.orderNumber }}</div>
+            <div style="text-align: right;">
+              Order No: #{{ orderDetails.orderNumber }}
+            </div>
           </td>
         </tr>
         <tr>
           <td>
-            <div style="text-align: left;">Waiter: {{ orderDetails.waiterName }}</div>
+            <div style="text-align: left;">
+              Waiter: {{ orderDetails.waiterName }}
+            </div>
           </td>
         </tr>
       </tbody>
