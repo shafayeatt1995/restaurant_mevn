@@ -403,8 +403,8 @@
               ৳<input
                 v-model.number="payment.amount"
                 type="number"
-                class="border border-gray-700 rounded-lg w-16 text-right pl-2 appearance-none"
-                placeholder="Pay amount"
+                class="border border-gray-700 rounded-lg w-20 text-right pl-1 appearance-none"
+                placeholder="Amount"
               />
             </div>
           </div>
@@ -689,7 +689,7 @@ export default {
       items: [],
       tables: [],
       vats: [],
-      payment: { method: "Cash", amount: 0 },
+      payment: { method: "Cash", amount: '' },
       paymentMethods: ["Cash", "bKash", "ATM Card"],
       perPage: 30,
       vat: "",
@@ -826,8 +826,8 @@ export default {
     cancelInputFields() {
       const list = [
         "Wrong order",
-        "Item Unavailability",
-        "Bad Quality",
+        "Item unavailability",
+        "Bad quality",
         "Others",
       ];
       return [
@@ -860,7 +860,7 @@ export default {
       if (!val) {
         this.updateMode = false;
         this.deleteMode = false;
-        this.payment = { method: "Cash", amount: 0 };
+        this.payment = { method: "Cash", amount: '' };
       }
     },
     cancelModal(val) {
@@ -1270,6 +1270,7 @@ export default {
         this.orderDetails.additionalCharges = data.additionalCharges;
         this.additionalCharges = [];
         this.updateMode = false;
+        this.$nuxt.$emit('success', 'Service charge added successfully');
       } catch (error) {
         console.error(error);
         this.$nuxt.$emit("error", "Something Wrong! Please try Again");
