@@ -1270,6 +1270,7 @@ export default {
         this.orderDetails.additionalCharges = data.additionalCharges;
         this.additionalCharges = [];
         this.updateMode = false;
+        this.refetch()
       } catch (error) {
         console.error(error);
         this.$nuxt.$emit("error", "Something Wrong! Please try Again");
