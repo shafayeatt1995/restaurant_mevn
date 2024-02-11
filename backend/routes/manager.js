@@ -68,6 +68,7 @@ const {
   fetchOrder,
   fetchPrintOrder,
   addServiceCharge,
+  fetchSingleOrder
 } = require("@/backend/controllers/OrderController");
 const {
   fetchVat,
@@ -161,6 +162,7 @@ router.get("/notification/mark", markAllNotification);
 // router.patch("/vat", vatVal, validation, updateVat);
 // router.delete("/vat", deleteVat);
 
+router.get("/single-order/:_id", fetchSingleOrder);
 router.get("/order", fetchOrder);
 router.get("/order/print-details/:_id", fetchPrintOrder);
 router.post("/add-service-charge", addServiceCharge);

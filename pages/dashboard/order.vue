@@ -22,7 +22,7 @@
     </section>
 
     <section class="px-4">
-      <div class="px-2 bg-white rounded-lg pt-2">
+      <div class="px-2 bg-white rounded-lg pt-2 shadow-lg">
         <TabTitle
           :tabTitle="tabTitle"
           v-model="active"
@@ -64,7 +64,7 @@
                 v-model="orderType"
                 :fullWidth="isMobile"
               />
-              <p class="text-gray-700">Total order {{ orderCount }}</p>
+              <!-- <p class="text-gray-700">Total order {{ orderCount }}</p> -->
             </div>
             <div class="flex gap-3 items-center">
               <DatePicker
@@ -223,9 +223,10 @@
           v-for="(cart, key) in orderDetails.orderItems"
           :key="`cart-${key}`"
           class="flex mb-2"
+          :class="cart.AdditionalOrderNumber > 1 ? 'mt-2' : ''"
         >
           <td class="pr-3">{{ cart.qty }}x</td>
-          <td class="flex-1 min-h-11">
+          <td class="flex-1">
             <small
               v-if="cart.AdditionalOrderNumber > 1"
               class="absolute mt-[-12px]"
@@ -240,7 +241,8 @@
                   orderDetails?.orderItems &&
                   orderDetails?.orderItems?.length > 1 &&
                   (orderDetails.status === 'pending' ||
-                    orderDetails.status === 'active')
+                    orderDetails.status === 'active' ||
+                    orderDetails.status === 'billing')
                 "
                 class="text-rose-600 ml-3 text-lg cursor-pointer"
                 @click="removeItems(cart)"
@@ -248,7 +250,10 @@
                 <font-awesome-icon :icon="['far', 'circle-xmark']" />
               </span>
             </p>
-            <p class="flex flex-col text-gray-500">
+            <p
+              class="flex flex-col text-gray-500"
+              v-if="cart.choice && cart.choice.length"
+            >
               <small
                 v-for="(choice, index) in cart.choice"
                 :key="`choice-${index}`"
@@ -256,7 +261,10 @@
                 + {{ choice.name }}
               </small>
             </p>
-            <p class="flex flex-col text-gray-500">
+            <p
+              class="flex flex-col text-gray-500"
+              v-if="cart.addon && cart.addon.length"
+            >
               <small
                 v-for="(addon, index) in cart.addon"
                 :key="`addon-${index}`"
@@ -269,7 +277,7 @@
             <p class="text-right">৳{{ singleItemPrice(cart) }}</p>
             <p class="text-right mt-[-8px]" v-if="singleItemDiscount(cart) > 0">
               <small class="text-rose-500"
-                >(৳{{ singleItemDiscount(cart) }})</small
+                >-৳{{ singleItemDiscount(cart) }}</small
               >
             </p>
           </td>
@@ -282,14 +290,14 @@
           </div>
           <div class="flex justify-between mb-2">
             <p>Discount:</p>
-            <p class="text-rose-500">৳{{ totalDiscount }}</p>
+            <p class="text-rose-500">-৳{{ totalDiscount }}</p>
           </div>
           <hr />
           <div class="flex justify-between font-bold">
             <p>Total price:</p>
             <p>৳{{ subTotalPrice - totalDiscount }}</p>
           </div>
-          <div v-if="orderDetails.status === 'complete'">
+          <div v-if="orderDetails.status === 'billing'">
             <div class="flex justify-between mb-2 mt-1">
               <div class="flex">
                 <p>{{ showVatName }}</p>
@@ -368,48 +376,174 @@
           </div>
         </div>
         <hr class="mt-1" />
-        <div class="flex justify-between mb-2 text-lg font-bold">
+        <div class="flex justify-between text-lg font-bold">
           <p>Total Payable:</p>
           <p>৳{{ totalPayable | number }}</p>
         </div>
+        <template v-if="orderDetails.status === 'billing'">
+          <div class="flex justify-between mb-1">
+            <div class="flex">
+              <p>Pay by:</p>
+              <template v-if="manager">
+                <select
+                  v-model="payment.method"
+                  class="border border-gray-700 ml-2 rounded-lg"
+                >
+                  <option
+                    :value="method"
+                    v-for="(method, key) in paymentMethods"
+                    :key="key"
+                  >
+                    {{ method }}
+                  </option>
+                </select>
+              </template>
+            </div>
+            <div>
+              ৳<input
+                v-model.number="payment.amount"
+                type="number"
+                class="border border-gray-700 rounded-lg w-16 text-right pl-2 appearance-none"
+                placeholder="Pay amount"
+              />
+            </div>
+          </div>
+          <hr />
+          <div class="flex justify-between text-lg font-bold">
+            <p>Returned Amount:</p>
+            <p>৳{{ (payment.amount - totalPayable) | number }}</p>
+          </div>
+        </template>
+        <template v-if="orderDetails.status === 'complete'">
+          <div class="flex justify-between mb-1">
+            <div class="flex">
+              <p>Pay by: {{ orderDetails.paymentMethod }}</p>
+            </div>
+            <div>৳{{ orderDetails.paymentReceivedAmount }}</div>
+          </div>
+          <hr />
+          <div class="flex justify-between text-lg font-bold">
+            <p>Returned Amount:</p>
+            <p>
+              ৳{{
+                (orderDetails.paymentReceivedAmount - totalPayable) | number
+              }}
+            </p>
+          </div>
+        </template>
       </table>
 
       <div
-        class="flex flex-col lg:flex-row mt-4 gap-4"
-        v-if="orderDetails.status === 'active'"
-      >
-        <Button
-          variant="green"
-          class="w-full tracking-wide flex-1"
-          @click.native.prevent="printOrderDetails()"
-          :disabled="AddItemDisabled"
-        >
-          <font-awesome-icon :icon="['fas', 'print']" />
-          Print for chef
-        </Button>
-        <Button
-          variant="green"
-          class="w-full tracking-wide flex-1"
-          @click.native.prevent="deleteMode ? updateOrder() : addItem()"
-          :disabled="AddItemDisabled"
-          :loading="updateLoading"
-        >
-          <template v-if="deleteMode"
-            ><font-awesome-icon :icon="['far', 'pen-to-square']" /> Update order
-          </template>
-          <div v-else>
-            <font-awesome-icon :icon="['fas', 'plus']" />
-            Add additional Item
-          </div>
-        </Button>
-      </div>
-      <div
-        class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
+        class="mt-4 grid grid-cols-1 lg:grid-cols-2 items-center sm:-mx-2 gap-3 check-odd"
       >
         <Button
           v-if="
             (orderDetails.status === 'active' ||
-              orderDetails.status === 'pending') &&
+              orderDetails.status === 'billing') &&
+            deleteMode
+          "
+          variant="green"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="updateOrder"
+          :disabled="AddItemDisabled"
+          :loading="updateLoading"
+        >
+          <font-awesome-icon :icon="['far', 'pen-to-square']" /> Update order
+        </Button>
+        <template v-else>
+          <Button
+            v-if="orderDetails.status === 'billing' && manager && updateMode"
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            :loading="updateLoading"
+            @click.native.prevent="updateVat"
+          >
+            <font-awesome-icon :icon="['fas', 'percent']" />
+            Update vat
+          </Button>
+          <Button
+            v-else-if="
+              (orderDetails.status === 'billing' ||
+                orderDetails.status === 'complete') &&
+              manager
+            "
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="printOrder"
+          >
+            <font-awesome-icon :icon="['fas', 'print']" />
+            Print Receipt
+          </Button>
+          <Button
+            v-if="orderDetails.status === 'active'"
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="printOrderDetails()"
+            :disabled="AddItemDisabled"
+          >
+            <font-awesome-icon :icon="['fas', 'print']" />
+            Print for chef
+          </Button>
+          <Button
+            v-if="
+              orderDetails.status === 'active' ||
+              orderDetails.status === 'billing'
+            "
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            :disabled="AddItemDisabled"
+            @click.native.prevent="addItem"
+          >
+            <font-awesome-icon :icon="['fas', 'plus']" />
+            Add additional Item
+          </Button>
+          <Button
+            v-if="orderDetails.status === 'pending'"
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="acceptOrder"
+            :loading="acceptLoading"
+          >
+            <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
+            Accept order
+          </Button>
+          <Button
+            v-else-if="orderDetails.status === 'active' && manager"
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="billingOrder"
+            :loading="acceptLoading"
+          >
+            <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
+            Create bill
+          </Button>
+          <Button
+            v-else-if="orderDetails.status === 'billing' && manager"
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="manager ? completeOrder() : ''"
+            :loading="acceptLoading"
+          >
+            <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
+            Complete order
+          </Button>
+          <Button
+            v-else-if="orderDetails.status === 'active' && waiter"
+            variant="green"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="requestBill"
+            :disabled="AddItemDisabled"
+            :loading="acceptLoading"
+          >
+            <font-awesome-icon :icon="['fas', 'file-lines']" class="mr-1" />
+            Send billing request
+          </Button>
+        </template>
+        <Button
+          v-if="
+            (orderDetails.status === 'active' ||
+              orderDetails.status === 'pending' ||
+              orderDetails.status === 'billing') &&
             manager
           "
           variant="red"
@@ -430,7 +564,8 @@
         <Button
           v-if="
             (orderDetails.status === 'active' ||
-              orderDetails.status === 'pending') &&
+              orderDetails.status === 'pending' ||
+              orderDetails.status === 'billing') &&
             waiter
           "
           variant="red"
@@ -443,59 +578,17 @@
           <font-awesome-icon :icon="['fas', 'xmark']" /> Send cancel request
         </Button>
         <Button
-          v-if="orderDetails.status === 'pending'"
-          variant="green"
-          class="w-full tracking-wide flex-1"
-          @click.native.prevent="acceptOrder"
-          :loading="acceptLoading"
-        >
-          <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
-          Accept order
-        </Button>
-        <Button
-          v-else-if="orderDetails.status === 'active' && manager"
-          variant="green"
-          class="w-full tracking-wide flex-1"
-          @click.native.prevent="manager ? completeOrder() : ''"
-          :loading="acceptLoading"
-        >
-          <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
-          Complete order
-        </Button>
-        <Button
-          v-else-if="orderDetails.status === 'active' && waiter"
-          variant="green"
-          class="w-full tracking-wide flex-1"
-          @click.native.prevent="requestBill"
-          :disabled="AddItemDisabled"
-          :loading="acceptLoading"
-        >
-          <font-awesome-icon :icon="['fas', 'file-lines']" class="mr-1" />
-          Send billing request
-        </Button>
-        <Button
-          v-else
+          v-if="
+            orderDetails.status === 'complete' ||
+            orderDetails.status === 'cancel'
+          "
           variant="red"
+          type="button"
           class="w-full tracking-wide flex-1"
+          :class="orderDetails.status === 'cancel' ? 'col-span-2' : ''"
           @click.native.prevent="modal = false"
         >
-          <font-awesome-icon :icon="['fas', 'xmark']" />
-          Close
-        </Button>
-        <Button
-          v-if="orderDetails.status === 'complete'"
-          variant="green"
-          class="w-full tracking-wide flex-1"
-          :loading="updateLoading"
-          :disabled="!manager"
-          @click.native.prevent="
-            manager ? (updateMode ? updateVat() : printOrder()) : ''
-          "
-        >
-          <font-awesome-icon
-            :icon="['fas', updateMode ? 'percent' : 'print']"
-          />
-          {{ updateMode ? "Update vat" : "Print Receipt" }}
+          <font-awesome-icon :icon="['fas', 'xmark']" /> Close
         </Button>
       </div>
     </Modal>
@@ -596,6 +689,8 @@ export default {
       items: [],
       tables: [],
       vats: [],
+      payment: { method: "Cash", amount: 0 },
+      paymentMethods: ["Cash", "bKash", "ATM Card"],
       perPage: 30,
       vat: "",
       loading: true,
@@ -633,7 +728,7 @@ export default {
           title: "Table view",
           status: "pending",
           icon: ["fas", "table-cells"],
-          iconClass: "text-purple-500",
+          iconClass: "text-grey-700",
         },
         {
           title: "Pending order",
@@ -646,6 +741,12 @@ export default {
           status: "active",
           icon: ["fas", "pizza-slice"],
           iconClass: "text-sky-500",
+        },
+        {
+          title: "Billing order",
+          status: "billing",
+          icon: ["fas", "file-invoice"],
+          iconClass: "text-purple-500",
         },
         {
           title: "Complete order",
@@ -759,6 +860,7 @@ export default {
       if (!val) {
         this.updateMode = false;
         this.deleteMode = false;
+        this.payment = { method: "Cash", amount: 0 };
       }
     },
     cancelModal(val) {
@@ -903,6 +1005,8 @@ export default {
         return "bg-green-200 hover:bg-green-300";
       } else if (status === "cancel") {
         return "bg-rose-200 hover:bg-rose-300";
+      } else if (status === "billing") {
+        return "bg-purple-200 hover:bg-purple-300";
       }
     },
     openOrderDetails(item, serial) {
@@ -1002,26 +1106,58 @@ export default {
         console.error(error);
       }
     },
-    async completeOrder() {
+    async billingOrder() {
       try {
-        if (confirm(`Are you sure, you want to complete this order?`)) {
-          const status = "complete";
+        if (confirm(`Are you sure, you want to create bill?`)) {
+          const status = "billing";
           this.acceptLoading = true;
           await this.$mowApi.updateOrderStatus({
             _id: this.orderDetails._id,
             status,
             currentStatus: this.orderDetails.status,
           });
-          this.$nuxt.$emit("success", "Order complete");
           this.modal = false;
           this.updateStatus(this.orderDetails._id, status);
-          // this.refetch();
+          this.refetch();
         }
       } catch (error) {
         console.error(error);
       } finally {
         this.acceptLoading = false;
       }
+    },
+    async completeOrder() {
+      try {
+        if (this.payment.amount > 0) {
+          if (confirm(`Are you sure, you want to complete this order?`)) {
+            const status = "complete";
+            this.acceptLoading = true;
+            const paymentData = { ...this.payment };
+            await this.$mowApi.updateOrderStatus({
+              _id: this.orderDetails._id,
+              status,
+              currentStatus: this.orderDetails.status,
+              ...paymentData,
+            });
+            this.modal = false;
+            this.$nuxt.$emit("success", "Order complete");
+            this.updatePaymentData(this.orderDetails._id, paymentData);
+            this.updateStatus(this.orderDetails._id, status);
+            // this.refetch();
+          }
+        } else {
+          this.$nuxt.$emit("error", "Please input paid by amount");
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.acceptLoading = false;
+      }
+    },
+    updatePaymentData(id, { method, amount }) {
+      const i = this.items.findIndex(({ _id }) => _id === id);
+      this.items[i].paymentMethod = method;
+      this.items[i].paymentReceivedAmount = amount;
     },
     updateStatus(id, status) {
       const i = this.items.findIndex(({ _id }) => _id === id);
@@ -1105,7 +1241,7 @@ export default {
       return null;
     },
     async printOrder() {
-      this.$nuxt.$emit("trigger-print-receipt");
+      this.$nuxt.$emit("trigger-print-receipt", this.orderDetails._id);
     },
     vatName(vat) {
       return this.vats.find(({ _id }) => _id === vat);

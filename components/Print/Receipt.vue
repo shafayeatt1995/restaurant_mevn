@@ -1,5 +1,5 @@
 <template>
-  <div style="font-size: 12px; display: none" ref="receipt">
+  <div style="font-size: 12px; display: none" ref="receipt" v-if="orderDetails?._id">
     <table style="width: 100%">
       <tbody style="font-size: 12px">
         <tr v-if="restaurant.printImage">
@@ -106,7 +106,9 @@
           >
             <div>
               {{ item.name }}
-              <span v-if="item.choice.name">({{ item.choice.name }})</span>
+            </div>
+            <div v-for="(choice, index) in item.choice" :key="`choice-${index}`">
+              <small>+ {{ choice.name }}</small>
             </div>
             <div v-for="(addon, index) in item.addon" :key="`addon-${index}`">
               <small>+ {{ addon.name }}</small>
@@ -126,13 +128,13 @@
         <tr style="font-weight: 600">
           <td style="width: calc(100% - 60px)">Sub total</td>
           <td style="width: 60px; text-align: right">
-            {{ orderDetails.subTotalPrice | number }}
+            {{ orderDetails.subTotalPrice ?? 0 | number }}
           </td>
         </tr>
         <tr>
           <td style="width: calc(100% - 60px)">Discount</td>
           <td style="width: 60px; text-align: right">
-            {{ orderDetails.totalDiscount | number }}
+            -{{ orderDetails.totalDiscount ?? 0 | number }}
           </td>
         </tr>
       </tbody>
@@ -143,13 +145,13 @@
         <tr style="font-weight: 600">
           <td style="width: calc(100% - 60px)">Total price</td>
           <td style="width: 60px; text-align: right">
-            {{ orderDetails.totalPrice | number }}
+            {{ orderDetails.totalPrice ?? 0 | number }}
           </td>
         </tr>
         <tr>
-          <td style="width: calc(100% - 60px)">{{ showVatName }}</td>
+          <td style="width: calc(100% - 60px)">{{ orderDetails.vatName }}</td>
           <td style="width: 60px; text-align: right">
-            {{ showVatAmount | number }}
+            {{ orderDetails.vatAmount ?? 0 | number }}
           </td>
         </tr>
         <tr
@@ -158,7 +160,7 @@
         >
           <td style="width: calc(100% - 60px)">{{ additional.name }}</td>
           <td style="width: 60px; text-align: right">
-            {{ additional.charge | number }}
+            {{ additional.charge ?? 0| number }}
           </td>
         </tr>
       </tbody>
@@ -172,10 +174,23 @@
             {{ totalPayable() | number }}
           </td>
         </tr>
+        <tr v-if="orderDetails.paymentMethod && orderDetails.status === 'complete'">
+          <td style="width: calc(100% - 60px)">Pay by: {{ orderDetails.paymentMethod }}</td>
+          <td style="width: 60px; text-align: right">
+            {{ orderDetails.paymentReceivedAmount ?? 0 | number }}
+          </td>
+        </tr>
+        <tr v-if="orderDetails.paymentMethod && orderDetails.status === 'complete'">
+          <td style="width: calc(100% - 60px)">Returned Amount</td>
+          <td style="width: 60px; text-align: right">
+            {{ (orderDetails.paymentReceivedAmount - totalPayable()) ?? 0 | number }}
+          </td>
+        </tr>
       </tbody>
     </table>
+    <div style="border-bottom: 1px solid #000" v-if="orderDetails.paymentMethod && orderDetails.status === 'complete'"></div>
     <p style="padding: 0 15px; text-align: center; font-size: 12px">
-      Thank you for coming
+      {{ restaurant.customMessage }}
     </p>
     <center style="font-size: 12px">Technology Partner "scaneating.com"</center>
   </div>
@@ -184,10 +199,10 @@
 <script>
 export default {
   name: "PrintReceipt",
-  props: {
-    orderDetails: Object,
-    showVatName: String,
-    showVatAmount: Number,
+  data(){
+    return {
+      orderDetails:{}
+    }
   },
   computed: {
     restaurant() {
@@ -195,7 +210,7 @@ export default {
     },
   },
   created() {
-    this.$nuxt.$on("trigger-print-receipt", () => this.printReceipt());
+    this.$nuxt.$on("trigger-print-receipt", (orderID) => this.fetchOrder(orderID));
   },
   methods: {
     calcPrice(item) {
@@ -216,8 +231,8 @@ export default {
       return (
         this.orderDetails.totalPrice +
         this.additionalChargesAmount() +
-        this.showVatAmount
-      );
+        this.orderDetails.vatAmount
+      ) || 0;
     },
     printReceipt() {
       try {
@@ -232,6 +247,7 @@ export default {
             printWindow.print();
             printWindow.onafterprint = () => {
               printWindow.close();
+              this.orderDetails = {}
             };
           }
         });
@@ -239,6 +255,15 @@ export default {
         console.error(error);
       }
     },
+    async fetchOrder(orderID){
+      try {
+        const {order} = await this.$managerApi.fetchSingleOrder(orderID)
+        this.orderDetails = order
+        this.printReceipt()
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
 };
 </script>

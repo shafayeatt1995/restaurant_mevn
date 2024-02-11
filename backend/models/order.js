@@ -40,11 +40,11 @@ const OrderSchema = new Schema(
     totalDiscount: { type: Number, required: true },
     totalQty: { type: Number, required: true },
     note: { type: String, default: "" },
-    cancelReason: { type: String, },
+    cancelReason: { type: String },
     orderType: { type: String, enum: ["Parcel", "Dine in"], required: true },
     status: {
       type: String,
-      enum: ["pending", "active", "complete", "cancel"],
+      enum: ["pending", "active", "billing", "complete", "cancel"],
       default: "pending",
     },
     orderNumber: { type: Number, unique: true },
@@ -53,6 +53,8 @@ const OrderSchema = new Schema(
     vatAmount: { type: Number },
     additionalCharges: [additionalChargesSchema],
     additionalChargesAmount: { type: Number },
+    paymentMethod: { type: String },
+    paymentReceivedAmount: { type: Number, default: 0 },
   },
   {
     strict: true,

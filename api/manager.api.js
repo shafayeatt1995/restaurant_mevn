@@ -200,4 +200,8 @@ export class ManagerApi extends BaseApi {
   updateFeatureCategory(body) {
     return this.api.$patch(`feature-category`, body);
   }
+
+  fetchSingleOrder(id) {
+    return this.api.$get(`single-order/${id}`);
+  }
 }

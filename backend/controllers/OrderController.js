@@ -54,7 +54,7 @@ const controller = {
         {
           $match: {
             restaurantID,
-            status: { $in: ["pending", "active"] },
+            status: { $in: ["pending", "active", "billing"] },
           },
         },
         {
@@ -121,7 +121,7 @@ const controller = {
         const checkOrder = await Order.findOne({
           restaurantID,
           tableID,
-          status: { $in: ["pending", "active"] },
+          status: { $in: ["pending", "active", "billing"] },
         });
         if (checkOrder) {
           if (checkOrder.userEmail === userEmail || additionalMode) {
@@ -136,7 +136,11 @@ const controller = {
               ...mapData,
               AdditionalOrderNumber: checkAdditionalOrderNumber + 1,
             }));
-
+            console.log({
+              restaurantID,
+              tableID,
+              userEmail: additionalMode ? externalUserEmail : userEmail,
+            });
             const update = await Order.findOneAndUpdate(
               {
                 restaurantID,
@@ -309,6 +313,21 @@ const controller = {
     }
   },
 
+  async fetchSingleOrder(req, res) {
+    try {
+      const { _id } = req.params;
+      const { restaurantID } = req.user;
+
+      const order = await Order.findOne({_id, restaurantID });
+      res.status(200).json({ order });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Something wrong. Please try again" });
+    }
+  },
+
   async updateOrderStatus(req, res) {
     try {
       const {
@@ -319,7 +338,10 @@ const controller = {
         setWaiterName,
         managerMode = false,
         cancelReason,
+        method,
+        amount,
       } = req.query;
+
       const {
         _id: waiterID,
         name: waiterName,
@@ -356,13 +378,11 @@ const controller = {
       if (status === "cancel" && cancelReason) {
         updateData.cancelReason = cancelReason;
       }
-      await Order.updateOne(
-        {
-          _id,
-          restaurantID,
-        },
-        updateData
-      );
+      if (method && amount) {
+        updateData.paymentMethod = method;
+        updateData.paymentReceivedAmount = amount;
+      }
+      await Order.updateOne({ _id, restaurantID }, updateData);
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);

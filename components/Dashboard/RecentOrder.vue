@@ -31,9 +31,9 @@
             <td class="pt-5 font-medium">{{ order.tableName }}</td>
             <td
               class="pt-5 font-medium capitalize"
-              :class="getStatue(order.status).class"
+              :class="getStatue(order.status)?.class || ''"
             >
-              <font-awesome-icon :icon="getStatue(order.status).icon" />
+              <font-awesome-icon :icon="getStatue(order.status)?.icon || ''" />
               {{ order.status }}
             </td>
             <td class="pt-5 font-medium">
@@ -76,6 +76,8 @@ export default {
         return { icon: ["fas", "circle-xmark"], class: "text-rose-500" };
       } else if (status === "complete") {
         return { icon: ["fas", "circle-check"], class: "text-green-500" };
+      } else if (status === "billing") {
+        return { icon: ["fas", "file-invoice"], class: "text-purple-500" };
       }
     },
   },

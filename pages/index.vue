@@ -14,7 +14,6 @@
             />
           </nuxt-link>
 
-          <!-- Mobile menu button -->
           <div class="flex md:hidden">
             <button
               @click="isOpen = !isOpen"

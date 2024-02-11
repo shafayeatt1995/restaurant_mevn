@@ -44,7 +44,7 @@
             <div style="font-size: 20px; font-weight: 700;">
               {{ item.name }}
             </div>
-            <div v-for="(choice, index) in item.choice" :key="`choice-${index}`">
+            <div v-for="(choice, index) in item.choice" :key="`choice-${index}`" style="font-size: 16px;">
               <p style="margin: 0;">+ {{ choice.name }}</p>
             </div>
             <div v-for="(addon, index) in item.addon" :key="`addon-${index}`">
