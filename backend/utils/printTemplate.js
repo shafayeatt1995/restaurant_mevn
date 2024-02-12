@@ -1,4 +1,4 @@
-const print = `<div style="font-size: 12px; display: none" ref="itemList">
+const print = `<div style="font-size: 12px" ref="itemList">
 <table style="width: 100%">
   <tbody style="font-size: 12px">
     <tr>
