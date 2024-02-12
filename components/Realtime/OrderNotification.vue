@@ -37,7 +37,7 @@ export default {
               }`
             );
             notification.onclick = function () {
-              window.open(`${this.baseUrl}/dashboard/order`, "_blank");
+              window.open(`${this.baseUrl}/dashboard/order`);
             };
           } else {
             alert("Permission denied for notifications");

@@ -101,7 +101,7 @@
               </div>
               <div class="flex mt-5 gap-3">
                 <NuxtLink
-                  class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-green-500 rounded-lg lg:w-auto hover:bg-green-600 focus:outline-none focus:bg-green-500 font-bold"
+                  class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-green-500 rounded-lg lg:w-auto hover:bg-green-600 focus:outline-none focus:bg-green-500 font-bold shadow-xl"
                   :to="{
                     name: 'menu-slug-table',
                     params: { slug: '1c', table: 'table-1-lx' },
@@ -111,7 +111,7 @@
                   Demo Menu
                 </NuxtLink>
                 <NuxtLink
-                  class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-green-500 rounded-lg lg:w-auto hover:bg-green-600 focus:outline-none focus:bg-green-500 font-bold"
+                  class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-green-500 rounded-lg lg:w-auto hover:bg-green-600 focus:outline-none focus:bg-green-500 font-bold shadow-xl"
                   :to="{
                     name: 'auth-login',
                     query: { demo: true },
