@@ -12,7 +12,7 @@
       </div>
     </transition>
 
-    <div class="lg:w-[450px] w-full mx-auto fixed bottom-0 z-40 left-0 right-0">
+    <div class="w-full mx-auto fixed bottom-0 z-40 left-0 right-0">
       <div
         ref="swipeContainer"
         @touchstart="onTouchStart"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="absolute left-2 top-0">
+    <div class="flex justify-between px-2">
       <Button :to="{ name: 'dashboard' }"
         ><font-awesome-icon :icon="['fas', 'angle-left']" /> Back to
         Dashboard</Button

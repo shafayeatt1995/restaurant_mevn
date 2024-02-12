@@ -13,9 +13,7 @@ const controller = {
       const { slug, table } = req.query;
       const restaurant = await Restaurant.findOne({
         slug,
-        scanExp: {
-          $gt: new Date(new Date().setDate(new Date().getDate() - 30)),
-        },
+        scanExp: { $gt: new Date() },
       }).select({
         logo: 1,
         name: 1,

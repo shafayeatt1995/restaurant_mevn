@@ -55,15 +55,15 @@
                 :class="moveUp ? ' text-gray-300' : ''"
                 @click="!moveUp ? alignCategory('up') : ''"
               >
-                <font-awesome-icon :icon="['fas', 'arrow-up']" />
-                Move Up
+                <font-awesome-icon :icon="['fas', 'arrow-left']" />
+                Move left
               </p>
               <p
                 class="cursor-pointer"
                 :class="moveDown ? ' text-gray-300' : ''"
                 @click="!moveDown ? alignCategory('down') : ''"
               >
-                Move Down <font-awesome-icon :icon="['fas', 'arrow-down']" />
+                Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
               </p>
             </template>
             <p v-else class="text-gray-600 text-xl">Create item</p>

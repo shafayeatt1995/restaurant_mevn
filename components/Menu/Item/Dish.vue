@@ -2,7 +2,16 @@
   <div>
     <div
       class="grid gap-3 mt-3"
-      :class="align === 'single' ? 'grid-cols-1' : 'grid-cols-2'"
+      :class="[
+        items.length > 5
+          ? 'md:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]'
+          : 'md:grid-cols-[repeat(auto-fit,_minmax(200px,_250px))]',
+        align === 'single'
+          ? 'grid-cols-1'
+          : align === 'multiple'
+          ? 'grid-cols-2'
+          : '',
+      ]"
       v-if="['single', 'multiple'].includes(align)"
     >
       <template v-for="(item, key) in items">
@@ -343,6 +352,7 @@ export default {
   },
   computed: {
     ...mapGetters("cart", ["cartItems"]),
+    ...mapGetters(["isMobile"]),
     form: {
       get() {
         return this.$attrs.value;

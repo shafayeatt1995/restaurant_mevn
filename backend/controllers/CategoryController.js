@@ -62,15 +62,15 @@ const controller = {
       const { restaurantID } = req.user;
       const { _id, featureMode } = req.query;
 
-      if (featureMode) {
+      if (featureMode == "true") {
         await FeatureCategory.deleteOne({ _id, restaurantID }, { session });
       } else {
         await Category.deleteOne({ _id, restaurantID }, { session });
-        await SubCategory.deleteMany(
-          { categoryID: _id, restaurantID },
-          { session }
-        );
-        await Item.deleteMany({ categoryID: _id, restaurantID }, { session });
+        // await SubCategory.deleteMany(
+        //   { categoryID: _id, restaurantID },
+        //   { session }
+        // );
+        // await Item.deleteMany({ categoryID: _id, restaurantID }, { session });
       }
 
       await session.commitTransaction();
@@ -174,7 +174,7 @@ const controller = {
       const { _id } = req.query;
 
       await SubCategory.deleteOne({ _id, restaurantID }, { session });
-      await Item.deleteMany({ subCategoryID: _id, restaurantID }, { session });
+      // await Item.deleteMany({ subCategoryID: _id, restaurantID }, { session });
 
       await session.commitTransaction();
       await session.endSession();
