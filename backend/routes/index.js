@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { isAuthenticated } = require("@/backend/middleware");
+const { print } = require("@/backend/utils/printTemplate");
 
 router.use("/auth", require("./auth"));
 router.use("/menu", require("./menu"));
 
 router.get("/print", async (req, res) => {
   try {
-    const print = `<p>Amar nam shafayet Al-ANik</p>`;
     res.status(200).send(print);
   } catch (error) {
     console.error(error);
