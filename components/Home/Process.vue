@@ -15,7 +15,7 @@
         class="flex flex-col lg:flex-row justify-between text-gray-800 lg:mt-8"
       >
         <div class="flex flex-col justify-center items-center mb-8">
-          <h3 class="text-2xl font-semibold mb-3">1. Get QR</h3>
+          <h2 class="text-2xl font-semibold mb-3">1. Get QR</h2>
           <img
             loading="lazy"
             src="/images/qr.webp"
@@ -36,7 +36,7 @@
           />
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
-          <h3 class="text-2xl font-semibold mb-3">2. Add categories & items</h3>
+          <h2 class="text-2xl font-semibold mb-3">2. Add categories & items</h2>
           <img
             loading="lazy"
             src="/images/items.webp"
@@ -57,7 +57,7 @@
           />
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
-          <h3 class="text-2xl font-semibold mb-3">3. Start receiving orders</h3>
+          <h2 class="text-2xl font-semibold mb-3">3. Start receiving orders</h2>
           <img
             loading="lazy"
             src="/images/order.webp"

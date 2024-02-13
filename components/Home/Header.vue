@@ -13,9 +13,9 @@
                   >Eating</span
                 >
               </h1>
-              <h3 class="text-gray-800 text-xl lg:text-3xl">
+              <h1 class="text-gray-800 text-xl lg:text-3xl">
                 A Complete Digital Menu Solution
-              </h3>
+              </h1>
               <p class="mt-3 text-gray-800 text-base lg:text-xl">
                 Take your restaurant one step further! It's time to dive into
                 the digital world. Give your customers a modern experience with
