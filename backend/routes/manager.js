@@ -68,7 +68,8 @@ const {
   fetchOrder,
   fetchPrintOrder,
   addServiceCharge,
-  fetchSingleOrder
+  fetchSingleOrder,
+  fetchBestItems,
 } = require("@/backend/controllers/OrderController");
 const {
   fetchVat,
@@ -158,9 +159,6 @@ router.get("/notification", fetchNotification);
 router.get("/notification/new", fetchNewNotification);
 router.get("/notification/toggle", toggleNotification);
 router.get("/notification/mark", markAllNotification);
-// router.post("/vat", vatVal, validation, createVat);
-// router.patch("/vat", vatVal, validation, updateVat);
-// router.delete("/vat", deleteVat);
 
 router.get("/single-order/:_id", fetchSingleOrder);
 router.get("/order", fetchOrder);
@@ -170,6 +168,8 @@ router.post("/update-printing-details", updatePrintingDetails);
 
 router.post("/performance", fetchPerformance);
 router.get("/toggle-protection", toggleProtection);
+
+router.post("/best-items", fetchBestItems);
 
 router.post(
   "/update-restaurant-name",

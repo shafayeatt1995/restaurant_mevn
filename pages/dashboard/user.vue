@@ -69,7 +69,11 @@
         </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <Button
+            <Button @click.native.prevent="editItem(item)">
+              <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+
+              Edit </Button
+            ><Button
               :variant="item.deleted ? 'green' : 'red'"
               @click.native.prevent="deleteItem(item._id, index)"
             >
@@ -172,12 +176,12 @@ export default {
     ...mapGetters(["pageTitle"]),
     fields() {
       const fields = [
-        { key: "name", label: "Name", span: "minmax(100PX, 1fr)" },
+        { key: "name", label: "Name", span: "minmax(200PX, 1fr)" },
         { key: "email", label: "Email", span: "minmax(200PX, 1fr)" },
-        { key: "type", label: "Type", span: "minmax(100PX, 1fr)" },
-        { key: "suspended", label: "Suspended", span: "minmax(100PX, 1fr)" },
-        { key: "deleted", label: "Delete", span: "minmax(100PX, 1fr)" },
-        { key: "actions", label: "Actions", span: "minmax(275PX, 1fr)" },
+        { key: "type", label: "Type", span: "minmax(120PX, 1fr)" },
+        { key: "suspended", label: "Suspended", span: "minmax(120PX, 1fr)" },
+        { key: "deleted", label: "Delete", span: "minmax(120PX, 1fr)" },
+        { key: "actions", label: "Actions", span: "minmax(400px, 1fr)" },
       ];
       return fields;
     },
@@ -297,8 +301,8 @@ export default {
       this.items = [];
       this.fetchItem();
     },
-    editItem({ _id, name, email }) {
-      this.form = { _id, name, email };
+    editItem({ _id, name, email, type }) {
+      this.form = { _id, name, email, type };
       this.editMode = true;
       this.modal = true;
     },

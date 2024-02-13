@@ -6,7 +6,7 @@ const {
   Table,
   Notification,
 } = require("@/backend/models");
-const { paginate } = require("@/backend/utils");
+const { paginate, convertDate } = require("@/backend/utils");
 const webPush = require("web-push");
 const moment = require("moment");
 
@@ -646,6 +646,60 @@ const controller = {
         }
       );
       res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
+  async fetchBestItems(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const {
+        date: [start, end],
+      } = req.body;
+      const orders = await Order.aggregate([
+        {
+          $match: {
+            restaurantID,
+            created_at: {
+              $gt: convertDate(start, "start"),
+              $lt: convertDate(end, "end"),
+            },
+            status: "complete",
+          },
+        },
+        { $unwind: "$orderItems" },
+        {
+          $group: {
+            _id: "$orderItems._id",
+            totalQuantity: { $sum: "$orderItems.qty" },
+          },
+        },
+        { $sort: { totalQuantity: -1 } },
+        { $limit: 20 },
+        {
+          $lookup: {
+            from: "items",
+            localField: "_id",
+            foreignField: "_id",
+            as: "itemDetails",
+          },
+        },
+        { $unwind: "$itemDetails" },
+        {
+          $project: {
+            _id: 1,
+            totalQuantity: 1,
+            itemName: "$itemDetails.name",
+            itemImage: "$itemDetails.image",
+          },
+        },
+      ]);
+      res.status(200).json({ success: true, orders });
     } catch (error) {
       console.error(error);
       res.status(500).json({

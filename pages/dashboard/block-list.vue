@@ -79,13 +79,15 @@
           :errors="errors"
         />
         <p class="text-gray-700 mt-3">Select block timer</p>
-        <DatePicker
-          v-model="form.date"
-          class="w-full"
-          type="datetime"
-          placeholder="Select date range"
-          prefix-class="block-date-picker performance-date-picker mx"
-        />
+        <client-only>
+          <DatePicker
+            v-model="form.date"
+            class="w-full"
+            type="datetime"
+            placeholder="Select date range"
+            prefix-class="block-date-picker performance-date-picker mx"
+          />
+        </client-only>
         <small
           class="text-rose-700"
           v-if="errors && errors.date && typeof errors.date === 'object'"

@@ -4,14 +4,16 @@
       <h3 class="font-semibold text-xl text-gray-700 py-2 px-2">
         Weekly Sales Details
       </h3>
-      <DatePicker
-        v-if="!chartLoader"
-        v-model="filterDate"
-        type="week"
-        placeholder="Select week"
-        prefix-class="xmx"
-        :lang="lang"
-      />
+      <client-only>
+        <DatePicker
+          v-if="!chartLoader"
+          v-model="filterDate"
+          type="week"
+          placeholder="Select week"
+          prefix-class="xmx"
+          :lang="lang"
+        />
+      </client-only>
     </div>
     <div
       v-if="chartLoader"
@@ -19,13 +21,14 @@
     >
       <Spinner class="text-green-600" />
     </div>
-    <apexchart
-      v-else
-      height="450"
-      type="area"
-      :options="chartOptions"
-      :series="series"
-    />
+    <client-only v-else>
+      <apexchart
+        height="450"
+        type="area"
+        :options="chartOptions"
+        :series="series"
+      />
+    </client-only>
   </div>
 </template>
 <script>

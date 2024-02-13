@@ -5,13 +5,15 @@
         <h3 class="font-semibold text-xl text-gray-700 py-2 px-2">
           Monthly Sales Details
         </h3>
-        <DatePicker
-          v-if="!chartLoader"
-          v-model="filterDate"
-          type="month"
-          placeholder="Select month"
-          prefix-class="xmx"
-        />
+        <client-only>
+          <DatePicker
+            v-if="!chartLoader"
+            v-model="filterDate"
+            type="month"
+            placeholder="Select month"
+            prefix-class="xmx"
+          />
+        </client-only>
       </div>
       <div
         v-if="chartLoader"
@@ -19,13 +21,14 @@
       >
         <Spinner class="text-green-600" />
       </div>
-      <apexchart
-        v-else
-        height="450"
-        type="area"
-        :options="chartOptions"
-        :series="series"
-      />
+      <client-only v-else>
+        <apexchart
+          height="450"
+          type="area"
+          :options="chartOptions"
+          :series="series"
+        />
+      </client-only>
     </div>
   </div>
 </template>

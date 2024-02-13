@@ -67,13 +67,15 @@
               <!-- <p class="text-gray-700">Total order {{ orderCount }}</p> -->
             </div>
             <div class="flex gap-3 items-center">
-              <DatePicker
-                v-model="date"
-                type="date"
-                range
-                placeholder="Select date range"
-                prefix-class="performance-date-picker mx"
-              />
+              <client-only>
+                <DatePicker
+                  v-model="date"
+                  type="date"
+                  range
+                  placeholder="Select date range"
+                  prefix-class="performance-date-picker mx"
+                />
+              </client-only>
               <font-awesome-icon
                 v-if="date && date[0] != null && date[1] != null"
                 :icon="['far', 'circle-xmark']"
@@ -689,7 +691,7 @@ export default {
       items: [],
       tables: [],
       vats: [],
-      payment: { method: "Cash", amount: '' },
+      payment: { method: "Cash", amount: "" },
       paymentMethods: ["Cash", "bKash", "ATM Card"],
       perPage: 30,
       vat: "",
@@ -860,7 +862,7 @@ export default {
       if (!val) {
         this.updateMode = false;
         this.deleteMode = false;
-        this.payment = { method: "Cash", amount: '' };
+        this.payment = { method: "Cash", amount: "" };
       }
     },
     cancelModal(val) {
@@ -1270,7 +1272,7 @@ export default {
         this.orderDetails.additionalCharges = data.additionalCharges;
         this.additionalCharges = [];
         this.updateMode = false;
-        this.$nuxt.$emit('success', 'Service charge added successfully');
+        this.$nuxt.$emit("success", "Service charge added successfully");
       } catch (error) {
         console.error(error);
         this.$nuxt.$emit("error", "Something Wrong! Please try Again");

@@ -204,4 +204,8 @@ export class ManagerApi extends BaseApi {
   fetchSingleOrder(id) {
     return this.api.$get(`single-order/${id}`);
   }
+
+  fetchBestItems(body) {
+    return this.api.$post(`best-items`, body);
+  }
 }

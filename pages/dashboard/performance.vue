@@ -7,14 +7,16 @@
         <h2 class="text-3xl font-medium text-gray-600">Performance</h2>
       </div>
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
-        <DatePicker
-          v-model="form.date"
-          class="w-full"
-          range
-          type="date"
-          placeholder="Select date range"
-          prefix-class="block-date-picker performance-date-picker mx"
-        />
+        <client-only>
+          <DatePicker
+            v-model="form.date"
+            class="w-full"
+            range
+            type="date"
+            placeholder="Select date range"
+            prefix-class="block-date-picker performance-date-picker mx"
+          />
+        </client-only>
       </div>
     </section>
     <section class="px-4">

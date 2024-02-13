@@ -83,6 +83,12 @@ export default {
         },
         {
           show: this.manager,
+          name: "dashboard-report",
+          title: "Report",
+          icon: ["fas", "chart-pie"],
+        },
+        {
+          show: this.manager,
           name: "dashboard-table",
           title: "Table",
           icon: ["fas", "table-cells-large"],
