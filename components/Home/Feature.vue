@@ -25,9 +25,9 @@
                 class="text-6xl text-green-500"
               />
             </div>
-            <h3 class="mb-4 font-bold font-heading text-gray-800 text-2xl">
+            <h2 class="mb-4 font-bold font-heading text-gray-800 text-2xl">
               {{ feature.title }}
-            </h3>
+            </h2>
             <p class="text-sm text-gray-800">
               {{ feature.body }}
             </p>

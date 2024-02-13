@@ -12,17 +12,17 @@
         </p>
       </div>
       <div
-        class="flex flex-col lg:flex-row justify-between text-gray-800 lg:mt-8"
+        class="flex flex-col lg:flex-row justify-between text-gray-600 lg:mt-8"
       >
         <div class="flex flex-col justify-center items-center mb-8">
-          <h2 class="text-2xl font-semibold mb-3">1. Get QR</h2>
+          <h3 class="text-2xl font-semibold mb-3">1. Get QR</h3>
           <img
             loading="lazy"
             src="/images/qr.webp"
             class="max-w-64 h-auto"
             alt="qr code"
           />
-          <p class="text-gray-800 px-4 mt-3">
+          <p class="text-gray-600 px-4 mt-3">
             Connect with us today and collect your QR code that perfectly
             matches the personality of your establishment.
           </p>
@@ -36,14 +36,14 @@
           />
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
-          <h2 class="text-2xl font-semibold mb-3">2. Add categories & items</h2>
+          <h3 class="text-2xl font-semibold mb-3">2. Add categories & items</h3>
           <img
             loading="lazy"
             src="/images/items.webp"
             class="max-w-64 h-auto"
             alt="items"
           />
-          <p class="text-gray-800 px-4 mt-3">
+          <p class="text-gray-600 px-4 mt-3">
             Fill your menu with a variety of categories, sub-categories, items,
             prices, discounts etc. We'll create the menu for you.
           </p>
@@ -57,14 +57,14 @@
           />
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
-          <h2 class="text-2xl font-semibold mb-3">3. Start receiving orders</h2>
+          <h3 class="text-2xl font-semibold mb-3">3. Start receiving orders</h3>
           <img
             loading="lazy"
             src="/images/order.webp"
             class="max-w-64 h-auto"
             alt="order"
           />
-          <p class="text-gray-800 px-4 mt-3">
+          <p class="text-gray-600 px-4 mt-3">
             Fill your menu with a variety of categories, sub-categories, items,
             prices, discounts etc. We'll create the menu for you.
           </p>

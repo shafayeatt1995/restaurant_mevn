@@ -20,9 +20,9 @@
             class="flex items-center focus:outline-none justify-between w-full py-4"
             @click="activeFaq = activeFaq === key ? null : key"
           >
-            <h3 class="pr-3 text-lg text-gray-800 text-left font-semibold">
+            <h2 class="pr-3 text-lg text-gray-800 text-left font-semibold">
               {{ faq.question }}
-            </h3>
+            </h2>
             <p class="text-green-500">
               <font-awesome-icon
                 :icon="['fas', 'minus']"
