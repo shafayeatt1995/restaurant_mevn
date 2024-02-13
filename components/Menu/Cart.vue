@@ -172,12 +172,18 @@
             <p class="text-center text-red-500 font-medium">
               {{ errorMessage }}
             </p>
+            <p
+              class="text-center text-red-500 font-medium"
+              v-if="demoMode === 'true'"
+            >
+              You can't order in demo mode
+            </p>
             <div class="flex justify-center py-5">
               <Button
                 class="px-9 py-3"
                 @click.native.prevent="$nuxt.isOffline ? '' : submit()"
                 :loading="loading"
-                :disabled="$nuxt.isOffline"
+                :disabled="$nuxt.isOffline || demoMode === 'true'"
                 >Place order</Button
               >
             </div>
@@ -204,7 +210,7 @@
       <div
         v-if="show"
         @click="show = false"
-        class="fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50 z-30 lg:w-[450px] w-full mx-auto bg-green"
+        class="fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50 z-30 w-full mx-auto bg-green"
       ></div>
     </transition>
   </div>
@@ -266,6 +272,9 @@ export default {
     totalQuantity() {
       return this.cartItems.reduce((total, value) => total + value.qty, 0);
     },
+    demoMode() {
+      return this.$route.query?.demo;
+    },
   },
   created() {
     this.$nuxt.$on("addToCartAnimation", () => {
@@ -279,11 +288,6 @@ export default {
     this.$nuxt.$off("addToCartAnimation");
   },
   mounted() {
-    const { additionalMode, email } = this.$route.query;
-    if (additionalMode && email) {
-    } else {
-      this.setCartItems();
-    }
     lottie.loadAnimation({
       container: this.$refs.loader,
       renderer: "svg",
@@ -296,7 +300,6 @@ export default {
   },
   methods: {
     ...mapActions("cart", [
-      "setCartItems",
       "increaseCartItems",
       "decreaseCartItems",
       "clearCart",

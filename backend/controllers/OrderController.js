@@ -136,11 +136,6 @@ const controller = {
               ...mapData,
               AdditionalOrderNumber: checkAdditionalOrderNumber + 1,
             }));
-            console.log({
-              restaurantID,
-              tableID,
-              userEmail: additionalMode ? externalUserEmail : userEmail,
-            });
             const update = await Order.findOneAndUpdate(
               {
                 restaurantID,
@@ -318,7 +313,7 @@ const controller = {
       const { _id } = req.params;
       const { restaurantID } = req.user;
 
-      const order = await Order.findOne({_id, restaurantID });
+      const order = await Order.findOne({ _id, restaurantID });
       res.status(200).json({ order });
     } catch (error) {
       console.error(error);

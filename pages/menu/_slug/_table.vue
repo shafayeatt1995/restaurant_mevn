@@ -90,10 +90,15 @@ export default {
   },
   mounted() {
     this.setInitialData({ restaurant: this.restaurant, table: this.table });
+    const { additionalMode, email } = this.$route.query;
+    if (additionalMode && email) {
+    } else {
+      this.setCartItems();
+    }
     this.checkError();
   },
   methods: {
-    ...mapActions("cart", ["setInitialData"]),
+    ...mapActions("cart", ["setInitialData", "setCartItems"]),
     checkError() {
       const { query } = this.$route;
       if (query.error) {

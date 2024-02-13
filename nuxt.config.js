@@ -62,6 +62,7 @@ export default {
     { src: "~/plugins/toast.js", mode: "client" },
     { src: "~/plugins/apexChart.js", mode: "client" },
     { src: "~/plugins/datePicker.js", mode: "client" },
+    { src: "~/plugins/carousel.js", mode: "client" },
   ],
 
   components: true,

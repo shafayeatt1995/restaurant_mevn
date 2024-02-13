@@ -18,7 +18,7 @@ export const mutations = {
     } else {
       state.cartItems[key].qty++;
     }
-    setCartData(state.cartItems);
+    setCartData(state);
   },
   REMOVE_ITEMS(state, payload) {
     const key = state.cartItems.findIndex(({ _id, choice, addon }) => {
@@ -33,23 +33,27 @@ export const mutations = {
         ? state.cartItems[key].qty--
         : state.cartItems.splice(key, 1);
     }
-    setCartData(state.cartItems);
+    setCartData(state);
   },
   SET_INITIAL_ITEMS(state) {
-    const cartItems = window.localStorage.getItem("cartItems");
-    const getTime = parseInt(window.localStorage.getItem("cartItemsSetTime"));
+    if (state.restaurantID) {
+      const cartItems = window.localStorage.getItem(
+        `cartItems-${state.restaurantID}`
+      );
+      const getTime = parseInt(window.localStorage.getItem("cartItemsSetTime"));
 
-    if (getTime && cartItems) {
-      const currentTime = new Date().getTime();
-      const timeDifference = (currentTime - getTime) / (1000 * 60 * 60);
+      if (getTime && cartItems) {
+        const currentTime = new Date().getTime();
+        const timeDifference = (currentTime - getTime) / (1000 * 60 * 60);
 
-      if (timeDifference <= 2) {
-        state.cartItems = JSON.parse(cartItems);
+        if (timeDifference <= 2) {
+          state.cartItems = JSON.parse(cartItems);
+        } else {
+          clearCartData(state);
+        }
       } else {
-        clearCartData();
+        clearCartData(state);
       }
-    } else {
-      clearCartData();
     }
   },
   RESET(state) {
@@ -57,14 +61,14 @@ export const mutations = {
   },
   ADD_CART_ITEMS(state, payload) {
     state.cartItems[payload].qty++;
-    setCartData(state.cartItems);
+    setCartData(state);
   },
   REMOVE_CART_ITEMS(state, payload) {
     state.cartItems[payload].qty > 1
       ? state.cartItems[payload].qty--
       : state.cartItems.splice(payload, 1);
 
-    setCartData(state.cartItems);
+    setCartData(state);
   },
   SET_INITIAL_DATA(state, payload) {
     const { restaurant, table } = payload;
@@ -73,7 +77,7 @@ export const mutations = {
   },
   CLEAR_CART(state) {
     state.cartItems = [];
-    clearCartData();
+    clearCartData(state);
   },
 };
 
@@ -86,6 +90,9 @@ export const actions = {
   },
   setCartItems({ commit }) {
     commit("SET_INITIAL_ITEMS");
+  },
+  clearCartItems({ commit }) {
+    commit("CLEAR_INITIAL_ITEMS");
   },
   increaseCartItems({ commit }, payload) {
     commit("ADD_CART_ITEMS", payload);
@@ -121,12 +128,15 @@ const compareArrays = (array1, array2) => {
   );
 };
 
-const clearCartData = () => {
-  window.localStorage.removeItem("cartItems");
+const clearCartData = ({ restaurantID }) => {
+  window.localStorage.removeItem(`cartItems-${restaurantID}`);
   window.localStorage.removeItem("cartItemsSetTime");
 };
 
-const setCartData = (cartItems) => {
-  window.localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  window.localStorage.setItem("cartItemsSetTime", new Date().getTime());
+const setCartData = ({ cartItems, restaurantID }) => {
+  window.localStorage.setItem(
+    `cartItems-${restaurantID}`,
+    JSON.stringify(cartItems)
+  );
+  window.localStorage.setItem(`cartItemsSetTime`, new Date().getTime());
 };
