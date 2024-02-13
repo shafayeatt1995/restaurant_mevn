@@ -12,4 +12,5 @@ module.exports = {
   Vat: require("./vat"),
   Notification: require("./notification"),
   FeatureCategory: require("./featureCategory"),
+  Contact: require("./contact"),
 };

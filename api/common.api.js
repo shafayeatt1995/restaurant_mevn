@@ -8,4 +8,8 @@ export class CommonApi extends BaseApi {
   testNotification() {
     return this.api.$get(`push-notification/sent`);
   }
+
+  requestContact(body) {
+    return this.api.$post(`contact`, body);
+  }
 }

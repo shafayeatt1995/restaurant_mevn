@@ -5,6 +5,7 @@ const { print } = require("@/backend/utils/printTemplate");
 
 router.use("/auth", require("./auth"));
 router.use("/menu", require("./menu"));
+router.use("/contact", require("./contact"));
 
 router.get("/print", async (req, res) => {
   try {

@@ -95,52 +95,18 @@
         <div
           class="px-2 lg:px-4 py-6 rounded-xl md:p-8 backdrop-blur-md bg-gray-200/50"
         >
-          <form>
-            <div class="-mx-2 md:items-center md:flex">
-              <div class="flex-1 px-2">
-                <label class="block mb-2 text-sm text-gray-600"
-                  >First Name</label
-                >
-                <input
-                  type="text"
-                  placeholder="Shafayet "
-                  class="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40 bg-white/60"
-                />
-              </div>
-
-              <div class="flex-1 px-2 mt-4 md:mt-0">
-                <label class="block mb-2 text-sm text-gray-600"
-                  >Last Name</label
-                >
-                <input
-                  type="text"
-                  placeholder="Al-Anik"
-                  class="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40 bg-white/60"
-                />
-              </div>
-            </div>
-
-            <div class="mt-4">
-              <label class="block mb-2 text-sm text-gray-600"
-                >Email or Phone</label
-              >
-              <input
-                type="text"
-                placeholder="shafayetalanik@gmail.com"
-                class="block w-full px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40 bg-white/60"
-              />
-            </div>
-
-            <div class="w-full mt-4">
-              <label class="block mb-2 text-sm text-gray-600">Message</label>
-              <textarea
-                class="block w-full h-32 px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40 bg-white/60"
-                placeholder="Message"
-              ></textarea>
-            </div>
+          <form @submit.prevent="submit">
+            <Input
+              v-for="(field, i) in inputFields"
+              :key="i"
+              :field="field"
+              v-model="form"
+              :errors="errors"
+            />
 
             <button
               class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-50"
+              type="submit"
             >
               Send message
             </button>
@@ -158,5 +124,52 @@ import Wave from "~/static/images/wave.svg";
 export default {
   name: "Contact",
   components: { Wave },
+  data() {
+    return {
+      form: { name: "", email: "", message: "" },
+      errors: {},
+    };
+  },
+  computed: {
+    inputFields() {
+      return [
+        {
+          type: "text",
+          placeholder: "Full name",
+          name: "name",
+          label: { id: "name", title: "Full Name" },
+        },
+        {
+          type: "text",
+          placeholder: "Email or Phone",
+          name: "email",
+          label: { id: "email", title: "Email or Phone" },
+        },
+        {
+          type: "textarea",
+          placeholder: "Message",
+          name: "message",
+          label: { id: "message", title: "Message" },
+          textarea: { cols: "5", rows: "5" },
+        },
+      ];
+    },
+  },
+  methods: {
+    async submit() {
+      try {
+        this.loading = true;
+        this.errors = {};
+        await this.$commonApi.requestContact(this.form);
+        this.form = { name: "", email: "", message: "" };
+        this.$nuxt.$emit("success", "We received your message successfully");
+      } catch (error) {
+        console.error(error);
+        this.errors = error?.response?.data?.errors;
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
 };
 </script>
