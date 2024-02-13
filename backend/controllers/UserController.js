@@ -499,25 +499,51 @@ const controller = {
   async fetchPerformance(req, res) {
     try {
       const { restaurantID, _id: userID } = req.user;
-      const [startDate, endDate] = req.body.date;
-
+      const {
+        date: [start, end],
+      } = req.body;
       const performance = await Order.aggregate([
         {
           $match: {
             restaurantID,
             status: "complete",
             created_at: {
-              $gt: convertDate(startDate, "start"),
-              $lt: convertDate(endDate, "end"),
+              $gt: convertDate(start, "start"),
+              $lt: convertDate(end, "end"),
             },
           },
         },
         {
+          $group: {
+            _id: "$waiterID",
+            totalPrice: { $sum: "$netPrice" },
+            totalOrder: { $sum: "$totalQty" },
+          },
+        },
+        {
+          // $lookup: {
+          //   from: "users",
+          //   let: { waiterIdObj: { $toObjectId: "$waiterID" } },
+          //   pipeline: [
+          //     { $match: { $expr: { $eq: ["$_id", "$$waiterIdObj"] } } },
+          //     { $project: { name: 1 } },
+          //   ],
+          //   as: "waiterName",
+          // },
           $lookup: {
             from: "users",
-            let: { waiterIdObj: { $toObjectId: "$waiterID" } },
+            let: { waiterId: "$waiterID" },
             pipeline: [
-              { $match: { $expr: { $eq: ["$_id", "$$waiterIdObj"] } } },
+              {
+                $match: {
+                  $expr: {
+                    $eq: [
+                      { $toObjectId: "$_id" },
+                      { $toObjectId: "$$waiterId" },
+                    ],
+                  },
+                },
+              },
               { $project: { name: 1 } },
             ],
             as: "waiterName",
@@ -529,14 +555,15 @@ const controller = {
           },
         },
         {
-          $group: {
-            _id: "$waiterID",
-            name: { $first: "$waiterName" },
-            totalPrice: { $sum: "$netPrice" },
-            totalOrder: { $sum: "$totalQty" },
+          $project: {
+            _id: 1,
+            totalOrder: 1,
+            totalPrice: 1,
+            waiterName: 1,
           },
         },
       ]);
+
       res.status(200).json({ success: true, performance });
     } catch (error) {
       console.error(error);

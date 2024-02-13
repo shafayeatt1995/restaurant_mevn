@@ -27,13 +27,18 @@
         </client-only>
       </div>
       <hr class="mt-3 mb-2" />
-      <div class="grid grid-cols-1">
+      <div class="grid grid-cols-1 max-h-96 overflow-y-auto">
         <div
           class="flex items-center text-gray-600"
           v-for="order in orders"
           :key="order._id"
         >
-          <img :src="order.itemImage" loading="lazy" class="max-w-14" />
+          <img
+            :src="order.itemImage"
+            :alt="order.itemName"
+            loading="lazy"
+            class="max-w-14"
+          />
           <p class="flex-1">{{ order.itemName }}</p>
           <p>{{ order.totalQuantity }}</p>
         </div>

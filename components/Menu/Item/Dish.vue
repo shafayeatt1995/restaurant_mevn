@@ -88,6 +88,7 @@
             loading="lazy"
             v-if="item.image"
             :src="item.image"
+            :alt="item.name"
             class="w-full object-cover"
             :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
           />
@@ -95,6 +96,7 @@
             loading="lazy"
             v-else
             src="/images/default-img.jpg"
+            alt="default image"
             class="w-full object-cover"
             :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
           />
@@ -182,6 +184,7 @@
         <img
           loading="lazy"
           v-if="modalItem.image"
+          :alt="modalItem.name"
           :src="modalItem.image"
           class="h-[250px] w-full object-cover"
         />
@@ -189,6 +192,7 @@
           loading="lazy"
           v-else
           src="/images/default-img.jpg"
+          alt="default img"
           class="h-[250px] w-full object-cover"
         />
         <div
@@ -198,6 +202,7 @@
             <img
               loading="lazy"
               :src="categoryImage"
+              alt="category image"
               class="object-cover w-12 h-12"
             />
             <img
@@ -206,6 +211,7 @@
               class="object-cover w-12 h-12 absolute active-animation"
               v-for="(_, i) in showAnimation"
               :key="`animation-${i}`"
+              alt="category image"
             />
             <p class="ml-2 capitalize">{{ modalItem.name }}</p>
           </div>

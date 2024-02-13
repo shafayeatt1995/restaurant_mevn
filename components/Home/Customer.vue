@@ -36,7 +36,7 @@
             >
               <img
                 src="/images/demo/1.webp"
-                alt="menu image"
+                alt="demo image"
                 class="max-w-full h-96 lg:h-[80vh] object-contain"
               />
             </nuxt-link>
@@ -50,7 +50,7 @@
             >
               <img
                 src="/images/demo/2.webp"
-                alt="menu image"
+                alt="demo image"
                 class="max-w-full h-96 lg:h-[80vh] object-contain"
               />
             </nuxt-link>
@@ -64,7 +64,7 @@
             >
               <img
                 src="/images/demo/3.webp"
-                alt="menu image"
+                alt="demo image"
                 class="max-w-full h-96 lg:h-[80vh] object-contain"
               />
             </nuxt-link>

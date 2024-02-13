@@ -31,14 +31,7 @@
         </div>
       </div>
 
-      <div class="relative w-full mt-12 lg:w-2/3 lg:mt-0" ref="error">
-        <!-- <img
-          loading="lazy"
-          class="w-full max-w-lg lg:mx-auto"
-          src="/svg/404.svg"
-          alt="404"
-        /> -->
-      </div>
+      <div class="relative w-full mt-12 lg:w-2/3 lg:mt-0" ref="error"></div>
     </div>
   </section>
 </template>

@@ -25,7 +25,12 @@
         :skeleton="loading"
       >
         <template #image="{ item }">
-          <img loading="lazy" :src="item.image" class="max-h-16" />
+          <img
+            loading="lazy"
+            :src="item.image"
+            :alt="item.image"
+            class="max-h-16"
+          />
         </template>
         <template #created_at="{ value }">{{ value | agoDate }}</template>
         <template #updated_at="{ value }">{{ value | agoDate }}</template>
@@ -81,6 +86,7 @@
           <img
             loading="lazy"
             :src="selected.url"
+            :alt="selected.url"
             v-if="selected.url"
             class="object-contain w-full h-full p-3"
           />

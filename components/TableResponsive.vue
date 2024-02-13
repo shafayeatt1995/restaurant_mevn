@@ -26,6 +26,7 @@
                         loading="lazy"
                         v-if="field.title_image"
                         :src="field.title_image"
+                        :alt="field.key"
                       />
                       <template v-else>
                         {{ field.hide_title ? "" : field.label }}

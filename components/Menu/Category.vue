@@ -18,6 +18,7 @@
           <img
             loading="lazy"
             :src="item.image"
+            :alt="item.name"
             class="object-cover w-14 h-14"
           />
         </div>
@@ -62,6 +63,7 @@
           <img
             loading="lazy"
             :src="item.image"
+            :alt="item.name"
             class="object-cover w-14 h-14"
           />
         </div>
@@ -133,6 +135,7 @@
           <img
             loading="lazy"
             :src="selected.url"
+            :alt="selected.url"
             v-if="selected.url"
             class="object-contain w-full h-full p-3"
           />
@@ -192,6 +195,7 @@
                   <img
                     loading="lazy"
                     :src="item.image"
+                    :alt="item.name"
                     class="w-full object-cover"
                     :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
                   />

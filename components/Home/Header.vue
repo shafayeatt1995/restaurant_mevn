@@ -5,7 +5,7 @@
         <div class="items-center flex h-full flex-col lg:flex-row">
           <div class="flex-1 flex flex-col justify-center">
             <div class="">
-              <img src="/logo.png" class="h-20" />
+              <img src="/logo.png" class="h-20" alt="logo" />
               <h1
                 class="text-3xl font-bold text-gray-800 lg:text-5xl uppercase mt-2"
               >

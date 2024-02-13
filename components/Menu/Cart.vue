@@ -194,14 +194,23 @@
             If your food is finished then click the button for request your bill
           </p>
           <div class="flex flex-col justify-center items-center mt-5">
-            <img loading="lazy" src="/images/eating.png" class="w-1/2" />
+            <img
+              loading="lazy"
+              src="/images/eating.png"
+              class="w-1/2"
+              alt="eating image"
+            />
             <Button @click.native.prevent="requestBill" class="mt-5"
               >Request your bill</Button
             >
           </div>
         </div>
         <div class="h-full flex flex-col justify-center items-center" v-else>
-          <img loading="lazy" src="/images/not-found.png" />
+          <img
+            loading="lazy"
+            src="/images/not-found.png"
+            alt="not found image"
+          />
           <p class="text-2xl mt-2 text-gray-600">Nothing to order</p>
         </div>
       </div>

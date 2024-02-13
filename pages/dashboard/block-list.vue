@@ -24,7 +24,12 @@
         :skeleton="loading"
       >
         <template #image="{ item }">
-          <img loading="lazy" :src="item.image" class="max-h-16" />
+          <img
+            loading="lazy"
+            :src="item.image"
+            :alt="item.image"
+            class="max-h-16"
+          />
         </template>
         <template #created_at="{ value }">{{ value | agoDate }}</template>
         <template #date="{ value }">

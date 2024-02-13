@@ -25,6 +25,7 @@
           loading="lazy"
           :src="image.url"
           class="object-contain w-28 h-full"
+          alt="delete image"
         />
       </div>
 

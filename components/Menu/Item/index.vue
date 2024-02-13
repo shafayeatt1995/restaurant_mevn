@@ -88,6 +88,7 @@
               <img
                 loading="lazy"
                 :src="selected.url"
+                :alt="selected.url"
                 v-if="selected.url"
                 class="object-contain w-full h-full p-3"
               />

@@ -39,31 +39,6 @@
     </div>
     <div class="flex-1 col-span-3 lg:col-span-1">
       <div class="bg-white rounded-lg p-2 pb-4">
-        <!-- <p class="text-gray-600">Variant Section (optional)</p>
-        <div
-          class="flex flex-wrap border border-gray-300 rounded-lg gap-3 py-2 px-1"
-          v-if="form.variant.length"
-        >
-          <Badge
-            variant="green"
-            class="text-gray-600 cursor-pointer break-all"
-            v-for="(data, i) in form.variant"
-            :key="i"
-            :title="data"
-            :backIcon="['fas', 'xmark']"
-            @click.native.prevent="removeVariant(i)"
-          />
-        </div>
-        <form>
-          <Input
-            v-for="(field, i) in variantFields"
-            :key="i"
-            :field="field"
-            v-model="variant"
-            @action="addVariant"
-          />
-        </form> -->
-        <!-- <div class="border border-gray-200 my-3"></div> -->
         <p class="text-gray-600">Image Section</p>
         <div
           @click="imageModal = true"
@@ -72,6 +47,7 @@
           <img
             loading="lazy"
             :src="form.image"
+            :alt="form.image"
             v-if="form.image"
             class="object-contain w-full h-full p-3"
           />

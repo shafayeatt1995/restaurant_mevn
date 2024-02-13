@@ -1,11 +1,16 @@
 <template>
-  <div style="font-size: 12px; display: none" ref="receipt" v-if="orderDetails?._id">
+  <div
+    style="font-size: 12px; display: none"
+    ref="receipt"
+    v-if="orderDetails?._id"
+  >
     <table style="width: 100%">
       <tbody style="font-size: 12px">
         <tr v-if="restaurant.printImage">
           <td style="text-align: center; text-align: -webkit-center">
             <img
               :src="restaurant.printImage"
+              :alt="restaurant.name"
               style="max-width: 70%; max-height: 95px"
             />
           </td>
@@ -43,13 +48,13 @@
       <tbody style="font-size: 12px">
         <tr>
           <td>
-            <div style="text-align: left;">
+            <div style="text-align: left">
               Date:
               {{ $moment(orderDetails.created_at).format("DD/MM/YYYY") }}
             </div>
           </td>
           <td>
-            <div style="text-align: right;">
+            <div style="text-align: right">
               Time:
               {{ $moment(orderDetails.created_at).format("hh:mm A") }}
             </div>
@@ -57,19 +62,19 @@
         </tr>
         <tr>
           <td>
-            <div style="text-align: left;">
+            <div style="text-align: left">
               Table: {{ orderDetails.tableName }}
             </div>
           </td>
           <td>
-            <div style="text-align: right;">
+            <div style="text-align: right">
               Order No: #{{ orderDetails.orderNumber }}
             </div>
           </td>
         </tr>
         <tr>
           <td>
-            <div style="text-align: left;">
+            <div style="text-align: left">
               Waiter: {{ orderDetails.waiterName }}
             </div>
           </td>
@@ -78,7 +83,12 @@
     </table>
     <div style="margin-top: 10px"></div>
     <table
-      style="width: 100%;border-collapse: collapse;text-align: center;border: 1px solid #000;"
+      style="
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        border: 1px solid #000;
+      "
     >
       <tbody style="font-size: 12px">
         <tr style="font-weight: 600; border-bottom: 1px solid #000">
@@ -107,7 +117,10 @@
             <div>
               {{ item.name }}
             </div>
-            <div v-for="(choice, index) in item.choice" :key="`choice-${index}`">
+            <div
+              v-for="(choice, index) in item.choice"
+              :key="`choice-${index}`"
+            >
               <small>+ {{ choice.name }}</small>
             </div>
             <div v-for="(addon, index) in item.addon" :key="`addon-${index}`">
@@ -160,7 +173,7 @@
         >
           <td style="width: calc(100% - 60px)">{{ additional.name }}</td>
           <td style="width: 60px; text-align: right">
-            {{ additional.charge ?? 0| number }}
+            {{ additional.charge ?? 0 | number }}
           </td>
         </tr>
       </tbody>
@@ -174,21 +187,36 @@
             {{ totalPayable() | number }}
           </td>
         </tr>
-        <tr v-if="orderDetails.paymentMethod && orderDetails.status === 'complete'">
-          <td style="width: calc(100% - 60px)">Pay by: {{ orderDetails.paymentMethod }}</td>
+        <tr
+          v-if="
+            orderDetails.paymentMethod && orderDetails.status === 'complete'
+          "
+        >
+          <td style="width: calc(100% - 60px)">
+            Pay by: {{ orderDetails.paymentMethod }}
+          </td>
           <td style="width: 60px; text-align: right">
             {{ orderDetails.paymentReceivedAmount ?? 0 | number }}
           </td>
         </tr>
-        <tr v-if="orderDetails.paymentMethod && orderDetails.status === 'complete'">
+        <tr
+          v-if="
+            orderDetails.paymentMethod && orderDetails.status === 'complete'
+          "
+        >
           <td style="width: calc(100% - 60px)">Returned Amount</td>
           <td style="width: 60px; text-align: right">
-            {{ (orderDetails.paymentReceivedAmount - totalPayable()) ?? 0 | number }}
+            {{
+              orderDetails.paymentReceivedAmount - totalPayable() ?? 0 | number
+            }}
           </td>
         </tr>
       </tbody>
     </table>
-    <div style="border-bottom: 1px solid #000" v-if="orderDetails.paymentMethod && orderDetails.status === 'complete'"></div>
+    <div
+      style="border-bottom: 1px solid #000"
+      v-if="orderDetails.paymentMethod && orderDetails.status === 'complete'"
+    ></div>
     <p style="padding: 0 15px; text-align: center; font-size: 12px">
       {{ restaurant.customMessage }}
     </p>
@@ -199,10 +227,10 @@
 <script>
 export default {
   name: "PrintReceipt",
-  data(){
+  data() {
     return {
-      orderDetails:{}
-    }
+      orderDetails: {},
+    };
   },
   computed: {
     restaurant() {
@@ -210,7 +238,9 @@ export default {
     },
   },
   created() {
-    this.$nuxt.$on("trigger-print-receipt", (orderID) => this.fetchOrder(orderID));
+    this.$nuxt.$on("trigger-print-receipt", (orderID) =>
+      this.fetchOrder(orderID)
+    );
   },
   methods: {
     calcPrice(item) {
@@ -230,9 +260,9 @@ export default {
     totalPayable() {
       return (
         this.orderDetails.totalPrice +
-        this.additionalChargesAmount() +
-        this.orderDetails.vatAmount
-      ) || 0;
+          this.additionalChargesAmount() +
+          this.orderDetails.vatAmount || 0
+      );
     },
     printReceipt() {
       try {
@@ -247,7 +277,7 @@ export default {
             printWindow.print();
             printWindow.onafterprint = () => {
               printWindow.close();
-              this.orderDetails = {}
+              this.orderDetails = {};
             };
           }
         });
@@ -255,15 +285,15 @@ export default {
         console.error(error);
       }
     },
-    async fetchOrder(orderID){
+    async fetchOrder(orderID) {
       try {
-        const {order} = await this.$managerApi.fetchSingleOrder(orderID)
-        this.orderDetails = order
-        this.printReceipt()
+        const { order } = await this.$managerApi.fetchSingleOrder(orderID);
+        this.orderDetails = order;
+        this.printReceipt();
       } catch (error) {
         console.error(error);
       }
-    }
+    },
   },
 };
 </script>

@@ -21,7 +21,12 @@
             />
           </div>
         </transition>
-        <img loading="lazy" :src="image.url" class="object-contain h-14 w-14" />
+        <img
+          loading="lazy"
+          :src="image.url"
+          alt="preset image"
+          class="object-contain h-14 w-14"
+        />
       </div>
     </div>
     <div

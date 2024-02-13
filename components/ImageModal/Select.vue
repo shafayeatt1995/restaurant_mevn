@@ -24,6 +24,7 @@
         <img
           loading="lazy"
           :src="image.url"
+          alt="select image"
           class="object-contain h-full w-28"
         />
       </div>
