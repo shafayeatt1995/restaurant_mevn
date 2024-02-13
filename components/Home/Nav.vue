@@ -1,14 +1,14 @@
 <template>
   <nav class="sticky top-0 bg-white shadow-md z-10">
     <div
-      class="container px-4 py-4 mx-auto md:flex md:justify-between md:items-center"
+      class="container px-4 py-2 mx-auto md:flex md:justify-between md:items-center"
     >
       <div class="flex items-center justify-between">
         <nuxt-link :to="{ name: 'index' }">
           <img
             loading="lazy"
-            class="w-auto lg:h-8 h-7"
-            src="/full-logo.png"
+            class="w-auto lg:h-14 h-12"
+            src="/favicon.png"
             alt="logo"
           />
         </nuxt-link>

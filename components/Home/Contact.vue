@@ -4,7 +4,7 @@
       <div class="flex justify-center items-center flex-col">
         <h1 class="mt-2 text-4xl font-bold text-gray-800">
           Get in
-          <span class="underline decoration-green-500 text-green-500"
+          <span class="underline decoration-green-600 text-green-600"
             >touch</span
           >
         </h1>

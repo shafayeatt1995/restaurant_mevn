@@ -4,7 +4,7 @@
       <div class="flex flex-col justify-center items-center">
         <h1 class="text-4xl text-gray-800 font-bold">
           Our
-          <span class="text-green-500 underline decoration-green-500"
+          <span class="text-green-600 underline decoration-green-600"
             >Feature</span
           >
         </h1>
@@ -22,7 +22,7 @@
             <div class="mx-auto mb-4">
               <font-awesome-icon
                 :icon="feature.icon"
-                class="text-6xl text-green-500"
+                class="text-6xl text-green-600"
               />
             </div>
             <h2 class="mb-4 font-bold font-heading text-gray-800 text-2xl">

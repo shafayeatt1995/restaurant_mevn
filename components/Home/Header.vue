@@ -9,7 +9,7 @@
               <h1
                 class="text-3xl font-bold text-gray-800 lg:text-5xl uppercase mt-2"
               >
-                Scan<span class="text-green-500 underline decoration-green-500"
+                Scan<span class="text-green-600 underline decoration-green-600"
                   >Eating</span
                 >
               </h1>

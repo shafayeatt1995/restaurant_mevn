@@ -4,7 +4,7 @@
       <div class="flex flex-col justify-center items-center mt-10 mb-5">
         <h1 class="text-4xl text-gray-800 font-bold">
           How does it
-          <span class="text-green-500 underline decoration-green-500">Work</span
+          <span class="text-green-600 underline decoration-green-600">Work</span
           >?
         </h1>
         <p class="text-gray-800 text-center">

@@ -17,39 +17,39 @@
       >
         <a
           href="#home"
-          class="text-gray-600 transition-colors duration-300 hover:text-green-500"
+          class="text-gray-600 transition-colors duration-300 hover:text-green-600"
         >
           Home
         </a>
 
         <a
           href="#process"
-          class="text-gray-600 transition-colors duration-300 hover:text-green-500"
+          class="text-gray-600 transition-colors duration-300 hover:text-green-600"
         >
           Process
         </a>
 
         <a
           href="#feature"
-          class="text-gray-600 transition-colors duration-300 hover:text-green-500"
+          class="text-gray-600 transition-colors duration-300 hover:text-green-600"
         >
           Feature
         </a>
         <a
           href="#faq"
-          class="text-gray-600 transition-colors duration-300 hover:text-green-500"
+          class="text-gray-600 transition-colors duration-300 hover:text-green-600"
         >
           FAQ
         </a>
         <a
           href="#customer"
-          class="text-gray-600 transition-colors duration-300 hover:text-green-500"
+          class="text-gray-600 transition-colors duration-300 hover:text-green-600"
         >
           Customer
         </a>
         <a
           href="#contact"
-          class="text-gray-600 transition-colors duration-300 hover:text-green-500"
+          class="text-gray-600 transition-colors duration-300 hover:text-green-600"
         >
           Contact
         </a>

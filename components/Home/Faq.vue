@@ -4,7 +4,7 @@
       <div class="flex flex-col justify-center items-center">
         <h1 class="text-4xl text-gray-800 font-bold text-center">
           Frequently Asked
-          <span class="text-green-500 underline decoration-green-500"
+          <span class="text-green-600 underline decoration-green-600"
             >Questions</span
           >
         </h1>
@@ -23,7 +23,7 @@
             <h2 class="pr-3 text-lg text-gray-800 text-left font-semibold">
               {{ faq.question }}
             </h2>
-            <p class="text-green-500">
+            <p class="text-green-600">
               <font-awesome-icon
                 :icon="['fas', 'minus']"
                 v-if="key === activeFaq"
@@ -34,8 +34,7 @@
 
           <slide-up-down :active="key === activeFaq" :duration="300">
             <div class="flex pb-4 md:mx-10">
-              <span class="border border-green-500"></span>
-
+              <span class="border border-green-600"></span>
               <div class="w-full px-4 text-gray-800" v-html="faq.answer"></div>
             </div>
           </slide-up-down>

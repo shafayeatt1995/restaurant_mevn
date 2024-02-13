@@ -4,7 +4,7 @@
       <div class="flex flex-col justify-center items-center">
         <h1 class="text-4xl text-gray-800 font-bold text-center">
           Our Satisfied
-          <span class="text-green-500 underline decoration-green-500"
+          <span class="text-green-600 underline decoration-green-600"
             >Customers</span
           >
         </h1>
