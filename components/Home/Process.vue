@@ -2,17 +2,17 @@
   <section class="bg-white" id="process">
     <div class="container px-4 py-4 mx-auto" id="process">
       <div class="flex flex-col justify-center items-center mt-10 mb-5">
-        <h1 class="text-4xl text-gray-700 font-bold">
+        <h1 class="text-4xl text-gray-800 font-bold">
           How does it
           <span class="text-green-500 underline decoration-green-500">Work</span
           >?
         </h1>
-        <p class="text-gray-600 text-center">
+        <p class="text-gray-800 text-center">
           Provide fantastic experience to your customers!
         </p>
       </div>
       <div
-        class="flex flex-col lg:flex-row justify-between text-gray-600 lg:mt-8"
+        class="flex flex-col lg:flex-row justify-between text-gray-800 lg:mt-8"
       >
         <div class="flex flex-col justify-center items-center mb-8">
           <h3 class="text-2xl font-semibold mb-3">1. Get QR</h3>
@@ -22,7 +22,7 @@
             class="max-w-64 h-auto"
             alt="qr code"
           />
-          <p class="text-gray-600 px-4 mt-3">
+          <p class="text-gray-800 px-4 mt-3">
             Connect with us today and collect your QR code that perfectly
             matches the personality of your establishment.
           </p>
@@ -43,7 +43,7 @@
             class="max-w-64 h-auto"
             alt="items"
           />
-          <p class="text-gray-600 px-4 mt-3">
+          <p class="text-gray-800 px-4 mt-3">
             Fill your menu with a variety of categories, sub-categories, items,
             prices, discounts etc. We'll create the menu for you.
           </p>
@@ -64,7 +64,7 @@
             class="max-w-64 h-auto"
             alt="order"
           />
-          <p class="text-gray-600 px-4 mt-3">
+          <p class="text-gray-800 px-4 mt-3">
             Fill your menu with a variety of categories, sub-categories, items,
             prices, discounts etc. We'll create the menu for you.
           </p>

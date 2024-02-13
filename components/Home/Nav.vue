@@ -65,7 +65,7 @@
 
         <div class="flex justify-center md:block">
           <nuxt-link
-            class="px-7 py-2 mt-6 text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-green-500 rounded-lg lg:w-auto hover:bg-green-600 focus:outline-none focus:bg-green-500 font-bold"
+            class="px-7 py-2 mt-6 text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-black rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold"
             :to="{ name: 'auth-login' }"
           >
             Login

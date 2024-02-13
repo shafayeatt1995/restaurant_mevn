@@ -2,13 +2,13 @@
   <section class="bg-white py-10" id="faq">
     <div class="container px-6 mx-auto">
       <div class="flex flex-col justify-center items-center">
-        <h1 class="text-4xl text-gray-700 font-bold text-center">
+        <h1 class="text-4xl text-gray-800 font-bold text-center">
           Frequently Asked
           <span class="text-green-500 underline decoration-green-500"
             >Questions</span
           >
         </h1>
-        <p class="text-gray-600 text-center">
+        <p class="text-gray-800 text-center">
           We've got answers! Check out our FAQ section below for quick solutions
           to common queries.
         </p>
@@ -20,7 +20,7 @@
             class="flex items-center focus:outline-none justify-between w-full py-4"
             @click="activeFaq = activeFaq === key ? null : key"
           >
-            <h3 class="pr-3 text-lg text-gray-700 text-left font-semibold">
+            <h3 class="pr-3 text-lg text-gray-800 text-left font-semibold">
               {{ faq.question }}
             </h3>
             <p class="text-green-500">
@@ -36,7 +36,7 @@
             <div class="flex pb-4 md:mx-10">
               <span class="border border-green-500"></span>
 
-              <div class="w-full px-4 text-gray-600" v-html="faq.answer"></div>
+              <div class="w-full px-4 text-gray-800" v-html="faq.answer"></div>
             </div>
           </slide-up-down>
         </div>

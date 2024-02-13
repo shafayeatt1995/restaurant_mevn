@@ -13,10 +13,10 @@
                   >Eating</span
                 >
               </h1>
-              <h3 class="text-gray-700 text-xl lg:text-3xl">
+              <h3 class="text-gray-800 text-xl lg:text-3xl">
                 A Complete Digital Menu Solution
               </h3>
-              <p class="mt-3 text-gray-600 text-base lg:text-xl">
+              <p class="mt-3 text-gray-800 text-base lg:text-xl">
                 Take your restaurant one step further! It's time to dive into
                 the digital world. Give your customers a modern experience with
                 a menu they can access on their smartphones using a simple QR
@@ -26,7 +26,7 @@
             </div>
             <div class="flex mt-5 gap-3">
               <NuxtLink
-                class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-green-500 rounded-lg lg:w-auto hover:bg-green-600 focus:outline-none focus:bg-green-500 font-bold shadow-xl"
+                class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-black rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold shadow-xl"
                 :to="{
                   name: 'menu-slug-table',
                   params: { slug: '1c', table: 'table-1-lx' },
@@ -36,7 +36,7 @@
                 Demo Menu
               </NuxtLink>
               <NuxtLink
-                class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-green-500 rounded-lg lg:w-auto hover:bg-green-600 focus:outline-none focus:bg-green-500 font-bold shadow-xl"
+                class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-black rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold shadow-xl"
                 :to="{
                   name: 'auth-login',
                   query: { demo: true },

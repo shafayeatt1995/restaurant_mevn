@@ -2,13 +2,13 @@
   <section class="bg-white py-10 relative" id="contact">
     <div class="container px-6 mx-auto relative z-[2]">
       <div class="flex justify-center items-center flex-col">
-        <h1 class="mt-2 text-4xl font-bold text-gray-700">
+        <h1 class="mt-2 text-4xl font-bold text-gray-800">
           Get in
           <span class="underline decoration-green-500 text-green-500"
             >touch</span
           >
         </h1>
-        <p class="text-gray-600 text-center">
+        <p class="text-gray-800 text-center">
           Feel free to contact us with your questions, feedback, or inquiries.
         </p>
       </div>
@@ -25,14 +25,14 @@
             </span>
 
             <h2 class="mt-4 text-base font-medium text-gray-800">Email</h2>
-            <p class="mb-2 text-sm text-gray-500">
+            <p class="mb-4 text-sm text-gray-700">
               Our friendly team is here to help.
             </p>
-            <a href="mailto:info@scaneating.com" class="text-green-500"
+            <a href="mailto:info@scaneating.com" class="text-gray-800"
               >info@scaneating.com</a
             >
             <br />
-            <a href="mailto:shafayet@scaneating.com" class="text-green-500"
+            <a href="mailto:shafayet@scaneating.com" class="text-gray-800"
               >shafayet@scaneating.com</a
             >
           </div>
@@ -45,13 +45,13 @@
             </span>
 
             <h2 class="mt-4 text-base font-medium text-gray-800">Live chat</h2>
-            <p class="mb-2 text-sm text-gray-500">
+            <p class="mb-4 text-sm text-gray-700">
               Our friendly team is here to help.
             </p>
             <a
               href="https://wa.me/01301546040/?text=Hello"
               target="_blank"
-              class="text-green-500"
+              class="text-gray-800"
               >Start chat <font-awesome-icon :icon="['far', 'comment-dots']"
             /></a>
           </div>
@@ -67,11 +67,11 @@
             </span>
 
             <h2 class="mt-4 text-base font-medium text-gray-800">Office</h2>
-            <p class="mb-2 text-sm text-gray-500">
+            <p class="mb-4 text-sm text-gray-700">
               Come say hello at our office HQ.
             </p>
-            <p class="text-green-500">Kirtipur, Naogaon, Dhaka</p>
-            <p class="text-green-500">Staff Quarter, Dhanmondi, Dhaka</p>
+            <p class="text-gray-800">Kirtipur, Naogaon, Dhaka</p>
+            <p class="text-gray-800">Staff Quarter, Dhanmondi, Dhaka</p>
           </div>
 
           <div class="rounded-xl p-4 backdrop-blur-lg bg-white/60">
@@ -85,11 +85,11 @@
             </span>
 
             <h2 class="mt-4 text-base font-medium text-gray-800">Phone</h2>
-            <p class="mb-2 text-sm text-gray-500">24/7 from 10am to 11:00pm.</p>
+            <p class="mb-4 text-sm text-gray-700">24/7 from 10am to 11:00pm.</p>
 
-            <a href="tel:01728293635" class="text-green-500">01728-293635</a>
+            <a href="tel:01728293635" class="text-gray-800">01728-293635</a>
             <br />
-            <a href="tel:01645478912" class="text-green-500">01645-478912</a>
+            <a href="tel:01645478912" class="text-gray-800">01645-478912</a>
           </div>
         </div>
         <div
@@ -105,7 +105,7 @@
             />
 
             <button
-              class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-lg hover:bg-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-50"
+              class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-black rounded-lg hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-800 focus:ring-opacity-50"
               type="submit"
             >
               Send message
