@@ -19,6 +19,7 @@
             :stagePadding="50"
             :nav="false"
             :loop="true"
+            :autoplay="true"
             :responsive="{
               0: { items: 1 },
               600: { items: 3 },
