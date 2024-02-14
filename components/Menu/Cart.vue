@@ -61,7 +61,16 @@
         "
       >
         <div class="h-full pt-5" v-if="cartItems && cartItems.length">
-          <div class="flex justify-center gap-10">
+          <div class="flex justify-center items-center gap-4">
+            <img
+              loading="lazy"
+              alt="logo"
+              :src="restaurant.logo"
+              class="max-w-14 max-h-14"
+            />
+            <h1 class="text-xl">{{ restaurant.name }}</h1>
+          </div>
+          <!-- <div class="flex justify-center gap-10">
             <Button
               :variant="option.name === form.orderType ? 'green' : 'white'"
               v-for="(option, key) in orderTypeOptions"
@@ -73,7 +82,7 @@
               </p>
               <component :is="option.icon" class="w-6 h-6" />
             </Button>
-          </div>
+          </div> -->
           <div class="px-4">
             <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
             <table class="w-full">
@@ -233,6 +242,9 @@ import ParcelIcon from "~/static/svg/parcel.svg";
 export default {
   name: "MenuCart",
   components: { TableIcon, ParcelIcon },
+  props: {
+    restaurant: Object,
+  },
   data() {
     return {
       show: false,

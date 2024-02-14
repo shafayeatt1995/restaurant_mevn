@@ -284,6 +284,19 @@
             </p>
           </td>
         </tr>
+        <Button
+          v-if="
+            (orderDetails.status === 'active' ||
+              orderDetails.status === 'billing') &&
+            !AddItemDisabled
+          "
+          variant="green"
+          class="inline"
+          @click.native.prevent="addItem"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+          Add additional Item
+        </Button>
         <hr class="mt-1" />
         <div class="flex flex-col">
           <div class="flex justify-between font-bold">
@@ -323,24 +336,26 @@
               </div>
               <p>৳{{ showVatAmount | number }}</p>
             </div>
-            <div
-              class="flex justify-between"
-              v-for="(additional, i) in orderDetails.additionalCharges"
-              :key="'additional' + i"
-            >
-              <div class="flex items-center">
-                <p>
-                  {{ additional.name }}
-                  <span
-                    ><font-awesome-icon
-                      :icon="['fas', 'xmark']"
-                      class="text-red-500 cursor-pointer"
-                      @click="removeOrderAdditional(i)"
-                  /></span>
-                </p>
-              </div>
-              <p>৳{{ additional.charge | number }}</p>
+          </div>
+          <div
+            class="flex justify-between"
+            v-for="(additional, i) in orderDetails.additionalCharges"
+            :key="'additional' + i"
+          >
+            <div class="flex items-center">
+              <p>
+                {{ additional.name }}
+                <span v-if="orderDetails.status === 'billing'"
+                  ><font-awesome-icon
+                    :icon="['fas', 'xmark']"
+                    class="text-red-500 cursor-pointer"
+                    @click="removeOrderAdditional(i)"
+                /></span>
+              </p>
             </div>
+            <p>৳{{ additional.charge | number }}</p>
+          </div>
+          <div v-if="orderDetails.status === 'billing'">
             <div
               class="flex justify-between mb-2"
               v-for="(charge, key) in additionalCharges"
@@ -435,9 +450,7 @@
         </template>
       </table>
 
-      <div
-        class="mt-4 grid grid-cols-1 lg:grid-cols-2 items-center sm:-mx-2 gap-3 check-odd"
-      >
+      <div class="flex flex-col lg:flex-row justify-between mt-4 gap-3">
         <Button
           v-if="
             (orderDetails.status === 'active' ||
@@ -485,19 +498,6 @@
           >
             <font-awesome-icon :icon="['fas', 'print']" />
             Print for chef
-          </Button>
-          <Button
-            v-if="
-              orderDetails.status === 'active' ||
-              orderDetails.status === 'billing'
-            "
-            variant="green"
-            class="w-full tracking-wide flex-1"
-            :disabled="AddItemDisabled"
-            @click.native.prevent="addItem"
-          >
-            <font-awesome-icon :icon="['fas', 'plus']" />
-            Add additional Item
           </Button>
           <Button
             v-if="orderDetails.status === 'pending'"
@@ -642,6 +642,10 @@
       </div>
     </Modal>
     <Modal v-model="cancelModal" v-if="cancelModal">
+      <div class="flex justify-between items-center">
+        <h1 class="text-gray-700 text-xl">Select cancel reason</h1>
+        <CloseButton @click.native.prevent="cancelModal = false" />
+      </div>
       <form @submit.prevent="cancelOrder">
         <Input
           v-for="(field, i) in cancelInputFields"
@@ -836,7 +840,6 @@ export default {
         {
           type: "select",
           name: "cancelReason",
-          label: { id: "cancelReason", title: "Select cancel reason" },
           options: list.map((data) => ({ value: data, label: data })),
           showEmptySelect: false,
         },
@@ -971,12 +974,24 @@ export default {
         this.fetchItems();
       }
     },
+    refetchOrderData() {
+      this.loading = false;
+      this.newOrder = false;
+      this.cancelLoading = false;
+      this.acceptLoading = false;
+      this.items = [];
+      if (this.active === "Table view") {
+        this.fetchTables();
+      } else {
+        this.fetchItems();
+      }
+    },
     reset() {
       this.loading = false;
       this.cancelLoading = false;
       this.acceptLoading = false;
       this.deleteMode = false;
-      this.orderDetails = {};
+      // this.orderDetails = {};
     },
     singleItemPrice(data) {
       return this.calcPrice(data);
@@ -1101,7 +1116,10 @@ export default {
           } else {
             this.selectWaiterModal = true;
           }
-        } else if (this.waiter) {
+        } else if (
+          this.waiter ||
+          (this.manager && this.orderDetails.waiterID)
+        ) {
           this.accOrder();
         }
       } catch (error) {
@@ -1118,9 +1136,7 @@ export default {
             status,
             currentStatus: this.orderDetails.status,
           });
-          this.modal = false;
           this.updateStatus(this.orderDetails._id, status);
-          this.refetch();
         }
       } catch (error) {
         console.error(error);
@@ -1130,7 +1146,7 @@ export default {
     },
     async completeOrder() {
       try {
-        if (this.payment.amount > 0) {
+        if (this.payment.amount >= 0) {
           if (confirm(`Are you sure, you want to complete this order?`)) {
             const status = "complete";
             this.acceptLoading = true;
@@ -1148,7 +1164,7 @@ export default {
             // this.refetch();
           }
         } else {
-          this.$nuxt.$emit("error", "Please input paid by amount");
+          this.$nuxt.$emit("error", "Please input a valid amount");
         }
       } catch (error) {
         console.error(error);
@@ -1164,6 +1180,7 @@ export default {
     updateStatus(id, status) {
       const i = this.items.findIndex(({ _id }) => _id === id);
       this.items[i].status = status;
+      this.orderDetails = this.items[i];
       this.reset();
     },
     showTime(date) {
@@ -1273,6 +1290,7 @@ export default {
         this.additionalCharges = [];
         this.updateMode = false;
         this.$nuxt.$emit("success", "Service charge added successfully");
+        this.refetchOrderData();
       } catch (error) {
         console.error(error);
         this.$nuxt.$emit("error", "Something Wrong! Please try Again");

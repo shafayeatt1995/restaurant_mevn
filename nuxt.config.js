@@ -59,7 +59,7 @@ export default {
     "~/plugins",
     "~/plugins/api.js",
     "~/plugins/filter.js",
-    { src: "~/plugins/slide.js", mode: "client" },
+    "~/plugins/slide.js",
     { src: "~/plugins/toast.js", mode: "client" },
     { src: "~/plugins/apexChart.js", mode: "client" },
     { src: "~/plugins/datePicker.js", mode: "client" },
