@@ -50,8 +50,10 @@ export default {
         return "hourly";
       } else if (different > 0 && different <= 31) {
         return "daily";
-      } else if (different > 31) {
+      } else if (different > 31 && different <= 366) {
         return "monthly";
+      } else {
+        return "yearly";
       }
     },
     series() {
@@ -92,6 +94,22 @@ export default {
           };
         });
         return [{ name: "Sales", data }];
+      } else if (this.mode === "yearly") {
+        let [start, end] = this.date;
+        start = this.$moment(start).format("YYYY");
+        end = this.$moment(end).format("YYYY");
+
+        const different =
+          this.$moment(end, "YYYY").diff(this.$moment(start, "YYYY"), "years") +
+          1;
+        const data = Array.from({ length: different }, (_, i) => {
+          const x = this.$moment(start, "YYYY").add(i, "years").format("YYYY");
+          return {
+            x,
+            y: this.findData(x).totalNetPrice,
+          };
+        });
+        return [{ name: "Sales", data }];
       }
     },
     chartOptions() {
@@ -118,6 +136,8 @@ export default {
                 return moment(val, "DD-MM-YYYY").format("DD-MMM");
               } else if (mode === "monthly") {
                 return moment(val, "MM-YYYY").format("MMM-YY");
+              } else if (mode === "yearly") {
+                return moment(val, "YYYY").format("YYYY");
               }
             },
           },
@@ -131,7 +151,7 @@ export default {
           },
           crosshairs: {
             stroke: {
-              color: "#60B15A",
+              color: "#16a34a",
               width: 2,
               dashArray: 0,
             },
@@ -148,13 +168,13 @@ export default {
         markers: {
           size: 0,
           strokeWidth: 25,
-          strokeColors: "#60b15ab3",
+          strokeColors: "#16a34ab3",
           strokeOpacity: 1,
           hover: {
             size: 10,
           },
         },
-        colors: ["#60b15a"],
+        colors: ["#16a34a"],
         tooltip: {
           enabled: true,
           followCursor: true,
@@ -165,6 +185,7 @@ export default {
           },
         },
         grid: { padding: { right: 40 } },
+        dataLabels: { enabled: true, style: { fontSize: "14px" } },
       };
     },
     totalSales() {
@@ -190,6 +211,8 @@ export default {
             return this.$moment(_id, "MM-YYYY").isSame(
               this.$moment(val, "MM-YYYY")
             );
+          } else if (this.mode === "yearly") {
+            return this.$moment(_id, "YYYY").isSame(this.$moment(val, "YYYY"));
           } else {
             return false;
           }

@@ -24,7 +24,8 @@ const {
   updateEmployee,
   deleteEmployee,
   updatePrintingDetails,
-  fetchPerformance,
+  fetchWaiterSales,
+  fetchWaiterOrders,
   toggleProtection,
   fetchAllEmployee,
 } = require("@/backend/controllers/UserController");
@@ -168,7 +169,9 @@ router.get("/order/print-details/:_id", fetchPrintOrder);
 router.post("/add-service-charge", addServiceCharge);
 router.post("/update-printing-details", updatePrintingDetails);
 
-router.post("/performance", fetchPerformance);
+// router.post("/performance", fetchPerformance);
+router.post("/waiter-sales", fetchWaiterSales);
+router.post("/waiter-orders", fetchWaiterOrders);
 router.get("/toggle-protection", toggleProtection);
 
 router.post("/best-items", fetchBestItems);

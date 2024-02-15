@@ -496,9 +496,9 @@ const controller = {
     }
   },
 
-  async fetchPerformance(req, res) {
+  async fetchWaiterSales(req, res) {
     try {
-      const { restaurantID, _id: userID } = req.user;
+      const { restaurantID } = req.user;
       const {
         date: [start, end],
       } = req.body;
@@ -507,6 +507,11 @@ const controller = {
           $match: {
             restaurantID,
             status: "complete",
+            waiterID: {
+              $type: "string",
+              $exists: true,
+              $ne: null,
+            },
             created_at: {
               $gt: convertDate(start, "start"),
               $lt: convertDate(end, "end"),
@@ -516,52 +521,67 @@ const controller = {
         {
           $group: {
             _id: "$waiterID",
-            totalPrice: { $sum: "$netPrice" },
-            totalOrder: { $sum: "$totalQty" },
-          },
-        },
-        {
-          // $lookup: {
-          //   from: "users",
-          //   let: { waiterIdObj: { $toObjectId: "$waiterID" } },
-          //   pipeline: [
-          //     { $match: { $expr: { $eq: ["$_id", "$$waiterIdObj"] } } },
-          //     { $project: { name: 1 } },
-          //   ],
-          //   as: "waiterName",
-          // },
-          $lookup: {
-            from: "users",
-            let: { waiterId: "$waiterID" },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $eq: [
-                      { $toObjectId: "$_id" },
-                      { $toObjectId: "$$waiterId" },
-                    ],
-                  },
-                },
-              },
-              { $project: { name: 1 } },
-            ],
-            as: "waiterName",
-          },
-        },
-        {
-          $addFields: {
-            waiterName: { $arrayElemAt: ["$waiterName.name", 0] },
+            waiterName: { $last: "$waiterName" },
+            totalRevenue: { $sum: "$netPrice" },
           },
         },
         {
           $project: {
             _id: 1,
-            totalOrder: 1,
-            totalPrice: 1,
             waiterName: 1,
+            totalRevenue: 1,
           },
         },
+        { $sort: { waiterName: 1 } },
+      ]);
+
+      res.status(200).json({ success: true, performance });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
+  async fetchWaiterOrders(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const {
+        date: [start, end],
+      } = req.body;
+      const performance = await Order.aggregate([
+        {
+          $match: {
+            restaurantID,
+            status: "complete",
+            waiterID: {
+              $type: "string",
+              $exists: true,
+              $ne: null,
+            },
+            created_at: {
+              $gt: convertDate(start, "start"),
+              $lt: convertDate(end, "end"),
+            },
+          },
+        },
+        {
+          $group: {
+            _id: "$waiterID",
+            waiterName: { $last: "$waiterName" },
+            totalOrder: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            waiterName: 1,
+            totalOrder: 1,
+          },
+        },
+        { $sort: { waiterName: 1 } },
       ]);
 
       res.status(200).json({ success: true, performance });

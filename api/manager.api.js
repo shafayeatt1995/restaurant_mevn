@@ -216,4 +216,12 @@ export class ManagerApi extends BaseApi {
   chartOrderReport(body) {
     return this.api.$post(`chart-order-report`, body);
   }
+
+  fetchWaiterSales(body) {
+    return this.api.$post(`waiter-sales`, body);
+  }
+
+  fetchWaiterOrders(body) {
+    return this.api.$post(`waiter-orders`, body);
+  }
 }

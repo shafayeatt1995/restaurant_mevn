@@ -99,12 +99,12 @@ export default {
           title: "Employee",
           icon: ["fas", "users"],
         },
-        {
-          show: this.manager,
-          name: "dashboard-performance",
-          title: "Performance",
-          icon: ["fas", "chart-simple"],
-        },
+        // {
+        //   show: this.manager,
+        //   name: "dashboard-performance",
+        //   title: "Performance",
+        //   icon: ["fas", "chart-simple"],
+        // },
         {
           show: this.manager,
           name: "dashboard-vat",

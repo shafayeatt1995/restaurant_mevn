@@ -50,7 +50,7 @@
         :icon="['fas', 'chart-pie']"
         class="text-9xl text-rose-600"
       />
-      <p class="text-gray-600">No order data found</p>
+      <p class="text-gray-600">No data found</p>
     </div>
   </section>
 </template>

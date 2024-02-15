@@ -73,7 +73,7 @@ export default {
           },
           crosshairs: {
             stroke: {
-              color: "#60B15A",
+              color: "#16a34a",
               width: 2,
               dashArray: 0,
             },
@@ -90,13 +90,13 @@ export default {
         markers: {
           size: 0,
           strokeWidth: 25,
-          strokeColors: "#60b15ab3",
+          strokeColors: "#16a34ab3",
           strokeOpacity: 1,
           hover: {
             size: 10,
           },
         },
-        colors: ["#60b15a"],
+        colors: ["#16a34a"],
         tooltip: {
           enabled: true,
           followCursor: true,

@@ -649,6 +649,30 @@ const controller = {
             $sort: { _id: 1 },
           },
         ]);
+      } else if (mode === "yearly") {
+        chartData = await Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gte: convertDate(start, "start"),
+                $lte: convertDate(end, "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: {
+                $dateToString: { format: "%Y", date: "$created_at" },
+              },
+              totalNetPrice: { $sum: "$netPrice" },
+            },
+          },
+          {
+            $sort: { _id: 1 },
+          },
+        ]);
       }
       res.status(200).json({ success: true, chartData });
     } catch (error) {
@@ -732,6 +756,30 @@ const controller = {
             $group: {
               _id: {
                 $dateToString: { format: "%m-%Y", date: "$created_at" },
+              },
+              totalOrder: { $sum: 1 },
+            },
+          },
+          {
+            $sort: { _id: 1 },
+          },
+        ]);
+      } else if (mode === "yearly") {
+        chartData = await Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gte: convertDate(start, "start"),
+                $lte: convertDate(end, "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: {
+                $dateToString: { format: "%Y", date: "$created_at" },
               },
               totalOrder: { $sum: 1 },
             },
