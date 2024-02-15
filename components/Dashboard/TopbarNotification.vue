@@ -18,7 +18,7 @@
       v-if="notification"
     >
       <div class="p-3 flex justify-between">
-        <h3 class="text-lg font-medium text-gray-700">Notifications</h3>
+        <h1 class="text-lg font-medium text-gray-700">Notifications</h1>
         <button
           class="underline text-sky-600"
           @click="markAllRead"

@@ -94,7 +94,6 @@ export default {
           ],
         };
         const { performance } = await this.$managerApi.fetchPerformance(body);
-        console.log(performance);
         // this.items = performance;
       } catch (error) {
         console.error(error);

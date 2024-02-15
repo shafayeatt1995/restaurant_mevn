@@ -2,9 +2,9 @@
   <div class="px-2 lg:px-6 my-4">
     <div class="rounded-2xl shadow-lg bg-white p-3">
       <div class="flex flex-col lg:flex-row justify-between lg:items-center">
-        <h3 class="font-semibold text-xl text-gray-700 py-2 px-2">
+        <h1 class="font-semibold text-xl text-gray-700 py-2 px-2">
           Monthly Sales Details
-        </h3>
+        </h1>
         <client-only>
           <DatePicker
             v-if="!chartLoader"

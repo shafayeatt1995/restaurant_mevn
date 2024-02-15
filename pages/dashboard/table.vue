@@ -58,12 +58,12 @@
     </section>
 
     <Modal v-model="modal">
-      <h3
+      <h1
         class="text-lg font-medium leading-6 text-gray-600 capitalize"
         id="modal-title"
       >
         {{ editMode ? "Edit" : "Create new" }} table
-      </h3>
+      </h1>
       <form class="mt-4" @submit.prevent="submit">
         <Input
           v-for="(field, i) in inputFields"
@@ -94,12 +94,12 @@
     </Modal>
     <Modal v-model="qrModal">
       <div class="flex justify-between items-center">
-        <h3
+        <h1
           class="text-lg font-medium leading-6 text-gray-600 capitalize"
           id="modal-title"
         >
           Generate QR code
-        </h3>
+        </h1>
         <CloseButton @click.native.prevent="qrModal = false" />
       </div>
       <div>

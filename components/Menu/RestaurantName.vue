@@ -18,12 +18,12 @@
     <Modal v-model="modal">
       <form class="mt-3" @submit.prevent="updateRestaurant">
         <div class="flex justify-between items-center mb-2">
-          <h3
+          <h1
             class="text-lg font-medium leading-6 text-gray-600 capitalize"
             id="modal-title"
           >
             Edit Restaurant Name
-          </h3>
+          </h1>
           <CloseButton @click.native.prevent="modal = false" />
         </div>
         <Input

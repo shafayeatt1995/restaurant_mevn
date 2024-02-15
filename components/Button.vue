@@ -53,6 +53,8 @@ export default {
         return "text-white bg-amber-500 hover:bg-amber-600 focus:ring-amber-300 disabled:hover:bg-amber-300 disabled:bg-amber-300";
       } else if (this.variant === "sky") {
         return "text-white bg-sky-500 hover:bg-sky-600 focus:ring-sky-300 disabled:hover:bg-sky-300 disabled:bg-sky-300";
+      } else if (this.variant === "dark") {
+        return "text-white bg-gray-900 hover:bg-gray-700 focus:ring-gray-900 disabled:hover:bg-gray-300 disabled:bg-gray-300";
       } else if (this.variant === "black") {
         return "text-white bg-black hover:bg-gray-900 focus:ring-gray-900 disabled:hover:bg-gray-300 disabled:bg-gray-300";
       }

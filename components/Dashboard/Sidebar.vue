@@ -15,11 +15,11 @@
         :src="manager ? $auth.user.restaurant.logo : $auth.user.avatar"
         alt="avatar"
       />
-      <h4 v-if="manager" class="mx-2 mt-2 font-medium text-gray-600">
+      <h4 v-if="manager" class="mx-2 mt-2 font-medium text-gray-800">
         {{ $auth.user.restaurant.name }}
       </h4>
-      <h4 class="mx-2 mt-2 font-medium text-gray-600">{{ $auth.user.name }}</h4>
-      <p class="mx-2 mt-1 text-sm font-medium text-gray-600">
+      <h4 class="mx-2 mt-2 font-medium text-gray-800">{{ $auth.user.name }}</h4>
+      <p class="mx-2 mt-1 text-sm font-medium text-gray-800">
         {{ $auth.user.type }}
       </p>
     </div>
@@ -33,7 +33,7 @@
             v-if="show"
             :key="i"
             :to="{ name }"
-            class="flex items-center px-4 py-3 mt-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:text-gray-700 hover:bg-gray-100"
+            class="flex items-center px-4 py-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-lg hover:text-gray-700 hover:bg-gray-100"
             :class="check(name)"
             :target="target"
           >

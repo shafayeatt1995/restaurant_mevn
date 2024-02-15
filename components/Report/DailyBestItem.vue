@@ -14,7 +14,8 @@
         />
       </client-only>
     </div>
-    <template v-if="orders && orders.length > 0">
+    <ChartLoading v-if="loading" />
+    <template v-else-if="orders && orders.length > 0">
       <div class="flex justify-center">
         <client-only>
           <apexchart

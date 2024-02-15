@@ -69,12 +69,12 @@
     </section>
 
     <Modal v-model="modal">
-      <h3
+      <h1
         class="text-lg font-medium leading-6 text-gray-600 capitalize"
         id="modal-title"
       >
         {{ editMode ? "Edit" : "Add" }} user
-      </h3>
+      </h1>
       <form class="mt-4" @submit.prevent="submit">
         <Input
           v-for="(field, i) in inputFields"

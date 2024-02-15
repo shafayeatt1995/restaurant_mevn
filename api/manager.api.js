@@ -208,4 +208,8 @@ export class ManagerApi extends BaseApi {
   fetchBestItems(body) {
     return this.api.$post(`best-items`, body);
   }
+
+  chartSalesReport(body) {
+    return this.api.$post(`chart-sales-report`, body);
+  }
 }

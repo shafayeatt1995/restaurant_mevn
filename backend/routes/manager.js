@@ -70,6 +70,7 @@ const {
   addServiceCharge,
   fetchSingleOrder,
   fetchBestItems,
+  chartSalesReport,
 } = require("@/backend/controllers/OrderController");
 const {
   fetchVat,
@@ -170,6 +171,7 @@ router.post("/performance", fetchPerformance);
 router.get("/toggle-protection", toggleProtection);
 
 router.post("/best-items", fetchBestItems);
+router.post("/chart-sales-report", chartSalesReport);
 
 router.post(
   "/update-restaurant-name",

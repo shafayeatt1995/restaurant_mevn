@@ -20,13 +20,13 @@
                 Take your restaurant one step further! It's time to dive into
                 the digital world. Give your customers a modern experience with
                 a menu they can access on their smartphones using a simple QR
-                code. No more paper menus – just scan, browse, and order
+                code. No more paper menus–just scan, browse, and order
                 <span class="text-2xl">😊</span>
               </p>
             </div>
-            <div class="flex mt-5 gap-3">
+            <div class="flex mt-5 gap-3 justify-evenly lg:justify-start">
               <NuxtLink
-                class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-black rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold shadow-xl"
+                class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-gray-900 rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold shadow-xl"
                 :to="{
                   name: 'menu-slug-table',
                   params: { slug: '1c', table: 'table-1-lx' },
@@ -36,7 +36,7 @@
                 Demo Menu
               </NuxtLink>
               <NuxtLink
-                class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-black rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold shadow-xl"
+                class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-gray-900 rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold shadow-xl"
                 :to="{
                   name: 'auth-login',
                   query: { demo: true },
@@ -46,15 +46,19 @@
               </NuxtLink>
             </div>
           </div>
-
           <div
             class="flex items-center justify-center lg:flex-1 lg:w-1/2 lg:h-full animate-bouncy infinite mt-10 lg:mt-0"
           >
-            <img
-              class="max-w-full h-96 lg:h-[70vh] object-contain"
-              src="/images/menu.webp"
-              alt="menu image"
-            />
+            <div
+              class="relative lg:before:absolute lg:before:content-[''] before:h-full before:w-full lg:before:border-[10px] lg:before:border-green-600 before:border-solid before:top-6 before:left-6 before:rounded-[56px]"
+              5
+            >
+              <img
+                class="max-w-full h-96 lg:h-[70vh] object-contain relative z-[1]"
+                src="/images/menu.webp"
+                alt="menu image"
+              />
+            </div>
           </div>
         </div>
       </div>

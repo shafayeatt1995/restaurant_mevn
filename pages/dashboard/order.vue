@@ -174,12 +174,12 @@
 
     <Modal v-model="modal" v-if="modal">
       <div class="flex justify-between items-center">
-        <h3
+        <h1
           class="text-lg font-medium leading-6 text-gray-600 capitalize"
           id="modal-title"
         >
           Order details
-        </h3>
+        </h1>
         <CloseButton @click.native.prevent="modal = false" />
       </div>
       <hr class="my-3" />
@@ -596,12 +596,12 @@
     </Modal>
     <Modal v-model="selectWaiterModal" v-if="selectWaiterModal">
       <div class="flex justify-between items-center">
-        <h3
+        <h1
           class="text-lg font-medium leading-6 text-gray-600 capitalize"
           id="modal-title"
         >
           Select a waiter
-        </h3>
+        </h1>
         <CloseButton @click.native.prevent="selectWaiterModal = false" />
       </div>
       <hr class="my-3" />
