@@ -12,6 +12,7 @@
 
     <section class="px-4 flex flex-col gap-5">
       <ReportEarning />
+      <ReportOrder />
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <ReportDailyBestItem />
         <ReportWeeklyBestItem />

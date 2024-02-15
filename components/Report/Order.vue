@@ -2,7 +2,8 @@
   <div class="rounded-xl shadow-lg bg-white p-3">
     <div class="flex flex-col lg:flex-row justify-between lg:items-center">
       <h1 class="font-bold text-xl text-gray-700 py-2 px-2">
-        Total sale: ৳{{ totalSales | currencyNumber }}
+        Total order: <font-awesome-icon :icon="['fas', 'receipt']" />
+        {{ totalOrder | currencyNumber }}
       </h1>
       <client-only>
         <DatePicker
@@ -14,7 +15,7 @@
         />
       </client-only>
     </div>
-    <Observer v-if="loaded" @load="getSalesLog" class="h-96" />
+    <Observer v-if="loaded" @load="getOrderLog" class="h-96" />
     <div
       v-else-if="loading"
       class="w-full flex justify-center items-center h-96"
@@ -33,7 +34,7 @@
 </template>
 <script>
 export default {
-  name: "SalesChart",
+  name: "OrderChart",
   data() {
     return {
       date: [new Date(), new Date()],
@@ -58,7 +59,7 @@ export default {
       if (this.mode === "hourly") {
         const data = Array.from({ length: 24 }, (_, i) => ({
           x: i,
-          y: this.findData(i).totalNetPrice,
+          y: this.findData(i).totalOrder,
         }));
         return [{ name: "Sales", data }];
       } else if (this.mode === "daily") {
@@ -68,7 +69,7 @@ export default {
           const x = this.$moment(start).add(i, "day").format("DD-MM-YYYY");
           return {
             x,
-            y: this.findData(x).totalNetPrice,
+            y: this.findData(x).totalOrder,
           };
         });
         return [{ name: "Sales", data }];
@@ -88,7 +89,7 @@ export default {
             .format("MM-YYYY");
           return {
             x,
-            y: this.findData(x).totalNetPrice,
+            y: this.findData(x).totalOrder,
           };
         });
         return [{ name: "Sales", data }];
@@ -167,13 +168,13 @@ export default {
         grid: { padding: { right: 40 } },
       };
     },
-    totalSales() {
-      return this.chartData.reduce((t, val) => t + val.totalNetPrice ?? 0, 0);
+    totalOrder() {
+      return this.chartData.reduce((t, val) => t + val.totalOrder ?? 0, 0);
     },
   },
   watch: {
     date() {
-      this.getSalesLog();
+      this.getOrderLog();
     },
   },
   methods: {
@@ -194,16 +195,16 @@ export default {
             return false;
           }
         });
-        return findData ?? { totalNetPrice: 0, _id: val };
+        return findData ?? { totalOrder: 0, _id: val };
       } else {
-        return { totalNetPrice: 0, _id: val };
+        return { totalOrder: 0, _id: val };
       }
     },
-    async getSalesLog() {
+    async getOrderLog() {
       try {
         this.loading = true;
         this.chartData = [];
-        const { chartData } = await this.$managerApi.chartSalesReport({
+        const { chartData } = await this.$managerApi.chartOrderReport({
           date: this.date,
           mode: this.mode,
         });
@@ -232,7 +233,7 @@ export default {
 
         return {
           x: date,
-          y: matchingObject ? matchingObject.totalNetPrice : 0,
+          y: matchingObject ? matchingObject.totalOrder : 0,
         };
       });
     },

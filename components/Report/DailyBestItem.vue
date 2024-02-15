@@ -14,7 +14,8 @@
         />
       </client-only>
     </div>
-    <ChartLoading v-if="loading" />
+    <Observer v-if="loaded" @load="fetchItem" class="h-96" />
+    <ChartLoading v-else-if="loading" />
     <template v-else-if="orders && orders.length > 0">
       <div class="flex justify-center">
         <client-only>
@@ -58,6 +59,7 @@ export default {
   name: "DailylyBestItem",
   data() {
     return {
+      loaded: true,
       loading: true,
       orders: [],
       form: { date: new Date() },
@@ -83,9 +85,6 @@ export default {
       this.fetchItem();
     },
   },
-  mounted() {
-    this.fetchItem();
-  },
   methods: {
     async fetchItem() {
       try {
@@ -102,6 +101,7 @@ export default {
         console.error(error);
       } finally {
         this.loading = false;
+        this.loaded = false;
       }
     },
   },

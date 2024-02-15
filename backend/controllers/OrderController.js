@@ -571,13 +571,11 @@ const controller = {
 
   async chartSalesReport(req, res) {
     try {
-      // count: {$sum: 1}
       const { restaurantID } = req.user;
       const {
         date: [start, end],
         mode,
       } = req.body;
-      console.log(mode);
       let chartData = [];
       if (mode === "hourly") {
         chartData = await Order.aggregate([
@@ -645,6 +643,97 @@ const controller = {
                 $dateToString: { format: "%m-%Y", date: "$created_at" },
               },
               totalNetPrice: { $sum: "$netPrice" },
+            },
+          },
+          {
+            $sort: { _id: 1 },
+          },
+        ]);
+      }
+      res.status(200).json({ success: true, chartData });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
+  async chartOrderReport(req, res) {
+    try {
+      const { restaurantID } = req.user;
+      const {
+        date: [start, end],
+        mode,
+      } = req.body;
+      let chartData = [];
+      if (mode === "hourly") {
+        chartData = await Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gte: convertDate(start, "start"),
+                $lte: convertDate(end, "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: { $hour: "$created_at" },
+              totalOrder: { $sum: 1 },
+            },
+          },
+          {
+            $sort: {
+              "_id.hour": 1,
+            },
+          },
+        ]);
+      } else if (mode === "daily") {
+        chartData = await Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gte: convertDate(start, "start"),
+                $lte: convertDate(end, "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: {
+                $dateToString: { format: "%d-%m-%Y", date: "$created_at" },
+              },
+              totalOrder: { $sum: 1 },
+            },
+          },
+          {
+            $sort: { _id: 1 },
+          },
+        ]);
+      } else if (mode === "monthly") {
+        chartData = await Order.aggregate([
+          {
+            $match: {
+              restaurantID,
+              created_at: {
+                $gte: convertDate(start, "start"),
+                $lte: convertDate(end, "end"),
+              },
+              status: "complete",
+            },
+          },
+          {
+            $group: {
+              _id: {
+                $dateToString: { format: "%m-%Y", date: "$created_at" },
+              },
+              totalOrder: { $sum: 1 },
             },
           },
           {

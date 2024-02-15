@@ -212,4 +212,8 @@ export class ManagerApi extends BaseApi {
   chartSalesReport(body) {
     return this.api.$post(`chart-sales-report`, body);
   }
+
+  chartOrderReport(body) {
+    return this.api.$post(`chart-order-report`, body);
+  }
 }
