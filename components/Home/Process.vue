@@ -40,7 +40,7 @@
           <img
             loading="lazy"
             src="/images/items.webp"
-            class="max-w-64 h-auto"
+            class="max-w-64"
             alt="items"
           />
           <p class="text-gray-600 px-4 mt-3">
@@ -61,7 +61,7 @@
           <img
             loading="lazy"
             src="/images/order.webp"
-            class="max-w-64 h-auto"
+            class="max-w-64"
             alt="order"
           />
           <p class="text-gray-600 px-4 mt-3">

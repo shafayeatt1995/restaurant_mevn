@@ -23,7 +23,7 @@
             :responsive="{
               0: { items: 1 },
               600: { items: 3 },
-              1000: { items: 3 },
+              1000: { items: 5 },
             }"
           >
             <nuxt-link
@@ -37,7 +37,7 @@
               <img
                 src="/images/demo/1.webp"
                 alt="demo image"
-                class="max-w-full h-96 lg:h-[80vh] object-contain"
+                class="max-w-full max-h-96 object-contain"
               />
             </nuxt-link>
             <nuxt-link
@@ -51,7 +51,7 @@
               <img
                 src="/images/demo/2.webp"
                 alt="demo image"
-                class="max-w-full h-96 lg:h-[80vh] object-contain"
+                class="max-w-full max-h-96 object-contain"
               />
             </nuxt-link>
             <nuxt-link
@@ -65,7 +65,7 @@
               <img
                 src="/images/demo/3.webp"
                 alt="demo image"
-                class="max-w-full h-96 lg:h-[80vh] object-contain"
+                class="max-w-full max-h-96 object-contain"
               />
             </nuxt-link>
           </carousel>
