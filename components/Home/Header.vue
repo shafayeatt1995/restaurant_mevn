@@ -54,7 +54,7 @@
               5
             >
               <img
-                class="max-w-full h-96 lg:h-[70vh] object-contain relative z-[1]"
+                class="max-w-full h-80 lg:h-[70vh] object-contain relative z-[1]"
                 src="/images/menu.webp"
                 alt="menu image"
               />
