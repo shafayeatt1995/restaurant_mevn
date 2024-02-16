@@ -18,6 +18,7 @@
           <carousel
             :stagePadding="50"
             :nav="false"
+            :dots="false"
             :loop="true"
             :autoplay="true"
             :responsive="{

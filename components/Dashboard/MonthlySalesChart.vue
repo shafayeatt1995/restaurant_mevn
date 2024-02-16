@@ -70,7 +70,7 @@ export default {
           },
           crosshairs: {
             stroke: {
-              color: "#16a34a",
+              color: "#111827",
               width: 2,
               dashArray: 0,
             },
@@ -87,13 +87,13 @@ export default {
         markers: {
           size: 0,
           strokeWidth: 25,
-          strokeColors: "#16a34ab3",
+          strokeColors: "#111827b3",
           strokeOpacity: 1,
           hover: {
             size: 10,
           },
         },
-        colors: ["#16a34a"],
+        colors: ["#111827"],
         tooltip: {
           enabled: true,
           followCursor: true,
@@ -163,7 +163,7 @@ export default {
 
 <style lang="scss">
 $namespace: "xmx";
-$primary-color: #16a34a;
+$primary-color: #111827;
 $default-color: #555;
 
 @import "~vue2-datepicker/scss/index.scss";

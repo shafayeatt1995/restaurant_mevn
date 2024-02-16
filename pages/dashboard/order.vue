@@ -290,7 +290,6 @@
               orderDetails.status === 'billing') &&
             !AddItemDisabled
           "
-          variant="green"
           class="inline"
           @click.native.prevent="addItem"
         >
@@ -457,7 +456,6 @@
               orderDetails.status === 'billing') &&
             deleteMode
           "
-          variant="green"
           class="w-full tracking-wide flex-1"
           @click.native.prevent="updateOrder"
           :disabled="AddItemDisabled"
@@ -468,7 +466,6 @@
         <template v-else>
           <Button
             v-if="orderDetails.status === 'billing' && manager && updateMode"
-            variant="green"
             class="w-full tracking-wide flex-1"
             :loading="updateLoading"
             @click.native.prevent="updateVat"
@@ -482,7 +479,6 @@
                 orderDetails.status === 'complete') &&
               manager
             "
-            variant="green"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="printOrder"
           >
@@ -491,7 +487,6 @@
           </Button>
           <Button
             v-if="orderDetails.status === 'active'"
-            variant="green"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="printOrderDetails()"
             :disabled="AddItemDisabled"
@@ -501,7 +496,6 @@
           </Button>
           <Button
             v-if="orderDetails.status === 'pending'"
-            variant="green"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="acceptOrder"
             :loading="acceptLoading"
@@ -511,7 +505,6 @@
           </Button>
           <Button
             v-else-if="orderDetails.status === 'active' && manager"
-            variant="green"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="billingOrder"
             :loading="acceptLoading"
@@ -521,7 +514,6 @@
           </Button>
           <Button
             v-else-if="orderDetails.status === 'billing' && manager"
-            variant="green"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="manager ? completeOrder() : ''"
             :loading="acceptLoading"
@@ -531,7 +523,6 @@
           </Button>
           <Button
             v-else-if="orderDetails.status === 'active' && waiter"
-            variant="green"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="requestBill"
             :disabled="AddItemDisabled"
@@ -607,26 +598,20 @@
       <hr class="my-3" />
       <div class="grid gap-3 grid-cols-[repeat(auto-fit,_minmax(150px,_1fr))]">
         <div
-          class="group flex flex-col justify-center items-center border py-4 px-1 hover:text-white hover:bg-green-600 cursor-pointer transition-all duration-200 rounded-lg"
-          :class="
-            selectEmployee === waiter._id ? 'text-white bg-green-600' : ''
-          "
+          class="group flex flex-col justify-center items-center border py-4 px-1 hover:text-white hover:bg-gray-900 cursor-pointer transition-all duration-200 rounded-lg"
+          :class="selectEmployee === waiter._id ? 'text-white bg-gray-900' : ''"
           v-for="(waiter, key) in employees"
           :key="key"
           @click="selectEmployee = waiter._id"
         >
           <font-awesome-icon
             :icon="['far', 'circle-user']"
-            class="text-5xl text-green-500 group-hover:text-white transition-all duration-200"
-            :class="
-              selectEmployee === waiter._id ? 'text-white bg-green-600' : ''
-            "
+            class="text-5xl text-gray-700 group-hover:text-white transition-all duration-200"
+            :class="selectEmployee === waiter._id ? 'text-white' : ''"
           />
           <p
             class="text-gray-700 group-hover:text-white transition-all duration-200 text-lg"
-            :class="
-              selectEmployee === waiter._id ? 'text-white bg-green-600' : ''
-            "
+            :class="selectEmployee === waiter._id ? 'text-white' : ''"
           >
             {{ waiter.name }}
           </p>

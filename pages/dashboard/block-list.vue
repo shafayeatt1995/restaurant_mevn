@@ -7,7 +7,7 @@
         <h2 class="text-3xl font-medium text-gray-600">Block list</h2>
       </div>
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
-        <Button variant="green" @click.native.prevent="modal = true">
+        <Button @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
             <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
@@ -34,13 +34,13 @@
         <template #created_at="{ value }">{{ value | agoDate }}</template>
         <template #date="{ value }">
           <Badge
-            :variant="new Date(value) > new Date() ? 'green' : 'white'"
+            :variant="new Date(value) > new Date() ? 'dark' : 'white'"
             :title="new Date(value) > new Date() ? `Blocked` : `Unblocked`"
           />
         </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <Button variant="green" @click.native.prevent="editItem(item)"
+            <Button @click.native.prevent="editItem(item)"
               ><font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit</Button
             >
@@ -69,13 +69,16 @@
     </section>
 
     <Modal v-model="modal">
-      <h1
-        class="text-lg font-medium leading-6 text-gray-600 capitalize"
-        id="modal-title"
-      >
-        {{ editMode ? "Edit" : "Add" }} user
-      </h1>
-      <form class="mt-4" @submit.prevent="submit">
+      <div class="flex justify-between items-center">
+        <h1
+          class="text-lg font-medium leading-6 text-gray-600 capitalize"
+          id="modal-title"
+        >
+          {{ editMode ? "Edit" : "Add" }} user
+        </h1>
+        <CloseButton @click.native.prevent="modal = false" />
+      </div>
+      <form @submit.prevent="submit">
         <Input
           v-for="(field, i) in inputFields"
           :key="i"
@@ -100,21 +103,16 @@
           <i>{{ errors.date.msg }}</i>
         </small>
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
+          <Button type="submit" class="w-full tracking-wide flex-1">
+            {{ editMode ? "Update" : "Add" }} user
+          </Button>
           <Button
-            variant="white"
+            variant="red"
             type="button"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="modal = false"
           >
             Cancel
-          </Button>
-
-          <Button
-            variant="green"
-            type="submit"
-            class="w-full tracking-wide flex-1"
-          >
-            {{ editMode ? "Update" : "Add" }} user
           </Button>
         </div>
       </form>

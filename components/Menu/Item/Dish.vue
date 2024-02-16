@@ -285,7 +285,7 @@
                 <p>{{ option.name }}</p>
               </div>
 
-              <p>+ ৳{{ option.price }}</p>
+              <p v-if="option.price > 0">+ ৳{{ option.price }}</p>
             </div>
           </div>
           <hr class="my-5" v-if="modalItem.choices.length !== key + 1" />
@@ -314,7 +314,7 @@
                 <p>{{ option.name }}</p>
               </div>
 
-              <p>+ ৳{{ option.price }}</p>
+              <p v-if="option.price > 0">+ ৳{{ option.price }}</p>
             </div>
           </div>
         </div>

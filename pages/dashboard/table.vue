@@ -7,7 +7,7 @@
         <h2 class="text-3xl font-medium text-gray-600">Table</h2>
       </div>
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
-        <Button variant="green" @click.native.prevent="modal = true">
+        <Button @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
             <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
@@ -25,10 +25,10 @@
       >
         <template #actions="{ item, index }">
           <div class="flex gap-2">
-            <Button variant="green" @click.native.prevent="generateQR(item)"
+            <Button @click.native.prevent="generateQR(item)"
               ><font-awesome-icon :icon="['fas', 'qrcode']" /> Generate QR
             </Button>
-            <Button variant="green" @click.native.prevent="editItem(item)"
+            <Button @click.native.prevent="editItem(item)"
               ><font-awesome-icon :icon="['far', 'pen-to-square']" />
               Edit</Button
             >
@@ -58,12 +58,15 @@
     </section>
 
     <Modal v-model="modal">
-      <h1
-        class="text-lg font-medium leading-6 text-gray-600 capitalize"
-        id="modal-title"
-      >
-        {{ editMode ? "Edit" : "Create new" }} table
-      </h1>
+      <div class="flex justify-between items-center">
+        <h1
+          class="text-lg font-medium leading-6 text-gray-600 capitalize"
+          id="modal-title"
+        >
+          {{ editMode ? "Edit" : "Create new" }} table
+        </h1>
+        <CloseButton @click.native.prevent="modal = false" />
+      </div>
       <form class="mt-4" @submit.prevent="submit">
         <Input
           v-for="(field, i) in inputFields"
@@ -73,21 +76,16 @@
           :errors="errors"
         />
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
+          <Button class="w-full tracking-wide flex-1" type="submit">
+            {{ editMode ? "Update" : "Create" }} table
+          </Button>
           <Button
-            variant="white"
+            variant="red"
             type="button"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="modal = false"
           >
-            Cancel
-          </Button>
-
-          <Button
-            variant="green"
-            class="w-full tracking-wide flex-1"
-            type="submit"
-          >
-            {{ editMode ? "Update" : "Create" }} table
+            Close
           </Button>
         </div>
       </form>
@@ -130,15 +128,6 @@
 
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
           <Button
-            variant="white"
-            type="button"
-            class="w-full tracking-wide flex-1"
-            @click.native.prevent="qrModal = false"
-          >
-            Close
-          </Button>
-          <Button
-            variant="green"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="printQRCode"
           >
@@ -146,12 +135,19 @@
             Print QrCode
           </Button>
           <Button
-            variant="green"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="downloadQR"
           >
             <font-awesome-icon :icon="['fas', 'download']" />
             Download QrCode
+          </Button>
+          <Button
+            variant="red"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="qrModal = false"
+          >
+            Close
           </Button>
         </div>
       </div>

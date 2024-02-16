@@ -23,7 +23,7 @@
 export default {
   props: {
     loading: Boolean,
-    variant: { type: String, default: "green" },
+    variant: { type: String, default: "dark" },
     to: [String, Object],
   },
   name: "Button",
@@ -36,13 +36,11 @@ export default {
       } else if (this.variant === "gray") {
         return "text-gray-900  bg-gray-500 hover:bg-gray-600 focus:ring-gray-300 disabled:hover:bg-gray-300 disabled:bg-gray-300";
       } else if (this.variant === "pink") {
-        return "text-gray-900  bg-pink-500 hover:bg-pink-600 focus:ring-pink-300 disabled:hover:bg-pink-300 disabled:bg-pink-300";
+        return "text-white  bg-pink-500 hover:bg-pink-600 focus:ring-pink-300 disabled:hover:bg-pink-300 disabled:bg-pink-300";
       } else if (this.variant === "red") {
-        return "text-gray-900  bg-rose-500 hover:bg-rose-600 focus:ring-rose-300 disabled:hover:bg-rose-300 disabled:bg-rose-300";
+        return "text-white  bg-rose-500 hover:bg-rose-600 focus:ring-rose-300 disabled:hover:bg-rose-300 disabled:bg-rose-300";
       } else if (this.variant === "transparent") {
         return "text-blue-500 hover:text-blue-600 focus:ring-transparent disabled:hover:text-blue-400 disabled:text-blue-400";
-      } else if (this.variant === "blue") {
-        return "text-gray-900  bg-blue-500 hover:bg-blue-600 focus:ring-blue-300 disabled:hover:bg-blue-300 disabled:bg-blue-300";
       } else if (this.variant === "blue") {
         return "text-gray-900  bg-blue-500 hover:bg-blue-600 focus:ring-blue-300 disabled:hover:bg-blue-300 disabled:bg-blue-300";
       } else if (this.variant === "yellow") {
@@ -54,7 +52,7 @@ export default {
       } else if (this.variant === "sky") {
         return "text-gray-900  bg-sky-500 hover:bg-sky-600 focus:ring-sky-300 disabled:hover:bg-sky-300 disabled:bg-sky-300";
       } else if (this.variant === "dark") {
-        return "text-gray-900  bg-gray-900 hover:bg-gray-700 focus:ring-gray-900 disabled:hover:bg-gray-300 disabled:bg-gray-300";
+        return "text-white bg-gray-900 hover:bg-gray-700 focus:ring-gray-900 disabled:hover:bg-gray-300 disabled:bg-gray-300";
       } else if (this.variant === "black") {
         return "text-white bg-black hover:bg-gray-900 focus:ring-gray-900 disabled:hover:bg-gray-300 disabled:bg-gray-300";
       }

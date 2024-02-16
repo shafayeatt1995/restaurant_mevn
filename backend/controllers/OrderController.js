@@ -596,10 +596,17 @@ const controller = {
             },
           },
           {
-            $sort: {
-              "_id.hour": 1,
+            $project: {
+              _id: 1,
+              totalNetPrice: 1,
+              created_at: 1,
             },
           },
+          // {
+          //   $sort: {
+          //     "_id.hour": 1,
+          //   },
+          // },
         ]);
       } else if (mode === "daily") {
         chartData = await Order.aggregate([

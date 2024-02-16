@@ -4,17 +4,17 @@
       <p class="text-lg font-medium capitalize text-gray-700">
         All {{ activeCategoryName }} items
       </p>
-      <div class="flex gap-1 text-2xl">
+      <div class="flex gap-1 text-2xl lg:hidden">
         <p
-          class="transition-all duration-300 w-10 h-10 flex justify-center items-center rounded-md"
-          :class="align === 'single' ? 'bg-green-500 text-white' : ''"
+          class="transition-all duration-300 w-10 h-10 flex justify-center items-center rounded-md cursor-pointer"
+          :class="align === 'single' ? 'bg-gray-900 text-white' : ''"
           @click="setAlign('single')"
         >
           <font-awesome-icon :icon="['fas', 'bars']" />
         </p>
         <p
-          class="transition-all duration-300 w-10 h-10 flex justify-center items-center rounded-md"
-          :class="align === 'multiple' ? 'bg-green-500 text-white' : ''"
+          class="transition-all duration-300 w-10 h-10 flex justify-center items-center rounded-md cursor-pointer"
+          :class="align === 'multiple' ? 'bg-gray-900 text-white' : ''"
           @click="setAlign('multiple')"
         >
           <font-awesome-icon :icon="['fas', 'table-cells-large']" />
@@ -27,7 +27,7 @@
       v-if="editMode && activeCategory && !isFeatureCategory"
     >
       <p
-        class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl"
+        class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl cursor-pointer"
       >
         <font-awesome-icon :icon="['fas', 'plus']" />
       </p>
