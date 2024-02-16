@@ -51,9 +51,7 @@ export default {
     async playSound() {
       try {
         this.$refs.audioPlayer.play();
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
   },
 };

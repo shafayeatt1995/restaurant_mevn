@@ -448,7 +448,6 @@ export default {
           this.$nuxt.$emit("success", "Category Deleted successfully");
         }
       } catch (error) {
-        console.error(error);
       } finally {
         this.deleteLoading = false;
       }
@@ -519,9 +518,7 @@ export default {
         this.modal = false;
         this.$nuxt.$emit("refetchMenu");
         this.$nuxt.$emit("success", "Category position updated");
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     selectCategory({ _id }) {
       this.$emit("update:activeCategory", _id);

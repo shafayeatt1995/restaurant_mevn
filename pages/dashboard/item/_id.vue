@@ -238,9 +238,7 @@ export default {
       try {
         const { categories } = await this.$managerApi.getCategory();
         this.categories = categories;
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async fetchItem() {
       try {
@@ -276,9 +274,7 @@ export default {
             status,
           };
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     addVariant() {
       if (this.variant.name.length) {

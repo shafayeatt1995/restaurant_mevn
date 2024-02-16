@@ -84,7 +84,6 @@ export default {
         error({ statusCode: 404, message: "Not found" });
       }
     } catch (err) {
-      console.error(err?.response?.data?.message || err);
       error({ statusCode: 500, message: "Something wrong. Please try again" });
     }
   },

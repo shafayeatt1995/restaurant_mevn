@@ -135,7 +135,6 @@ export default {
         );
         this.items = performance;
       } catch (error) {
-        console.error(error);
       } finally {
         this.loading = false;
         this.loaded = false;

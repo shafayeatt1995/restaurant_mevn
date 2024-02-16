@@ -126,7 +126,6 @@ export default {
         await this.$auth.fetchUser();
         this.$nuxt.$emit("success", "Printing details updated successfully");
       } catch (error) {
-        console.error(error);
       } finally {
         this.loading = false;
       }

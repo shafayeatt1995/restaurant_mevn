@@ -130,7 +130,6 @@ export default {
         });
         this.series[0].data = this.mergeDates(dates, chartData);
       } catch (error) {
-        console.error(error);
       } finally {
         this.chartLoader = false;
       }

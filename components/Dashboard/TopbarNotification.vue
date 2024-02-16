@@ -99,7 +99,6 @@ export default {
             this.items = this.items.concat(notification);
           }
         } catch (error) {
-          console.error(error);
         } finally {
           this.loading = false;
           this.click = true;
@@ -142,18 +141,14 @@ export default {
             this.$route.name === "dashboard-order" ? 0 : 1000
           );
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async markAllRead() {
       try {
         await this.$managerApi.markAllNotification();
         this.items = this.items.map((data) => ({ ...data, mark: true }));
         this.unread = 0;
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async newNotification(notification) {
       try {
@@ -161,9 +156,7 @@ export default {
           this.items = [notification, ...this.items];
           ++this.unread;
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
   },
 };

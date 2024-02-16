@@ -112,7 +112,6 @@ export default {
         this.testLoading = true;
         await this.$commonApi.testNotification();
       } catch (error) {
-        console.error(error);
       } finally {
         this.testLoading = false;
       }
@@ -121,9 +120,7 @@ export default {
       try {
         const permission = await Notification.requestPermission();
         alert(`Notification permission ${permission}`);
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async checkServiceWorker() {
       try {
@@ -135,9 +132,7 @@ export default {
         } else {
           alert("Service worker is not installed.");
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
   },
 };

@@ -478,9 +478,7 @@ export default {
         await this.$managerApi.toggleStatus(this.items[key]._id);
         this.$nuxt.$emit("success", "Status update successfully");
         this.$nuxt.$emit("refetchMenu");
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     openDropdown(key) {
       this.dropdown = this.dropdown === key ? null : key;
@@ -504,9 +502,7 @@ export default {
         this.$nuxt.$emit("refetchMenu");
         this.loading = false;
         this.editCategoryMode = false;
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     resetCategory() {
       this.editCategory = {};
@@ -518,9 +514,7 @@ export default {
         await this.$managerApi.copyItem({ _id });
         this.$nuxt.$emit("refetchMenu");
         this.$nuxt.$emit("success", "Item copied successfully");
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async deleteItem({ _id }) {
       try {
@@ -530,9 +524,7 @@ export default {
           this.$nuxt.$emit("refetchMenu");
           this.$nuxt.$emit("success", "Item deleted successfully");
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     resetSelect() {
       this.activeChoice = [];

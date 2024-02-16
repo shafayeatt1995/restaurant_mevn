@@ -129,7 +129,6 @@ export default {
         this.$nuxt.$emit("refetchMenu");
         this.$nuxt.$emit("success", "Restaurant name successfully updated");
       } catch (error) {
-        console.error(error);
         this.errors = error?.response?.data?.errors;
       } finally {
         this.loading = false;

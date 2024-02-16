@@ -241,7 +241,6 @@ export default {
         this.weeklyCancel = weeklyCancel || 0;
         this.monthlyCancel = monthlyCancel || 0;
       } catch (error) {
-        console.error(error);
       } finally {
         this.loading = false;
       }

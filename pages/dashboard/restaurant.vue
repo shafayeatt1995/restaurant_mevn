@@ -67,7 +67,6 @@ export default {
         editMode: true,
       };
     } catch (err) {
-      console.error(err?.response?.data?.message || err);
       error({ statusCode: 500, message: "Something wrong. Please try again" });
     }
   },
@@ -102,9 +101,7 @@ export default {
         this.subCategories = subCategories;
         this.items = items;
         this.featureCategories = featureCategories;
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
   },
 };

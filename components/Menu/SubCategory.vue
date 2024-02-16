@@ -235,7 +235,6 @@ export default {
           this.$nuxt.$emit("success", "Sub category Deleted successfully");
         }
       } catch (error) {
-        console.error(error);
       } finally {
         this.deleteLoading = false;
       }
@@ -278,9 +277,7 @@ export default {
         this.modal = false;
         this.$nuxt.$emit("refetchMenu");
         this.$nuxt.$emit("success", "Sub category position updated");
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
   },
 };

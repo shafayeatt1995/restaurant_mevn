@@ -576,10 +576,8 @@ const controller = {
         date: [start, end],
         mode,
       } = req.body;
-      console.log(mode);
       let chartData = [];
       if (mode === "hourly") {
-        console.log(convertDate(start, "start"), convertDate(end, "end"));
         chartData = await Order.aggregate([
           {
             $match: {

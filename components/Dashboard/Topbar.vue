@@ -150,9 +150,7 @@ export default {
       try {
         await this.$auth.logout("laravelJWT");
         this.$router.push({ name: "auth-login" });
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
   },
 };

@@ -97,7 +97,6 @@ export default {
           this.printReceipt();
         }, 500);
       } catch (error) {
-        console.error(error);
       }
     },
     printReceipt() {
@@ -117,7 +116,6 @@ export default {
             }
         });
       } catch (error) {
-        console.error(error);
       }
     },
   },

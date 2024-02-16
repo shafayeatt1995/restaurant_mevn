@@ -383,7 +383,6 @@ export default {
           }
         }
       } catch (error) {
-        console.error(error);
         if (error?.response?.data?.message) {
           this.errorMessage = error?.response?.data?.message;
         }
@@ -419,9 +418,7 @@ export default {
           const { order } = await this.$userApi.getOrder({ serial, slug });
           this.existOrder = order;
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async requestBill() {
       try {
@@ -458,9 +455,7 @@ export default {
             window.open("/api/auth/social-login/google", "_self");
           }
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
   },
 };

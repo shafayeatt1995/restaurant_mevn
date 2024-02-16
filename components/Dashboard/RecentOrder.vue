@@ -63,9 +63,7 @@ export default {
       try {
         const { orders } = await this.$mowApi.recentOrder();
         this.items = orders;
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     getStatue(status) {
       if (status === "pending") {

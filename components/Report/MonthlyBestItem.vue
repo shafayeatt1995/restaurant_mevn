@@ -99,7 +99,6 @@ export default {
         const { orders } = await this.$managerApi.fetchBestItems(body);
         this.orders = orders;
       } catch (error) {
-        console.error(error);
       } finally {
         this.loading = false;
         this.loaded = false;

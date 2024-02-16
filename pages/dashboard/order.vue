@@ -921,9 +921,7 @@ export default {
       try {
         const { vats } = await this.$mowApi.fetchVat();
         this.vats = vats;
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async fetchItems() {
       try {
@@ -943,7 +941,6 @@ export default {
           this.items = this.items.concat(orders);
         }
       } catch (error) {
-        console.error(error);
       } finally {
         this.loading = false;
       }
@@ -956,7 +953,6 @@ export default {
         const { tables } = await this.$mowApi.fetchTable();
         this.tables = tables;
       } catch (error) {
-        console.error(error);
       } finally {
         this.loading = false;
       }
@@ -1056,7 +1052,6 @@ export default {
           this.cancelModal = true;
         }
       } catch (error) {
-        console.error(error);
         this.errors = error?.response?.data?.errors;
       } finally {
         this.cancelLoading = false;
@@ -1066,9 +1061,7 @@ export default {
       try {
         const { employees } = await this.$managerApi.fetchAllEmployee();
         this.employees = employees;
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     getWaiter() {
       return (
@@ -1100,7 +1093,6 @@ export default {
         this.updateStatus(this.orderDetails._id, status);
         this.refetch();
       } catch (error) {
-        console.error(error);
         if (error?.response?.data?.message) {
           this.$nuxt.$emit("error", error?.response?.data.message);
         }
@@ -1122,9 +1114,7 @@ export default {
         ) {
           this.accOrder();
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async billingOrder() {
       try {
@@ -1137,7 +1127,6 @@ export default {
         });
         this.updateStatus(this.orderDetails._id, status);
       } catch (error) {
-        console.error(error);
       } finally {
         this.acceptLoading = false;
       }
@@ -1165,7 +1154,6 @@ export default {
           this.$nuxt.$emit("error", "Please input a valid amount");
         }
       } catch (error) {
-        console.error(error);
       } finally {
         this.acceptLoading = false;
       }
@@ -1290,7 +1278,6 @@ export default {
         this.$nuxt.$emit("success", "Service charge added successfully");
         this.refetchOrderData();
       } catch (error) {
-        console.error(error);
         this.$nuxt.$emit("error", "Something Wrong! Please try Again");
       } finally {
         this.updateLoading = false;
@@ -1318,9 +1305,7 @@ export default {
           orderID: this.orderDetails._id,
         });
         this.$nuxt.$emit("success", "Printing details send successfully");
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async fetchOrderDetails(orderID) {
       try {
@@ -1328,9 +1313,7 @@ export default {
           orderID,
         });
         this.openOrderDetails(order);
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     addItem() {
       this.$router.push({
@@ -1347,7 +1330,6 @@ export default {
         this.$nuxt.$emit("success", "Billing request send successfully");
       } catch (error) {
         this.$nuxt.$emit("error", "Something wrong! Please try again");
-        console.error(error);
       }
     },
     async sendCancelRequest() {
@@ -1358,7 +1340,6 @@ export default {
         this.$nuxt.$emit("success", "Cancel request send successfully");
       } catch (error) {
         this.$nuxt.$emit("error", "Something wrong! Please try again");
-        console.error(error);
       }
     },
     removeItems(item) {
@@ -1383,7 +1364,6 @@ export default {
         this.modal = false;
         this.$nuxt.$emit("success", "Order item update successfully");
       } catch (error) {
-        console.error(error);
       } finally {
         this.updateLoading = false;
       }

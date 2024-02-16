@@ -333,9 +333,7 @@ export default {
         link.href = dataUrl;
         link.download = `${this.name}.png`;
         link.click();
-      } catch (error) {
-        console.error("Error:", error);
-      }
+      } catch (error) {}
     },
   },
 };

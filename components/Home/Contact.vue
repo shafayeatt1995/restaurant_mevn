@@ -162,7 +162,6 @@ export default {
         this.form = { name: "", email: "", message: "" };
         this.$nuxt.$emit("success", "We received your message successfully");
       } catch (error) {
-        console.error(error);
         this.errors = error?.response?.data?.errors;
       } finally {
         this.loading = false;

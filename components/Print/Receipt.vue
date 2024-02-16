@@ -162,12 +162,19 @@
           </td>
         </tr>
         <tr>
-          <td style="width: calc(100% - 60px)">{{ orderDetails.vatName ?? 'vat' }}</td>
+          <td style="width: calc(100% - 60px)">
+            {{ orderDetails.vatName ?? "vat" }}
+          </td>
           <td style="width: 60px; text-align: right">
             {{ orderDetails.vatAmount ?? 0 | number }}
           </td>
         </tr>
-        <tr v-if="orderDetails?.additionalCharges && orderDetails?.additionalCharges.length === 0">
+        <tr
+          v-if="
+            orderDetails?.additionalCharges &&
+            orderDetails?.additionalCharges.length === 0
+          "
+        >
           <td style="width: calc(100% - 60px)">Additional charges</td>
           <td style="width: 60px; text-align: right">0</td>
         </tr>
@@ -264,8 +271,8 @@ export default {
     totalPayable() {
       return (
         (this.orderDetails.totalPrice || 0) +
-          (this.additionalChargesAmount() || 0) +
-          (this.orderDetails.vatAmount || 0)
+        (this.additionalChargesAmount() || 0) +
+        (this.orderDetails.vatAmount || 0)
       );
     },
     printReceipt() {
@@ -285,18 +292,14 @@ export default {
             };
           }
         });
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
     async fetchOrder(orderID) {
       try {
         const { order } = await this.$managerApi.fetchSingleOrder(orderID);
         this.orderDetails = order;
         this.printReceipt();
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     },
   },
 };

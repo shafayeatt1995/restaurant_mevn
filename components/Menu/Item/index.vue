@@ -352,7 +352,6 @@ export default {
           this.$nuxt.$emit("success", "Item deleted successfully");
         }
       } catch (error) {
-        console.error(error);
       } finally {
         this.deleteLoading = false;
       }
@@ -389,9 +388,7 @@ export default {
         this.modal = false;
         this.$nuxt.$emit("refetchMenu");
         this.$nuxt.$emit("success", "Item position updated");
-      } catch (error) {
-        console.error(error.response);
-      }
+      } catch (error) {}
     },
     setEditItem(item) {
       if (this.editMode) {

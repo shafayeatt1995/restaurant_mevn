@@ -99,7 +99,6 @@ export default {
             this.click = true;
           }
         } catch (error) {
-          console.error(error);
           this.$nuxt.$emit("error", error.response.data.message);
         } finally {
           this.click = true;

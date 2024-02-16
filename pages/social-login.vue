@@ -62,7 +62,6 @@ export default {
           }
         }
       } catch (error) {
-        console.error(error);
         const params = JSON.parse(socialLogin + "");
         window.localStorage.removeItem("socialLogin");
         if (params) {

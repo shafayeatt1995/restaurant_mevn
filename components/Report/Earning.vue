@@ -232,7 +232,6 @@ export default {
         });
         this.chartData = chartData;
       } catch (error) {
-        console.error(error);
       } finally {
         this.loading = false;
         this.loaded = false;
