@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-gray-100 py-10 relative" id="customer">
+  <section class="py-10 relative" id="customer">
     <div class="container px-4 py-4 mx-auto">
       <div class="flex flex-col justify-center items-center">
         <h1 class="text-4xl text-gray-800 font-bold text-center">

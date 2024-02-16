@@ -474,7 +474,7 @@
             @click.native.prevent="updateVat"
           >
             <font-awesome-icon :icon="['fas', 'percent']" />
-            Update vat
+            Update extra charges
           </Button>
           <Button
             v-else-if="
@@ -497,7 +497,7 @@
             :disabled="AddItemDisabled"
           >
             <font-awesome-icon :icon="['fas', 'print']" />
-            Print for chef
+            Print kitchen copy
           </Button>
           <Button
             v-if="orderDetails.status === 'pending'"
@@ -695,7 +695,7 @@ export default {
       items: [],
       tables: [],
       vats: [],
-      payment: { method: "Cash", amount: "" },
+      payment: { method: "Cash", amount: 0 },
       paymentMethods: ["Cash", "bKash", "ATM Card"],
       perPage: 30,
       vat: "",
@@ -1128,16 +1128,14 @@ export default {
     },
     async billingOrder() {
       try {
-        if (confirm(`Are you sure, you want to create bill?`)) {
-          const status = "billing";
-          this.acceptLoading = true;
-          await this.$mowApi.updateOrderStatus({
-            _id: this.orderDetails._id,
-            status,
-            currentStatus: this.orderDetails.status,
-          });
-          this.updateStatus(this.orderDetails._id, status);
-        }
+        const status = "billing";
+        this.acceptLoading = true;
+        await this.$mowApi.updateOrderStatus({
+          _id: this.orderDetails._id,
+          status,
+          currentStatus: this.orderDetails.status,
+        });
+        this.updateStatus(this.orderDetails._id, status);
       } catch (error) {
         console.error(error);
       } finally {

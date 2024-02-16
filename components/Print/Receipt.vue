@@ -162,10 +162,14 @@
           </td>
         </tr>
         <tr>
-          <td style="width: calc(100% - 60px)">{{ orderDetails.vatName }}</td>
+          <td style="width: calc(100% - 60px)">{{ orderDetails.vatName ?? 'vat' }}</td>
           <td style="width: 60px; text-align: right">
             {{ orderDetails.vatAmount ?? 0 | number }}
           </td>
+        </tr>
+        <tr v-if="orderDetails?.additionalCharges && orderDetails?.additionalCharges.length === 0">
+          <td style="width: calc(100% - 60px)">Additional charges</td>
+          <td style="width: 60px; text-align: right">0</td>
         </tr>
         <tr
           v-for="(additional, i) in orderDetails.additionalCharges"
@@ -259,9 +263,9 @@ export default {
     },
     totalPayable() {
       return (
-        this.orderDetails.totalPrice +
-          this.additionalChargesAmount() +
-          this.orderDetails.vatAmount || 0
+        (this.orderDetails.totalPrice || 0) +
+          (this.additionalChargesAmount() || 0) +
+          (this.orderDetails.vatAmount || 0)
       );
     },
     printReceipt() {

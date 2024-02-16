@@ -1,5 +1,5 @@
 <template>
-  <section class="py-10 bg-gray-100" id="feature">
+  <section class="py-10" id="feature">
     <div class="container px-4 py-4 mx-auto">
       <div class="flex flex-col justify-center items-center">
         <h1 class="text-4xl text-gray-800 font-bold">
@@ -14,7 +14,7 @@
       </div>
       <div class="grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 my-8 gap-5">
         <div
-          class="px-3 border border-gray-100 bg-white shadow hover:shadow-lg hover-up-2 transition duration-500 hover:translate-y-[-10px] rounded-2xl"
+          class="px-3 border border-gray-100 bg-white shadow-lg hover-up-2 transition duration-500 hover:translate-y-[-10px] rounded-2xl"
           v-for="(feature, key) in features"
           :key="key"
         >
