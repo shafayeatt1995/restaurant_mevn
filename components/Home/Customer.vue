@@ -37,7 +37,7 @@
               <img
                 src="/images/demo/1.webp"
                 alt="demo image"
-                class="max-w-full max-h-60 lg:max-h-9g object-contain"
+                class="max-w-full max-h-60 lg:max-h-96 object-contain"
               />
             </nuxt-link>
             <nuxt-link
@@ -51,7 +51,7 @@
               <img
                 src="/images/demo/2.webp"
                 alt="demo image"
-                class="max-w-full max-h-60 lg:max-h-9g object-contain"
+                class="max-w-full max-h-60 lg:max-h-96 object-contain"
               />
             </nuxt-link>
             <nuxt-link
@@ -65,7 +65,7 @@
               <img
                 src="/images/demo/3.webp"
                 alt="demo image"
-                class="max-w-full max-h-60 lg:max-h-9g object-contain"
+                class="max-w-full max-h-60 lg:max-h-96 object-contain"
               />
             </nuxt-link>
           </carousel>
