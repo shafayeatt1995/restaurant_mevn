@@ -17,5 +17,5 @@ export default function () {
     document.body.appendChild(gtagTrigger);
   }
 
-  window.addEventListener("load", loadScript);
+  window.addEventListener("load", setTimeout(loadScript(), 1000));
 }
