@@ -32,23 +32,23 @@ export default {
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.jpeg" },
-      // {
-      //   rel: "stylesheet",
-      //   href: "https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap",
-      // },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap",
+      },
     ],
-    // script: [
-    //   {
-    //     async: true,
-    //     src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
-    //     body: true,
-    //   },
-    //   {
-    //     type: "text/javascript",
-    //     src: `/gtag.js`,
-    //     body: true,
-    //   },
-    // ],
+    script: [
+      {
+        async: true,
+        src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
+        body: true,
+      },
+      {
+        type: "text/javascript",
+        src: `/gtag.js`,
+        body: true,
+      },
+    ],
   },
 
   css: [],
@@ -64,7 +64,7 @@ export default {
     { src: "~/plugins/apexChart.js", mode: "client" },
     { src: "~/plugins/datePicker.js", mode: "client" },
     { src: "~/plugins/carousel.js", mode: "client" },
-    { src: "~/plugins/google-fonts.js", mode: "client" },
+    // { src: "~/plugins/google-fonts.js", mode: "client" },
   ],
 
   components: true,
