@@ -8,7 +8,7 @@
       </div>
 
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
-        <Button variant="green" @click.native.prevent="modal = true">
+        <Button @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
             <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
 
@@ -123,21 +123,16 @@
           :errors="errors"
         />
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
+          <Button type="submit" class="w-full tracking-wide flex-1">
+            {{ editMode ? "Update" : "Create" }} user
+          </Button>
           <Button
-            variant="white"
+            variant="red"
             type="button"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="modal = false"
           >
             Cancel
-          </Button>
-
-          <Button
-            variant="green"
-            type="submit"
-            class="w-full tracking-wide flex-1"
-          >
-            {{ editMode ? "Update" : "Create" }} user
           </Button>
         </div>
       </form>

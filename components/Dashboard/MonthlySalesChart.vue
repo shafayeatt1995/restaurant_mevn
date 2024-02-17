@@ -125,8 +125,10 @@ export default {
         const start = this.$moment(this.filterDate).startOf("month").toDate();
         const end = this.$moment(this.filterDate).endOf("month").toDate();
         const dates = this.getBetweenDates(start, end);
+        const timezone = this.$moment.tz.guess();
         const { chartData } = await this.$mowApi.chartSalesData({
           date: [start, end],
+          timezone,
         });
         this.series[0].data = this.mergeDates(dates, chartData);
       } catch (error) {

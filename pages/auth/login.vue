@@ -46,7 +46,6 @@
 
         <div class="mt-6">
           <Button
-            variant="green"
             class="w-full"
             type="submit"
             :disabled="loading"

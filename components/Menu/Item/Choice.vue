@@ -1,6 +1,6 @@
 <template>
   <div class="my-2">
-    <Button variant="green" type="button" @click.native.prevent="addChoice">
+    <Button type="button" @click.native.prevent="addChoice">
       <font-awesome-icon :icon="['fas', 'plus']" /> Add choice</Button
     >
     <p class="text-rose-500 text-xs mt-1">

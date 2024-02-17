@@ -9,7 +9,7 @@
       <template v-slot:dz-preview="previewArgs"> </template>
     </vue-dropzone>
     <div class="flex justify-end mt-3">
-      <Button variant="white" @click.native.prevent="modal = false">
+      <Button variant="red" @click.native.prevent="modal = false">
         Close
       </Button>
     </div>

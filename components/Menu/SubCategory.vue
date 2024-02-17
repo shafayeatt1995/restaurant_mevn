@@ -91,6 +91,13 @@
           class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
         >
           <Button
+            type="submit"
+            class="w-full tracking-wide flex-1"
+            :loading="loading"
+          >
+            {{ editItem ? "Update" : "Create" }} sub category
+          </Button>
+          <Button
             v-if="editItem"
             variant="red"
             type="button"
@@ -102,20 +109,12 @@
           </Button>
           <Button
             v-else
-            variant="white"
+            variant="red"
             type="button"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="modal = false"
           >
             Cancel
-          </Button>
-          <Button
-            variant="green"
-            type="submit"
-            class="w-full tracking-wide flex-1"
-            :loading="loading"
-          >
-            {{ editItem ? "Update" : "Create" }} sub category
           </Button>
         </div>
       </form>

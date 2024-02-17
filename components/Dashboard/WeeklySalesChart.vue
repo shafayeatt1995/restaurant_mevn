@@ -131,8 +131,12 @@ export default {
           inputDate.clone().endOf("week").add(0, "days").toDate(),
         ];
         const dates = this.getBetweenDates(date[0], date[1]);
+        const timezone = this.$moment.tz.guess();
 
-        const { chartData } = await this.$mowApi.chartSalesData({ date });
+        const { chartData } = await this.$mowApi.chartSalesData({
+          date,
+          timezone,
+        });
         this.series[0].data = this.mergeDates(dates, chartData);
       } catch (error) {
       } finally {

@@ -154,20 +154,19 @@
           class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
         >
           <Button
-            variant="white"
-            type="button"
-            class="w-full tracking-wide flex-1"
-            @click.native.prevent="editCategoryMode = false"
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="green"
             type="submit"
             class="w-full tracking-wide flex-1"
             :loading="loading"
           >
             Update category
+          </Button>
+          <Button
+            variant="red"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="editCategoryMode = false"
+          >
+            Cancel
           </Button>
         </div>
       </form>

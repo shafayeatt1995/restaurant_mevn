@@ -1,6 +1,6 @@
 <template>
   <div class="my-2">
-    <Button variant="green" type="button" @click.native.prevent="addAddon">
+    <Button type="button" @click.native.prevent="addAddon">
       <font-awesome-icon :icon="['fas', 'plus']" /> Add addon</Button
     >
     <div class="h-64" v-if="form.addons.length === 0"></div>

@@ -45,7 +45,7 @@
       class="flex flex-col lg:flex-row justify-end mt-3 pt-3 bg-white border-t border-gray-300 gap-4"
     >
       <Button
-        variant="white"
+        variant="red"
         @click.native.prevent="$emit('update:modal', false)"
       >
         Close

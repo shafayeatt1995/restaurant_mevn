@@ -9,7 +9,7 @@
               <h1
                 class="text-3xl font-bold text-gray-800 lg:text-5xl uppercase mt-2"
               >
-                Scan<span class="text-green-600 underline decoration-green-600"
+                Scan<span class="text-green-500 underline decoration-green-500"
                   >Eating</span
                 >
               </h1>
@@ -50,7 +50,7 @@
             class="flex items-center justify-center lg:flex-1 lg:w-1/2 lg:h-full animate-bouncy infinite mt-10 lg:mt-0"
           >
             <div
-              class="relative lg:before:absolute lg:before:content-[''] before:h-full before:w-full lg:before:border-[10px] lg:before:border-green-600 before:border-solid before:top-6 before:left-6 before:rounded-[56px]"
+              class="relative lg:before:absolute lg:before:content-[''] before:h-full before:w-full lg:before:border-[10px] lg:before:border-green-500 before:border-solid before:top-6 before:left-6 before:rounded-[56px]"
               5
             >
               <img

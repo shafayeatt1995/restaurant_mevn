@@ -536,7 +536,10 @@ const controller = {
   async chartSalesData(req, res) {
     try {
       const { restaurantID } = req.user;
-      const [start, end] = req.query.date;
+      const {
+        date: [start, end],
+        timezone,
+      } = req.query;
       const { isWaiter, _id } = req.user;
       const waiterID = {};
       if (isWaiter) {
@@ -554,7 +557,13 @@ const controller = {
         },
         {
           $group: {
-            _id: { $dateToString: { format: "%d-%m-%Y", date: "$created_at" } },
+            _id: {
+              $dateToString: {
+                format: "%d-%m-%Y",
+                date: "$created_at",
+                timezone,
+              },
+            },
             totalNetPrice: { $sum: "$netPrice" },
           },
         },
@@ -593,20 +602,9 @@ const controller = {
             $group: {
               _id: { $hour: "$created_at" },
               totalNetPrice: { $sum: "$netPrice" },
+              created_at: { $first: "$created_at" },
             },
           },
-          {
-            $project: {
-              _id: 1,
-              totalNetPrice: 1,
-              created_at: 1,
-            },
-          },
-          // {
-          //   $sort: {
-          //     "_id.hour": 1,
-          //   },
-          // },
         ]);
       } else if (mode === "daily") {
         chartData = await Order.aggregate([
@@ -626,6 +624,7 @@ const controller = {
                 $dateToString: { format: "%d-%m-%Y", date: "$created_at" },
               },
               totalNetPrice: { $sum: "$netPrice" },
+              created_at: { $first: "$created_at" },
             },
           },
           {
@@ -650,6 +649,7 @@ const controller = {
                 $dateToString: { format: "%m-%Y", date: "$created_at" },
               },
               totalNetPrice: { $sum: "$netPrice" },
+              created_at: { $first: "$created_at" },
             },
           },
           {
@@ -674,6 +674,7 @@ const controller = {
                 $dateToString: { format: "%Y", date: "$created_at" },
               },
               totalNetPrice: { $sum: "$netPrice" },
+              created_at: { $first: "$created_at" },
             },
           },
           {

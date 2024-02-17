@@ -89,7 +89,9 @@
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
         </div>
-        <p class="mx-2 flex text-sm whitespace-nowrap text-gray-800">Add</p>
+        <p class="mx-2 flex text-sm whitespace-nowrap text-gray-800">
+          Add Category
+        </p>
       </div>
     </div>
     <Modal v-model="modal">
@@ -142,7 +144,7 @@
           <template v-else>
             <font-awesome-icon
               :icon="['far', 'image']"
-              class="text-8xl text-green-600"
+              class="text-8xl text-gray-900"
             />
             <p class="text-lg px-10 text-gray-700">
               Select a {{ featureMode ? "feature" : "" }} Category image
@@ -234,6 +236,15 @@
           class="mt-4 flex flex-col-reverse lg:flex-row items-center sm:-mx-2 gap-3"
         >
           <Button
+            type="submit"
+            class="w-full tracking-wide flex-1"
+            :loading="loading"
+            @click.native.prevent="submit"
+          >
+            {{ editItem ? "Update" : "Create" }}
+            {{ featureMode ? "feature" : "" }} category
+          </Button>
+          <Button
             v-if="editItem"
             variant="red"
             type="button"
@@ -245,22 +256,12 @@
           </Button>
           <Button
             v-else
-            variant="white"
+            variant="red"
             type="button"
             class="w-full tracking-wide flex-1"
             @click.native.prevent="modal = false"
           >
             Cancel
-          </Button>
-          <Button
-            variant="green"
-            type="submit"
-            class="w-full tracking-wide flex-1"
-            :loading="loading"
-            @click.native.prevent="submit"
-          >
-            {{ editItem ? "Update" : "Create" }}
-            {{ featureMode ? "feature" : "" }} category
           </Button>
         </div>
       </div>

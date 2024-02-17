@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full items-center">
-    <div class="p-3 mx-auto text-green-600 bg-green-100 rounded-full">
+    <div class="p-3 mx-auto text-Gray-900 bg-gray-100 rounded-full">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -18,11 +18,7 @@
     </div>
     <h1 class="mt-3 text-lg text-gray-600">{{ title }}</h1>
     <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
-      <Button
-        variant="green"
-        @click.native.prevent="$emit('action')"
-        v-if="buttonText"
-      >
+      <Button @click.native.prevent="$emit('action')" v-if="buttonText">
         <font-awesome-icon
           v-if="icon"
           :icon="icon"

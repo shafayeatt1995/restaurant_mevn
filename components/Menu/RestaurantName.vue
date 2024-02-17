@@ -47,7 +47,7 @@
           <template v-else>
             <font-awesome-icon
               :icon="['far', 'image']"
-              class="text-8xl text-green-600"
+              class="text-8xl text-gray-900"
             />
             <p class="text-lg px-10 text-gray-700">Select restaurant logo</p>
           </template>
@@ -59,21 +59,19 @@
         </small>
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
           <Button
-            variant="white"
-            type="button"
-            class="w-full tracking-wide flex-1"
-            @click.native.prevent="modal = false"
-          >
-            Cancel
-          </Button>
-
-          <Button
-            variant="green"
             type="submit"
             class="w-full tracking-wide flex-1"
             :loading="loading"
           >
             Update restaurant name
+          </Button>
+          <Button
+            variant="red"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="modal = false"
+          >
+            Cancel
           </Button>
         </div>
       </form>

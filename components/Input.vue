@@ -15,11 +15,7 @@
           class="absolute right-0 top-0 h-full"
           v-if="field.inlineSubmit?.show"
         >
-          <Button
-            variant="green"
-            class="h-full"
-            @click.native.prevent="$emit('action')"
-          >
+          <Button class="h-full" @click.native.prevent="$emit('action')">
             <font-awesome-icon
               :icon="field.inlineSubmit.icon"
               v-if="field.inlineSubmit.icon"
@@ -34,7 +30,9 @@
           class="block w-full py-2 text-gray-700 bg-white border rounded-lg focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
           :class="field.icon ? 'px-11' : ' px-4'"
         >
-          <option value="" v-if="field.showEmptySelect ?? true">{{ field.placeholder }}</option>
+          <option value="" v-if="field.showEmptySelect ?? true">
+            {{ field.placeholder }}
+          </option>
           <option
             :value="option.value"
             v-for="(option, i) in field.options"

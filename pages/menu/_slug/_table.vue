@@ -12,19 +12,18 @@
       <p class="text-xl text-rose-500 text-center">{{ socialLogin }}</p>
       <div class="mt-4 flex items-center sm:-mx-2 gap-3">
         <Button
-          variant="white"
+          class="w-full tracking-wide flex-1"
+          @click.native.prevent="login"
+        >
+          Try again
+        </Button>
+        <Button
+          variant="red"
           type="button"
           class="w-full tracking-wide flex-1"
           @click.native.prevent="closeModal"
         >
           Cancel
-        </Button>
-        <Button
-          variant="green"
-          class="w-full tracking-wide flex-1"
-          @click.native.prevent="login"
-        >
-          Try again
         </Button>
       </div>
     </modal>
