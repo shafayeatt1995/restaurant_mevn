@@ -227,9 +227,11 @@ export default {
       try {
         this.loading = true;
         this.chartData = [];
+        const timezone = this.$moment.tz.guess();
         const { chartData } = await this.$managerApi.chartOrderReport({
           date: this.date,
           mode: this.mode,
+          timezone,
         });
         this.chartData = chartData;
       } catch (error) {

@@ -56,7 +56,7 @@
 </template>
 <script>
 export default {
-  name: "DailylyBestItem",
+  name: "DailyBestItem",
   data() {
     return {
       loaded: true,

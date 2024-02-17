@@ -55,19 +55,17 @@ export default {
     },
     series() {
       if (this.mode === "hourly") {
-        const data = Array.from({ length: 24 }, (_, i) => {
-          const x = this.$moment(this.date[0])
-            .startOf("day")
-            .add(i, "hours")
-            .toDate();
-          return { x, y: this.findData(x).totalNetPrice };
-        });
+        const data = Array.from({ length: 24 }, (_, i) => ({
+          x: i,
+          y: this.findData(i).totalNetPrice,
+        }));
+
         return [{ name: "Sales", data }];
       } else if (this.mode === "daily") {
         const [start, end] = this.date;
         const different = this.$moment(end).diff(start, "days") + 1;
         const data = Array.from({ length: different }, (_, i) => {
-          const x = this.$moment(start).add(i, "day").toDate();
+          const x = this.$moment(start).add(i, "day").format("DD-MM-YYYY");
           return {
             x,
             y: this.findData(x).totalNetPrice,
@@ -131,9 +129,9 @@ export default {
             offsetY: 0,
             formatter(val) {
               if (mode === "hourly") {
-                return moment(val).format("h A");
+                return moment({ hour: val }).format("h A");
               } else if (mode === "daily") {
-                return moment(val).format("DD-MMM");
+                return moment(val, "DD-MM-YYYY").format("DD-MMM");
               } else if (mode === "monthly") {
                 return moment(val, "MM-YYYY").format("MMM-YY");
               } else if (mode === "yearly") {
@@ -200,38 +198,23 @@ export default {
   methods: {
     findData(val) {
       if (this.chartData.length > 0) {
-        if (this.mode === "daily") {
-          const anik = this.chartData.filter(
-            ({ _id, created_at, totalNetPrice }) =>
-              this.$moment(val).isSame(created_at, "day")
-          );
-          console.log(anik);
-        }
-        const findData = this.chartData.find(
-          ({ _id, created_at, totalNetPrice }) => {
-            if (this.mode === "hourly") {
-              return this.$moment(created_at).isSame(val, "hour");
-            } else if (this.mode === "daily") {
-              // console.log(
-              //   this.$moment(val).isSame(created_at, "day"),
-              //   this.$moment(val).toDate(),
-              //   this.$moment(created_at).toDate(),
-              //   totalNetPrice
-              // );
-              return this.$moment(created_at).isSame(val, "day");
-            } else if (this.mode === "monthly") {
-              return this.$moment(_id, "MM-YYYY").isSame(
-                this.$moment(val, "MM-YYYY")
-              );
-            } else if (this.mode === "yearly") {
-              return this.$moment(_id, "YYYY").isSame(
-                this.$moment(val, "YYYY")
-              );
-            } else {
-              return false;
-            }
+        const findData = this.chartData.find(({ _id }) => {
+          if (this.mode === "hourly") {
+            return _id === val;
+          } else if (this.mode === "daily") {
+            return this.$moment(_id, "DD-MM-YYYY").isSame(
+              this.$moment(val, "DD-MM-YYYY")
+            );
+          } else if (this.mode === "monthly") {
+            return this.$moment(_id, "MM-YYYY").isSame(
+              this.$moment(val, "MM-YYYY")
+            );
+          } else if (this.mode === "yearly") {
+            return this.$moment(_id, "YYYY").isSame(this.$moment(val, "YYYY"));
+          } else {
+            return false;
           }
-        );
+        });
         return findData ?? { totalNetPrice: 0, _id: val };
       } else {
         return { totalNetPrice: 0, _id: val };
@@ -241,9 +224,11 @@ export default {
       try {
         this.loading = true;
         this.chartData = [];
+        const timezone = this.$moment.tz.guess();
         const { chartData } = await this.$managerApi.chartSalesReport({
           date: this.date,
           mode: this.mode,
+          timezone,
         });
         this.chartData = chartData;
       } catch (error) {

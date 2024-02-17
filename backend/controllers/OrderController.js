@@ -584,6 +584,7 @@ const controller = {
       const {
         date: [start, end],
         mode,
+        timezone,
       } = req.body;
       let chartData = [];
       if (mode === "hourly") {
@@ -600,9 +601,13 @@ const controller = {
           },
           {
             $group: {
-              _id: { $hour: "$created_at" },
+              _id: {
+                $hour: {
+                  date: "$created_at",
+                  timezone: timezone,
+                },
+              },
               totalNetPrice: { $sum: "$netPrice" },
-              created_at: { $first: "$created_at" },
             },
           },
         ]);
@@ -621,7 +626,11 @@ const controller = {
           {
             $group: {
               _id: {
-                $dateToString: { format: "%d-%m-%Y", date: "$created_at" },
+                $dateToString: {
+                  format: "%d-%m-%Y",
+                  date: "$created_at",
+                  timezone,
+                },
               },
               totalNetPrice: { $sum: "$netPrice" },
               created_at: { $first: "$created_at" },
@@ -646,7 +655,11 @@ const controller = {
           {
             $group: {
               _id: {
-                $dateToString: { format: "%m-%Y", date: "$created_at" },
+                $dateToString: {
+                  format: "%m-%Y",
+                  date: "$created_at",
+                  timezone,
+                },
               },
               totalNetPrice: { $sum: "$netPrice" },
               created_at: { $first: "$created_at" },
@@ -671,7 +684,7 @@ const controller = {
           {
             $group: {
               _id: {
-                $dateToString: { format: "%Y", date: "$created_at" },
+                $dateToString: { format: "%Y", date: "$created_at", timezone },
               },
               totalNetPrice: { $sum: "$netPrice" },
               created_at: { $first: "$created_at" },
@@ -698,6 +711,7 @@ const controller = {
       const {
         date: [start, end],
         mode,
+        timezone,
       } = req.body;
       let chartData = [];
       if (mode === "hourly") {
@@ -714,7 +728,7 @@ const controller = {
           },
           {
             $group: {
-              _id: { $hour: "$created_at" },
+              _id: { $hour: { date: "$created_at", timezone } },
               totalOrder: { $sum: 1 },
             },
           },
@@ -739,7 +753,11 @@ const controller = {
           {
             $group: {
               _id: {
-                $dateToString: { format: "%d-%m-%Y", date: "$created_at" },
+                $dateToString: {
+                  format: "%d-%m-%Y",
+                  date: "$created_at",
+                  timezone,
+                },
               },
               totalOrder: { $sum: 1 },
             },
@@ -763,7 +781,11 @@ const controller = {
           {
             $group: {
               _id: {
-                $dateToString: { format: "%m-%Y", date: "$created_at" },
+                $dateToString: {
+                  format: "%m-%Y",
+                  date: "$created_at",
+                  timezone,
+                },
               },
               totalOrder: { $sum: 1 },
             },
@@ -787,7 +809,7 @@ const controller = {
           {
             $group: {
               _id: {
-                $dateToString: { format: "%Y", date: "$created_at" },
+                $dateToString: { format: "%Y", date: "$created_at", timezone },
               },
               totalOrder: { $sum: 1 },
             },
