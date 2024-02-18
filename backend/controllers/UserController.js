@@ -513,8 +513,8 @@ const controller = {
               $ne: null,
             },
             created_at: {
-              $gt: start,
-              $lt: end,
+              $gt: new Date(start),
+              $lt: new Date(end),
             },
           },
         },
@@ -562,8 +562,8 @@ const controller = {
               $ne: null,
             },
             created_at: {
-              $gt: start,
-              $lt: end,
+              $gt: new Date(start),
+              $lt: new Date(end),
             },
           },
         },

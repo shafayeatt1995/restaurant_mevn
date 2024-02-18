@@ -592,7 +592,7 @@ const controller = {
           {
             $match: {
               restaurantID,
-              created_at: { $gte: start, $lte: end },
+              created_at: { $gte: new Date(start), $lte: new Date(end) },
               status: "complete",
             },
           },
@@ -613,7 +613,7 @@ const controller = {
           {
             $match: {
               restaurantID,
-              created_at: { $gte: start, $lte: end },
+              created_at: { $gte: new Date(start), $lte: new Date(end) },
               status: "complete",
             },
           },
@@ -639,7 +639,7 @@ const controller = {
           {
             $match: {
               restaurantID,
-              created_at: { $gte: start, $lte: end },
+              created_at: { $gte: new Date(start), $lte: new Date(end) },
               status: "complete",
             },
           },
@@ -665,7 +665,7 @@ const controller = {
           {
             $match: {
               restaurantID,
-              created_at: { $gte: start, $lte: end },
+              created_at: { $gte: new Date(start), $lte: new Date(end) },
               status: "complete",
             },
           },
@@ -708,8 +708,8 @@ const controller = {
             $match: {
               restaurantID,
               created_at: {
-                $gte: start,
-                $lte: end,
+                $gte: new Date(start),
+                $lte: new Date(end),
               },
               status: "complete",
             },
@@ -732,8 +732,8 @@ const controller = {
             $match: {
               restaurantID,
               created_at: {
-                $gte: start,
-                $lte: end,
+                $gte: new Date(start),
+                $lte: new Date(end),
               },
               status: "complete",
             },
@@ -760,8 +760,8 @@ const controller = {
             $match: {
               restaurantID,
               created_at: {
-                $gte: start,
-                $lte: end,
+                $gte: new Date(start),
+                $lte: new Date(end),
               },
               status: "complete",
             },
@@ -788,8 +788,8 @@ const controller = {
             $match: {
               restaurantID,
               created_at: {
-                $gte: start,
-                $lte: end,
+                $gte: new Date(start),
+                $lte: new Date(end),
               },
               status: "complete",
             },
@@ -914,8 +914,8 @@ const controller = {
           $match: {
             restaurantID,
             created_at: {
-              $gte: start,
-              $lte: end,
+              $gte: new Date(start),
+              $lte: new Date(end),
             },
             status: "complete",
           },

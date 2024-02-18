@@ -1368,7 +1368,7 @@ export default {
       background-color: #f3f4f6 !important;
     }
     &.active {
-      background-color: #22c55e !important;
+      background-color: #111827 !important;
     }
     &:hover {
       color: #4b5563;
@@ -1381,13 +1381,13 @@ export default {
       height: 40px;
       &:hover,
       &:focus {
-        border-color: #22c55e !important;
+        border-color: #111827 !important;
       }
     }
   }
   .mx-icon-calendar {
     svg {
-      color: #22c55e;
+      color: #111827;
     }
   }
   .mx-calendar-header-label {

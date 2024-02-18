@@ -132,7 +132,7 @@ export default {
         this.loading = true;
         const date = [
           this.$moment(this.date[0]).startOf("day").toDate(),
-          this.$moment(this.date[0]).endOf("day").toDate(),
+          this.$moment(this.date[1]).endOf("day").toDate(),
         ];
         const { performance } = await this.$managerApi.fetchWaiterSales({
           date,
