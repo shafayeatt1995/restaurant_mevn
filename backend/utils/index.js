@@ -36,20 +36,6 @@ const verifyCookieToken = async (fullToken) => {
   }
 };
 
-const convertDate = (date = new Date(), type) => {
-  if (type === "start") {
-    let startDate = new Date(date);
-    startDate.setHours(0, 0, 0, 0);
-    return startDate;
-  } else if (type === "end") {
-    let endDate = new Date(date);
-    endDate.setHours(23, 59, 59, 999);
-    return endDate;
-  } else {
-    return date ? new Date(date) : new Date();
-  }
-};
-
 const utapi = new UTApi();
 
 module.exports = {
@@ -58,5 +44,4 @@ module.exports = {
   paginate,
   utapi,
   verifyCookieToken,
-  convertDate,
 };

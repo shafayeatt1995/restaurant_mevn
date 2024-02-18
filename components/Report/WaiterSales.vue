@@ -6,7 +6,7 @@
       </h2>
       <client-only>
         <DatePicker
-          v-model="form.date"
+          v-model="date"
           type="date"
           range
           placeholder="Select week"
@@ -43,7 +43,7 @@ export default {
       loaded: true,
       loading: true,
       items: [],
-      form: { date: [new Date(), new Date()] },
+      date: [new Date(), new Date()],
     };
   },
   computed: {
@@ -122,7 +122,7 @@ export default {
     },
   },
   watch: {
-    "form.date"() {
+    date() {
       this.fetchItem();
     },
   },
@@ -130,9 +130,13 @@ export default {
     async fetchItem() {
       try {
         this.loading = true;
-        const { performance } = await this.$managerApi.fetchWaiterSales(
-          this.form
-        );
+        const date = [
+          this.$moment(this.date[0]).startOf("day").toDate(),
+          this.$moment(this.date[0]).endOf("day").toDate(),
+        ];
+        const { performance } = await this.$managerApi.fetchWaiterSales({
+          date,
+        });
         this.items = performance;
       } catch (error) {
       } finally {

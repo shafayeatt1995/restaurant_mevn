@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { User, Restaurant, Order } = require("@/backend/models");
-const { paginate, convertDate } = require("@/backend/utils");
+const { paginate } = require("@/backend/utils");
 const bcrypt = require("bcryptjs");
 const moment = require("moment");
 
@@ -28,8 +28,8 @@ const controller = {
               restaurantID,
               ...waiterID,
               created_at: {
-                $gt: convertDate(today, "start"),
-                $lt: convertDate(today, "end"),
+                $gt: today[0],
+                $lt: today[1],
               },
               status: "complete",
             },
@@ -48,8 +48,8 @@ const controller = {
               restaurantID,
               ...waiterID,
               created_at: {
-                $gt: convertDate(week[0], "start"),
-                $lt: convertDate(week[1], "end"),
+                $gt: week[0],
+                $lt: week[1],
               },
               status: "complete",
             },
@@ -68,8 +68,8 @@ const controller = {
               restaurantID,
               ...waiterID,
               created_at: {
-                $gt: convertDate(month[0], "start"),
-                $lt: convertDate(month[1], "end"),
+                $gt: month[0],
+                $lt: month[1],
               },
               status: "complete",
             },
@@ -88,8 +88,8 @@ const controller = {
               restaurantID,
               ...waiterID,
               created_at: {
-                $gt: convertDate(today, "start"),
-                $lt: convertDate(today, "end"),
+                $gt: today[0],
+                $lt: today[1],
               },
               status: "complete",
             },
@@ -102,8 +102,8 @@ const controller = {
               restaurantID,
               ...waiterID,
               created_at: {
-                $gt: convertDate(week[0], "start"),
-                $lt: convertDate(week[1], "end"),
+                $gt: week[0],
+                $lt: week[1],
               },
               status: "complete",
             },
@@ -116,8 +116,8 @@ const controller = {
               restaurantID,
               ...waiterID,
               created_at: {
-                $gt: convertDate(month[0], "start"),
-                $lt: convertDate(month[1], "end"),
+                $gt: month[0],
+                $lt: month[1],
               },
               status: "complete",
             },
@@ -513,8 +513,8 @@ const controller = {
               $ne: null,
             },
             created_at: {
-              $gt: convertDate(start, "start"),
-              $lt: convertDate(end, "end"),
+              $gt: start,
+              $lt: end,
             },
           },
         },
@@ -562,8 +562,8 @@ const controller = {
               $ne: null,
             },
             created_at: {
-              $gt: convertDate(start, "start"),
-              $lt: convertDate(end, "end"),
+              $gt: start,
+              $lt: end,
             },
           },
         },

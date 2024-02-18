@@ -218,11 +218,17 @@ export default {
       try {
         this.loading = true;
         const params = {
-          today: new Date(),
-          week: [new Date(this.$moment().subtract(7, "days")), new Date()],
+          today: [
+            this.$moment().startOf("day").toDate(),
+            this.$moment().endOf("day").toDate(),
+          ],
+          week: [
+            this.$moment().subtract(7, "days").startOf("day").toDate(),
+            this.$moment().endOf("day").toDate(),
+          ],
           month: [
-            new Date(this.$moment().startOf("month")),
-            new Date(this.$moment().endOf("month")),
+            this.$moment().startOf("month"),
+            this.$moment().endOf("month"),
           ],
         };
         const {

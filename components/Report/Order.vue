@@ -228,8 +228,12 @@ export default {
         this.loading = true;
         this.chartData = [];
         const timezone = this.$moment.tz.guess();
+        const date = [
+          this.$moment(this.date[0]).startOf("day").toDate(),
+          this.$moment(this.date[1]).endOf("day").toDate(),
+        ];
         const { chartData } = await this.$managerApi.chartOrderReport({
-          date: this.date,
+          date,
           mode: this.mode,
           timezone,
         });
