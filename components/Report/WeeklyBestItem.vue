@@ -32,7 +32,7 @@
       <hr class="mt-3 mb-2" />
       <div class="grid grid-cols-1 max-h-96 overflow-y-auto">
         <div
-          class="flex items-center text-gray-600"
+          class="flex items-center text-gray-700"
           v-for="order in orders"
           :key="order._id"
         >
@@ -52,7 +52,7 @@
         :icon="['fas', 'chart-pie']"
         class="text-9xl text-rose-600"
       />
-      <p class="text-gray-600">No data found</p>
+      <p class="text-gray-700">No data found</p>
     </div>
   </section>
 </template>

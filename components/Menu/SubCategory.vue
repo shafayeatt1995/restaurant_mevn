@@ -50,7 +50,7 @@
     <Modal v-model="modal">
       <form class="mt-3" @submit.prevent="submit">
         <div class="flex justify-between items-center mb-3">
-          <div class="flex gap-4 text-gray-600">
+          <div class="flex gap-4 text-gray-700">
             <template v-if="editItem">
               <p
                 class="cursor-pointer"
@@ -68,7 +68,7 @@
                 Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
               </p>
             </template>
-            <p v-else class="text-gray-600 text-xl">Create sub category</p>
+            <p v-else class="text-gray-700 text-xl">Create sub category</p>
           </div>
 
           <CloseButton @click.native.prevent="modal = false" />

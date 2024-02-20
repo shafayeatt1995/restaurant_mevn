@@ -4,12 +4,12 @@
   >
     <div class="relative flex flex-col items-start">
       <template v-if="manager">
-        <p class="text-gray-600 text-xs lg:text-sm">
-          Subscription Exp:
+        <p class="text-gray-700 text-xs lg:text-sm">
+          Subscription {{ activeSubscription ? "Exp" : "Type" }}:
           <span
-            :class="activeScan ? '' : 'text-rose-500'"
+            :class="activeSubscription ? '' : 'text-rose-500'"
             class="font-semibold"
-            >{{ showScanDate }}</span
+            >{{ activeSubscription ? showScanDate : "Free" }}</span
           >
         </p>
       </template>
@@ -29,13 +29,13 @@
             >
               <span
                 v-if="manager"
-                class="font-semibold text-sm text-gray-600"
+                class="font-semibold text-sm text-gray-700"
                 >{{ $auth.user.restaurant.name }}</span
               >
-              <span v-else class="font-semibold text-sm text-gray-600">{{
+              <span v-else class="font-semibold text-sm text-gray-700">{{
                 $auth.user.name
               }}</span>
-              <span class="capitalize text-sm text-gray-600">{{
+              <span class="capitalize text-sm text-gray-700">{{
                 $auth.user.type
               }}</span>
             </div>
@@ -54,7 +54,7 @@
           v-if="dropdownOpen"
         >
           <div
-            class="px-4 py-2 text-gray-600 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
+            class="px-4 py-2 text-gray-700 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
           >
             <nuxt-link :to="{ name: 'dashboard-settings' }">
               <font-awesome-icon :icon="['fas', 'gear']" class="text-xl" />
@@ -90,7 +90,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["manager", "scanDate", "activeScan"]),
+    ...mapGetters(["manager", "scanDate", "activeSubscription"]),
 
     showScanDate() {
       const timeDifference = this.scanDate - this.currentDate;

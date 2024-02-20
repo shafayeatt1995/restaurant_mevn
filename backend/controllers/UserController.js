@@ -7,130 +7,88 @@ const moment = require("moment");
 const controller = {
   async fetchDashboard(req, res) {
     try {
-      const { today, week, month } = req.query;
+      const { today, month } = req.query;
       const { restaurantID, isWaiter, _id: authID } = req.user;
       const waiterID = {};
       if (isWaiter) {
         waiterID.waiterID = authID;
       }
 
-      const [
-        [todaySale],
-        [weeklySale],
-        [monthlySale],
-        [dailyCancel],
-        [weeklyCancel],
-        [monthlyCancel],
-      ] = await Promise.all([
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: today[0],
-                $lt: today[1],
+      const [[todaySale], [monthlySale], [dailyCancel], [monthlyCancel]] =
+        await Promise.all([
+          Order.aggregate([
+            {
+              $match: {
+                restaurantID,
+                ...waiterID,
+                created_at: {
+                  $gt: today[0],
+                  $lt: today[1],
+                },
+                status: "complete",
               },
-              status: "complete",
             },
-          },
-          {
-            $group: {
-              _id: null,
-              totalOrder: { $sum: 1 },
-              totalSale: { $sum: "$netPrice" },
-            },
-          },
-        ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: week[0],
-                $lt: week[1],
+            {
+              $group: {
+                _id: null,
+                totalOrder: { $sum: 1 },
+                totalSale: { $sum: "$netPrice" },
               },
-              status: "complete",
             },
-          },
-          {
-            $group: {
-              _id: null,
-              totalOrder: { $sum: 1 },
-              totalSale: { $sum: "$netPrice" },
-            },
-          },
-        ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: month[0],
-                $lt: month[1],
+          ]),
+          Order.aggregate([
+            {
+              $match: {
+                restaurantID,
+                ...waiterID,
+                created_at: {
+                  $gt: month[0],
+                  $lt: month[1],
+                },
+                status: "complete",
               },
-              status: "complete",
             },
-          },
-          {
-            $group: {
-              _id: null,
-              totalOrder: { $sum: 1 },
-              totalSale: { $sum: "$netPrice" },
-            },
-          },
-        ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: today[0],
-                $lt: today[1],
+            {
+              $group: {
+                _id: null,
+                totalOrder: { $sum: 1 },
+                totalSale: { $sum: "$netPrice" },
               },
-              status: "complete",
             },
-          },
-          { $count: "dailyCancel" },
-        ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: week[0],
-                $lt: week[1],
+          ]),
+          Order.aggregate([
+            {
+              $match: {
+                restaurantID,
+                ...waiterID,
+                created_at: {
+                  $gt: today[0],
+                  $lt: today[1],
+                },
+                status: "complete",
               },
-              status: "complete",
             },
-          },
-          { $count: "weeklyCancel" },
-        ]),
-        Order.aggregate([
-          {
-            $match: {
-              restaurantID,
-              ...waiterID,
-              created_at: {
-                $gt: month[0],
-                $lt: month[1],
+            { $count: "dailyCancel" },
+          ]),
+          Order.aggregate([
+            {
+              $match: {
+                restaurantID,
+                ...waiterID,
+                created_at: {
+                  $gt: month[0],
+                  $lt: month[1],
+                },
+                status: "complete",
               },
-              status: "complete",
             },
-          },
-          { $count: "monthlyCancel" },
-        ]),
-      ]);
+            { $count: "monthlyCancel" },
+          ]),
+        ]);
       res.status(200).json({
         todaySale,
-        weeklySale,
         monthlySale,
         dailyCancel: dailyCancel?.dailyCancel ?? 0,
-        weeklyCancel: weeklyCancel?.weeklyCancel ?? 0,
         monthlyCancel: monthlyCancel?.monthlyCancel ?? 0,
       });
     } catch (error) {

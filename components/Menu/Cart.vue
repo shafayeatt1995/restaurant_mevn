@@ -220,7 +220,7 @@
             src="/images/not-found.png"
             alt="not found image"
           />
-          <p class="text-2xl mt-2 text-gray-600">Nothing to order</p>
+          <p class="text-2xl mt-2 text-gray-700">Nothing to order</p>
         </div>
       </div>
     </div>

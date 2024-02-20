@@ -12,7 +12,7 @@
         </p>
       </div>
       <div
-        class="flex flex-col lg:flex-row justify-between text-gray-600 lg:mt-8"
+        class="flex flex-col lg:flex-row justify-between text-gray-700 lg:mt-8"
       >
         <div class="flex flex-col justify-center items-center mb-8">
           <h2 class="text-2xl font-semibold mb-3">1. Get QR</h2>
@@ -22,7 +22,7 @@
             class="max-w-64 max-h-60 lg:max-h-96"
             alt="qr code"
           />
-          <p class="text-gray-600 px-4 mt-3">
+          <p class="text-gray-700 px-4 mt-3">
             Connect with us today and collect your QR code that perfectly
             matches the personality of your establishment.
           </p>
@@ -43,7 +43,7 @@
             class="max-w-64 max-h-60 lg:max-h-96"
             alt="items"
           />
-          <p class="text-gray-600 px-4 mt-3">
+          <p class="text-gray-700 px-4 mt-3">
             Fill your menu with a variety of categories, sub-categories, items,
             prices, discounts etc. We'll create the menu for you.
           </p>
@@ -64,7 +64,7 @@
             class="max-w-64 max-h-60 lg:max-h-96"
             alt="order"
           />
-          <p class="text-gray-600 px-4 mt-3">
+          <p class="text-gray-700 px-4 mt-3">
             Fill your menu with a variety of categories, sub-categories, items,
             prices, discounts etc. We'll create the menu for you.
           </p>

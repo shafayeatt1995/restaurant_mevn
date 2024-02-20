@@ -77,7 +77,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["manager", "scanDate", "activeScan"]),
+    ...mapGetters(["manager"]),
   },
   mounted() {
     this.fetchItems();

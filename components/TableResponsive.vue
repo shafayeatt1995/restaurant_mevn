@@ -57,7 +57,7 @@
               >
                 <template v-for="field in fields">
                   <td
-                    class="px-4 py-4 text-sm font-medium whitespace-nowrap flex items-center text-gray-600"
+                    class="px-4 py-4 text-sm font-medium whitespace-nowrap flex items-center text-gray-700"
                     v-if="!field.hide || false"
                     :key="field.key"
                     :class="[

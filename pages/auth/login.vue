@@ -15,7 +15,7 @@
         <img loading="lazy" class="w-20" src="/logo.png" alt="logo" />
 
         <h1
-          class="mt-3 text-2xl font-semibold text-gray-600 capitalize sm:text-3xl"
+          class="mt-3 text-2xl font-semibold text-gray-700 capitalize sm:text-3xl"
         >
           sign In
         </h1>
@@ -54,10 +54,10 @@
             Sign in
           </Button>
 
-          <p class="mt-4 text-center text-gray-600">or sign in with</p>
+          <p class="mt-4 text-center text-gray-700">or sign in with</p>
 
           <button
-            class="w-full flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50"
+            class="w-full flex items-center justify-center px-6 py-3 mt-4 text-gray-700 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50"
             @click="socialLogin"
             type="button"
           >

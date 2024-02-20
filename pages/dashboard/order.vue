@@ -5,7 +5,7 @@
         <div
           class="flex justify-between bg-amber-100 w-full items-center px-4 py-2 rounded-lg"
         >
-          <p class="text-gray-600">New order receive</p>
+          <p class="text-gray-700">New order receive</p>
           <Button @click.native.prevent="refetch"
             ><font-awesome-icon :icon="['fas', 'rotate']" /> Refresh</Button
           >
@@ -15,7 +15,7 @@
     <section
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
-      <h2 class="text-3xl font-medium text-gray-600">Order</h2>
+      <h2 class="text-3xl font-medium text-gray-700">Order</h2>
       <Button @click.native.prevent="refetch"
         ><font-awesome-icon :icon="['fas', 'rotate']" /> Refresh</Button
       >
@@ -45,7 +45,7 @@
             :key="key"
             @click="openOrder(table)"
           >
-            <div class="text-gray-600">
+            <div class="text-gray-700">
               <TableIcon />
             </div>
             <p class="text-gray-700 font-semibold text-lg">
@@ -96,7 +96,7 @@
               <template v-for="(item, i) in items">
                 <div
                   v-if="checkStatus(item)"
-                  class="rounded-lg p-3 text-gray-600 relative cursor-pointer"
+                  class="rounded-lg p-3 text-gray-700 relative cursor-pointer"
                   :class="getClass(item.status)"
                   :key="i"
                   @click="openOrderDetails(item)"
@@ -175,7 +175,7 @@
     <Modal v-model="modal" v-if="modal">
       <div class="flex justify-between items-center">
         <h1
-          class="text-lg font-medium leading-6 text-gray-600 capitalize"
+          class="text-lg font-medium leading-6 text-gray-700 capitalize"
           id="modal-title"
         >
           Order details
@@ -588,7 +588,7 @@
     <Modal v-model="selectWaiterModal" v-if="selectWaiterModal">
       <div class="flex justify-between items-center">
         <h1
-          class="text-lg font-medium leading-6 text-gray-600 capitalize"
+          class="text-lg font-medium leading-6 text-gray-700 capitalize"
           id="modal-title"
         >
           Select a waiter
@@ -682,7 +682,7 @@ export default {
       vats: [],
       payment: { method: "Cash", amount: 0 },
       paymentMethods: ["Cash", "bKash", "ATM Card"],
-      perPage: 30,
+      perPage: 20,
       vat: "",
       loading: true,
       cancelLoading: false,

@@ -4,7 +4,7 @@
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
       <div>
-        <h2 class="text-3xl font-medium text-gray-600">Table</h2>
+        <h2 class="text-3xl font-medium text-gray-700">Table</h2>
       </div>
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
         <Button @click.native.prevent="modal = true">
@@ -60,7 +60,7 @@
     <Modal v-model="modal">
       <div class="flex justify-between items-center">
         <h1
-          class="text-lg font-medium leading-6 text-gray-600 capitalize"
+          class="text-lg font-medium leading-6 text-gray-700 capitalize"
           id="modal-title"
         >
           {{ editMode ? "Edit" : "Create new" }} table
@@ -93,7 +93,7 @@
     <Modal v-model="qrModal">
       <div class="flex justify-between items-center">
         <h1
-          class="text-lg font-medium leading-6 text-gray-600 capitalize"
+          class="text-lg font-medium leading-6 text-gray-700 capitalize"
           id="modal-title"
         >
           Generate QR code
@@ -181,7 +181,7 @@ export default {
       },
       editMode: false,
       items: [],
-      perPage: 30,
+      perPage: 20,
       loading: true,
       qrModal: false,
       errors: {},

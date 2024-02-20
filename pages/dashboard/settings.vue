@@ -4,7 +4,7 @@
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
       <div>
-        <h2 class="text-3xl font-medium text-gray-600">Settings</h2>
+        <h2 class="text-3xl font-medium text-gray-700">Settings</h2>
       </div>
     </section>
     <section class="px-4">
@@ -16,7 +16,7 @@
           <SettingsPrinting v-else-if="activeTab === 'Printing'" />
           <SettingsProfile v-else-if="activeTab === 'Profile'" />
           <SettingsPassword v-else-if="activeTab === 'Password'" />
-          <SettingsPrinter v-else-if="activeTab === 'Printer'" />
+          <SettingsSubscription v-else-if="activeTab === 'Subscription'" />
         </div>
       </div>
     </section>
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      activeTab: "Profile",
+      activeTab: this.$route?.query?.tab || "Profile",
     };
   },
   computed: {
@@ -54,11 +54,20 @@ export default {
         { title: "Printing", icon: ["fas", "newspaper"], show: this.manager },
         { title: "Notification", icon: ["far", "bell"], show: false },
         {
-          title: "Printer",
-          icon: ["fas", "print"],
-          show: this.isDev ?? this.manager,
+          title: "Subscription",
+          icon: ["fas", "address-card"],
+          show: this.manager,
         },
       ];
+    },
+  },
+  watch: {
+    activeTab(tab) {
+      window.history.pushState(
+        {},
+        "",
+        `?${new URLSearchParams({ tab }).toString()}`
+      );
     },
   },
 };

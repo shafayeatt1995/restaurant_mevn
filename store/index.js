@@ -35,7 +35,7 @@ export const getters = {
       return new Date(new Date().setDate(new Date().getDate() - 1));
     }
   },
-  activeScan: (state, getters) => {
+  activeSubscription: (state, getters) => {
     return getters.manager && getters.scanDate >= new Date();
   },
   isDev: () => process.env.NODE_ENV === "development",

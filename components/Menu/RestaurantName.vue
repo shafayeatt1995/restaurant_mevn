@@ -19,7 +19,7 @@
       <form class="mt-3" @submit.prevent="updateRestaurant">
         <div class="flex justify-between items-center mb-2">
           <h1
-            class="text-lg font-medium leading-6 text-gray-600 capitalize"
+            class="text-lg font-medium leading-6 text-gray-700 capitalize"
             id="modal-title"
           >
             Edit Restaurant Name

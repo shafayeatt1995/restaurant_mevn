@@ -97,7 +97,7 @@
         >
           <form @submit.prevent="submit">
             <div class="mt-4">
-              <label class="block mb-2 text-gray-600">Full name</label>
+              <label class="block mb-2 text-gray-700">Full name</label>
               <input
                 v-model="form.name"
                 type="text"
@@ -107,7 +107,7 @@
             </div>
 
             <div class="mt-4">
-              <label class="block mb-2 text-gray-600">Email or Phone</label>
+              <label class="block mb-2 text-gray-700">Email or Phone</label>
               <input
                 v-model="form.email"
                 type="text"
@@ -117,7 +117,7 @@
             </div>
 
             <div class="w-full mt-4">
-              <label class="block mb-2 text-gray-600">Message</label>
+              <label class="block mb-2 text-gray-700">Message</label>
               <textarea
                 v-model="form.message"
                 class="block w-full h-32 px-5 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-green-400 focus:ring-green-400 focus:outline-none focus:ring focus:ring-opacity-40 bg-white/60"
