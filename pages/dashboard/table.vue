@@ -111,6 +111,7 @@
         <div class="flex flex-col items-center my-4">
           <div
             id="svgCode"
+            ref="qrCode"
             :style="`border: ${qrCode.margin}px solid ${qrCode.background}`"
           >
             <QrcodeVue
@@ -314,10 +315,16 @@ export default {
     async printQRCode() {
       const printContent = this.$refs?.qrCode?.innerHTML;
       if (printContent) {
-        const printWindow = window.open("", "_blank", "width=800,height=600");
+        const printWindow = window.open("", "_blank");
         printWindow.document.write(
           `<html><body>${printContent.toString()}</body></html>`
         );
+        printWindow.document.close();
+        printWindow.print();
+        printWindow.onafterprint = () => {
+          printWindow.close();
+          this.orderDetails = {};
+        };
       }
     },
     async downloadQR() {

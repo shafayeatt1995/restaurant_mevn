@@ -2,8 +2,12 @@
   <div class="rounded-xl shadow-lg bg-white p-3">
     <div class="flex flex-col lg:flex-row justify-between lg:items-center">
       <h1 class="font-bold text-xl text-gray-700 py-2 px-2">
-        Total order: <font-awesome-icon :icon="['fas', 'receipt']" />
-        {{ totalOrder | currencyNumber }}
+        Order:
+        <font-awesome-icon :icon="['fas', 'receipt']" />
+        <span v-if="activeSubscription">
+          {{ totalOrder | currencyNumber }}
+        </span>
+        <span v-else>0</span>
       </h1>
       <client-only>
         <DatePicker
@@ -15,24 +19,42 @@
         />
       </client-only>
     </div>
-    <Observer v-if="loaded" @load="getOrderLog" class="h-96" />
-    <div
-      v-else-if="loading"
-      class="w-full flex justify-center items-center h-96"
-    >
-      <Spinner class="text-green-600" />
+
+    <div class="relative">
+      <div
+        class="flex flex-col justify-center items-center backdrop-blur-md absolute left-0 top-0 right-0 bottom-0 z-10"
+        v-if="!activeSubscription"
+      >
+        <Upgrade>
+          <p
+            class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
+          >
+            <font-awesome-icon :icon="['fas', 'lock']" />
+          </p>
+        </Upgrade>
+        <Upgrade class="mt-2"> Upgrade your account</Upgrade>
+      </div>
+      <Observer v-if="loaded" @load="getOrderLog" class="h-96" />
+      <div
+        v-else-if="loading"
+        class="w-full flex justify-center items-center h-96"
+      >
+        <Spinner class="text-green-600" />
+      </div>
+      <client-only v-else>
+        <apexchart
+          height="450"
+          type="area"
+          :options="chartOptions"
+          :series="series"
+        />
+      </client-only>
     </div>
-    <client-only v-else>
-      <apexchart
-        height="450"
-        type="area"
-        :options="chartOptions"
-        :series="series"
-      />
-    </client-only>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "OrderChart",
   data() {
@@ -44,6 +66,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["activeSubscription"]),
     mode() {
       const [start, end] = this.date;
       const different = this.$moment(end).diff(this.$moment(start), "days");
@@ -225,19 +248,21 @@ export default {
     },
     async getOrderLog() {
       try {
-        this.loading = true;
-        this.chartData = [];
-        const timezone = this.$moment.tz.guess();
-        const date = [
-          this.$moment(this.date[0]).startOf("day").toDate(),
-          this.$moment(this.date[1]).endOf("day").toDate(),
-        ];
-        const { chartData } = await this.$managerApi.chartOrderReport({
-          date,
-          mode: this.mode,
-          timezone,
-        });
-        this.chartData = chartData;
+        if (this.activeSubscription) {
+          this.loading = true;
+          this.chartData = [];
+          const timezone = this.$moment.tz.guess();
+          const date = [
+            this.$moment(this.date[0]).startOf("day").toDate(),
+            this.$moment(this.date[1]).endOf("day").toDate(),
+          ];
+          const { chartData } = await this.$managerApi.chartOrderReport({
+            date,
+            mode: this.mode,
+            timezone,
+          });
+          this.chartData = chartData;
+        }
       } catch (error) {
       } finally {
         this.loading = false;

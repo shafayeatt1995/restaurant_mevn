@@ -1,9 +1,9 @@
 <template>
   <header
-    class="flex items-center justify-between h-20 px-4 lg:px-6 bg-white sticky top-0 z-10"
+    class="flex items-center justify-between h-20 px-4 lg:px-6 bg-white sticky top-0 z-20 shadow-md"
   >
     <div class="relative flex flex-col items-start">
-      <template v-if="manager">
+      <template v-if="manager || waiter">
         <p class="text-gray-700 text-xs lg:text-sm">
           Subscription {{ activeSubscription ? "Exp" : "Type" }}:
           <span
@@ -90,7 +90,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["manager", "scanDate", "activeSubscription"]),
+    ...mapGetters(["manager", "waiter", "scanDate", "activeSubscription"]),
 
     showScanDate() {
       const timeDifference = this.scanDate - this.currentDate;

@@ -44,13 +44,27 @@
         </li>
         <li v-if="items.length === 0">
           <hr />
-          <div class="my-10 flex flex-col items-center text-gray-700">
+          <div
+            class="my-10 flex flex-col items-center text-gray-700"
+            v-if="activeSubscription"
+          >
             <p
               class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
             >
               <font-awesome-icon :icon="['far', 'bell-slash']" />
             </p>
             <p class="mt-3">There are no notifications</p>
+          </div>
+
+          <div class="my-10 flex flex-col items-center text-gray-700" v-else>
+            <Upgrade>
+              <p
+                class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
+              >
+                <font-awesome-icon :icon="['fas', 'lock']" />
+              </p>
+            </Upgrade>
+            <Upgrade class="mt-2"> Upgrade your account</Upgrade>
           </div>
         </li>
         <Observer @load="fetchItems" />
@@ -77,14 +91,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["manager"]),
+    ...mapGetters(["manager", "activeSubscription"]),
   },
   mounted() {
     this.fetchItems();
   },
   methods: {
     async fetchItems() {
-      if (this.click) {
+      if (this.click && this.activeSubscription) {
         try {
           this.click = false;
           this.loading = true;

@@ -15,24 +15,40 @@
           />
         </client-only>
       </div>
-      <div
-        v-if="chartLoader"
-        class="w-full flex justify-center items-center h-96"
-      >
-        <Spinner class="text-green-600" />
+      <div class="relative">
+        <div
+          class="flex flex-col justify-center items-center backdrop-blur-md absolute left-0 top-0 right-0 bottom-0 z-10"
+          v-if="!activeSubscription"
+        >
+          <Upgrade>
+            <p
+              class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
+            >
+              <font-awesome-icon :icon="['fas', 'lock']" />
+            </p>
+          </Upgrade>
+          <Upgrade class="mt-2"> Upgrade your account</Upgrade>
+        </div>
+        <div
+          v-if="chartLoader"
+          class="w-full flex justify-center items-center h-96"
+        >
+          <Spinner class="text-green-600" />
+        </div>
+        <client-only v-else>
+          <apexchart
+            height="450"
+            type="area"
+            :options="chartOptions"
+            :series="series"
+          />
+        </client-only>
       </div>
-      <client-only v-else>
-        <apexchart
-          height="450"
-          type="area"
-          :options="chartOptions"
-          :series="series"
-        />
-      </client-only>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "MonthlySalesChart",
   data() {
@@ -107,30 +123,40 @@ export default {
       },
     };
   },
-
+  computed: {
+    ...mapGetters(["activeSubscription"]),
+  },
   watch: {
     filterDate() {
       this.getSalesLog();
     },
   },
-
   mounted() {
     this.getSalesLog();
   },
-
   methods: {
     async getSalesLog() {
       try {
-        this.chartLoader = true;
-        const start = this.$moment(this.filterDate).startOf("month").toDate();
-        const end = this.$moment(this.filterDate).endOf("month").toDate();
-        const dates = this.getBetweenDates(start, end);
-        const timezone = this.$moment.tz.guess();
-        const { chartData } = await this.$mowApi.chartSalesData({
-          date: [start, end],
-          timezone,
-        });
-        this.series[0].data = this.mergeDates(dates, chartData);
+        if (this.activeSubscription) {
+          this.chartLoader = true;
+          const start = this.$moment(this.filterDate).startOf("month").toDate();
+          const end = this.$moment(this.filterDate).endOf("month").toDate();
+          const dates = this.getBetweenDates(start, end);
+          const timezone = this.$moment.tz.guess();
+          const { chartData } = await this.$mowApi.chartSalesData({
+            date: [start, end],
+            timezone,
+          });
+          this.series[0].data = this.mergeDates(dates, chartData);
+        } else {
+          this.series[0].data = Array.from({ length: 30 }, () => ({
+            y: Math.floor(Math.random() * 100) + 1,
+            x: this.$moment(
+              this.$moment().toDate() -
+                Math.floor(Math.random() * 100) * 24 * 60 * 60 * 1000
+            ).toDate(),
+          }));
+        }
       } catch (error) {
       } finally {
         this.chartLoader = false;

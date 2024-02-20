@@ -70,6 +70,7 @@
               <client-only>
                 <DatePicker
                   v-model="date"
+                  v-if="activeSubscription"
                   type="date"
                   range
                   placeholder="Select date range"
@@ -712,6 +713,7 @@ export default {
       "manager",
       "waiter",
       "restaurantSlug",
+      "activeSubscription",
     ]),
     tabTitle() {
       return [
@@ -1216,11 +1218,13 @@ export default {
         const newItem = JSON.parse(JSON.stringify(find));
         this.openOrderDetails(newItem, serial);
       } else {
-        this.$router.push({
-          name: "menu-slug-table",
-          params: { slug: this.$auth.user.restaurant.slug, table: serial },
-          query: { manualOrder: true },
-        });
+        if (this.activeSubscription) {
+          this.$router.push({
+            name: "menu-slug-table",
+            params: { slug: this.$auth.user.restaurant.slug, table: serial },
+            query: { manualOrder: true },
+          });
+        }
       }
     },
     showTableTime({ _id }) {

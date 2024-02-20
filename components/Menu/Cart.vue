@@ -268,6 +268,7 @@ export default {
   },
   computed: {
     ...mapGetters("cart", ["cartItems", "restaurantID", "table"]),
+    ...mapGetters(["activeSubscription", "manager"]),
     inputFields() {
       return [
         {
@@ -344,43 +345,47 @@ export default {
     },
     async submit() {
       try {
-        if (this.$auth.loggedIn) {
-          this.loading = true;
-          this.errorMessage = null;
-          const body = {
-            restaurantID: this.restaurantID,
-            tableID: this.table._id,
-            userEmail: this.$auth.user.email,
-            userName: this.$auth.user.name,
-            tableName: this.table.name,
-            orderItems: this.cartItems,
-            ...this.form,
-          };
-          const { additionalMode, email, manualOrder } = this.$route.query;
-          if (additionalMode && email) {
-            body.additionalMode = true;
-            body.externalUserEmail = email;
-          }
-          await this.$orderApi.createOrder(body);
-          this.clearCart();
-          if ((additionalMode && email) || manualOrder) {
-            this.$router.push({ name: "dashboard-order" });
+        if (this.activeSubscription) {
+          if (this.$auth.loggedIn) {
+            this.loading = true;
+            this.errorMessage = null;
+            const body = {
+              restaurantID: this.restaurantID,
+              tableID: this.table._id,
+              userEmail: this.$auth.user.email,
+              userName: this.$auth.user.name,
+              tableName: this.table.name,
+              orderItems: this.cartItems,
+              ...this.form,
+            };
+            const { additionalMode, email, manualOrder } = this.$route.query;
+            if (additionalMode && email) {
+              body.additionalMode = true;
+              body.externalUserEmail = email;
+            }
+            await this.$orderApi.createOrder(body);
+            this.clearCart();
+            if ((additionalMode && email) || manualOrder) {
+              this.$router.push({ name: "dashboard-order" });
+            } else {
+              this.show = false;
+              this.orderAnimation = true;
+              setTimeout(() => {
+                this.orderAnimation = false;
+              }, 4000);
+              this.getOrder();
+            }
           } else {
-            this.show = false;
-            this.orderAnimation = true;
-            setTimeout(() => {
-              this.orderAnimation = false;
-            }, 4000);
-            this.getOrder();
+            if (confirm(`Please verify with your gmail?`)) {
+              window.localStorage.setItem(
+                "socialLogin",
+                JSON.stringify(this.$route.params)
+              );
+              window.open("/api/auth/social-login/google", "_self");
+            }
           }
         } else {
-          if (confirm(`Please verify with your gmail?`)) {
-            window.localStorage.setItem(
-              "socialLogin",
-              JSON.stringify(this.$route.params)
-            );
-            window.open("/api/auth/social-login/google", "_self");
-          }
+          this.errorMessage = `This restaurant using free version, so ordering isn't available.`;
         }
       } catch (error) {
         if (error?.response?.data?.message) {

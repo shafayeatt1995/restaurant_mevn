@@ -3,7 +3,10 @@
     <div class="flex justify-between mb-3">
       <h2 class="text-gray-700 text-xl font-bold mb-1 text-center">
         Waiter order: <font-awesome-icon :icon="['fas', 'receipt']" />
-        {{ totalOrder | currencyNumber }}
+        <span v-if="activeSubscription">
+          {{ totalOrder | currencyNumber }}
+        </span>
+        <span v-else>0</span>
       </h2>
       <client-only>
         <DatePicker
@@ -16,27 +19,47 @@
       </client-only>
     </div>
 
-    <Observer v-if="loaded" @load="fetchItem" class="h-96" />
-    <template v-else-if="items && items.length > 0">
-      <client-only>
-        <apexchart
-          type="line"
-          height="350"
-          :options="chartOptions"
-          :series="series"
+    <div class="relative">
+      <div
+        class="flex flex-col justify-center items-center backdrop-blur-md absolute left-0 top-0 right-0 bottom-0 z-10"
+        v-if="!activeSubscription"
+      >
+        <Upgrade>
+          <p
+            class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
+          >
+            <font-awesome-icon :icon="['fas', 'lock']" />
+          </p>
+        </Upgrade>
+        <Upgrade class="mt-2"> Upgrade your account</Upgrade>
+      </div>
+      <Observer v-if="loaded" @load="fetchItem" class="h-96" />
+      <div
+        v-else-if="items && items.length === 0 && activeSubscription"
+        class="h-96 flex flex-col justify-center items-center gap-4"
+      >
+        <font-awesome-icon
+          :icon="['fas', 'chart-pie']"
+          class="text-9xl text-rose-600"
         />
-      </client-only>
-    </template>
-    <div v-else class="h-96 flex flex-col justify-center items-center gap-4">
-      <font-awesome-icon
-        :icon="['fas', 'chart-pie']"
-        class="text-9xl text-rose-600"
-      />
-      <p class="text-gray-700">No data found</p>
+        <p class="text-gray-700">No data found</p>
+      </div>
+      <template v-else>
+        <client-only>
+          <apexchart
+            type="line"
+            height="350"
+            :options="chartOptions"
+            :series="series"
+          />
+        </client-only>
+      </template>
     </div>
   </section>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "WaiterPerformance",
   data() {
@@ -48,6 +71,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["activeSubscription"]),
     series() {
       const data = this.items.map(({ waiterName, totalOrder }) => ({
         x: waiterName,
@@ -130,15 +154,17 @@ export default {
   methods: {
     async fetchItem() {
       try {
-        this.loading = true;
-        const date = [
-          this.$moment(this.date[0]).startOf("day").toDate(),
-          this.$moment(this.date[1]).endOf("day").toDate(),
-        ];
-        const { performance } = await this.$managerApi.fetchWaiterOrders({
-          date,
-        });
-        this.items = performance;
+        if (this.activeSubscription) {
+          this.loading = true;
+          const date = [
+            this.$moment(this.date[0]).startOf("day").toDate(),
+            this.$moment(this.date[1]).endOf("day").toDate(),
+          ];
+          const { performance } = await this.$managerApi.fetchWaiterOrders({
+            date,
+          });
+          this.items = performance;
+        }
       } catch (error) {
       } finally {
         this.loading = false;

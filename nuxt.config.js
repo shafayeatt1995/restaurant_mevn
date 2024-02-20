@@ -37,18 +37,19 @@ export default {
       //   href: "https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap",
       // },
     ],
-    // script: [
-    //   {
-    //     async: true,
-    //     src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
-    //     body: true,
-    //   },
-    //   {
-    //     type: "text/javascript",
-    //     src: `/gtag.js`,
-    //     body: true,
-    //   },
-    // ],
+    script: [
+      {
+        defer: true,
+        src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
+        body: true,
+      },
+      {
+        defer: true,
+        type: "text/javascript",
+        src: `/gtag.js`,
+        body: true,
+      },
+    ],
   },
 
   css: [],
