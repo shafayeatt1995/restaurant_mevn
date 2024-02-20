@@ -21,7 +21,7 @@
           <span v-if="activeSubscription">
             ৳ {{ (today?.totalSale || 0) | currencyNumber }}
           </span>
-          <Upgrade v-else class="text-base"> 🔒 Upgrade your account </Upgrade>
+          <Upgrade v-else class="text-sm"> 🔒 Upgrade your account </Upgrade>
         </h4>
       </div>
     </div>
@@ -44,7 +44,7 @@
           <span v-if="activeSubscription">
             {{ today?.totalOrder || 0 }}
           </span>
-          <Upgrade v-else class="text-base"> 🔒 Upgrade your account </Upgrade>
+          <Upgrade v-else class="text-sm"> 🔒 Upgrade your account </Upgrade>
         </h4>
       </div>
     </div>
@@ -67,7 +67,7 @@
           <span v-if="activeSubscription">
             {{ dailyCancel }}
           </span>
-          <Upgrade v-else class="text-base"> 🔒 Upgrade your account </Upgrade>
+          <Upgrade v-else class="text-sm"> 🔒 Upgrade your account </Upgrade>
         </h4>
       </div>
     </div>
@@ -90,7 +90,7 @@
           <span v-if="activeSubscription">
             ৳ {{ (monthly?.totalSale || 0) | currencyNumber }}
           </span>
-          <Upgrade v-else class="text-base"> 🔒 Upgrade your account </Upgrade>
+          <Upgrade v-else class="text-sm"> 🔒 Upgrade your account </Upgrade>
         </h4>
       </div>
     </div>
@@ -113,7 +113,7 @@
           <span v-if="activeSubscription">
             {{ monthly?.totalOrder || 0 }}
           </span>
-          <Upgrade v-else class="text-base"> 🔒 Upgrade your account </Upgrade>
+          <Upgrade v-else class="text-sm"> 🔒 Upgrade your account </Upgrade>
         </h4>
       </div>
     </div>
@@ -136,7 +136,7 @@
           <span v-if="activeSubscription">
             {{ monthlyCancel }}
           </span>
-          <Upgrade v-else class="text-base"> 🔒 Upgrade your account </Upgrade>
+          <Upgrade v-else class="text-sm"> 🔒 Upgrade your account </Upgrade>
         </h4>
       </div>
     </div>

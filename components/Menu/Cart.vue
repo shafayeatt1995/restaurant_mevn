@@ -385,7 +385,9 @@ export default {
             }
           }
         } else {
-          this.errorMessage = `This restaurant using free version, so ordering isn't available.`;
+          this.errorMessage = `${
+            this.manager ? "You" : "This restaurant"
+          } using free version, so ordering isn't available.`;
         }
       } catch (error) {
         if (error?.response?.data?.message) {
