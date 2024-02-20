@@ -16,7 +16,6 @@
           <SettingsPrinting v-else-if="activeTab === 'Printing'" />
           <SettingsProfile v-else-if="activeTab === 'Profile'" />
           <SettingsPassword v-else-if="activeTab === 'Password'" />
-          <SettingsSubscription v-else-if="activeTab === 'Subscription'" />
         </div>
       </div>
     </section>
@@ -53,11 +52,6 @@ export default {
         },
         { title: "Printing", icon: ["fas", "newspaper"], show: this.manager },
         { title: "Notification", icon: ["far", "bell"], show: false },
-        {
-          title: "Subscription",
-          icon: ["fas", "address-card"],
-          show: this.manager,
-        },
       ];
     },
   },

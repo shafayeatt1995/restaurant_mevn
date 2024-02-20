@@ -7,11 +7,11 @@
       <h1
         class="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl mt-2"
       >
-        Scan<span class="text-green-500">Eating</span> Pricing
+        Scan<span class="text-green-500">Eating</span> Subscription packages
       </h1>
 
       <p class="max-w-2xl mx-auto text-center text-gray-700 mt-1">
-        Choose the Plan That Fits Your Restaurant's Needs
+        Choose the Plan That Fits Your Restaurant's
       </p>
 
       <div class="grid grid-cols-1 gap-8 mt-6 md:grid-cols-2 lg:grid-cols-3">
@@ -76,7 +76,16 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "SettingsSubscription",
+  name: "Subscription",
+  layout: "dashboard",
+  middleware: "manager",
+  head() {
+    return { title: "Settings - " + this.pageTitle };
+  },
+  computed: {
+    ...mapGetters(["pageTitle"]),
+  },
 };
 </script>

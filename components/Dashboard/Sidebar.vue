@@ -129,6 +129,12 @@ export default {
           title: "Settings",
           icon: ["fas", "gear"],
         },
+        {
+          show: this.manager,
+          name: "dashboard-subscription",
+          title: "Subscription",
+          icon: ["fas", "address-card"],
+        },
       ];
       return nav;
     },
