@@ -19,10 +19,18 @@ const controller = {
         name: 1,
         authOrder: 1,
       });
-      const findTable = await Table.findOne({
-        restaurantID: restaurant._id,
-        serial: table,
-      });
+      let findTable;
+      let tableList;
+      if (table) {
+        findTable = await Table.findOne({
+          restaurantID: restaurant._id,
+          serial: table ?? "",
+        });
+      } else {
+        tableList = await Table.find({
+          restaurantID: restaurant._id,
+        });
+      }
       const categories = await Category.find({
         restaurantID: restaurant._id,
       }).sort({ serial: 1 });
@@ -42,7 +50,8 @@ const controller = {
         featureCategories,
         subCategories,
         items,
-        table: findTable,
+        table: findTable || {},
+        tableList: tableList || [],
       });
     } catch (error) {
       res

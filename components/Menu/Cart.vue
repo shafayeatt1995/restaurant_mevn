@@ -178,7 +178,14 @@
                 the terms
               </small>
             </div>
-            <p class="text-center text-red-500 font-medium">
+            <Input
+              v-for="(field, i) in inputFields"
+              :key="i"
+              :field="field"
+              v-model="form"
+              :errors="errors"
+            />
+            <p class="text-center text-red-500 font-medium my-3">
               {{ errorMessage }}
             </p>
             <p
@@ -244,6 +251,7 @@ export default {
   components: { TableIcon, ParcelIcon },
   props: {
     restaurant: Object,
+    tableList: Array,
   },
   data() {
     return {
@@ -254,6 +262,7 @@ export default {
       ],
       form: {
         note: "",
+        table: "",
         orderType: "Dine in",
       },
       errors: {},
@@ -271,11 +280,22 @@ export default {
     ...mapGetters(["activeSubscription", "manager"]),
     inputFields() {
       return [
+        // {
+        //   type: "textarea",
+        //   placeholder: "Add note 🙏🏻...",
+        //   name: "note",
+        //   textarea: { cols: "4", rows: "4" },
+        // },
         {
-          type: "textarea",
-          placeholder: "Add note 🙏🏻...",
-          name: "note",
-          textarea: { cols: "4", rows: "4" },
+          hide: this.table._id !== "undefined",
+          type: "select",
+          placeholder: "Select a table",
+          icon: "fas fa-table-cells",
+          name: "table",
+          options: this.tableList.map(({ _id, name }) => ({
+            value: _id,
+            label: name,
+          })),
         },
       ];
     },
@@ -296,6 +316,13 @@ export default {
     },
     demoMode() {
       return this.$route.query?.demo;
+    },
+    tableData() {
+      if (this.table._id === "undefined") {
+        return this.tableList.find(({ _id }) => _id === this.form.table);
+      } else {
+        return this.table;
+      }
     },
   },
   created() {
@@ -345,43 +372,48 @@ export default {
     },
     async submit() {
       try {
+        this.errors = {};
         if (this.activeSubscription) {
-          if (this.$auth.loggedIn) {
-            this.loading = true;
-            this.errorMessage = null;
-            const body = {
-              restaurantID: this.restaurantID,
-              tableID: this.table._id,
-              userEmail: this.$auth.user?.email || "",
-              userName: this.$auth.user?.name || "",
-              tableName: this.table.name,
-              orderItems: this.cartItems,
-              ...this.form,
-            };
-            const { additionalMode, email, manualOrder } = this.$route.query;
-            if (additionalMode && email) {
-              body.additionalMode = true;
-              body.externalUserEmail = email;
-            }
-            await this.$orderApi.createOrder(body);
-            this.clearCart();
-            if ((additionalMode && email) || manualOrder) {
-              this.$router.push({ name: "dashboard-order" });
-            } else {
-              this.show = false;
-              this.orderAnimation = true;
-              setTimeout(() => {
-                this.orderAnimation = false;
-              }, 4000);
-              this.getOrder();
-            }
+          if (this.table._id === "undefined" && this.form.table === "") {
+            this.errors = { table: { msg: "Select a table" } };
           } else {
-            if (confirm(`Please verify with your gmail?`)) {
-              window.localStorage.setItem(
-                "socialLogin",
-                JSON.stringify(this.$route.params)
-              );
-              window.open("/api/auth/social-login/google", "_self");
+            if (this.$auth.loggedIn) {
+              this.loading = true;
+              this.errorMessage = null;
+              const body = {
+                restaurantID: this.restaurantID,
+                tableID: this.tableData._id,
+                userEmail: this.$auth.user?.email || "",
+                userName: this.$auth.user?.name || "",
+                tableName: this.tableData.name,
+                orderItems: this.cartItems,
+                ...this.form,
+              };
+              const { additionalMode, email, manualOrder } = this.$route.query;
+              if (additionalMode && email) {
+                body.additionalMode = true;
+                body.externalUserEmail = email;
+              }
+              await this.$orderApi.createOrder(body);
+              this.clearCart();
+              if ((additionalMode && email) || manualOrder) {
+                this.$router.push({ name: "dashboard-order" });
+              } else {
+                this.show = false;
+                this.orderAnimation = true;
+                setTimeout(() => {
+                  this.orderAnimation = false;
+                }, 4000);
+                this.getOrder();
+              }
+            } else {
+              if (confirm(`Please verify with your gmail?`)) {
+                window.localStorage.setItem(
+                  "socialLogin",
+                  JSON.stringify(this.$route.params)
+                );
+                window.open("/api/auth/social-login/google", "_self");
+              }
             }
           }
         } else {

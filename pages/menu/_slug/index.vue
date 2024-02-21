@@ -46,6 +46,7 @@ export default {
       categories: [],
       subCategories: [],
       featureCategories: [],
+      tableList: [],
       restaurant: {},
       table: {},
       socialLogin: null,
@@ -69,8 +70,8 @@ export default {
           subCategories,
           items,
           table,
-          tableList,
           featureCategories,
+          tableList,
         } = res.data;
         return {
           restaurant,
@@ -78,8 +79,8 @@ export default {
           subCategories,
           items,
           table,
-          featureCategories,
           tableList,
+          featureCategories,
           socialLogin: null,
         };
       } else {

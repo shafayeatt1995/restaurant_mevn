@@ -40,7 +40,11 @@
         >www.scaneating.com</nuxt-link
       ><sup class="text-base">®</sup>
     </p>
-    <MenuCart v-if="!editMode" :restaurant="restaurant" />
+    <MenuCart
+      v-if="!editMode"
+      :restaurant="restaurant"
+      :tableList="tableList"
+    />
     <div class="mb-16"></div>
   </div>
 </template>
@@ -54,6 +58,7 @@ export default {
     categories: Array,
     featureCategories: Array,
     subCategories: Array,
+    tableList: Array,
     restaurant: Object,
   },
   data() {
