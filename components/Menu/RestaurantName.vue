@@ -137,8 +137,8 @@ export default {
       if (this.editMode) {
         this.form = {
           name: this.restaurant.name,
-          userID: this.$auth.user._id,
-          restaurantID: this.$auth.user.restaurant._id,
+          userID: this.$auth.user?._id || "",
+          restaurantID: this.$auth.user?.restaurant?._id || "",
         };
         this.selected = { url: this.restaurant.logo };
       }

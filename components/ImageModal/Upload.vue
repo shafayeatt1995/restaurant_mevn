@@ -1,5 +1,8 @@
 <template>
-  <div class="mt-5">
+  <div class="">
+    <p class="text-gray-700 mt-4 mb-2">
+      You can upload max {{ activeSubscription ? 200 : 50 }} images
+    </p>
     <vue-dropzone
       id="myDropzone"
       ref="myDropzone"
@@ -15,12 +18,13 @@
     </div>
   </div>
 </template>
+
 <script>
 let vueDropzone;
 if (process.client) {
   vueDropzone = require("vue2-dropzone");
 }
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "UploadImage",
   ssr: false,
@@ -51,6 +55,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["activeSubscription"]),
     modal: {
       get() {
         return this.$attrs.value;

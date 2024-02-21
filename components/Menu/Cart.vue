@@ -352,8 +352,8 @@ export default {
             const body = {
               restaurantID: this.restaurantID,
               tableID: this.table._id,
-              userEmail: this.$auth.user.email,
-              userName: this.$auth.user.name,
+              userEmail: this.$auth.user?.email || "",
+              userName: this.$auth.user?.name || "",
               tableName: this.table.name,
               orderItems: this.cartItems,
               ...this.form,

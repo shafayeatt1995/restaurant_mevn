@@ -54,7 +54,7 @@ export default {
 
   css: [],
 
-  pageTransition: { name: "fade", mode: "out-in" },
+  // pageTransition: { name: "fade", mode: "out-in" },
 
   plugins: [
     "~/plugins",

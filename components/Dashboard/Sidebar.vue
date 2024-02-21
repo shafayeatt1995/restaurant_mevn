@@ -12,15 +12,21 @@
       <img
         loading="lazy"
         class="object-cover w-24 h-24 mx-2 rounded-full"
-        :src="manager ? $auth.user.restaurant.logo : $auth.user.avatar"
+        :src="
+          manager
+            ? $auth?.user?.restaurant?.logo || ''
+            : $auth.user?.avatar || ''
+        "
         alt="avatar"
       />
       <h4 v-if="manager" class="mx-2 mt-2 font-medium text-gray-800">
-        {{ $auth.user.restaurant.name }}
+        {{ $auth.user?.restaurant?.name || "" }}
       </h4>
-      <h4 class="mx-2 mt-2 font-medium text-gray-800">{{ $auth.user.name }}</h4>
+      <h4 class="mx-2 mt-2 font-medium text-gray-800">
+        {{ $auth.user?.name || "" }}
+      </h4>
       <p class="mx-2 mt-1 text-sm font-medium text-gray-800">
-        {{ $auth.user.type }}
+        {{ $auth.user?.type || "" }}
       </p>
     </div>
 

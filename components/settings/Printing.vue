@@ -47,17 +47,17 @@ export default {
   data() {
     return {
       form: {
-        printName: this.$auth.user.restaurant.printName || "",
-        printAddress: this.$auth.user.restaurant.printAddress || "",
-        printPhone: this.$auth.user.restaurant.printPhone || "",
-        printEmail: this.$auth.user.restaurant.printEmail || "",
-        printWebsite: this.$auth.user.restaurant.printWebsite || "",
-        customMessage: this.$auth.user.restaurant.customMessage || "",
-        bin: this.$auth.user.restaurant.bin || "",
-        mushak: this.$auth.user.restaurant.mushak || "",
+        printName: this.$auth.user?.restaurant?.printName || "",
+        printAddress: this.$auth.user?.restaurant?.printAddress || "",
+        printPhone: this.$auth.user?.restaurant?.printPhone || "",
+        printEmail: this.$auth.user?.restaurant?.printEmail || "",
+        printWebsite: this.$auth.user?.restaurant?.printWebsite || "",
+        customMessage: this.$auth.user?.restaurant?.customMessage || "",
+        bin: this.$auth.user?.restaurant?.bin || "",
+        mushak: this.$auth.user?.restaurant?.mushak || "",
       },
       imageModal: false,
-      selected: { url: this.$auth.user.restaurant.printImage },
+      selected: { url: this.$auth.user?.restaurant?.printImage },
       errors: {},
     };
   },

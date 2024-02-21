@@ -29,33 +29,41 @@
           fullWidth
           class="flex-1"
         />
-        <div
-          class="bg-white py-3 px-1 grid gap-1 lg:gap-3 my-3"
-          v-if="active === 'Table view'"
-          :class="
-            tables.length > 7 || isMobile
-              ? 'grid-cols-[repeat(auto-fit,_minmax(110px,_1fr))]'
-              : 'grid-cols-[repeat(auto-fit,_minmax(128px,_130px))]'
-          "
-        >
+        <template v-if="active === 'Table view'">
           <div
-            class="h-28 rounded-lg shadow flex flex-col justify-center items-center justify-self-center w-full cursor-pointer"
-            :class="tableBgClass(table)"
-            v-for="(table, key) in tables"
-            :key="key"
-            @click="openOrder(table)"
+            class="flex items-center text-center h-96 bg-white"
+            v-if="tables && tables.length === 0"
           >
-            <div class="text-gray-700">
-              <TableIcon />
-            </div>
-            <p class="text-gray-700 font-semibold text-lg">
-              {{ table.name }}
-            </p>
-            <span class="font-bold text-gray-700" :key="refreshTrigger">{{
-              showTableTime(table)
-            }}</span>
+            <EmptyMessage title="No Table found" />
           </div>
-        </div>
+          <div
+            v-else
+            class="bg-white py-3 px-1 grid gap-1 lg:gap-3 my-3"
+            :class="
+              tables.length > 7 || isMobile
+                ? 'grid-cols-[repeat(auto-fit,_minmax(110px,_1fr))]'
+                : 'grid-cols-[repeat(auto-fit,_minmax(128px,_130px))]'
+            "
+          >
+            <div
+              class="h-28 rounded-lg shadow flex flex-col justify-center items-center justify-self-center w-full cursor-pointer"
+              :class="tableBgClass(table)"
+              v-for="(table, key) in tables"
+              :key="key"
+              @click="openOrder(table)"
+            >
+              <div class="text-gray-700">
+                <TableIcon />
+              </div>
+              <p class="text-gray-700 font-semibold text-lg">
+                {{ table.name }}
+              </p>
+              <span class="font-bold text-gray-700" :key="refreshTrigger">{{
+                showTableTime(table)
+              }}</span>
+            </div>
+          </div>
+        </template>
         <template v-else>
           <div class="flex flex-col lg:flex-row justify-between pt-3 gap-5">
             <div class="flex items-center justify-between lg:justify-start">
@@ -548,7 +556,7 @@
             manager
               ? false
               : orderDetails.waiterID
-              ? $auth.user._id !== orderDetails.waiterID
+              ? $auth.user?._id !== orderDetails.waiterID
               : false
           "
           :loading="cancelLoading"
@@ -799,7 +807,7 @@ export default {
       if (this.manager) {
         return false;
       } else {
-        return this.orderDetails.waiterID === this.$auth.user._id
+        return this.orderDetails.waiterID === this.$auth.user?._id
           ? false
           : true;
       }
@@ -1174,7 +1182,7 @@ export default {
     checkStatus(item) {
       if (this.waiter) {
         if (item.waiterID) {
-          return item.waiterID == this.$auth.user._id;
+          return item.waiterID == this.$auth.user?._id;
         } else {
           return true;
         }
@@ -1201,7 +1209,7 @@ export default {
       if (find) {
         if (find.waiterID && !this.manager) {
           const data =
-            find.waiterID === this.$auth.user._id
+            find.waiterID === this.$auth.user?._id
               ? this.getClass(find?.status)
               : "bg-white";
           return data;
@@ -1221,7 +1229,7 @@ export default {
         if (this.activeSubscription) {
           this.$router.push({
             name: "menu-slug-table",
-            params: { slug: this.$auth.user.restaurant.slug, table: serial },
+            params: { slug: this.$auth.user?.restaurant?.slug, table: serial },
             query: { manualOrder: true },
           });
         }

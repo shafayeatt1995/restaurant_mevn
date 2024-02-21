@@ -6,7 +6,7 @@
           {{ $moment().format("ddd DD, MMM YYYY") }}
         </p>
         <h2 class="text-3xl font-medium text-gray-700 mb-2">
-          Hello, {{ $auth.user.restaurant.name }}
+          Hello, {{ $auth?.user?.restaurant?.name }}
         </h2>
       </div>
     </section>

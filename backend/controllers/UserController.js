@@ -605,7 +605,7 @@ const controller = {
     try {
       const { _id, email } = req.user;
       const { name } = req.body;
-      const restaurant = await Restaurant.findOne({ _id });
+      const restaurant = await Restaurant.findOne({ userID: _id });
       if (!restaurant) {
         await User.updateOne(
           { _id, email },

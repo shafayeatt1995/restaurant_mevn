@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       form: {
-        name: this.$auth.user.name || "",
+        name: this.$auth.user?.name || "",
       },
       errors: {},
       loading: false,

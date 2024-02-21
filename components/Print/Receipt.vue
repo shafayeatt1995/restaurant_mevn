@@ -245,7 +245,7 @@ export default {
   },
   computed: {
     restaurant() {
-      return this.$auth.user.restaurant;
+      return this.$auth.user?.restaurant;
     },
   },
   created() {

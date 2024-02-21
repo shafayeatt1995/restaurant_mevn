@@ -13,7 +13,7 @@ export default {
   mounted() {
     if (this.$auth?.user?.restaurant?._id) {
       socket.on(
-        `order-notification-${this.$auth.user.restaurant._id}`,
+        `order-notification-${this.$auth.user?.restaurant?._id}`,
         (data) => {
           this.$nuxt.$emit("order-notification-socket-data", data);
           this.showNotification(data);

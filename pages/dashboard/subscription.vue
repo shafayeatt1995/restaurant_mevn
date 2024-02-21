@@ -20,13 +20,14 @@
         >
           <div class="flex flex-col justify-between h-full">
             <div>
-              <p class="font-medium text-gray-500 uppercase">1 Months</p>
+              <p class="font-medium text-gray-700 uppercase">Life time</p>
 
-              <h2 class="text-4xl font-semibold text-gray-800 uppercase">
-                <p class="">৳500</p>
+              <h2 class="text-4xl font-semibold text-gray-800 uppercase mt-8">
+                FREE
               </h2>
             </div>
             <button
+              @click="modal = true"
               class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80"
             >
               Active
@@ -44,11 +45,13 @@
                 <p class="">৳5000</p>
               </h2>
             </div>
-            <button
+            <a
+              href="https://wa.me/01728293635"
+              target="_blank"
               class="w-full px-4 py-2 mt-10 tracking-wide text-gray-900 capitalize transition-colors duration-300 transform bg-white rounded-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:ring focus:ring-gray-200 focus:ring-opacity-80 font-bold"
             >
-              Active
-            </button>
+              Contact us
+            </a>
           </div>
         </div>
 
@@ -57,18 +60,19 @@
         >
           <div class="flex flex-col justify-between h-full">
             <div>
-              <p class="font-medium text-gray-700 uppercase">Life time</p>
+              <p class="font-medium text-gray-500 uppercase">1 Months</p>
 
-              <h2 class="text-4xl font-semibold text-gray-800 uppercase mt-8">
-                FREE
+              <h2 class="text-4xl mt-8 font-semibold text-gray-800 uppercase">
+                <p class="">৳500</p>
               </h2>
             </div>
-            <button
-              @click="modal = true"
+            <a
+              href="https://wa.me/01728293635"
+              target="_blank"
               class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80"
             >
-              Active
-            </button>
+              Contact us
+            </a>
           </div>
         </div>
       </div>
@@ -106,6 +110,12 @@
         </div>
       </form>
     </Modal>
+    <Modal v-model="messageModal">
+      <h1 class="text-3xl my-3 text-center">{{ message }}</h1>
+      <Button variant="red" @click.native.prevent="logOut" class="w-full mt-4"
+        >Logout</Button
+      >
+    </Modal>
   </div>
 </template>
 <script>
@@ -119,9 +129,11 @@ export default {
   },
   data() {
     return {
+      messageModal: false,
       modal: false,
       form: { name: "" },
       errors: {},
+      message: "",
     };
   },
   computed: {
@@ -140,11 +152,22 @@ export default {
   methods: {
     async freeSubscription() {
       try {
-        await this.$userApi.createRestaurant(this.form);
-        window.location.reload();
+        // await this.$userApi.createRestaurant(this.form);
+        this.modal = false;
+        this.form = { name: "" };
+        this.message =
+          "Please logout and login again otherwise some functions may not work properly";
+        this.$nuxt.$emit("success", "Restaurant account added successfully");
+        this.messageModal = true;
       } catch (error) {
         this.errors = error?.response?.data?.errors;
       }
+    },
+    async logOut() {
+      try {
+        await this.$auth.logout("laravelJWT");
+        this.$router.push({ name: "auth-login" });
+      } catch (error) {}
     },
   },
 };
