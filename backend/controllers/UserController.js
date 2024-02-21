@@ -600,20 +600,37 @@ const controller = {
   },
 
   async createRestaurant(req, res) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
-      const { _id } = req.user;
+      const { _id, email } = req.user;
       const { name } = req.body;
       const restaurant = await Restaurant.findOne({ _id });
       if (!restaurant) {
-        await Restaurant.create({
-          userID: _id,
-          name,
-          slug: stringSlug(name),
-        });
+        await User.updateOne(
+          { _id, email },
+          { $set: { type: "manager" } },
+          { session }
+        );
+        await Restaurant.create(
+          [
+            {
+              userID: _id,
+              name,
+              slug: stringSlug(name),
+            },
+          ],
+          { session }
+        );
       }
+
+      await session.commitTransaction();
+      await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
+      await session.abortTransaction();
+      await session.endSession();
       res.status(500).json({
         success: false,
         message: "Something wrong. Please try again",

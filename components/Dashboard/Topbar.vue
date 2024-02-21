@@ -58,7 +58,7 @@
           >
             <nuxt-link :to="{ name: 'dashboard-settings' }">
               <font-awesome-icon :icon="['fas', 'gear']" class="text-xl" />
-              <span class="mx-4 font-medium">Logout</span>
+              <span class="mx-4 font-medium">Settings</span>
             </nuxt-link>
           </div>
           <div

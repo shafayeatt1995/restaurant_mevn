@@ -140,8 +140,8 @@ export default {
   methods: {
     async freeSubscription() {
       try {
-        const data = await this.$userApi.createRestaurant(this.form);
-        console.log(data);
+        await this.$userApi.createRestaurant(this.form);
+        window.location.reload();
       } catch (error) {
         this.errors = error?.response?.data?.errors;
       }
