@@ -9,10 +9,7 @@
         <div
           class="rounded-full bg-gray-100 h-10 w-10 flex justify-center items-center"
         >
-          <font-awesome-icon
-            :icon="['fas', 'chart-simple']"
-            class="text-green-600 text-xl"
-          />
+          <i class="text-green-600 text-xl fas fa-chart-simple" />
         </div>
       </div>
       <div class="h-50 ml-4 flex w-auto flex-col justify-center">
@@ -32,10 +29,7 @@
         <div
           class="rounded-full bg-gray-100 h-10 w-10 flex justify-center items-center"
         >
-          <font-awesome-icon
-            :icon="['fas', 'clipboard-check']"
-            class="text-sky-600 text-xl"
-          />
+          <i class="text-sky-600 text-xl fas fa-clipboard-check" />
         </div>
       </div>
       <div class="h-50 ml-4 flex w-auto flex-col justify-center">
@@ -55,10 +49,7 @@
         <div
           class="rounded-full bg-gray-100 h-10 w-10 flex justify-center items-center"
         >
-          <font-awesome-icon
-            :icon="['fas', 'ban']"
-            class="text-rose-600 text-xl"
-          />
+          <i class="text-rose-600 text-xl fas fa-ban" />
         </div>
       </div>
       <div class="h-50 ml-4 flex w-auto flex-col justify-center">
@@ -78,10 +69,7 @@
         <div
           class="rounded-full bg-gray-100 h-10 w-10 flex justify-center items-center"
         >
-          <font-awesome-icon
-            :icon="['fas', 'chart-simple']"
-            class="text-green-600 text-xl"
-          />
+          <i class="text-green-600 text-xl fas fa-chart-simple" />
         </div>
       </div>
       <div class="h-50 ml-4 flex w-auto flex-col justify-center">
@@ -101,10 +89,7 @@
         <div
           class="rounded-full bg-gray-100 h-10 w-10 flex justify-center items-center"
         >
-          <font-awesome-icon
-            :icon="['fas', 'clipboard-check']"
-            class="text-sky-600 text-xl"
-          />
+          <i class="text-sky-600 text-xl fas fa-clipboard-check" />
         </div>
       </div>
       <div class="h-50 ml-4 flex w-auto flex-col justify-center">
@@ -124,10 +109,7 @@
         <div
           class="rounded-full bg-gray-100 h-10 w-10 flex justify-center items-center"
         >
-          <font-awesome-icon
-            :icon="['fas', 'ban']"
-            class="text-rose-600 text-xl"
-          />
+          <i class="text-rose-600 text-xl fas fa-ban" />
         </div>
       </div>
       <div class="h-50 ml-4 flex w-auto flex-col justify-center">

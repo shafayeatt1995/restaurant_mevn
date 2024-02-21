@@ -2,7 +2,7 @@
   <section class="bg-white shadow-xl rounded-xl p-3">
     <div class="flex justify-between mb-3">
       <h2 class="text-gray-700 text-xl font-bold mb-1 text-center">
-        Waiter order: <font-awesome-icon :icon="['fas', 'receipt']" />
+        Waiter order: <i class="fas fa-receipt" />
         <span v-if="activeSubscription">
           {{ totalOrder | currencyNumber }}
         </span>
@@ -28,7 +28,7 @@
           <p
             class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
           >
-            <font-awesome-icon :icon="['fas', 'lock']" />
+            <i class="fas fa-lock" />
           </p>
         </Upgrade>
         <Upgrade class="mt-2"> Upgrade your account</Upgrade>
@@ -38,10 +38,7 @@
         v-else-if="items && items.length === 0 && activeSubscription"
         class="h-96 flex flex-col justify-center items-center gap-4"
       >
-        <font-awesome-icon
-          :icon="['fas', 'chart-pie']"
-          class="text-9xl text-rose-600"
-        />
+        <i class="text-9xl text-rose-600 fas chart-pie" />
         <p class="text-gray-700">No data found</p>
       </div>
       <template v-else>

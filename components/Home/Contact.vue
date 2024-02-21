@@ -21,7 +21,7 @@
             <span
               class="p-3 text-green-600 rounded-full bg-green-100 w-16 h-16 flex justify-center items-center"
             >
-              <font-awesome-icon :icon="['far', 'envelope']" class="text-3xl" />
+              <i class="far fa-envelope text-3xl" />
             </span>
 
             <h2 class="mt-4 text-base font-medium text-gray-800">Email</h2>
@@ -41,7 +41,7 @@
             <span
               class="p-3 text-green-600 rounded-full bg-green-100 w-16 h-16 flex justify-center items-center"
             >
-              <font-awesome-icon :icon="['fab', 'whatsapp']" class="text-3xl" />
+              <i class="fab fa-whatsapp text-3xl" />
             </span>
 
             <h2 class="mt-4 text-base font-medium text-gray-800">Live chat</h2>
@@ -52,7 +52,7 @@
               href="https://wa.me/01301546040/?text=Hello"
               target="_blank"
               class="text-gray-800"
-              >Start chat <font-awesome-icon :icon="['far', 'comment-dots']"
+              >Start chat <i class="far fa-comment-dots"
             /></a>
           </div>
 
@@ -60,10 +60,7 @@
             <span
               class="p-3 text-green-600 rounded-full bg-green-100 w-16 h-16 flex justify-center items-center"
             >
-              <font-awesome-icon
-                :icon="['fas', 'map-location-dot']"
-                class="text-3xl"
-              />
+              <i class="fas fa-map-location-dot text-3xl" />
             </span>
 
             <h2 class="mt-4 text-base font-medium text-gray-800">Office</h2>
@@ -78,10 +75,7 @@
             <span
               class="p-3 text-green-600 rounded-full bg-green-100 w-16 h-16 flex justify-center items-center"
             >
-              <font-awesome-icon
-                :icon="['fas', 'phone-volume']"
-                class="text-3xl"
-              />
+              <i class="fas fa-phone-volume text-3xl" />
             </span>
 
             <h2 class="mt-4 text-base font-medium text-gray-800">Phone</h2>

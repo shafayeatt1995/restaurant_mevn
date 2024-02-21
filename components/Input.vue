@@ -6,18 +6,15 @@
       }}</label>
       <div class="relative flex items-center">
         <span class="absolute" v-if="field.icon">
-          <font-awesome-icon
-            :icon="field.icon"
-            class="w-5 h-5 mx-3 text-gray-300"
-          />
+          <i :class="field.icon" class="w-5 h-5 mx-3 text-gray-300" />
         </span>
         <span
           class="absolute right-0 top-0 h-full"
           v-if="field.inlineSubmit?.show"
         >
           <Button class="h-full" @click.native.prevent="$emit('action')">
-            <font-awesome-icon
-              :icon="field.inlineSubmit.icon"
+            <i
+              :class="field.inlineSubmit.icon"
               v-if="field.inlineSubmit.icon"
             />
             {{ field.inlineSubmit.text }}

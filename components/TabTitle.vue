@@ -16,7 +16,7 @@
         type="button"
         v-if="show"
       >
-        <font-awesome-icon :icon="icon" :class="iconClass ?? ''" v-if="icon" />
+        <i :class="[icon, iconClass ?? '']" v-if="icon" />
         <span class="mx-1 text-sm sm:text-base"> {{ title }}</span>
       </button>
     </template>

@@ -10,14 +10,14 @@
           :class="align === 'single' ? 'bg-gray-900 text-white' : ''"
           @click="setAlign('single')"
         >
-          <font-awesome-icon :icon="['fas', 'bars']" />
+          <i class="fas fa-bars" />
         </p>
         <p
           class="transition-all duration-300 w-10 h-10 flex justify-center items-center rounded-md cursor-pointer"
           :class="align === 'multiple' ? 'bg-gray-900 text-white' : ''"
           @click="setAlign('multiple')"
         >
-          <font-awesome-icon :icon="['fas', 'table-cells-large']" />
+          <i class="fas fa-table-cells-large" />
         </p>
       </div>
     </div>
@@ -29,7 +29,7 @@
       <p
         class="w-12 h-12 flex justify-center items-center rounded-full border-dotted border-2 border-gray-800 text-2xl cursor-pointer"
       >
-        <font-awesome-icon :icon="['fas', 'plus']" />
+        <i class="fas fa-plus" />
       </p>
       <p>Add new item</p>
     </div>
@@ -55,7 +55,7 @@
                 :class="moveUp ? ' text-gray-300' : ''"
                 @click="!moveUp ? alignCategory('up') : ''"
               >
-                <font-awesome-icon :icon="['fas', 'arrow-left']" />
+                <i class="fas fa-arrow-left" />
                 Move left
               </p>
               <p
@@ -63,7 +63,7 @@
                 :class="moveDown ? ' text-gray-300' : ''"
                 @click="!moveDown ? alignCategory('down') : ''"
               >
-                Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
+                Move right <i class="fas fa-arrow-right" />
               </p>
             </template>
             <p v-else class="text-gray-700 text-xl">Create item</p>
@@ -93,10 +93,7 @@
                 class="object-contain w-full h-full p-3"
               />
               <template v-else>
-                <font-awesome-icon
-                  :icon="['far', 'image']"
-                  class="text-8xl text-gray-900"
-                />
+                <i class="text-8xl text-gray-900 far fa-image" />
                 <p class="text-lg px-10 text-gray-700">
                   Select an Category image
                 </p>

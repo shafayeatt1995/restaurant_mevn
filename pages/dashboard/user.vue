@@ -10,7 +10,7 @@
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
         <Button @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
-            <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
+            <i class="fas fa-plus mr-2" />
 
             <span class="mx-1 text-sm capitalize">Create new user</span>
           </div>
@@ -44,40 +44,30 @@
             variant="red"
             title="Deleted"
             v-if="value"
-            :icon="['fas', 'xmark']"
+            icon="fas fa-xmark"
           />
-          <Badge
-            variant="green"
-            title="Active"
-            :icon="['fas', 'check']"
-            v-else
-          />
+          <Badge variant="green" title="Active" icon="fas fa-check" v-else />
         </template>
         <template #suspended="{ value }">
           <Badge
             variant="red"
             title="Suspended"
             v-if="value"
-            :icon="['fas', 'xmark']"
+            icon="fas fa-xmark"
           />
-          <Badge
-            variant="green"
-            title="Active"
-            :icon="['fas', 'check']"
-            v-else
-          />
+          <Badge variant="green" title="Active" icon="fas fa-check" v-else />
         </template>
         <template #actions="{ item, index }">
           <div class="flex gap-2">
             <Button @click.native.prevent="editItem(item)">
-              <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+              <i class="fas fa-pen-to-square" />
 
               Edit </Button
             ><Button
               :variant="item.deleted ? 'green' : 'red'"
               @click.native.prevent="deleteItem(item._id, index)"
             >
-              <font-awesome-icon :icon="['fas', 'user-xmark']" />
+              <i class="fas fa-user-xmark" />
 
               {{ item.deleted ? "Active" : "Delete" }}
             </Button>
@@ -85,7 +75,7 @@
               :variant="item.suspended ? 'green' : 'red'"
               @click.native.prevent="suspendItem(item._id, index)"
             >
-              <font-awesome-icon :icon="['fas', 'user-slash']" />
+              <i class="fas fa-user-slash" />
               {{ item.suspended ? "Active" : "Suspend" }}
             </Button>
           </div>
@@ -96,7 +86,7 @@
               @action="modal = true"
               title="No user found"
               buttonText="Add user"
-              :icon="['far', 'circle-xmark']"
+              icon="far fa-circle-xmark"
               iconClass="rotate-45"
             />
           </div>
@@ -199,14 +189,14 @@ export default {
           hide: this.editMode,
           type: "password",
           placeholder: "Password",
-          icon: ["fas", "lock"],
+          icon: "fas fa-lock",
           name: "password",
         },
         {
           hide: this.editMode,
           type: "select",
           placeholder: "Type",
-          icon: ["fas", "lock"],
+          icon: "fas fa-lock",
           name: "type",
           options: [
             // { value: "admin", label: "Admin" },

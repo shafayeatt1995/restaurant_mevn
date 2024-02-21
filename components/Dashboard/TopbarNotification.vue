@@ -10,7 +10,7 @@
       >
         {{ unread }}
       </div>
-      <font-awesome-icon :icon="['far', 'bell']" class="text-2xl" />
+      <i class="text-2xl far fa-bell" />
     </button>
 
     <div
@@ -51,7 +51,7 @@
             <p
               class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
             >
-              <font-awesome-icon :icon="['far', 'bell-slash']" />
+              <i class="far fa-bell-slash" />
             </p>
             <p class="mt-3">There are no notifications</p>
           </div>
@@ -61,7 +61,7 @@
               <p
                 class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
               >
-                <font-awesome-icon :icon="['fas', 'lock']" />
+                <i class="fas fa-lock" />
               </p>
             </Upgrade>
             <Upgrade class="mt-2"> Upgrade your account</Upgrade>

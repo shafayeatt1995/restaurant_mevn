@@ -3,7 +3,7 @@
     <div class="flex flex-col lg:flex-row justify-between lg:items-center">
       <h1 class="font-bold text-xl text-gray-700 py-2 px-2">
         Order:
-        <font-awesome-icon :icon="['fas', 'receipt']" />
+        <i class="fas fa-receipt" />
         <span v-if="activeSubscription">
           {{ totalOrder | currencyNumber }}
         </span>
@@ -29,7 +29,7 @@
           <p
             class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
           >
-            <font-awesome-icon :icon="['fas', 'lock']" />
+            <i class="fas fa-lock" />
           </p>
         </Upgrade>
         <Upgrade class="mt-2"> Upgrade your account</Upgrade>

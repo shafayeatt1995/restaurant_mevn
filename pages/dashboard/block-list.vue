@@ -9,7 +9,7 @@
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
         <Button @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
-            <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
+            <i class="fas fa-plus mr-2" />
 
             <span class="mx-1 text-sm capitalize">Add a user</span>
           </div>
@@ -41,13 +41,12 @@
         <template #actions="{ item, index }">
           <div class="flex gap-2">
             <Button @click.native.prevent="editItem(item)"
-              ><font-awesome-icon :icon="['far', 'pen-to-square']" />
-              Edit</Button
+              ><i class="far fa-pen-to-square" /> Edit</Button
             >
             <Button
               variant="red"
               @click.native.prevent="deleteItem(item._id, index)"
-              ><font-awesome-icon :icon="['far', 'trash-can']" />Delete</Button
+              ><i class="far fa-trash-can" />Delete</Button
             >
           </div>
         </template>
@@ -57,7 +56,7 @@
               @action="modal = true"
               title="No block user found"
               buttonText="Add user"
-              :icon="['far', 'circle-xmark']"
+              icon="far fa-circle-xmark"
               iconClass="rotate-45"
             />
           </div>

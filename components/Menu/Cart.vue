@@ -30,13 +30,13 @@
         <p class="text-xl" v-else>Order</p>
         <p class="text-2xl">
           <transition name="fade" mode="out-in">
-            <font-awesome-icon
-              :icon="['fas', 'wifi']"
+            <i
+              class="fas fa-wifi"
               @click.stop="show = false"
               v-if="$nuxt.isOffline"
             />
-            <font-awesome-icon
-              :icon="['fas', 'xmark']"
+            <i
+              class="fas fa-xmark"
               @click.stop="show = false"
               v-else-if="show"
             />

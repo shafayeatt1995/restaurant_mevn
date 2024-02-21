@@ -3,9 +3,9 @@
     class="inline-flex items-center px-3 py-1 rounded-full gap-x-2"
     :class="variantClass"
   >
-    <font-awesome-icon v-if="icon" :icon="icon" />
+    <i v-if="icon" :class="icon" />
     <h2 class="text-sm font-normal">{{ title }}</h2>
-    <font-awesome-icon v-if="backIcon" :icon="backIcon" />
+    <i v-if="backIcon" :class="backIcon" />
   </div>
 </template>
 <script>
@@ -14,8 +14,8 @@ export default {
   props: {
     variant: { type: String, default: "green" },
     title: String,
-    icon: Array,
-    backIcon: Array,
+    icon: String,
+    backIcon: String,
   },
   computed: {
     variantClass() {

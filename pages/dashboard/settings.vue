@@ -40,18 +40,18 @@ export default {
     ...mapGetters(["pageTitle", "manager", "waiter", "isDev"]),
     tabTitle() {
       return [
-        { title: "Setting", icon: ["fas", "gear"], show: false },
+        { title: "Setting", icon: "fas fa-gear", show: false },
         {
           title: "Profile",
-          icon: ["fas", "circle-user"],
+          icon: "fas fa-circle-user",
         },
         {
           title: "Password",
-          icon: ["fas", "key"],
+          icon: "fas fa-key",
           show: this.manager,
         },
-        { title: "Printing", icon: ["fas", "newspaper"], show: this.manager },
-        { title: "Notification", icon: ["far", "bell"], show: false },
+        { title: "Printing", icon: "fas fa-newspaper", show: this.manager },
+        { title: "Notification", icon: "far fa-bell", show: false },
       ];
     },
   },

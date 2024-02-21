@@ -7,7 +7,7 @@
         >
           <p class="text-gray-700">New order receive</p>
           <Button @click.native.prevent="refetch"
-            ><font-awesome-icon :icon="['fas', 'rotate']" /> Refresh</Button
+            ><i class="fas fa-rotate" /> Refresh</Button
           >
         </div>
       </div>
@@ -17,7 +17,7 @@
     >
       <h2 class="text-3xl font-medium text-gray-700">Order</h2>
       <Button @click.native.prevent="refetch"
-        ><font-awesome-icon :icon="['fas', 'rotate']" /> Refresh</Button
+        ><i class="fas fa-rotate" /> Refresh</Button
       >
     </section>
 
@@ -85,10 +85,9 @@
                   prefix-class="performance-date-picker mx"
                 />
               </client-only>
-              <font-awesome-icon
+              <i
                 v-if="date && date[0] != null && date[1] != null"
-                :icon="['far', 'circle-xmark']"
-                class="text-xl cursor-pointer text-green-500 block lg:hidden"
+                class="text-xl cursor-pointer text-green-500 block lg:hidden far fa-circle-xmark"
                 @click="date = []"
               />
             </div>
@@ -258,7 +257,7 @@
                 class="text-rose-600 ml-3 text-lg cursor-pointer"
                 @click="removeItems(cart)"
               >
-                <font-awesome-icon :icon="['far', 'circle-xmark']" />
+                <i class="far fa-circle-xmark" />
               </span>
             </p>
             <p
@@ -302,7 +301,7 @@
           class="inline"
           @click.native.prevent="addItem"
         >
-          <font-awesome-icon :icon="['fas', 'plus']" />
+          <i class="fas fa-plus" />
           Add additional Item
         </Button>
         <hr class="mt-1" />
@@ -354,9 +353,8 @@
               <p>
                 {{ additional.name }}
                 <span v-if="orderDetails.status === 'billing'"
-                  ><font-awesome-icon
-                    :icon="['fas', 'xmark']"
-                    class="text-red-500 cursor-pointer"
+                  ><i
+                    class="fas fa-xmark text-red-500 cursor-pointer"
                     @click="removeOrderAdditional(i)"
                 /></span>
               </p>
@@ -376,9 +374,8 @@
                   class="border border-gray-700 rounded-lg px-2"
                   placeholder="Additional charge name"
                 />
-                <font-awesome-icon
-                  :icon="['fas', 'xmark']"
-                  class="text-red-500 cursor-pointer ml-1"
+                <i
+                  class="text-red-500 cursor-pointer ml-1 fas fa-xmark"
                   @click="removeAdditional(key)"
                 />
               </div>
@@ -470,7 +467,7 @@
           :disabled="AddItemDisabled"
           :loading="updateLoading"
         >
-          <font-awesome-icon :icon="['far', 'pen-to-square']" /> Update order
+          <i class="far fa-pen-to-square" /> Update order
         </Button>
         <template v-else>
           <Button
@@ -479,7 +476,7 @@
             :loading="updateLoading"
             @click.native.prevent="updateVat"
           >
-            <font-awesome-icon :icon="['fas', 'percent']" />
+            <i class="fas fa-percent" />
             Update extra charges
           </Button>
           <Button
@@ -491,7 +488,7 @@
             class="w-full tracking-wide flex-1"
             @click.native.prevent="printOrder"
           >
-            <font-awesome-icon :icon="['fas', 'print']" />
+            <i class="fas fa-print" />
             Print Receipt
           </Button>
           <Button
@@ -500,7 +497,7 @@
             @click.native.prevent="printOrderDetails()"
             :disabled="AddItemDisabled"
           >
-            <font-awesome-icon :icon="['fas', 'print']" />
+            <i class="fas fa-print" />
             Print kitchen copy
           </Button>
           <Button
@@ -509,7 +506,7 @@
             @click.native.prevent="acceptOrder"
             :loading="acceptLoading"
           >
-            <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
+            <i class="fas fa-check mr-1" />
             Accept order
           </Button>
           <Button
@@ -518,7 +515,7 @@
             @click.native.prevent="billingOrder"
             :loading="acceptLoading"
           >
-            <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
+            <i class="fas fa-check mr-1" />
             Create bill
           </Button>
           <Button
@@ -527,7 +524,7 @@
             @click.native.prevent="manager ? completeOrder() : ''"
             :loading="acceptLoading"
           >
-            <font-awesome-icon :icon="['fas', 'check']" class="mr-1" />
+            <i class="fas fa-check mr-1" />
             Complete order
           </Button>
           <Button
@@ -537,7 +534,7 @@
             :disabled="AddItemDisabled"
             :loading="acceptLoading"
           >
-            <font-awesome-icon :icon="['fas', 'file-lines']" class="mr-1" />
+            <i class="fas fa-file-lines mr-1" />
             Send billing request
           </Button>
         </template>
@@ -561,7 +558,7 @@
           "
           :loading="cancelLoading"
         >
-          <font-awesome-icon :icon="['fas', 'xmark']" /> Cancel order
+          <i class="fas fa-xmark" /> Cancel order
         </Button>
         <Button
           v-if="
@@ -577,7 +574,7 @@
           :disabled="AddItemDisabled"
           :loading="cancelLoading"
         >
-          <font-awesome-icon :icon="['fas', 'xmark']" /> Send cancel request
+          <i class="fas fa-xmark" /> Send cancel request
         </Button>
         <Button
           v-if="
@@ -590,7 +587,7 @@
           :class="orderDetails.status === 'cancel' ? 'col-span-2' : ''"
           @click.native.prevent="modal = false"
         >
-          <font-awesome-icon :icon="['fas', 'xmark']" /> Close
+          <i class="fas fa-xmark" /> Close
         </Button>
       </div>
     </Modal>
@@ -613,9 +610,8 @@
           :key="key"
           @click="selectEmployee = waiter._id"
         >
-          <font-awesome-icon
-            :icon="['far', 'circle-user']"
-            class="text-5xl text-gray-700 group-hover:text-white transition-all duration-200"
+          <i
+            class="text-5xl text-gray-700 group-hover:text-white transition-all duration-200 far fa-circle-user"
             :class="selectEmployee === waiter._id ? 'text-white' : ''"
           />
           <p
@@ -728,40 +724,40 @@ export default {
         {
           title: "Table view",
           status: "pending",
-          icon: ["fas", "table-cells"],
+          icon: "fas fa-table-cells",
           iconClass: "text-grey-700",
         },
         {
           title: "Pending order",
           status: "pending",
-          icon: ["fas", "clock"],
+          icon: "fas fa-clock",
           iconClass: "text-amber-500",
         },
         {
           title: "Active order",
           status: "active",
-          icon: ["fas", "pizza-slice"],
+          icon: "fas fa-pizza-slice",
           iconClass: "text-sky-500",
         },
         {
           title: "Billing order",
           status: "billing",
-          icon: ["fas", "file-invoice"],
+          icon: "fas fa-file-invoice",
           iconClass: "text-purple-500",
         },
         {
           title: "Complete order",
           status: "complete",
-          icon: ["fas", "circle-check"],
+          icon: "fas fa-circle-check",
           iconClass: "text-green-500",
         },
         {
           title: "Cancel order",
           status: "cancel",
-          icon: ["fas", "circle-xmark"],
+          icon: "fas fa-circle-xmark",
           iconClass: "text-rose-500",
         },
-        { title: "All order", status: null, icon: ["fas", "bars-staggered"] },
+        { title: "All order", status: null, icon: "fas fa-bars-staggered" },
       ];
     },
     tabOrderType() {

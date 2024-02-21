@@ -120,7 +120,7 @@ export default {
         {
           type: "password",
           placeholder: "Password",
-          icon: ["fas", "lock"],
+          icon: "fas fa-lock",
           name: "password",
         },
       ],

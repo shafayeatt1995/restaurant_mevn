@@ -24,13 +24,10 @@
           class="p-2 text-white rounded-lg focus:outline-none hover:bg-gray-700"
         >
           <template v-if="!isOpen">
-            <font-awesome-icon
-              :icon="['fas', 'align-justify']"
-              class="text-xl"
-            />
+            <i class="fas fa-align-justify text-xl" />
           </template>
           <template v-else>
-            <font-awesome-icon :icon="['fas', 'xmark']" class="text-xl" />
+            <i class="fas fa-xmark text-xl" />
           </template>
         </button>
       </div>

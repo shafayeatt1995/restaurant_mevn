@@ -108,7 +108,7 @@
             </p>
             <div class="flex justify-between text-gray-700">
               <small>
-                <font-awesome-icon :icon="['far', 'clock']" />
+                <i class="far fa-clock" />
                 {{ item.estimateTime }}
                 minutes
               </small>
@@ -128,10 +128,7 @@
       v-if="items?.length === 0"
       class="flex flex-col justify-center items-center w-full bg-white py-12 shadow-xl rounded-lg"
     >
-      <font-awesome-icon
-        :icon="['fas', 'pizza-slice']"
-        class="text-5xl text-green-500"
-      />
+      <i class="text-5xl text-green-500 fas fa-pizza-slice" />
       <p class="text-gray-700 mt-1">No items found in this category</p>
     </div>
 
@@ -178,7 +175,7 @@
           class="text-2xl absolute mt-3 ml-3 text-gray-700 h-12 w-12 rounded-full bg-gray-300 flex justify-center items-center cursor-pointer"
           @click="modal = false"
         >
-          <font-awesome-icon :icon="['fas', 'chevron-left']" />
+          <i class="fas fa-chevron-left" />
         </div>
         <img
           loading="lazy"
@@ -235,7 +232,7 @@
               v-if="getItemQty > 0"
               key="1"
             >
-              <font-awesome-icon :icon="['fas', 'minus']" />
+              <i class="fas fa-minus" />
             </button>
             <div
               class="bg-green-600 text-white h-14 w-32 text-xl flex justify-center items-center mt-[-16px] mr-[-34px] cursor-pointer rounded-tl-full rounded-bl-full"
@@ -250,13 +247,13 @@
             @click="addCart"
             key="3"
           >
-            <font-awesome-icon :icon="['fas', 'plus']" class="text-3xl" />
+            <i class="fas fa-plus text-3xl" />
           </button>
         </div>
         <div class="px-4 my-5 text-gray-500">
           {{ modalItem.description }}
           <p class="mt-5" v-if="modalItem.estimateTime">
-            <font-awesome-icon :icon="['far', 'clock']" /> Estimate time
+            <i class="far fa-clock" /> Estimate time
             {{ modalItem.estimateTime }} minutes
           </p>
         </div>

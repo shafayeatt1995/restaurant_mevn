@@ -20,7 +20,7 @@
           @click="openModal"
           key="edit"
         >
-          <font-awesome-icon :icon="['fas', 'plus']" />
+          <i class="fas fa-plus" />
           <p class="mx-2 flex text-base whitespace-nowrap">Add</p>
         </li>
         <li
@@ -37,11 +37,7 @@
           <p>{{ item.name }}</p>
           <p v-if="editMode && item._id !== null" class="ml-2 flex">
             |
-            <font-awesome-icon
-              :icon="['fas', 'pencil']"
-              class="ml-2 mt-1"
-              @click.stop="edit(item)"
-            />
+            <i class="ml-2 mt-1 fas fa-pencil" @click.stop="edit(item)" />
           </p>
         </li>
       </transition-group>
@@ -57,7 +53,7 @@
                 :class="moveLeft ? ' text-gray-300' : ''"
                 @click="!moveLeft ? alignCategory('left') : ''"
               >
-                <font-awesome-icon :icon="['fas', 'arrow-left']" />
+                <i class="fas fa-arrow-left" />
                 Move left
               </p>
               <p
@@ -65,7 +61,7 @@
                 :class="moveRight ? ' text-gray-300' : ''"
                 @click="!moveRight ? alignCategory('right') : ''"
               >
-                Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
+                Move right <i class="fas fa-arrow-right" />
               </p>
             </template>
             <p v-else class="text-gray-700 text-xl">Create sub category</p>

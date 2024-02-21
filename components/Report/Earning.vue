@@ -27,7 +27,7 @@
           <p
             class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
           >
-            <font-awesome-icon :icon="['fas', 'lock']" />
+            <i class="fas fa-lock" />
           </p>
         </Upgrade>
         <Upgrade class="mt-2"> Upgrade your account</Upgrade>

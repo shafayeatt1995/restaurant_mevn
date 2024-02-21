@@ -33,7 +33,7 @@
               class="pt-5 font-medium capitalize"
               :class="getStatue(order.status)?.class || ''"
             >
-              <font-awesome-icon :icon="getStatue(order.status)?.icon || ''" />
+              <i :class="getStatue(order.status)?.icon || ''" />
               {{ order.status }}
             </td>
             <td class="pt-5 font-medium">
@@ -67,15 +67,15 @@ export default {
     },
     getStatue(status) {
       if (status === "pending") {
-        return { icon: ["fas", "clock"], class: "text-amber-500" };
+        return { icon: "fas fa-clock", class: "text-amber-500" };
       } else if (status === "active") {
-        return { icon: ["fas", "pizza-slice"], class: "text-sky-500" };
+        return { icon: "fas fa-pizza-slice", class: "text-sky-500" };
       } else if (status === "cancel") {
-        return { icon: ["fas", "circle-xmark"], class: "text-rose-500" };
+        return { icon: "fas fa-circle-xmark", class: "text-rose-500" };
       } else if (status === "complete") {
-        return { icon: ["fas", "circle-check"], class: "text-green-500" };
+        return { icon: "fas fa-circle-check", class: "text-green-500" };
       } else if (status === "billing") {
-        return { icon: ["fas", "file-invoice"], class: "text-purple-500" };
+        return { icon: "fas fa-file-invoice", class: "text-purple-500" };
       }
     },
   },

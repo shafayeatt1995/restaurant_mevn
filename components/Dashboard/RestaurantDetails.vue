@@ -27,7 +27,7 @@
             </a>
           </span>
           <div class="pr-2">
-            <font-awesome-icon :icon="['far', 'copy']" class="text-gray-700" />
+            <i class="text-gray-700 far fa-copy" />
           </div>
         </code>
         <a class="btn btn-primary !btn-outline mt-4"> Set up domain </a>

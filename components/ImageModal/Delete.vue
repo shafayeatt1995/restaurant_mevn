@@ -15,10 +15,7 @@
             v-if="checkId(image)"
             class="flex items-center justify-center absolute w-full h-full bg-gray-800 bg-opacity-70"
           >
-            <font-awesome-icon
-              :icon="['fas', 'circle-check']"
-              class="text-2xl"
-            />
+            <i class="text-2xl fas fa-circle-check" />
           </div>
         </transition>
         <img
@@ -38,7 +35,7 @@
         @action="$emit('activeUpload')"
         title="No Images found"
         buttonText="Upload Image"
-        :icon="['fas', 'cloud-arrow-up']"
+        icon="fas fa-cloud-arrow-up"
       />
     </div>
     <div
@@ -55,7 +52,7 @@
         @click.native.prevent="select"
         :disabled="selected.length === 0"
       >
-        <font-awesome-icon :icon="['fas', 'trash-can']" />
+        <i class="fas fa-trash-can" />
         Delete Images
       </Button>
     </div>

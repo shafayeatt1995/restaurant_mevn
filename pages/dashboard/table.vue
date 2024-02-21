@@ -9,7 +9,7 @@
       <div class="flex flex-col mt-6 md:flex-row md:-mx-1 md:mt-0">
         <Button @click.native.prevent="modal = true">
           <div class="flex items-center justify-center -mx-1">
-            <font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />
+            <i class="fas plus mr-2" />
 
             <span class="mx-1 text-sm capitalize">Create new table</span>
           </div>
@@ -26,17 +26,16 @@
         <template #actions="{ item, index }">
           <div class="flex gap-2">
             <Button @click.native.prevent="generateQR(item)"
-              ><font-awesome-icon :icon="['fas', 'qrcode']" /> Generate QR
+              ><i class="fas fa-qrcode" /> Generate QR
             </Button>
             <Button @click.native.prevent="editItem(item)"
-              ><font-awesome-icon :icon="['far', 'pen-to-square']" />
-              Edit</Button
+              ><i class="far fa-pen-to-square" /> Edit</Button
             >
             <Button
               v-if="isDev"
               variant="red"
               @click.native.prevent="deleteItem(item._id, index)"
-              ><font-awesome-icon :icon="['far', 'trash-can']" />Delete</Button
+              ><i class="far fa-trash-can" />Delete</Button
             >
           </div>
         </template>
@@ -46,7 +45,7 @@
               @action="modal = true"
               title="No table found"
               buttonText="Add table"
-              :icon="['far', 'circle-xmark']"
+              icon="far fa-circle-xmark"
               iconClass="rotate-45"
             />
           </div>
@@ -132,14 +131,14 @@
             class="w-full tracking-wide flex-1"
             @click.native.prevent="printQRCode"
           >
-            <font-awesome-icon :icon="['fas', 'print']" />
+            <i class="fas fa-print" />
             Print QrCode
           </Button>
           <Button
             class="w-full tracking-wide flex-1"
             @click.native.prevent="downloadQR"
           >
-            <font-awesome-icon :icon="['fas', 'download']" />
+            <i class="fas fa-download" />
             Download QrCode
           </Button>
           <Button

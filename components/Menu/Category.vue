@@ -26,11 +26,7 @@
           <span class="capitalize">{{ item.name }}</span>
           <span v-if="editMode" class="ml-2">
             |
-            <font-awesome-icon
-              :icon="['fas', 'pencil']"
-              class="ml-2"
-              @click.stop="edit(item)"
-            />
+            <i class="fas fa-pencil ml-2" @click.stop="edit(item)" />
           </span>
         </p>
       </div>
@@ -42,7 +38,7 @@
         <div
           class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-3"
         >
-          <font-awesome-icon :icon="['fas', 'plus']" />
+          <i class="fas fa-plus" />
         </div>
         <p class="mx-2 flex text-sm whitespace-nowrap text-gray-800">
           Add Feature category
@@ -71,11 +67,7 @@
           <span class="capitalize">{{ item.name }}</span>
           <span v-if="editMode" class="ml-2">
             |
-            <font-awesome-icon
-              :icon="['fas', 'pencil']"
-              class="ml-2"
-              @click.stop="edit(item)"
-            />
+            <i class="fas fa-pencil ml-2" @click.stop="edit(item)" />
           </span>
         </p>
       </div>
@@ -87,7 +79,7 @@
         <div
           class="bg-green-500 text-white h-10 w-10 rounded-full text-3xl flex justify-center items-center mt-3"
         >
-          <font-awesome-icon :icon="['fas', 'plus']" />
+          <i class="fas fa-plus" />
         </div>
         <p class="mx-2 flex text-sm whitespace-nowrap text-gray-800">
           Add Category
@@ -104,7 +96,7 @@
                 :class="moveLeft ? ' text-gray-300' : ''"
                 @click="!moveLeft ? alignCategory('left') : ''"
               >
-                <font-awesome-icon :icon="['fas', 'arrow-left']" />
+                <i class="fas fa-arrow-left" />
                 Move left
               </p>
               <p
@@ -112,7 +104,7 @@
                 :class="moveRight ? ' text-gray-300' : ''"
                 @click="!moveRight ? alignCategory('right') : ''"
               >
-                Move right <font-awesome-icon :icon="['fas', 'arrow-right']" />
+                Move right <i class="fas fa-arrow-right" />
               </p>
             </template>
             <p v-else class="text-gray-700 text-xl">
@@ -142,10 +134,7 @@
             class="object-contain w-full h-full p-3"
           />
           <template v-else>
-            <font-awesome-icon
-              :icon="['far', 'image']"
-              class="text-8xl text-gray-900"
-            />
+            <i class="far fa-image text-8xl text-gray-900" />
             <p class="text-lg px-10 text-gray-700">
               Select a {{ featureMode ? "feature" : "" }} Category image
             </p>
@@ -163,9 +152,8 @@
               @click="showItems = !showItems"
             >
               <span>{{ selectedItems.length }} Items Select</span>
-              <font-awesome-icon
-                :icon="['fas', 'chevron-down']"
-                class="transition-all duration-200"
+              <i
+                class="transition-all duration-200 fas fa-chevron-down"
                 :class="showItems ? 'rotate-180' : 'rotate-0'"
               />
             </button>
@@ -209,7 +197,7 @@
                     </p>
                     <div class="flex justify-between text-gray-700">
                       <small>
-                        <font-awesome-icon :icon="['far', 'clock']" />
+                        <i class="far fa-clock" />
                         {{ item.estimateTime }}
                         minutes
                       </small>
@@ -338,7 +326,7 @@ export default {
         {
           type: "text",
           placeholder: "Search",
-          icon: ["fas", "magnifying-glass"],
+          icon: "fas fa-magnifying-glass",
           name: "search",
         },
       ];

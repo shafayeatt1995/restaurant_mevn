@@ -24,7 +24,7 @@
           <p
             class="text-6xl text-center bg-gray-100 h-40 w-40 rounded-full flex justify-center items-center"
           >
-            <font-awesome-icon :icon="['fas', 'lock']" />
+            <i class="fas fa-lock" />
           </p>
         </Upgrade>
         <Upgrade class="mt-2"> Upgrade your account</Upgrade>
@@ -36,10 +36,7 @@
         v-else-if="orders && orders.length === 0 && activeSubscription"
         class="h-96 flex flex-col justify-center items-center gap-4"
       >
-        <font-awesome-icon
-          :icon="['fas', 'chart-pie']"
-          class="text-9xl text-rose-600"
-        />
+        <i class="text-9xl text-rose-600 fas fa-chart-pie" />
         <p class="text-gray-700">No data found</p>
       </div>
       <template v-else>

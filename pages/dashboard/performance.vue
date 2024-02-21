@@ -31,7 +31,7 @@
             <EmptyMessage
               @action="modal = true"
               title="No performance found"
-              :icon="['far', 'circle-xmark']"
+              icon="far fa-circle-xmark"
               iconClass="rotate-45"
             />
           </div>

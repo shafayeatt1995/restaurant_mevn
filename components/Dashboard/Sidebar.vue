@@ -43,7 +43,7 @@
             :class="check(name)"
             :target="target"
           >
-            <font-awesome-icon :icon="icon" class="w-5 h-5" />
+            <i :class="icon" class="w-5 h-5" />
             <span class="mx-4 font-medium">{{ title }}</span>
           </nuxt-link>
         </template>
@@ -52,10 +52,7 @@
           class="flex items-center px-4 py-3 mt-2 text-rose-500 transition-colors duration-300 transform rounded-lg hover:text-rose-600 hover:bg-gray-100 w-full"
           @click="logOut"
         >
-          <font-awesome-icon
-            :icon="['fas', 'arrow-right-from-bracket']"
-            class="text-xl"
-          />
+          <i class="fas fa-arrow-right-from-bracket text-xl" />
           <span class="mx-4 font-medium">Logout</span>
         </button>
       </nav>
@@ -78,73 +75,67 @@ export default {
           show: this.manager || this.waiter || this.admin,
           name: "dashboard",
           title: "Dashboard",
-          icon: ["fas", "cubes"],
+          icon: "fas fa-cubes",
         },
         {
           show: this.admin,
           name: "dashboard-user",
           title: "User",
-          icon: ["fas", "users"],
+          icon: "fas fa-users",
         },
         {
           show: this.manager || this.waiter,
           name: "dashboard-order",
           title: "Order",
-          icon: ["fas", "chart-line"],
+          icon: "fas fa-chart-line",
         },
         {
           show: this.manager,
           name: "dashboard-report",
           title: "Report",
-          icon: ["fas", "chart-pie"],
+          icon: "fas fa-chart-pie",
         },
         {
           show: this.manager,
           name: "dashboard-table",
           title: "Table",
-          icon: ["fas", "table-cells-large"],
+          icon: "fas fa-table-cells-large",
         },
         {
           show: this.manager,
           name: "dashboard-employee",
           title: "Employee",
-          icon: ["fas", "users"],
+          icon: "fas fa-users",
         },
-        // {
-        //   show: this.manager,
-        //   name: "dashboard-performance",
-        //   title: "Performance",
-        //   icon: ["fas", "chart-simple"],
-        // },
         {
           show: this.manager,
           name: "dashboard-vat",
           title: "Vat",
-          icon: ["fas", "percent"],
+          icon: "fas fa-percent",
         },
         {
           show: this.manager,
           name: "dashboard-block-list",
           title: "Block List",
-          icon: ["fas", "users-slash"],
+          icon: "fas fa-users-slash",
         },
         {
           show: this.manager,
           name: "dashboard-restaurant",
           title: "Restaurant",
-          icon: ["fas", "utensils"],
+          icon: "fas fa-utensils",
         },
         {
           show: this.manager || this.admin || this.waiter,
           name: "dashboard-settings",
           title: "Settings",
-          icon: ["fas", "gear"],
+          icon: "fas fa-gear",
         },
         {
           show: !this.admin,
           name: "dashboard-subscription",
           title: "Subscription",
-          icon: ["fas", "address-card"],
+          icon: "fas fa-address-card",
         },
       ];
       return nav;

@@ -31,11 +31,10 @@
                       <template v-else>
                         {{ field.hide_title ? "" : field.label }}
                       </template>
-                      <font-awesome-icon
-                        :icon="['fas', 'arrow-down-long']"
+                      <i
+                        class="fas fa-arrow-down-long ml-2"
                         v-if="checkSortable(field)"
                         :class="field.rotate_sort ? 'rotate-180' : ''"
-                        class="ml-2"
                       />
                     </slot>
                   </th>

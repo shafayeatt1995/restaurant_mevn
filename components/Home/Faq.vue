@@ -24,11 +24,8 @@
               {{ faq.question }}
             </h2>
             <p class="text-green-600">
-              <font-awesome-icon
-                :icon="['fas', 'minus']"
-                v-if="key === activeFaq"
-              />
-              <font-awesome-icon :icon="['fas', 'plus']" v-else />
+              <i class="fas fa-minus" v-if="key === activeFaq" />
+              <i class="fas fa-plus" v-else />
             </p>
           </button>
 

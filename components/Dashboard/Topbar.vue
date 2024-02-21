@@ -61,7 +61,7 @@
             class="px-4 py-2 text-gray-700 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100"
           >
             <nuxt-link :to="{ name: 'dashboard-settings' }">
-              <font-awesome-icon :icon="['fas', 'gear']" class="text-xl" />
+              <i class="text-xl fas fa-gear" />
               <span class="mx-4 font-medium">Settings</span>
             </nuxt-link>
           </div>
@@ -69,10 +69,7 @@
             class="px-4 py-2 text-rose-500 transition-colors duration-300 rounded-lg cursor-pointer hover:bg-gray-100 flex items-center"
             @click="logOut()"
           >
-            <font-awesome-icon
-              :icon="['fas', 'arrow-right-from-bracket']"
-              class="text-xl"
-            />
+            <i class="text-xl fas fa-arrow-right-from-bracket" />
             <span class="mx-4 font-medium">Logout</span>
           </div>
         </div>

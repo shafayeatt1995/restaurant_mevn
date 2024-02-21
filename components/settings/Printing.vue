@@ -19,10 +19,7 @@
         class="object-contain w-full h-full p-3"
       />
       <template v-else>
-        <font-awesome-icon
-          :icon="['far', 'image']"
-          class="text-8xl text-gray-900"
-        />
+        <i class="text-8xl text-gray-900 far fa-image" />
         <p class="text-lg px-10 text-gray-700">Select an printing logo</p>
       </template>
     </div>

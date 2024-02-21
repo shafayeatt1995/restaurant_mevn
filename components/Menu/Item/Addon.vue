@@ -1,7 +1,7 @@
 <template>
   <div class="my-2">
     <Button type="button" @click.native.prevent="addAddon">
-      <font-awesome-icon :icon="['fas', 'plus']" /> Add addon</Button
+      <i class="fas fa-plus" /> Add addon</Button
     >
     <div class="h-64" v-if="form.addons.length === 0"></div>
     <div
@@ -14,10 +14,7 @@
         @click="removeAddon(key)"
         type="button"
       >
-        <font-awesome-icon
-          :icon="['fas', 'xmark']"
-          class="text-2xl cursor-pointer"
-        />
+        <i class="text-2xl cursor-pointer fas fa-xmark" />
       </button>
       <input
         type="text"
@@ -31,7 +28,7 @@
           type="button"
           @click.native.prevent="addOption(key)"
         >
-          <font-awesome-icon :icon="['fas', 'plus']" /> Add</Button
+          <i class="fas fa-plus" /> Add</Button
         >
       </div>
       <div
@@ -55,9 +52,8 @@
           class="w-7 h-7 bg-white rounded-full p-1 cursor-pointer flex justify-center items-center"
           @click="removeOption(key, index)"
         >
-          <font-awesome-icon
-            :icon="['far', 'circle-xmark']"
-            class="text-red-500 text-xl"
+          <i
+            class="text-red-500 text-xl far fa-circle-xmark"
             @click="modal = false"
           />
         </div>

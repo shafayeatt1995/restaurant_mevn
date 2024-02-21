@@ -2,8 +2,7 @@
   <div>
     <div class="flex justify-between px-2">
       <Button :to="{ name: 'dashboard' }"
-        ><font-awesome-icon :icon="['fas', 'angle-left']" /> Back to
-        Dashboard</Button
+        ><i class="fas fa-angle-left" /> Back to Dashboard</Button
       >
     </div>
     <div class="absolute right-2 top-2 flex gap-2">

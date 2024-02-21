@@ -21,11 +21,6 @@
                 fullWidth
                 class="flex-1"
               />
-              <!-- <font-awesome-icon
-                :icon="['fas', 'xmark']"
-                class="text-red-500 text-2xl cursor-pointer"
-                @click="modal = false"
-              /> -->
             </div>
             <transition name="fade" mode="out-in">
               <ImageModalSelect
@@ -69,10 +64,10 @@ export default {
   data() {
     return {
       tabTitle: [
-        { title: "Select image", icon: ["far", "images"] },
-        { title: "Preset image", icon: ["far", "images"] },
-        { title: "Upload image", icon: ["fas", "cloud-arrow-up"] },
-        { title: "Delete image", icon: ["fas", "trash-can"] },
+        { title: "Select image", icon: "far fa-images" },
+        { title: "Preset image", icon: "far fa-images" },
+        { title: "Upload image", icon: "fas fa-cloud-arrow-up" },
+        { title: "Delete image", icon: "fas fa-trash-can" },
       ],
       active: "Select image",
     };

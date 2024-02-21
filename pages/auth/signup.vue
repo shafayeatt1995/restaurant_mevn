@@ -137,13 +137,13 @@ export default {
         {
           type: "password",
           placeholder: "Password",
-          icon: ["fas", "lock"],
+          icon: "fas fa-lock",
           name: "password",
         },
         {
           type: "password",
           placeholder: "Confirm Password",
-          icon: ["fas", "lock"],
+          icon: "fas fa-lock",
           name: "confirmPassword",
         },
       ];

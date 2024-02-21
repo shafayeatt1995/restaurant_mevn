@@ -1,10 +1,9 @@
 <template>
   <div class="w-full mx-auto bg-gray-100">
     <div class="flex bg-white">
-      <Button :to="{ name: 'dashboard-order' }" v-if="manualOrder"
-        ><font-awesome-icon :icon="['fas', 'angle-left']" /> Back to
-        Order</Button
-      >
+      <Button :to="{ name: 'dashboard-order' }" v-if="manualOrder">
+        <i class="fas fa-angle-left" /> Back to Order
+      </Button>
     </div>
 
     <MenuRestaurantName :editMode="editMode" :restaurant="restaurant" />
@@ -94,7 +93,7 @@ export default {
       this.activeSubCategory = null;
     },
   },
-  created() {
+  mounted() {
     this.activeCategory =
       this.featureCategories[0]?._id || this.categories[0]?._id;
   },
