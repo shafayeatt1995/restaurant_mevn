@@ -36,4 +36,8 @@ export class UserApi extends BaseApi {
   updatePassword(params) {
     return this.api.$get(`update-password`, { params });
   }
+
+  createRestaurant(body) {
+    return this.api.$post(`create-restaurant`, body);
+  }
 }

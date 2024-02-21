@@ -14,16 +14,16 @@
         Choose the Plan That Fits Your Restaurant's
       </p>
 
-      <div class="grid grid-cols-1 gap-8 mt-6 md:grid-cols-2 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-6 mt-6 lg:grid-cols-3">
         <div
           class="w-full p-8 space-y-8 text-center border border-gray-200 rounded-lg"
         >
           <div class="flex flex-col justify-between h-full">
             <div>
-              <p class="font-medium text-gray-700 uppercase">1 Month</p>
+              <p class="font-medium text-gray-500 uppercase">1 Months</p>
 
-              <h2 class="text-4xl font-semibold text-gray-800 uppercase mt-8">
-                ৳500
+              <h2 class="text-4xl font-semibold text-gray-800 uppercase">
+                <p class="">৳500</p>
               </h2>
             </div>
             <button
@@ -37,11 +37,11 @@
         <div class="w-full p-8 space-y-8 text-center bg-gray-900 rounded-lg">
           <div class="flex flex-col justify-between h-full">
             <div>
-              <p class="font-medium text-gray-200 uppercase">6 Months</p>
+              <p class="font-medium text-gray-200 uppercase">12 Months</p>
 
               <h2 class="text-5xl font-bold text-white uppercase">
-                <del class="text-2xl">৳3000</del>
-                <p class="">৳2500</p>
+                <del class="text-2xl">৳6000</del>
+                <p class="">৳5000</p>
               </h2>
             </div>
             <button
@@ -57,14 +57,14 @@
         >
           <div class="flex flex-col justify-between h-full">
             <div>
-              <p class="font-medium text-gray-500 uppercase">12 Months</p>
+              <p class="font-medium text-gray-700 uppercase">Life time</p>
 
-              <h2 class="text-4xl font-semibold text-gray-800 uppercase">
-                <del class="text-2xl">৳6000</del>
-                <p class="">৳5000</p>
+              <h2 class="text-4xl font-semibold text-gray-800 uppercase mt-8">
+                FREE
               </h2>
             </div>
             <button
+              @click="modal = true"
               class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80"
             >
               Active
@@ -73,6 +73,39 @@
         </div>
       </div>
     </div>
+    <Modal v-model="modal">
+      <div class="flex justify-between items-center">
+        <h1
+          class="text-lg font-medium leading-6 text-gray-700 capitalize"
+          id="modal-title"
+        >
+          Create restaurant
+        </h1>
+        <CloseButton @click.native.prevent="modal = false" />
+      </div>
+      <form class="" @submit.prevent="freeSubscription">
+        <Input
+          v-for="(field, i) in inputFields"
+          :key="i"
+          :field="field"
+          v-model="form"
+          :errors="errors"
+        />
+        <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
+          <Button class="w-full tracking-wide flex-1" type="submit">
+            Create restaurant Account
+          </Button>
+          <Button
+            variant="red"
+            type="button"
+            class="w-full tracking-wide flex-1"
+            @click.native.prevent="modal = false"
+          >
+            Close
+          </Button>
+        </div>
+      </form>
+    </Modal>
   </div>
 </template>
 <script>
@@ -80,12 +113,39 @@ import { mapGetters } from "vuex";
 export default {
   name: "Subscription",
   layout: "dashboard",
-  middleware: "manager",
+  middleware: "managerOrUser",
   head() {
-    return { title: "Settings - " + this.pageTitle };
+    return { title: "Subscription - " + this.pageTitle };
+  },
+  data() {
+    return {
+      modal: false,
+      form: { name: "" },
+      errors: {},
+    };
   },
   computed: {
     ...mapGetters(["pageTitle"]),
+    inputFields() {
+      return [
+        {
+          type: "text",
+          placeholder: "Restaurant name",
+          name: "name",
+          label: { id: "name", title: "Restaurant name" },
+        },
+      ];
+    },
+  },
+  methods: {
+    async freeSubscription() {
+      try {
+        const data = await this.$userApi.createRestaurant(this.form);
+        console.log(data);
+      } catch (error) {
+        this.errors = error?.response?.data?.errors;
+      }
+    },
   },
 };
 </script>

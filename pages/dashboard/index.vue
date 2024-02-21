@@ -18,7 +18,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageTitle", "manager", "waiter"]),
+    ...mapGetters(["pageTitle", "manager", "waiter", "user"]),
+  },
+  mounted() {
+    if (this.user) {
+      this.$router.push({ name: "dashboard-subscription" });
+    }
   },
 };
 </script>

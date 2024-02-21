@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { User, Restaurant, Order } = require("@/backend/models");
-const { paginate } = require("@/backend/utils");
+const { paginate, stringSlug } = require("@/backend/utils");
 const bcrypt = require("bcryptjs");
 const moment = require("moment");
 
@@ -589,6 +589,28 @@ const controller = {
       const { new: password } = req.query;
       const hashPassword = await bcrypt.hashSync(password, 10);
       await User.updateOne({ _id }, { password: hashPassword });
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
+  async createRestaurant(req, res) {
+    try {
+      const { _id } = req.user;
+      const { name } = req.body;
+      const restaurant = await Restaurant.findOne({ _id });
+      if (!restaurant) {
+        await Restaurant.create({
+          userID: _id,
+          name,
+          slug: stringSlug(name),
+        });
+      }
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);

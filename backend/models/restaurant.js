@@ -37,15 +37,16 @@ RestaurantSchema.pre("save", async function (next) {
   }
 
   try {
-    const lastRestaurant = await doc.constructor
-      .findOne({}, {}, { sort: { _id: -1 } })
-      .limit(1);
+    // const lastRestaurant = await doc.constructor
+    //   .findOne({}, {}, { sort: { _id: -1 } })
+    //   .limit(1);
+    // if (lastRestaurant) {
+    //   doc.slug = doc.slug + randomKey(2, true);
+    // } else {
+    //   doc.slug = 1 + randomKey(2, true);
+    // }
 
-    if (lastRestaurant) {
-      doc.slug = +lastRestaurant.slug.slice(0, -2) + 1 + randomKey(2, true);
-    } else {
-      doc.slug = 1 + randomKey(2, true);
-    }
+    doc.slug = doc.slug + randomKey(2);
 
     next();
   } catch (error) {

@@ -186,6 +186,15 @@ const updateProfileVal = [
     .trim(),
 ];
 
+const createRestaurantVal = [
+  check("name")
+    .isLength({ min: 1 })
+    .withMessage("Name required")
+    .isLength({ max: 100 })
+    .withMessage("Don't try to spam")
+    .trim(),
+];
+
 const updatePasswordVal = [
   check("old")
     .notEmpty()
@@ -237,4 +246,5 @@ module.exports = {
   updateEmployeeVal,
   updateProfileVal,
   updatePasswordVal,
+  createRestaurantVal,
 };

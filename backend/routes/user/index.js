@@ -5,6 +5,7 @@ const { validation } = require("@/backend/validation");
 const {
   updateProfileVal,
   updatePasswordVal,
+  createRestaurantVal,
 } = require("@/backend/validation/user");
 const {
   getOrder,
@@ -13,6 +14,7 @@ const {
 const {
   updateProfile,
   updatePassword,
+  createRestaurant,
 } = require("@/backend/controllers/UserController");
 
 router.get("/profile", profile);
@@ -20,6 +22,12 @@ router.get("/order", getOrder);
 router.get("/bill-request", billRequest);
 router.get("/update-profile", updateProfileVal, validation, updateProfile);
 router.get("/update-Password", updatePasswordVal, validation, updatePassword);
+router.post(
+  "/create-restaurant",
+  createRestaurantVal,
+  validation,
+  createRestaurant
+);
 
 router.use("/image", require("./image"));
 
