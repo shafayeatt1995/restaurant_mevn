@@ -125,13 +125,13 @@ export default {
         {
           type: "text",
           placeholder: "Name",
-          icon: ["far", "user"],
+          icon: "far fa-user",
           name: "name",
         },
         {
           type: "email",
           placeholder: "Email",
-          icon: ["far", "envelope"],
+          icon: "far fa-envelope",
           name: "email",
         },
         {

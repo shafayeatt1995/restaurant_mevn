@@ -176,13 +176,13 @@ export default {
         {
           type: "text",
           placeholder: "Name",
-          icon: ["far", "user"],
+          icon: "far fa-user",
           name: "name",
         },
         {
           type: "text",
           placeholder: "Email",
-          icon: ["far", "envelope"],
+          icon: "far fa-envelope",
           name: "email",
         },
         {
@@ -210,7 +210,7 @@ export default {
           hide: this.form.type !== "manager" || this.editMode,
           type: "text",
           placeholder: "Restaurant Name",
-          icon: ["far", "user"],
+          icon: "far fa-user",
           name: "restaurantName",
         },
       ];

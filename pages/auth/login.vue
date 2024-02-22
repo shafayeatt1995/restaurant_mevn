@@ -114,7 +114,7 @@ export default {
         {
           type: "text",
           placeholder: "Email or phone",
-          icon: ["far", "envelope"],
+          icon: "far fa-envelope",
           name: "email",
         },
         {
