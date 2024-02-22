@@ -205,7 +205,7 @@
             </div>
           </div>
         </div>
-        <div v-else-if="existOrder">
+        <div v-else-if="existOrder && table._id !== 'undefined'">
           <p class="text-gray-700 text-center text-xl mt-5">
             If your food is finished then click the button for request your bill
           </p>
@@ -213,7 +213,7 @@
             <img
               loading="lazy"
               src="/images/eating.png"
-              class="w-1/2"
+              class="max-w-1/2 max-h-60"
               alt="eating image"
             />
             <Button @click.native.prevent="requestBill" class="mt-5"
