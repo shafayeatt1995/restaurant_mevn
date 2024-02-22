@@ -2,8 +2,8 @@
   <section class="bg-white p-4 rounded-xl shadow-lg">
     <div class="flex justify-between pb-6 gap-2 items-center">
       <div class="space-y-2 text-center md:text-left sm">
-        <h2 class="text-lg">Restaurant Details</h2>
-        <h2 class="text-xl font-bold">
+        <h2 class="text-lg text-gray-700">Restaurant Details</h2>
+        <h2 class="text-xl font-bold text-gray-800">
           {{ $auth.user?.restaurant?.name || "N/A" }}
         </h2>
       </div>
