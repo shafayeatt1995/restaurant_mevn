@@ -12,13 +12,13 @@
     </section>
     <DashboardSummery />
     <!-- <div class="grid grid-cols-1 lg:grid-cols-2" v-if="manager">
-      <DashboardRestaurantDetails />
     </div> -->
-    <DashboardMonthlySalesChart />
     <div class="my-3 px-2 lg:px-6 grid gap-4 grid-cols-1 lg:grid-cols-2">
-      <DashboardWeeklySalesChart />
+      <DashboardRestaurantDetails />
+      <!-- <DashboardWeeklySalesChart /> -->
       <DashboardRecentOrder />
     </div>
+    <DashboardMonthlySalesChart />
   </div>
 </template>
 <script>

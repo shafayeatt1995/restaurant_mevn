@@ -1,37 +1,40 @@
 <template>
-  <section class="px-2 lg:px-6">
-    <div class="bg-white p-4 rounded-xl shadow-lg">
-      <div class="flex justify-between pb-6 gap-2 items-center">
-        <div class="space-y-2 text-center md:text-left sm">
-          <h2 class="text-lg">Restaurant Details</h2>
-          <h2 class="text-xl font-bold">
-            {{ $auth.user?.restaurant?.name || "N/A" }}
-          </h2>
-        </div>
-        <QrcodeVue
-          value="http://localhost:8080/menu/1c"
-          size="100"
-          level="L"
-          render-as="svg"
-        />
+  <section class="bg-white p-4 rounded-xl shadow-lg">
+    <div class="flex justify-between pb-6 gap-2 items-center">
+      <div class="space-y-2 text-center md:text-left sm">
+        <h2 class="text-lg">Restaurant Details</h2>
+        <h2 class="text-xl font-bold">
+          {{ $auth.user?.restaurant?.name || "N/A" }}
+        </h2>
       </div>
-      <div class="">
-        <code
-          class="text-sm sm:text-base inline-flex flex-wrap items-center space-x-4 bg-gray-100 w-full text-black rounded-lg p-2 md:p-4 md:pl-6"
+      <QrcodeVue :value="url" size="110" level="L" render-as="svg" />
+    </div>
+    <div class="">
+      <code
+        class="text-sm sm:text-base inline-flex flex-wrap items-center space-x-4 bg-gray-100 w-full text-black rounded-lg p-2 md:p-4 md:pl-6"
+      >
+        <span
+          class="flex-1 gap-4 text-center sm:overflow-x-scroll md:overflow-auto"
         >
-          <span
-            class="flex-1 gap-4 text-center sm:overflow-x-scroll md:overflow-auto"
+          <a
+            target="_blank"
+            :href="url"
+            class="overflow-hidden whitespace-nowrap text-ellipsis"
           >
-            <a target="_blank" :href="url">
-              {{ url }}
-            </a>
-          </span>
-          <div class="pr-2">
-            <i class="text-gray-700 far fa-copy" />
-          </div>
-        </code>
-        <a class="btn btn-primary !btn-outline mt-4"> Set up domain </a>
-      </div>
+            {{ url }}
+          </a>
+        </span>
+        <div class="pr-2 cursor-pointer" @click="copy">
+          <i class="text-gray-700 far fa-copy" />
+        </div>
+      </code>
+      <Button
+        :disabled="!this.manager"
+        class="w-full mt-4"
+        @click.native.prevent="setup"
+      >
+        Set up domain
+      </Button>
     </div>
   </section>
 </template>
@@ -46,9 +49,25 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["baseUrl"]),
+    ...mapGetters(["baseUrl", "manager"]),
     url() {
-      return `${this.baseUrl}/${this.$auth.user?.restaurant?.slug}`;
+      return `${this.baseUrl}/menu/${this.$auth.user?.restaurant?.slug}`;
+    },
+  },
+  methods: {
+    setup() {
+      console.log("ami anik");
+      this.$router.push({
+        name: "dashboard-settings",
+        query: { tab: "Domain" },
+      });
+    },
+    async copy() {
+      try {
+        console.log(this.url);
+        await navigator.clipboard.writeText(this.url);
+        this.$nuxt.$emit("success", "Text copied");
+      } catch (error) {}
     },
   },
 };

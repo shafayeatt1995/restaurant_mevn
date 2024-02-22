@@ -116,7 +116,7 @@
             <QrcodeVue
               :value="url"
               :size="qrCode.size"
-              level="H"
+              level="L"
               render-as="svg"
               :background="qrCode.background"
               :foreground="qrCode.foreground"

@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between">
       <div class="text-xl font-semibold text-gray-700">Recent orders</div>
     </div>
-    <div class="mt-2">
+    <div class="max-h-56 overflow-y-auto w-full mt-2">
       <table class="w-full">
         <thead class="border-b">
           <tr class="text-gray-500 text-left">

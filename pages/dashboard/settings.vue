@@ -8,7 +8,7 @@
       </div>
     </section>
     <section class="px-4">
-      <div class="p-4 bg-white">
+      <div class="p-4 bg-white rounded-xl">
         <TabTitle :tabTitle="tabTitle" v-model="activeTab" />
         <div class="mt-4">
           <SettingsSetting v-if="activeTab === 'Setting'" />
@@ -16,6 +16,7 @@
           <SettingsPrinting v-else-if="activeTab === 'Printing'" />
           <SettingsProfile v-else-if="activeTab === 'Profile'" />
           <SettingsPassword v-else-if="activeTab === 'Password'" />
+          <SettingsDomain v-else-if="activeTab === 'Domain'" />
         </div>
       </div>
     </section>
@@ -52,6 +53,11 @@ export default {
         },
         { title: "Printing", icon: "fas fa-newspaper", show: this.manager },
         { title: "Notification", icon: "far fa-bell", show: false },
+        {
+          title: "Domain",
+          icon: "fas fa-globe",
+          show: this.manager,
+        },
       ];
     },
   },

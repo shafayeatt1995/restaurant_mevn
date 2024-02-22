@@ -68,7 +68,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["manager", "admin", "waiter"]),
+    ...mapGetters(["manager", "admin", "waiter", "user"]),
     navLink() {
       const nav = [
         {
@@ -132,7 +132,7 @@ export default {
           icon: "fas fa-gear",
         },
         {
-          show: !this.admin,
+          show: this.manager || this.user,
           name: "dashboard-subscription",
           title: "Subscription",
           icon: "fas fa-address-card",
