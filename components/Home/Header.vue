@@ -28,8 +28,8 @@
               <NuxtLink
                 class="px-7 py-[10px] text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-gray-900 rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold shadow-xl"
                 :to="{
-                  name: 'menu-slug-table',
-                  params: { slug: '1c', table: 'table-1-lx' },
+                  name: 'menu-slug',
+                  params: { slug: '1c' },
                 }"
                 target="_blank"
               >
