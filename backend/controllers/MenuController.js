@@ -21,15 +21,20 @@ const controller = {
       });
       let findTable;
       let tableList;
-      if (table) {
-        findTable = await Table.findOne({
-          restaurantID: restaurant._id,
-          serial: table ?? "",
-        });
-      } else {
+      if (table === undefined) {
         tableList = await Table.find({
           restaurantID: restaurant._id,
         });
+      } else {
+        const tableFindOne = await Table.findOne({
+          restaurantID: restaurant._id,
+          serial: table ?? "",
+        });
+        if (tableFindOne) {
+          findTable = tableFindOne;
+        } else {
+          throw new Error("Couldn't find");
+        }
       }
       const categories = await Category.find({
         restaurantID: restaurant._id,

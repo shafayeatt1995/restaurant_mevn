@@ -123,7 +123,7 @@ const controller = {
           tableID,
           status: { $in: ["pending", "active", "billing"] },
         });
-        if (checkOrder) {
+        if (checkOrder && userEmail !== "guest") {
           if (checkOrder.userEmail === userEmail || additionalMode) {
             const checkAdditionalOrderNumber = checkOrder.orderItems.reduce(
               (max, current) =>

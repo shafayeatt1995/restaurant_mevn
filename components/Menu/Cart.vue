@@ -377,14 +377,14 @@ export default {
           if (this.table._id === "undefined" && this.form.table === "") {
             this.errors = { table: { msg: "Select a table" } };
           } else {
-            if (this.$auth.loggedIn) {
+            if (this.table._id === "undefined") {
               this.loading = true;
               this.errorMessage = null;
               const body = {
                 restaurantID: this.restaurantID,
                 tableID: this.tableData._id,
-                userEmail: this.$auth.user?.email || "",
-                userName: this.$auth.user?.name || "",
+                userEmail: this.$auth.user?.email || "guest",
+                userName: this.$auth.user?.name || "guest",
                 tableName: this.tableData.name,
                 orderItems: this.cartItems,
                 ...this.form,
@@ -407,12 +407,44 @@ export default {
                 this.getOrder();
               }
             } else {
-              if (confirm(`Please verify with your gmail?`)) {
-                window.localStorage.setItem(
-                  "socialLogin",
-                  JSON.stringify(this.$route.params)
-                );
-                window.open("/api/auth/social-login/google", "_self");
+              if (this.$auth.loggedIn) {
+                this.loading = true;
+                this.errorMessage = null;
+                const body = {
+                  restaurantID: this.restaurantID,
+                  tableID: this.tableData._id,
+                  userEmail: this.$auth.user?.email || "",
+                  userName: this.$auth.user?.name || "",
+                  tableName: this.tableData.name,
+                  orderItems: this.cartItems,
+                  ...this.form,
+                };
+                const { additionalMode, email, manualOrder } =
+                  this.$route.query;
+                if (additionalMode && email) {
+                  body.additionalMode = true;
+                  body.externalUserEmail = email;
+                }
+                await this.$orderApi.createOrder(body);
+                this.clearCart();
+                if ((additionalMode && email) || manualOrder) {
+                  this.$router.push({ name: "dashboard-order" });
+                } else {
+                  this.show = false;
+                  this.orderAnimation = true;
+                  setTimeout(() => {
+                    this.orderAnimation = false;
+                  }, 4000);
+                  this.getOrder();
+                }
+              } else {
+                if (confirm(`Please verify with your gmail?`)) {
+                  window.localStorage.setItem(
+                    "socialLogin",
+                    JSON.stringify(this.$route.params)
+                  );
+                  window.open("/api/auth/social-login/google", "_self");
+                }
               }
             }
           }

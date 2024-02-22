@@ -24,6 +24,7 @@ const signupValidation = [
             "shafayetalanik@gmail.com",
             "admin@admin.com",
             "scaneating@admin.com",
+            "guest",
           ]);
           return admin_emails.has(email);
         };
