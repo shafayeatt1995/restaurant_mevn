@@ -11,11 +11,9 @@
       </div>
     </section>
     <DashboardSummery />
-    <!-- <div class="grid grid-cols-1 lg:grid-cols-2" v-if="manager">
-    </div> -->
     <div class="my-3 px-2 lg:px-6 grid gap-4 grid-cols-1 lg:grid-cols-2">
-      <DashboardRestaurantDetails />
-      <!-- <DashboardWeeklySalesChart /> -->
+      <DashboardRestaurantDetails v-if="manager" />
+      <DashboardWeeklySalesChart v-else-if="waiter" />
       <DashboardRecentOrder />
     </div>
     <DashboardMonthlySalesChart />
@@ -26,7 +24,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "DashboardManager",
   computed: {
-    ...mapGetters(["manager"]),
+    ...mapGetters(["manager", "waiter"]),
   },
 };
 </script>
