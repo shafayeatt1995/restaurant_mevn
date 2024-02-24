@@ -39,14 +39,38 @@ export default {
     ],
     script: [
       {
-        defer: true,
+        hid: "google-tag-manager-script",
+        innerHTML: `
+          <!-- Google Tag Manager -->
+          <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-NKNCBRGH');</script>
+          <!-- End Google Tag Manager -->
+        `,
+        head: true,
+      },
+      {
+        async: true,
         src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
         body: true,
       },
       {
-        defer: true,
         type: "text/javascript",
         src: `/gtag.js`,
+        body: true,
+      },
+    ],
+    noscript: [
+      {
+        hid: "google-tag-manager-noscript",
+        innerHTML: `
+          <!-- Google Tag Manager (noscript) -->
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKNCBRGH"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          <!-- End Google Tag Manager (noscript) -->
+        `,
         body: true,
       },
     ],
@@ -66,8 +90,6 @@ export default {
     { src: "~/plugins/datePicker.js", mode: "client" },
     { src: "~/plugins/carousel.js", mode: "client" },
     { src: "~/plugins/google-fonts.js", mode: "client" },
-    { src: "~/plugins/google-tag.js", mode: "client" },
-
   ],
 
   components: true,
