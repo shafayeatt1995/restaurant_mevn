@@ -42,16 +42,16 @@ export default {
         src: `/gtag-head.js`,
         head: true,
       },
-      {
-        async: true,
-        src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
-        body: true,
-      },
-      {
-        type: "text/javascript",
-        src: `/gtag.js`,
-        body: true,
-      },
+      // {
+      //   async: true,
+      //   src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
+      //   body: true,
+      // },
+      // {
+      //   type: "text/javascript",
+      //   src: `/gtag.js`,
+      //   body: true,
+      // },
     ],
   },
 
