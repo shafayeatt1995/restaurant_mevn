@@ -3,21 +3,21 @@
     <div class="flex items-center justify-between">
       <div class="text-xl font-semibold text-gray-700">Recent orders</div>
     </div>
-    <div class="max-h-56 overflow-y-auto w-full mt-2">
+    <div class="max-h-72 overflow-y-auto w-full mt-2">
       <table class="w-full">
         <thead class="border-b">
           <tr class="text-gray-500 text-left">
             <th class="pb-1">
-              <p class="text-xs">Order No.</p>
+              <p class="text-sm">Order No.</p>
             </th>
             <th class="pb-1">
-              <p class="text-xs">Table</p>
+              <p class="text-sm">Table</p>
             </th>
             <th class="pb-1">
-              <p class="text-xs">Status</p>
+              <p class="text-sm">Status</p>
             </th>
             <th class="pb-1">
-              <p class="text-xs">Net Price</p>
+              <p class="text-sm">Net Price</p>
             </th>
           </tr>
         </thead>

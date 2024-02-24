@@ -117,7 +117,11 @@
                   <p
                     class="font-normal flex justify-center items-center text-2xl mb-2"
                   >
-                    <TableIcon class="w-10 mr-2" />
+                    <ParcelIcon
+                      class="w-10 mr-2"
+                      v-if="item.orderType === 'Parcel'"
+                    />
+                    <TableIcon class="w-10 mr-2" v-else />
                     <span class="font-bold">{{ item.tableName }}</span>
                   </p>
                   <p class="font-normal">
@@ -192,7 +196,7 @@
       </div>
       <hr class="my-3" />
       <div
-        class="grid grid-cols-1 lg:grid-cols-2 justify-between text-gray-700"
+        class="grid grid-cols-1 lg:grid-cols-2 justify-between text-gray-700 gap-1"
       >
         <p>
           <span class="font-semibold">Order No:</span>
@@ -220,6 +224,18 @@
         <p>
           <span class="font-semibold">Waiter:</span>
           {{ orderDetails.waiterName || "#" }}
+        </p>
+        <p v-if="orderDetails?.parcelName">
+          <span class="font-semibold">Parcel Customer:</span>
+          {{ orderDetails.parcelName }}
+        </p>
+        <p v-if="orderDetails?.parcelPhone">
+          <span class="font-semibold">Parcel Phone:</span>
+          {{ orderDetails.parcelPhone }}
+        </p>
+        <p v-if="orderDetails?.parcelAddress">
+          <span class="font-semibold">Parcel Address:</span>
+          {{ orderDetails.parcelAddress }}
         </p>
       </div>
       <hr class="my-2" />

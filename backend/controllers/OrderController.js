@@ -96,6 +96,9 @@ const controller = {
         orderType,
         additionalMode = false,
         externalUserEmail,
+        parcelName,
+        parcelPhone,
+        parcelAddress,
       } = req.body;
 
       const { isManager, isWaiter, _id, name } = req.user;
@@ -123,7 +126,7 @@ const controller = {
           tableID,
           status: { $in: ["pending", "active", "billing"] },
         });
-        if (checkOrder && userEmail !== "guest") {
+        if (checkOrder && userEmail !== "guest" && orderType === "Dine in") {
           if (checkOrder.userEmail === userEmail || additionalMode) {
             const checkAdditionalOrderNumber = checkOrder.orderItems.reduce(
               (max, current) =>
@@ -169,19 +172,14 @@ const controller = {
               { new: true, sort: { _id: -1 } }
             );
             const restaurant = await Restaurant.findOne({ _id: restaurantID });
-            if (!isManager) {
-              const notification = await Notification.create({
-                restaurantID,
-                type: "updateOrder",
-                additional: { orderID: update._id },
-                title: `Order updated`,
-                body: `Table: ${tableName} order: #${update.orderNumber} is updated`,
-              });
-              global.io.emit(
-                `order-notification-${restaurantID}`,
-                notification
-              );
-            }
+            const notification = await Notification.create({
+              restaurantID,
+              type: "updateOrder",
+              additional: { orderID: update._id },
+              title: `Order updated`,
+              body: `Table: ${tableName} order: #${update.orderNumber} is updated`,
+            });
+            global.io.emit(`order-notification-${restaurantID}`, notification);
 
             if (restaurant) {
               const { userID } = restaurant;
@@ -198,6 +196,10 @@ const controller = {
             });
           }
         } else {
+          let parcelData = {};
+          if (orderType === "Parcel") {
+            parcelData = { parcelName, parcelPhone, parcelAddress };
+          }
           const order = await Order.create({
             userEmail,
             userName,
@@ -215,6 +217,7 @@ const controller = {
             note,
             orderType,
             ...waiterData,
+            ...parcelData,
           });
           const restaurant = await Restaurant.findOne({ _id: restaurantID });
           if (restaurant) {
@@ -224,17 +227,15 @@ const controller = {
               ...waiter,
             ]);
           }
-          if (!isManager) {
-            const notification = await Notification.create({
-              restaurantID,
-              type: "newOrder",
-              additional: { orderID: order._id },
-              title: `New Order`,
-              body: `Receive new order from Table: ${tableName} Order: #${order.orderNumber}`,
-            });
+          const notification = await Notification.create({
+            restaurantID,
+            type: "newOrder",
+            additional: { orderID: order._id },
+            title: `New Order`,
+            body: `Receive new order from Table: ${tableName} Order: #${order.orderNumber}`,
+          });
 
-            global.io.emit(`order-notification-${restaurantID}`, notification);
-          }
+          global.io.emit(`order-notification-${restaurantID}`, notification);
           res.status(200).json({ success: true });
         }
       }

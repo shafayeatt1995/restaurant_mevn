@@ -33,6 +33,8 @@ export default {
         return "text-yellow-500 bg-yellow-100/60";
       } else if (this.variant === "purple") {
         return "text-purple-500 bg-purple-100/60";
+      } else if (this.variant === "billing") {
+        return "text-purple-500 bg-purple-100/60";
       } else if (this.variant === "red") {
         return "text-red-500 bg-red-100/60";
       } else if (this.variant === "amber") {

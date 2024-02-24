@@ -55,6 +55,9 @@ const OrderSchema = new Schema(
     additionalChargesAmount: { type: Number },
     paymentMethod: { type: String },
     paymentReceivedAmount: { type: Number, default: 0 },
+    parcelName: { type: String },
+    parcelPhone: { type: String },
+    parcelAddress: { type: String },
   },
   {
     strict: true,

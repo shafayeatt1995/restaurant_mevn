@@ -79,6 +79,29 @@
             </div>
           </td>
         </tr>
+        <template v-if="orderDetails.orderType === 'Parcel'">
+          <tr>
+            <td colspan="2">
+              <div style="text-align: left">
+                Customer: {{ orderDetails.parcelName }}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div style="text-align: left">
+                Phone: {{ orderDetails.parcelPhone }}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div style="text-align: left">
+                Address: {{ orderDetails.parcelAddress }}
+              </div>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
     <div style="margin-top: 10px"></div>

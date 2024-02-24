@@ -23,14 +23,7 @@
       </tbody>
     </table>
     <div style="margin-top: 5px"></div>
-    <table
-      style="
-        width: 100%;
-        border-collapse: collapse;
-        text-align: center;
-        border: 1px solid #000;
-      "
-    >
+    <table style="width: 100%;border-collapse: collapse;text-align: center;border: 1px solid #000;">
       <tbody style="font-size: 12px">
         <tr style="font-weight: 600; border-bottom: 1px solid #000">
           <td style="width: calc(100% - 30px); border-right: 1px solid #000">
@@ -47,13 +40,7 @@
           v-for="(item, key) in orderDetails?.orderItems"
           :key="key"
         >
-          <td
-            style="
-              width: calc(100% - 30px);
-              border-right: 1px solid #000;
-              text-align: left;
-            "
-          >
+          <td style="width: calc(100% - 30px);border-right: 1px solid #000;text-align: left;">
             <div style="font-size: 20px; font-weight: 700">
               {{ item.name }}
             </div>

@@ -28,7 +28,8 @@
             </div>
             <button
               @click="modal = true"
-              class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80"
+              :disabled="!this.user"
+              class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80 disabled:bg-gray-500"
             >
               Active
             </button>
@@ -41,8 +42,8 @@
               <p class="font-medium text-gray-200 uppercase">12 Months</p>
 
               <h2 class="text-5xl font-bold text-white uppercase">
-                <del class="text-2xl">৳6000</del>
-                <p class="">৳5000</p>
+                <del class="text-2xl">৳{{ 12000 | currencyNumber }}</del>
+                <p class="">৳{{ 10000 | currencyNumber }}</p>
               </h2>
             </div>
             <a
@@ -63,7 +64,7 @@
               <p class="font-medium text-gray-500 uppercase">1 Months</p>
 
               <h2 class="text-4xl mt-8 font-semibold text-gray-800 uppercase">
-                <p class="">৳500</p>
+                <p class="">৳{{ 1000 | currencyNumber }}</p>
               </h2>
             </div>
             <a
@@ -137,7 +138,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["pageTitle"]),
+    ...mapGetters(["pageTitle", "user"]),
     inputFields() {
       return [
         {
