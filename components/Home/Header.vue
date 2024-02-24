@@ -47,14 +47,14 @@
             </div>
           </div>
           <div
-            class="flex items-center justify-center lg:flex-1 lg:w-1/2 lg:h-full animate-bouncy infinite mt-10 lg:mt-0"
+            class="flex items-center justify-center lg:flex-1 lg:w-1/2 animate-bouncy infinite mt-10 lg:mt-0"
           >
             <div
               class="relative lg:before:absolute lg:before:content-[''] before:h-full before:w-full lg:before:border-[10px] lg:before:border-green-500 before:border-solid before:top-6 before:left-6 before:rounded-[56px]"
               5
             >
               <img
-                class="max-w-full h-80 lg:h-[70vh] object-contain relative z-[1]"
+                class="max-w-full max-h-80 lg:max-h-[70vh] object-contain relative z-[1]"
                 src="/images/menu.webp"
                 alt="menu image"
               />

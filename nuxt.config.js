@@ -39,19 +39,15 @@ export default {
     ],
     script: [
       {
-        src: `/gtag-head.js`,
-        head: true,
+        async: true,
+        src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
+        body: true,
       },
-      // {
-      //   async: true,
-      //   src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
-      //   body: true,
-      // },
-      // {
-      //   type: "text/javascript",
-      //   src: `/gtag.js`,
-      //   body: true,
-      // },
+      {
+        type: "text/javascript",
+        src: `/gtag.js`,
+        body: true,
+      },
     ],
   },
 
@@ -68,7 +64,7 @@ export default {
     { src: "~/plugins/apexChart.js", mode: "client" },
     { src: "~/plugins/datePicker.js", mode: "client" },
     { src: "~/plugins/carousel.js", mode: "client" },
-    { src: "~/plugins/google-fonts.js", mode: "client" },
+    // { src: "~/plugins/google-fonts.js", mode: "client" },
   ],
 
   components: true,
