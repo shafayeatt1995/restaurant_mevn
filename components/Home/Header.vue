@@ -4,7 +4,7 @@
       <div class="relative container px-4 py-8 lg:py-16 mx-auto h-full z-[2]">
         <div class="items-center flex h-full flex-col lg:flex-row">
           <div class="flex-1 flex flex-col justify-center">
-            <div class="">
+            <div>
               <img src="/logo.png" class="h-20" alt="logo" />
               <h1
                 class="text-3xl font-bold text-gray-800 lg:text-5xl uppercase mt-2"
@@ -51,7 +51,6 @@
           >
             <div
               class="relative lg:before:absolute lg:before:content-[''] before:h-full before:w-full lg:before:border-[10px] lg:before:border-green-500 before:border-solid before:top-6 before:left-6 before:rounded-[56px]"
-              5
             >
               <img
                 class="max-w-full max-h-80 lg:max-h-[70vh] object-contain relative z-[1]"
