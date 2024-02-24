@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="h-full w-full">
     <h1>Three js page</h1>
     <div class="h-full w-full" ref="container"></div>
@@ -125,4 +125,4 @@ export default {
     },
   },
 };
-</script>
+</script> -->

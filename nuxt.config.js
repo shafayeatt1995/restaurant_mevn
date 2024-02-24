@@ -66,6 +66,8 @@ export default {
     { src: "~/plugins/datePicker.js", mode: "client" },
     { src: "~/plugins/carousel.js", mode: "client" },
     { src: "~/plugins/google-fonts.js", mode: "client" },
+    { src: "~/plugins/google-tag.js", mode: "client" },
+
   ],
 
   components: true,
