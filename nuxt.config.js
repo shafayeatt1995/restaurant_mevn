@@ -39,6 +39,11 @@ export default {
     ],
     script: [
       {
+        type: "text/javascript",
+        src: `/gtag-head.js`,
+        head: true,
+      },
+      {
         async: true,
         src: `https://www.googletagmanager.com/gtag/js?id=G-LT5BZHN3QJ`,
         body: true,
@@ -64,26 +69,16 @@ export default {
     { src: "~/plugins/apexChart.js", mode: "client" },
     { src: "~/plugins/datePicker.js", mode: "client" },
     { src: "~/plugins/carousel.js", mode: "client" },
-    // { src: "~/plugins/google-fonts.js", mode: "client" },
+    { src: "~/plugins/google-fonts.js", mode: "client" },
   ],
 
   components: true,
 
   buildModules: [
     "@nuxtjs/tailwindcss",
-    // "@nuxtjs/fontawesome",
     "@nuxtjs/dotenv",
     "@/modules/generator",
   ],
-
-  // fontawesome: {
-  //   component: "i",
-  //   icons: {
-  //     solid: true,
-  //     regular: true,
-  //     brands: true,
-  //   },
-  // },
 
   modules: [
     "@nuxtjs/axios",
