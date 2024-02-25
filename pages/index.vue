@@ -6,6 +6,7 @@
     <HomeFeature />
     <HomeFaq />
     <HomeCustomer />
+    <HomePricing />
     <HomeContact />
     <HomeFooter />
   </div>

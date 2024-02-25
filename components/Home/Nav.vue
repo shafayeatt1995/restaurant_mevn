@@ -40,7 +40,7 @@
           <a
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
             href="#process"
-            >Process</a
+            >How to</a
           >
           <a
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
@@ -56,6 +56,11 @@
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
             href="#customer"
             >Customer</a
+          >
+          <a
+            class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
+            href="#pricing"
+            >Pricing</a
           >
           <a
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"

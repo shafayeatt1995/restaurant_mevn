@@ -26,7 +26,7 @@
           href="#process"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
-          Process
+          How to
         </a>
 
         <a
@@ -46,6 +46,12 @@
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           Customer
+        </a>
+        <a
+          href="#pricing"
+          class="text-gray-700 transition-colors duration-300 hover:text-green-600"
+        >
+          Pricing
         </a>
         <a
           href="#contact"
