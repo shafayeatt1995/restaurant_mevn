@@ -15,54 +15,60 @@
       <div
         class="flex flex-wrap items-center justify-center gap-4 mt-6 lg:gap-6 lg:mt-0"
       >
-        <a
-          href="#home"
+        <nuxt-link
+          :to="{ name: 'index', hash: '#home' }"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           Home
-        </a>
+        </nuxt-link>
 
-        <a
-          href="#process"
+        <nuxt-link
+          :to="{ name: 'index', hash: '#process' }"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           How to
-        </a>
+        </nuxt-link>
 
-        <a
-          href="#feature"
+        <nuxt-link
+          :to="{ name: 'index', hash: '#feature' }"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           Feature
-        </a>
-        <a
-          href="#faq"
+        </nuxt-link>
+        <nuxt-link
+          :to="{ name: 'index', hash: '#faq' }"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           FAQ
-        </a>
-        <a
-          href="#customer"
+        </nuxt-link>
+        <nuxt-link
+          :to="{ name: 'index', hash: '#customer' }"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           Customer
-        </a>
-        <a
-          href="#pricing"
+        </nuxt-link>
+        <nuxt-link
+          :to="{ name: 'index', hash: '#pricing' }"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           Pricing
-        </a>
-        <a
-          href="#contact"
+        </nuxt-link>
+        <nuxt-link
+          :to="{ name: 'index', hash: '#contact' }"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           Contact
-        </a>
+        </nuxt-link>
+        <nuxt-link
+          :to="{ name: 'privacy-policy' }"
+          class="text-gray-700 transition-colors duration-300 hover:text-green-600"
+        >
+          Privacy policy
+        </nuxt-link>
       </div>
 
       <p class="mt-6 text-gray-500 lg:mt-0">
-        © Copyright 2023
+        © Copyright {{ $moment().format("YYYY") }}
         <nuxt-link :to="{ name: 'index' }" class="underline">
           ScanEating.</nuxt-link
         >

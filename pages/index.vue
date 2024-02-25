@@ -1,6 +1,5 @@
 <template>
   <div>
-    <HomeNav />
     <HomeHeader />
     <HomeProcess />
     <HomeFeature />
@@ -8,7 +7,6 @@
     <HomeCustomer />
     <HomePricing />
     <HomeContact />
-    <HomeFooter />
   </div>
 </template>
 
@@ -16,6 +14,7 @@
 import { mapGetters } from "vuex";
 export default {
   name: "indexPage",
+  layout: "home",
   auth: false,
   head() {
     return { title: `Home - ${this.pageTitle}` };

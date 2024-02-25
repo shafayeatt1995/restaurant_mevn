@@ -32,40 +32,43 @@
         class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white md:bg-transparent md: md:mt-0 md:p-0 md:top-0 md:relative md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center shadow-xl md:shadow-none"
       >
         <div class="flex flex-col md:flex-row md:mx-6">
-          <a
+          <nuxt-link
+            :to="{ name: 'index', hash: '#home' }"
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
-            href="#home"
-            >Home</a
           >
-          <a
+            Home
+          </nuxt-link>
+
+          <nuxt-link
+            :to="{ name: 'index', hash: '#process' }"
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
-            href="#process"
-            >How to</a
           >
-          <a
+            How to
+          </nuxt-link>
+          <nuxt-link
+            :to="{ name: 'index', hash: '#feature' }"
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
-            href="#feature"
-            >Feature</a
+            >Feature</nuxt-link
           >
-          <a
+          <nuxt-link
+            :to="{ name: 'index', hash: '#faq' }"
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
-            href="#faq"
-            >FAQ</a
+            >FAQ</nuxt-link
           >
-          <a
+          <nuxt-link
+            :to="{ name: 'index', hash: '#customer' }"
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
-            href="#customer"
-            >Customer</a
+            >Customer</nuxt-link
           >
-          <a
+          <nuxt-link
+            :to="{ name: 'index', hash: '#pricing' }"
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
-            href="#pricing"
-            >Pricing</a
+            >Pricing</nuxt-link
           >
-          <a
+          <nuxt-link
+            :to="{ name: 'index', hash: '#contact' }"
             class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-green-600 md:mx-4 md:my-0"
-            href="#contact"
-            >Contact</a
+            >Contact</nuxt-link
           >
         </div>
 
