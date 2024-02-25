@@ -249,25 +249,37 @@ const controller = {
 
   async fetchOrder(req, res) {
     try {
-      const { page, perPage, status, date, orderType } = req.query;
+      const { page, perPage, status, date, orderType, timezone } = req.query;
       const { restaurantID, isWaiter, _id } = req.user;
       const matchQuery = { restaurantID };
       if (status) {
-        matchQuery.status = status;
+        if (status === "processing") {
+          matchQuery.status = { $in: ["pending", "active", "billing"] };
+        } else {
+          matchQuery.status = status;
+        }
       }
       if (orderType !== "All") {
         matchQuery.orderType = orderType;
       }
       if (date && date[0] != "null" && date[1] != "null") {
-        let startDate = new Date(date[0]);
-        startDate.setHours(0, 0, 0, 0);
+        // let startDate = new Date(date[0]);
+        // startDate.setHours(0, 0, 0, 0);
 
-        let endDate = new Date(date[1]);
-        endDate.setHours(23, 59, 59, 999);
+        // let endDate = new Date(date[1]);
+        // endDate.setHours(23, 59, 59, 999);
+
+        // matchQuery.created_at = {
+        //   $gte: new Date(startDate),
+        //   $lte: new Date(endDate),
+        // };
+
+        const startDate = moment.tz(date[0], timezone).startOf("day");
+        const endDate = moment.tz(date[1], timezone).endOf("day");
 
         matchQuery.created_at = {
-          $gte: new Date(startDate),
-          $lte: new Date(endDate),
+          $gte: startDate.toDate(),
+          $lte: endDate.toDate(),
         };
       }
       if (isWaiter && status !== "pending") {

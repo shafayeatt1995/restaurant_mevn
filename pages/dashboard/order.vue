@@ -744,6 +744,12 @@ export default {
           iconClass: "text-grey-700",
         },
         {
+          title: "Processing order",
+          status: "processing",
+          icon: "fas fa-users-gear",
+          iconClass: "text-grey-700",
+        },
+        {
           title: "Pending order",
           status: "pending",
           icon: "fas fa-clock",
@@ -936,12 +942,15 @@ export default {
         const { status } = this.tabTitle.find(
           ({ title }) => title === this.active
         );
+
+        const timezone = this.$moment.tz.guess();
         const params = {
           perPage: this.perPage,
           page: this.items.length / this.perPage + 1,
           date: this.date,
           status,
           orderType: this.orderType,
+          timezone,
         };
         if (Number.isInteger(params.page)) {
           const { orders } = await this.$mowApi.fetchOrder(params);
