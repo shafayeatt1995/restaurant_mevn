@@ -153,7 +153,7 @@ export default {
   methods: {
     async freeSubscription() {
       try {
-        // await this.$userApi.createRestaurant(this.form);
+        await this.$userApi.createRestaurant(this.form);
         this.modal = false;
         this.form = { name: "" };
         this.message =
