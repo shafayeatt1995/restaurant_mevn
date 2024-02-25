@@ -188,7 +188,10 @@ export default {
       try {
         this.loading = true;
         if (this.editItem) {
-          await this.$managerApi.updateSubCategory(this.form);
+          await this.$managerApi.updateSubCategory({
+            ...this.form,
+            categoryID: this.activeCategory,
+          });
         } else {
           await this.$managerApi.createSubCategory(this.form);
         }
