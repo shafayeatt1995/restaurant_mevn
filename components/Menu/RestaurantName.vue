@@ -123,6 +123,7 @@ export default {
         this.modal = false;
         this.$nuxt.$emit("refetchMenu");
         this.$nuxt.$emit("success", "Restaurant name successfully updated");
+        await this.$auth.fetchUser();
       } catch (error) {
         this.errors = error?.response?.data?.errors;
       } finally {
