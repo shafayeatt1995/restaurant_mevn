@@ -38,7 +38,7 @@ export default {
         hid: "og:description",
         property: "og:description",
         content:
-          "Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy convenience at your fingertips",
+          "Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy",
       },
       {
         hid: "og:image",
@@ -63,7 +63,7 @@ export default {
       {
         hid: "twitter:description",
         name: "twitter:description",
-        content: `Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy convenience at your fingertips`,
+        content: `Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy`,
       },
     ],
     link: [
