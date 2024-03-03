@@ -1,5 +1,5 @@
 <template>
-  <div class="py-10" id="pricing">
+  <section class="py-10" id="pricing">
     <div class="container px-4 py-4 mx-auto">
       <div class="flex flex-col justify-center items-center">
         <h1 class="text-4xl text-gray-800 font-bold">
@@ -40,8 +40,8 @@
               <p class="font-medium text-gray-200 uppercase">12 Months</p>
 
               <h2 class="text-5xl font-bold text-white uppercase">
-                <del class="text-2xl">৳{{ 12000 | currencyNumber }}</del>
-                <p class="">৳{{ 10000 | currencyNumber }}</p>
+                <del class="text-2xl">৳{{ 6000 | currencyNumber }}</del>
+                <p class="">৳{{ 5000 | currencyNumber }}</p>
               </h2>
             </div>
             <a
@@ -62,7 +62,7 @@
               <p class="font-medium text-gray-500 uppercase">1 Months</p>
 
               <h2 class="text-4xl mt-8 font-semibold text-gray-800 uppercase">
-                <p class="">৳{{ 1000 | currencyNumber }}</p>
+                <p class="">৳{{ 500 | currencyNumber }}</p>
               </h2>
             </div>
             <a
@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 <script>
 export default {
