@@ -20,7 +20,7 @@
                 Take your restaurant one step further! It's time to dive into
                 the digital world. Give your customers a modern experience with
                 a menu they can access on their smartphones using a simple QR
-                code. No more paper menus–just scan, browse, and order
+                code. No more paper menus–just Scan, Explore menu, and Order
                 <span class="text-2xl">😊</span>
               </p>
             </div>

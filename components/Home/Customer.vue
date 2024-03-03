@@ -9,7 +9,7 @@
           >
         </h1>
         <p class="text-gray-800 text-center">
-          Browse menus and tap one that catches your interest to experience how
+          Explore menus and tap one that catches your interest to experience how
           it works
         </p>
       </div>

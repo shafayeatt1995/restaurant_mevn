@@ -40,7 +40,7 @@
       improve our Services; and - protect you and the Services by seeking to
       detect and prevent fraud or other acts in breach of our Terms or policies
       relevant to the Services. Information regarding your marketing preferences
-      so we can: - send you customised marketing about our products or services.
+      so we can: - send you customized marketing about our products or services.
       Feedback on your views of our Services in order to: - reply to your
       questions or queries; - publish reviews you submit to us about our
       Restaurants and services; and - conduct analysis and research to improve
@@ -48,13 +48,13 @@
       Activity Information so we can: - provide you with an improved experience;
       - give you access to your Order history and preferences; and - provide
       other services at your request. Cookies and similar technologies so we
-      can: - measure and analyse the use and effectiveness of our Services; -
-      customise and optimise the targeting of advertising for our Services
+      can: - measure and analyze the use and effectiveness of our Services; -
+      customize and optimize the targeting of advertising for our Services
       across other websites and platforms; and - provide location services if
       you choose to share your geo-location. C. Information that we obtain from
       third-party sources Analytics reports and market research surveys in order
       to: - measure the performance of marketing campaigns for our Services; and
-      - better understand your preferences so that we can customise our
+      - better understand your preferences so that we can customize our
       marketing campaigns and Services accordingly. We process information that
       you provide voluntarily, information that we collect automatically and
       information that we obtain from third party sources in order to constantly
@@ -81,7 +81,7 @@
       transactions - any of these third parties might be inside or outside your
       country of residence; Any law enforcement or regulatory body, government
       agency, court or other third party where we believe disclosure is
-      necessary under applicable law or regulations; New owners or re-organised
+      necessary under applicable law or regulations; New owners or re-organized
       entities in the event of a business restructuring, sale, purchase or joint
       venture affecting our business. Any other person provided that you have
       given your consent. We will never sell, distribute or otherwise share your
@@ -114,9 +114,9 @@
     <h4 class="text-2xl mt-5">5. Security</h4>
     <p>
       ScanEating places great importance on protecting your information from and
-      against unauthorised access and against unlawful processing, accidental
+      against unauthorized access and against unlawful processing, accidental
       loss, destruction and damage. We implement appropriate technical and
-      organisational measures to safeguard such information.
+      organizationally measures to safeguard such information.
     </p>
 
     <h4 class="text-2xl mt-5">6. Data retention</h4>
@@ -200,9 +200,7 @@
     <h4 class="text-2xl mt-5">1. INTRODUCTION AND OUR ROLE</h4>
     <p>
       1.1. Company details: ScanEating is a trademark which belongs to
-      ScanEating LLP, a partnership registered in England and Wales with
-      registered partnership number OC430740, whose registered office is at 32
-      Kinburn Street, London, England, SE16 6DW.
+      ScanEating LLP, registered in Bangladesh.
     </p>
 
     <p>
@@ -265,7 +263,7 @@
     <p>3.3. Alcohol, cigarettes and other smoking products:</p>
 
     <p>
-      3.3.1. You acknowledge and agree that: it is an offence for any person
+      3.3.1. You acknowledge and agree that: it is an offense for any person
       under the age of 18 to buy, or attempt to buy, alcohol in the UK, or for
       any person to buy, or attempt to buy, alcohol, tobacco or other smoking
       products in the UK on behalf of any person who is under the age of 18;
@@ -311,7 +309,7 @@
 
     <p>
       4.2. Amending or cancelling your Order: Once you have submitted your Order
-      and your payment has been authorised, you will not be entitled to change
+      and your payment has been authorized, you will not be entitled to change
       or cancel your Order, nor will you be entitled to a refund (please refer
       to paragraphs 4.4 and 5.6 for details of the process relating to rejected
       Orders and refunding of payment). If you wish to change or cancel your
@@ -322,7 +320,7 @@
       requests as they may have already started processing your Order.
     </p>
     <p>
-      4.3. Payment authorisation: Where any payment you make is not authorised,
+      4.3. Payment authorization: Where any payment you make is not authorized,
       your Order will not be processed or communicated to the relevant
       Restaurant.
     </p>
@@ -394,7 +392,7 @@
 
     <p>
       5.5. Credit and discount vouchers: A credit or discount may apply to your
-      Order if you use a promotional voucher or code recognised by the Website
+      Order if you use a promotional voucher or code recognized by the Website
       and endorsed by ScanEating, and you pay for any balance by credit or debit
       card. Please refer to our Voucher Terms &amp; Conditions for the full
       terms and conditions applicable to the use of credit and discount
@@ -419,7 +417,7 @@
     <p>
       5.6. Rejected Orders: Because of standard banking procedures, once you
       have submitted an Order that you are paying for by credit or debit card
-      and your payment has been authorised, your bank or card issuer will
+      and your payment has been authorized, your bank or card issuer will
       "ring-fence" the full amount of your Order. If your Order is subsequently
       rejected by the Restaurant (as described in paragraph 4.4 above) or
       cancelled for any other reason, your bank or card issuer will not transfer
@@ -450,7 +448,7 @@
 
     <p>
       6.3. Changing or cancelling your Order: If you wish to change or cancel
-      your Order after it has been submitted and payment has been authorised,
+      your Order after it has been submitted and payment has been authorized,
       you may contact our Customer Care team as described above and they will
       attempt to contact the Restaurant in order to communicate your requests.
       However, there is no guarantee that we will be able to reach the
@@ -484,7 +482,7 @@
       any compensation to you on behalf of any Restaurant.
     </p>
 
-    <h4 class="text-2xl mt-5">7. LICENCE</h4>
+    <h4 class="text-2xl mt-5">7. LICENSE</h4>
     <p>
       7.1. Terms of permitted use: You are permitted to use the Website and
       print and download extracts from the Website for your own personal
@@ -516,7 +514,7 @@
     </p>
     <p>
       7.1.5. You are not allowed to use any of the materials on the Website or
-      the Website itself for commercial purposes without obtaining a licence
+      the Website itself for commercial purposes without obtaining a license
       from us to do so.
     </p>
     <p>
@@ -579,7 +577,7 @@
 
     <p>9.2.1. breaches any applicable local, national or international law;</p>
     <p>9.2.2. is unlawful or fraudulent;</p>
-    <p>9.2.3. amounts to unauthorised advertising; or</p>
+    <p>9.2.3. amounts to unauthorized advertising; or</p>
     <p>9.2.4. contains viruses or any other harmful programs.</p>
     <p>
       9.3. Visitor Reviews Policy: In particular (but without limitation), any
@@ -700,11 +698,11 @@
       information includes allergy or other dietary information, we will do our
       best to republish this information on the website or app exactly as it
       appears on the restaurant's menu. If you have, or someone you are ordering
-      for has, a concern about food allergies, intolerances or other dietary
+      for has, a concern about food allergies, intolerance or other dietary
       preferences, you should always contact the Restaurant directly before
       placing your order. Please do not use the "leave a note for the
-      Restaurant" box for your food allergies or intolerances, please contact
-      the Restaurant directly.
+      Restaurant" box for your food allergies or intolerance, please contact the
+      Restaurant directly.
     </p>
 
     <p>
@@ -839,12 +837,12 @@
     <p>
       15.1. We will not be liable or responsible for any failure to perform, or
       delay in performance of, any of our obligations under these Website Terms
-      that is caused by events outside our reasonable control ("Force Majeure
+      that is caused by events outside our reasonable control ("Force Majuro
       Event").
     </p>
 
     <p>
-      15.2. A Force Majeure Event includes any act, event, non-occurrence,
+      15.2. A Force Majuro Event includes any act, event, non-occurrence,
       omission or accident beyond our reasonable control and includes in
       particular (without limitation) the following:
     </p>
@@ -873,11 +871,11 @@
     </p>
     <p>
       15.3. Our performance under these Website Terms is deemed to be suspended
-      for the period that any Force Majeure Event continues, and we will have an
+      for the period that any Force Majuro Event continues, and we will have an
       extension of time for performance for the duration of that period. We will
-      use our reasonable endeavours to bring any Force Majeure Event to a close
-      or to find a solution by which our obligations under these Website Terms
-      may be performed despite the Force Majeure Event.
+      use our reasonable endeavors to bring any Force Majuro Event to a close or
+      to find a solution by which our obligations under these Website Terms may
+      be performed despite the Force Majuro Event.
     </p>
 
     <h4 class="text-2xl mt-5">16. ADDITIONAL TERMS</h4>
@@ -956,7 +954,7 @@
     <p>
       We use cookies to improve the quality of our site and service, and to try
       and make your browsing experience meaningful. When you enter our site our
-      web server sends a cookie to your computer which allows us to recognise
+      web server sends a cookie to your computer which allows us to recognize
       your computer but not specifically who is using it. By associating the
       identification numbers in the cookies with other customer information when
       for example you log-in to the site, then we know that the cookie
@@ -989,7 +987,7 @@
       your postcode and what is in your shopping basket whilst you continue to
       order products from our site and/or navigate to different pages of the
       site during your browsing session. We are also able to identify you as
-      being logged in to instalcarte.com and to ensure that you are able to
+      being logged in to scaneating.com and to ensure that you are able to
       access the appropriate features on our site.
     </p>
 
@@ -1019,13 +1017,13 @@
 
     <h4 class="text-2xl mt-5">4. Targeting &amp; Sharing cookies</h4>
     <p>
-      Targeting &amp; sharing cookies offer you a customised browsing experience
+      Targeting &amp; sharing cookies offer you a customized browsing experience
       by providing you with interest based services both on this site and on
-      some other websites too. Cookies which customise your browsing experience
+      some other websites too. Cookies which customize your browsing experience
       on our site only collect information by reference to the IP address that
-      you are using. Some of these customised browsing experiences may be linked
+      you are using. Some of these customized browsing experiences may be linked
       to services provided by third parties which provide these services for
-      recognising that you have visited our site. This information is used to
+      recognizing that you have visited our site. This information is used to
       inform you of products and/or services which may be of interest to you or
       for services provided by our third party partners. These cookies may also
       link to social networks such as Facebook or Twitter provide advertising

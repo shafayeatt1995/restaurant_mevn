@@ -21,13 +21,29 @@ export default {
         hid: "description",
         name: "description",
         content:
-          "ScanEating is a alternate of restaurant traditional menu card. It is complete digital menu solution",
+          "Discover the future of dining with our restaurant QR code scanner menu app. Seamlessly browse digital menus, place orders, and enjoy a touchless dining experience. Explore our innovative solution today!",
       },
       {
         hid: "keyword",
         name: "keyword",
         content:
-          "scan, eat, scaneat, scan eat, eating, scaneating, scan eating, menu, restaurant qr menu, qr menu, emenu, digital menu, virtual menu, menu scanner, menu scanning, digital scanner menu, digital scanning menu, complete digital menu solution, Restaurant menu, restaurant, restaurant scanner, restaurant scanning, restaurant qr code scanner, qr code scanner",
+          "QR code menu, Digital menu, Restaurant menu app, QR code scanner, Menu scanning, Electronic menu, Restaurant technology, Menu management, Online ordering, Contactless menu, Touchless menu, Mobile menu, Menu display, Menu customization, Food ordering app, Restaurant software, Menu design, QR code ordering, Tabletop QR codes, Menu updates, Menu integration, Menu solutions, Menu system, Restaurant QR technology, Menu accessibility, Digital ordering, Menu optimization, Interactive menu, Menu platform, Menu innovation, Menu automation, QR code dining, Menu presentation, Digital dining experience, Menu analytics, Menu trends, Menu personalization, Menu branding, Menu scanning technology, Virtual menu, QR code technology, Menu refresh, Menu modernization, Menu navigation, QR code integration, Menu scanning app, Menu display options, Menu enhancement, Menu engagement, scan, eat, scaneat, scan eat, eating, scaneating, scan eating, menu, restaurant qr menu, qr menu, emenu, digital menu, virtual menu, menu scanner, menu scanning, digital scanner menu, digital scanning menu, complete digital menu solution, Restaurant menu, restaurant, restaurant scanner, restaurant scanning, restaurant qr code scanner, qr code scanner",
+      },
+      {
+        hid: "og:title",
+        name: "og:title",
+        title: "Scan Eating - Revolutionizing Dining with QR Code Menus",
+      },
+      {
+        hid: "og:description",
+        name: "og:description",
+        description:
+          "Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy convenience at your fingertips",
+      },
+      {
+        hid: "og:image",
+        name: "og:image",
+        image: "/og-image.webp",
       },
     ],
     link: [
