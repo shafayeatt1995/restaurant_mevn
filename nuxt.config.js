@@ -32,7 +32,7 @@ export default {
       {
         hid: "og:title",
         property: "og:title",
-        content: "Scan Eating - Revolutionizing Dining with QR Code Menus",
+        content: "Scan Eating - Complete Digital Menus Solution",
       },
       {
         hid: "og:description",
