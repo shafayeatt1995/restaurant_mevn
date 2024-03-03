@@ -45,6 +45,26 @@ export default {
         property: "og:image",
         content: `${process.env.BASE_URL}/og-image.webp`,
       },
+      {
+        hid: "twitter:image",
+        name: "twitter:image",
+        content: `${process.env.BASE_URL}/og-image.webp`,
+      },
+      {
+        hid: "twitter:card",
+        name: "twitter:card",
+        content: `summary_large_image`,
+      },
+      {
+        hid: "twitter:title",
+        name: "twitter:title",
+        content: `Scan Eating - Complete Digital Menus Solution`,
+      },
+      {
+        hid: "twitter:description",
+        name: "twitter:description",
+        content: `Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy convenience at your fingertips`,
+      },
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.jpeg" },
