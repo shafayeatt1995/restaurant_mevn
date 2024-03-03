@@ -51,7 +51,7 @@
             <a
               href="https://wa.me/01301546040/?text=Hello"
               target="_blank"
-              class="text-gray-800"
+              class="text-green-600 underline"
               >Start chat <i class="far fa-comment-dots"
             /></a>
           </div>
