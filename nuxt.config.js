@@ -31,19 +31,19 @@ export default {
       },
       {
         hid: "og:title",
-        name: "og:title",
-        title: "Scan Eating - Revolutionizing Dining with QR Code Menus",
+        property: "og:title",
+        content: "Scan Eating - Revolutionizing Dining with QR Code Menus",
       },
       {
         hid: "og:description",
-        name: "og:description",
-        description:
+        property: "og:description",
+        content:
           "Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy convenience at your fingertips",
       },
       {
         hid: "og:image",
-        name: "og:image",
-        image: "/og-image.webp",
+        property: "og:image",
+        content: "/og-image.webp",
       },
     ],
     link: [
