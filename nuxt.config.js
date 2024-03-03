@@ -43,7 +43,7 @@ export default {
       {
         hid: "og:image",
         property: "og:image",
-        content: "https://scaneating.com/og-image.webp",
+        content: `${process.env.BASE_URL}/og-image.webp`,
       },
     ],
     link: [
