@@ -66,13 +66,7 @@ export default {
         content: `Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy`,
       },
     ],
-    link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.jpeg" },
-      // {
-      //   rel: "stylesheet",
-      //   href: "https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap",
-      // },
-    ],
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.jpeg" }],
     script: [
       {
         type: "text/javascript",
@@ -93,8 +87,6 @@ export default {
   },
 
   css: [],
-
-  // pageTransition: { name: "fade", mode: "out-in" },
 
   plugins: [
     "~/plugins",
