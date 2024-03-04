@@ -19,7 +19,7 @@
           <img
             loading="lazy"
             src="/images/qr.webp"
-            class="max-w-64 max-h-60 lg:max-h-96"
+            class="w-64 h-60 lg:h-96 object-contain"
             alt="qr code"
           />
           <p class="text-gray-700 px-4 mt-3">
@@ -40,7 +40,7 @@
           <img
             loading="lazy"
             src="/images/items.webp"
-            class="max-w-64 max-h-60 lg:max-h-96"
+            class="w-64 h-60 lg:h-96 object-contain"
             alt="items"
           />
           <p class="text-gray-700 px-4 mt-3">
@@ -61,7 +61,7 @@
           <img
             loading="lazy"
             src="/images/order.webp"
-            class="max-w-64 max-h-60 lg:max-h-96"
+            class="w-64 h-60 lg:h-96 object-contain"
             alt="order"
           />
           <p class="text-gray-700 px-4 mt-3">
