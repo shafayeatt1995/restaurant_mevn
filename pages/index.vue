@@ -17,7 +17,7 @@ export default {
   layout: "home",
   auth: false,
   head() {
-    return { title: `Home - ${this.pageTitle}` };
+    return { title: `Complete Digital Menu Solution - ${this.pageTitle}` };
   },
   data() {
     return {
