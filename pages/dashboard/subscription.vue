@@ -2,7 +2,7 @@
   <div class="px-4">
     <div class="px-6 py-8 mx-auto bg-white rounded-xl">
       <div class="flex justify-center items-center">
-        <img src="/logo.png" class="h-20" alt="logo" />
+        <img src="/logo.png" class="h-20 object-contain" alt="logo" />
       </div>
       <h1
         class="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl mt-2"

@@ -5,7 +5,7 @@
     >
       <nuxt-link :to="{ name: 'index' }">
         <img
-          class="w-auto h-7 object-contain"
+          class="h-7 object-contain"
           src="/full-logo.png"
           alt="logo"
           loading="lazy"

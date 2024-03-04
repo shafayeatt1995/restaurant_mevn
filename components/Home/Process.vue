@@ -31,7 +31,7 @@
           <img
             loading="lazy"
             src="/images/arrow-top.png"
-            class="w-52"
+            class="w-52 object-contain"
             alt="arrow-top"
           />
         </div>
@@ -52,7 +52,7 @@
           <img
             loading="lazy"
             src="/images/arrow-bottom.png"
-            class="w-52"
+            class="w-52 object-contain"
             alt="arrow-bottom"
           />
         </div>

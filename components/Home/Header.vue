@@ -5,7 +5,7 @@
         <div class="items-center flex h-full flex-col lg:flex-row">
           <div class="flex-1 flex flex-col justify-center">
             <div>
-              <img src="/logo.png" class="h-20" alt="logo" />
+              <img src="/logo.png" class="h-20 object-contain" alt="logo" />
               <h1
                 class="text-3xl font-bold text-gray-800 lg:text-5xl uppercase mt-2"
               >
@@ -53,7 +53,7 @@
               class="relative lg:before:absolute lg:before:content-[''] before:h-full before:w-full lg:before:border-[10px] lg:before:border-green-500 before:border-solid before:top-6 before:left-6 before:rounded-[56px]"
             >
               <img
-                class="max-w-full h-80 lg:h-[70vh] object-contain relative z-[1]"
+                class="w-full h-80 lg:h-[70vh] object-contain relative z-[1]"
                 src="/images/menu.webp"
                 alt="menu image"
               />
