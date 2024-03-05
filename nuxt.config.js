@@ -69,6 +69,7 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.jpeg" }],
     script: [
       {
+        head: true,
         src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3898820315557241",
         async: true,
         crossorigin: "anonymous",
