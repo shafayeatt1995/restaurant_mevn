@@ -49,7 +49,7 @@
               Our friendly team is here to help.
             </p>
             <a
-              href="https://wa.me/01301546040/?text=Hello"
+              href="https://wa.me/01728293635/?text=Hello"
               target="_blank"
               class="text-green-600 underline"
               >Start chat <i class="far fa-comment-dots"
