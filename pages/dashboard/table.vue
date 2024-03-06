@@ -142,12 +142,12 @@
             Download QrCode
           </Button>
           <Button
-            variant="red"
+            variant="green"
             type="button"
             class="w-full tracking-wide flex-1"
-            @click.native.prevent="qrModal = false"
+            @click.native.prevent="copyURL"
           >
-            Close
+            <i class="fa-regular fa-copy"></i> Copy URL
           </Button>
         </div>
       </div>
@@ -335,6 +335,12 @@ export default {
         link.href = dataUrl;
         link.download = `${this.name}.png`;
         link.click();
+      } catch (error) {}
+    },
+    async copyURL() {
+      try {
+        await navigator.clipboard.writeText(this.url);
+        this.$nuxt.$emit("success", "URL copied");
       } catch (error) {}
     },
   },
