@@ -65,6 +65,7 @@ export default {
         name: "twitter:description",
         content: `Experience the future of dining with Scan Eating. Our innovative QR code scanner menu app offers a seamless, touchless dining experience. Explore menus, place orders, and enjoy`,
       },
+      { name: "google-adsense-account", content: "ca-pub-3898820315557241" },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.jpeg" }],
     script: [
