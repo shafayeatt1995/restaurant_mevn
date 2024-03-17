@@ -10,22 +10,32 @@
 </template>
 
 <script>
-import lottie from "lottie-web";
 export default {
   name: "socialLogin",
   auth: false,
-  mounted() {
-    lottie.loadAnimation({
-      container: this.$refs.loading,
-      renderer: "canvas",
-      loop: true,
-      autoplay: true,
-
-      path: "/lottie/social-login.json",
-    });
-    this.getDetails();
+  async mounted() {
+    await this.loadLottieAnimation();
+    await this.getDetails();
   },
   methods: {
+    loadLottieAnimation() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "/js/lottie.min.js"; // Update the path to your local lottie.min.js file
+        script.onload = () => {
+          lottie.loadAnimation({
+            container: this.$refs.loading,
+            renderer: "canvas",
+            loop: true,
+            autoplay: true,
+            path: "/lottie/social-login.json",
+          });
+          resolve();
+        };
+        script.onerror = reject;
+        document.body.appendChild(script);
+      });
+    },
     async getDetails() {
       const socialLogin = window.localStorage.getItem("socialLogin");
       try {

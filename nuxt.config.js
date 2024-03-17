@@ -186,6 +186,7 @@ export default {
   router: { middleware: ["auth"] },
 
   build: {
+    analyze: !!process.env.ANALYZE,
     extend(config, ctx) {
       if (ctx.isClient) {
         config.devtool = "source-map";

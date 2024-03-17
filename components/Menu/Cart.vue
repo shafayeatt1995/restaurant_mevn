@@ -2,13 +2,13 @@
   <div>
     <transition name="fade" mode="out-in">
       <div
-        ref="loader"
         class="fixed top-0 left-0 right-0 bottom-0 z-50 bg-white bg-opacity-50 backdrop-blur-lg flex justify-center items-center flex-col-reverse overflow-hidden"
-        v-show="orderAnimation"
+        v-if="orderAnimation"
       >
-        <p class="text-3xl w-full text-center py-5 px-4 mb-60">
+        <p class="text-3xl w-full text-center py-5 px-4">
           Your order receive successfully
         </p>
+        <OrderLoading class="w-full h-64" />
       </div>
     </transition>
 
@@ -252,7 +252,6 @@
   </div>
 </template>
 <script>
-import lottie from "lottie-web";
 import { mapActions, mapGetters } from "vuex";
 import TableIcon from "~/static/svg/table.svg";
 import ParcelIcon from "~/static/svg/parcel.svg";
@@ -373,14 +372,6 @@ export default {
     this.$nuxt.$off("addToCartAnimation");
   },
   mounted() {
-    lottie.loadAnimation({
-      container: this.$refs.loader,
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-
-      path: "/lottie/hurrah.json",
-    });
     this.getOrder();
   },
   methods: {

@@ -1,10 +1,10 @@
 <template>
-  <div ref="loading" class="h-80"></div>
+  <div ref="OrderLoading"></div>
 </template>
 
 <script>
 export default {
-  name: "Loading",
+  name: "OrderLoading",
   async mounted() {
     if (process.client) {
       await this.loadLottieScript();
@@ -27,11 +27,11 @@ export default {
     },
     initializeAnimation() {
       window.lottie.loadAnimation({
-        container: this.$refs.loading,
+        container: this.$refs.OrderLoading,
         renderer: "canvas",
         loop: true,
         autoplay: true,
-        path: "/lottie/loading.json",
+        path: "/lottie/hurrah.json",
       });
     },
   },

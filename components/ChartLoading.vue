@@ -1,19 +1,39 @@
 <template>
   <div ref="chartLoading" class="h-80"></div>
 </template>
+
 <script>
-import lottie from "lottie-web";
 export default {
   name: "Loading",
-  mounted() {
-    lottie.loadAnimation({
-      container: this.$refs.chartLoading,
-      renderer: "canvas",
-      loop: true,
-      autoplay: true,
-
-      path: "/lottie/chart-loading.json",
-    });
+  async mounted() {
+    if (process.client) {
+      await this.loadLottieScript();
+      this.initializeAnimation();
+    }
+  },
+  methods: {
+    loadLottieScript() {
+      return new Promise((resolve, reject) => {
+        if (window.lottie) {
+          resolve();
+        } else {
+          const script = document.createElement("script");
+          script.src = "/js/lottie.min.js";
+          script.onload = resolve;
+          script.onerror = reject;
+          document.body.appendChild(script);
+        }
+      });
+    },
+    initializeAnimation() {
+      window.lottie.loadAnimation({
+        container: this.$refs.chartLoading,
+        renderer: "canvas",
+        loop: true,
+        autoplay: true,
+        path: "/lottie/chart-loading.json",
+      });
+    },
   },
 };
 </script>
