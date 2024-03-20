@@ -30,7 +30,7 @@ export default {
   computed: {
     variantClass() {
       if (this.variant === "green") {
-        return "text-gray-900  bg-green-500 hover:bg-green-600 focus:ring-green-300 disabled:hover:bg-green-300 disabled:bg-green-300";
+        return "text-white bg-green-500 hover:bg-green-600 focus:ring-green-300 disabled:hover:bg-green-300 disabled:bg-green-300";
       } else if (this.variant === "white") {
         return "text-gray-900 border border-gray-200 hover:bg-gray-100 focus:ring-gray-300 disabled:hover:bg-gray-300 disabled:bg-gray-300";
       } else if (this.variant === "gray") {

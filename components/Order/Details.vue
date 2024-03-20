@@ -371,6 +371,7 @@
             class="w-full tracking-wide flex-1"
             @click.native.prevent="manager ? completeOrder() : ''"
             :loading="acceptLoading"
+            variant="green"
           >
             <i class="fas fa-check mr-1" />
             Complete order
