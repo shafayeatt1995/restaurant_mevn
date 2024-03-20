@@ -1,6 +1,6 @@
 <template>
   <div :ref="key" class="w-full flex justify-center">
-    <slot> </slot>
+    <slot />
   </div>
 </template>
 <script>

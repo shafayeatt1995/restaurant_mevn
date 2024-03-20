@@ -17,15 +17,20 @@
       class="absolute right-0 z-50 bg-white border rounded-lg w-72 lg:w-96 shadow-xl"
       v-if="notification"
     >
-      <div class="p-3 flex justify-between">
+      <div class="p-3 flex justify-between items-center border-b">
         <h1 class="text-lg font-medium text-gray-700">Notifications</h1>
-        <button
-          class="underline text-sky-600"
-          @click="markAllRead"
-          v-if="items.length > 0"
-        >
-          Mark all read
-        </button>
+        <div class="flex gap-2">
+          <!-- <button class="border size-9 rounded-lg" @click="refetch">
+            <i class="fa-solid fa-rotate text-sm"></i>
+          </button> -->
+          <button
+            class="underline text-sky-600"
+            @click="markAllRead"
+            v-if="items.length > 0"
+          >
+            Mark all read
+          </button>
+        </div>
       </div>
       <ul class="flex h-auto flex-col overflow-y-auto max-h-[440px]">
         <li v-for="(notification, key) in items" :key="key">
@@ -35,7 +40,10 @@
             :class="notification.mark ? 'bg-white' : 'bg-gray-100'"
             @click="markNotification(notification)"
           >
-            <p class="font-bold">{{ notification.title }}</p>
+            <p class="font-bold">
+              <span v-html="notificationIcon(notification.title)"></span>
+              {{ notification.title }}
+            </p>
             <p class="text-left">{{ notification.body }}</p>
             <p class="text-xs self-end">
               {{ notification.created_at | agoDate }}
@@ -67,7 +75,7 @@
             <Upgrade class="mt-2"> Upgrade your account</Upgrade>
           </div>
         </li>
-        <Observer @load="fetchItems" />
+        <Observer @load="fetchItems">_</Observer>
       </ul>
     </div>
 
@@ -98,6 +106,7 @@ export default {
   },
   methods: {
     async fetchItems() {
+      console.log("ami anik");
       if (this.click && this.activeSubscription) {
         try {
           this.click = false;
@@ -171,6 +180,21 @@ export default {
           ++this.unread;
         }
       } catch (error) {}
+    },
+    notificationIcon(title) {
+      if (title == "Order Cancel Request") {
+        return `<i class="fas fa-xmark text-rose-600"></i>`;
+      } else if (title == "Requesting Bill" || title == "Requesting bill") {
+        return `<i class="fas fa-file-invoice text-purple-600"></i>`;
+      } else if (title == "New Order") {
+        return `<i class="far fa-calendar-plus text-green-600"></i>`;
+      } else if (title == "Order updated") {
+        return `<i class="fas fa-file-invoice-dollar text-amber-600"></i>`;
+      }
+    },
+    async refetch() {
+      this.items = [];
+      await this.fetchItems();
     },
   },
 };
