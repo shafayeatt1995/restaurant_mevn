@@ -116,8 +116,8 @@ const controller = {
     } else if (user && user.type === "waiter") {
       const restaurant = await Restaurant.findOne({ waiter: user._id });
       if (restaurant) {
-        const { _id, logo, name, slug } = restaurant;
-        user._doc.restaurant = { _id, logo, name, slug };
+        const { _id, logo, name, slug, scanExp } = restaurant;
+        user._doc.restaurant = { _id, logo, name, slug, scanExp };
         return res.status(200).json({ success: true, user });
       }
     }

@@ -27,6 +27,7 @@ export default {
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
+              console.log("ami anik");
               this.$emit("load");
             }
           });
@@ -43,4 +44,3 @@ export default {
   },
 };
 </script>
-<style lang=""></style>

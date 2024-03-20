@@ -36,7 +36,9 @@ export const getters = {
     }
   },
   activeSubscription: (state, getters) => {
-    return getters.manager && getters.scanDate >= new Date();
+    return (
+      (getters.manager || getters.waiter) && getters.scanDate >= new Date()
+    );
   },
   isDev: () => process.env.NODE_ENV === "development",
   isMobile: (state) => state.windowWidth < 992,

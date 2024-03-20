@@ -406,6 +406,7 @@ const controller = {
       const { restaurantID } = req.user;
       const { totalPrice } = await Order.findOne({ _id, restaurantID });
       const updateData = {
+        vatID: "",
         vatName: "Vat",
         vat: 0,
         vatAmount: 0,
@@ -413,6 +414,7 @@ const controller = {
         additionalChargesAmount: 0,
       };
       if (vat) {
+        updateData.vatID = vat._id;
         updateData.vatName = vat.name;
         updateData.vat = vat.percent;
         updateData.vatAmount = (totalPrice * vat.percent) / 100;

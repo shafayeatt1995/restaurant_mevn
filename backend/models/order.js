@@ -48,6 +48,7 @@ const OrderSchema = new Schema(
       default: "pending",
     },
     orderNumber: { type: Number, unique: true },
+    vatID: { type: String },
     vatName: { type: String },
     vat: { type: Number },
     vatAmount: { type: Number },
