@@ -217,19 +217,10 @@ export default {
       items: [],
       vats: [],
       perPage: 20,
-      vat: "",
       loading: true,
-      cancelLoading: false,
-      acceptLoading: false,
-      errors: {},
-      dropdown: null,
       refreshTrigger: 0,
-      orderDetails: {},
       newOrder: false,
       employees: [],
-      selectWaiterModal: false,
-      deleteMode: false,
-      cancelModal: false,
     };
   },
   computed: {
@@ -307,16 +298,6 @@ export default {
     },
     orderType() {
       this.refetch();
-    },
-    cancelModal(val) {
-      if (!val) {
-        this.cancelForm.cancelReason = "Wrong order";
-      }
-    },
-    selectWaiterModal(val) {
-      if (!val) {
-        this.selectEmployee = null;
-      }
     },
   },
   created() {
@@ -405,37 +386,12 @@ export default {
     refetch() {
       this.loading = false;
       this.newOrder = false;
-      this.cancelLoading = false;
-      this.acceptLoading = false;
       this.items = [];
-      this.orderDetails = {};
       if (this.active === "Table view") {
         this.fetchTableOrder();
       } else {
         this.fetchItems();
       }
-    },
-    refetchOrderData() {
-      this.loading = false;
-      this.newOrder = false;
-      this.cancelLoading = false;
-      this.acceptLoading = false;
-      this.items = [];
-      if (this.active === "Table view") {
-        this.fetchTables();
-      } else {
-        this.fetchItems();
-      }
-    },
-    reset() {
-      this.loading = false;
-      this.cancelLoading = false;
-      this.acceptLoading = false;
-      this.deleteMode = false;
-      // this.orderDetails = {};
-    },
-    toggleDropdown(index) {
-      this.dropdown = index;
     },
     getBadgeVariant(status) {
       if (status === "pending") {
@@ -469,17 +425,6 @@ export default {
         const { employees } = await this.$managerApi.fetchAllEmployee();
         this.employees = employees;
       } catch (error) {}
-    },
-    updatePaymentData(id, { method, amount }) {
-      const i = this.items.findIndex(({ _id }) => _id === id);
-      this.items[i].paymentMethod = method;
-      this.items[i].paymentReceivedAmount = amount;
-    },
-    updateStatus(id, status) {
-      const i = this.items.findIndex(({ _id }) => _id === id);
-      this.items[i].status = status;
-      this.orderDetails = this.items[i];
-      this.reset();
     },
     showTime(date) {
       const timeDifference = new Date() - new Date(date);
