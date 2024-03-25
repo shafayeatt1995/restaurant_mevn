@@ -7,7 +7,8 @@
     "dev2": "nuxt",
     "build": "NODE_ENV=production && nuxt build",
     "ana": "NODE_ENV=production && ANALYZE=true nuxt build",
-    "start": "cross-env NODE_ENV=production node server",
+    "start": "NODE_ENV=production && nuxt build && node server",
+    "start2": "cross-env NODE_ENV=production node server",
     "generate": "nuxt generate"
   },
   "dependencies": {
