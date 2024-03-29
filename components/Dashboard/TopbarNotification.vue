@@ -106,7 +106,6 @@ export default {
   },
   methods: {
     async fetchItems() {
-      console.log("ami anik");
       if (this.click && this.activeSubscription) {
         try {
           this.click = false;

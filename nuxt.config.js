@@ -105,6 +105,7 @@ export default {
     { src: "~/plugins/datePicker.js", mode: "client" },
     { src: "~/plugins/carousel.js", mode: "client" },
     { src: "~/plugins/google-fonts.js", mode: "client" },
+    { src: "~/plugins/firebase.js", mode: "client" },
   ],
 
   components: true,
@@ -180,7 +181,7 @@ export default {
       background_color: "#FFFFFF",
       orientation: "portrait",
     },
-    workbox: { swTemplate: "static/sw.js" },
+    workbox: { swTemplate: "static/firebase-messaging-sw.js" },
   },
 
   router: { middleware: ["auth"] },

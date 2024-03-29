@@ -4,7 +4,9 @@
       class="flex flex-col w-full px-4 md:justify-between md:items-center md:flex-row mb-5"
     >
       <div>
-        <h2 class="text-3xl font-medium text-gray-700">Settings</h2>
+        <h2 class="text-3xl font-medium text-gray-700" @click="aut">
+          Settings
+        </h2>
       </div>
     </section>
     <section class="px-4">
@@ -25,6 +27,9 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getAuth, signInAnonymously } from "firebase/auth";
+import { getMessaging, onMessage, getToken } from "firebase/messaging";
+import { messaging } from "@/plugins/firebase";
 export default {
   name: "settings",
   layout: "dashboard",
@@ -68,6 +73,28 @@ export default {
         "",
         `?${new URLSearchParams({ tab }).toString()}`
       );
+    },
+  },
+  mounted() {
+    const messaging = getMessaging();
+    onMessage(messaging, (payload) => {
+      console.log("payload", payload);
+    });
+  },
+  methods: {
+    async aut() {
+      await signInAnonymously(getAuth());
+      this.active();
+    },
+    async active() {
+      const token = await getToken(messaging, {
+        vapidKey:
+          "BN4cXXQOSb4h9u1BP0RfEmWEqFtXer81m6aPtousiVFxc_TX6unhfweQe3pFBSj5-4IFJ0qYyxZOrGpdLluwjFU",
+      });
+
+      if (token) {
+        console.log(token);
+      }
     },
   },
 };

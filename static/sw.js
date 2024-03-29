@@ -1,37 +1,21 @@
-const base64Convert = (base64String) => {
-  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, "+")
-    .replace(/_/g, "/");
+importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"),
+  importScripts(
+    "https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"
+  );
 
-  const rawData = atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
+const firebaseConfig = {
+  apiKey: "AIzaSyD3_5xbeNtWg1dAyCyCj-Fa1bQqPG1j8MI",
+  authDomain: "restaurant-410614.firebaseapp.com",
+  projectId: "restaurant-410614",
+  storageBucket: "restaurant-410614.appspot.com",
+  messagingSenderId: "364451328290",
+  appId: "1:364451328290:web:ab632cf5f4691d3a70f57b",
+  measurementId: "G-HJFDKGNF1L",
 };
 
-self.addEventListener("activate", async (e) => {
-  try {
-    const subscription = await self.registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: base64Convert(
-        "BEjfeQ9ym633deePHh93i9o0OZyV8h9bvvLZfy21vR2AJOvpm26gqNaRk23wv7JiewVWh6yTqz7AK4zQ6kb6Y34"
-      ),
-    });
-    console.log(subscription);
-    await fetch("https://scaneating.com/api/push-notification/update", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(subscription),
-    });
-  } catch (error) {
-    console.error(error);
-  }
-});
+firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
 
-self.addEventListener("push", (e) => {
-  self.registration.showNotification(e.data.text() || "");
+messaging.onBackgroundMessage((payload) => {
+  console.log("message receive", payload);
 });
