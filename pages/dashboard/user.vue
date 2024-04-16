@@ -200,9 +200,9 @@ export default {
           name: "type",
           options: [
             // { value: "admin", label: "Admin" },
-            // { value: "manager", label: "Manager" },
             // { value: "chef", label: "Chef" },
             // { value: "waiter", label: "Waiter" },
+            { value: "manager", label: "Manager" },
             { value: "user", label: "User" },
           ],
         },
