@@ -42,8 +42,8 @@
               <p class="font-medium text-gray-200 uppercase">12 Months</p>
 
               <h2 class="text-5xl font-bold text-white uppercase">
-                <del class="text-2xl">৳{{ 12000 | currencyNumber }}</del>
-                <p class="">৳{{ 10000 | currencyNumber }}</p>
+                <del class="text-2xl">${{ 120 | currencyNumber }}</del>
+                <p class="">${{ 100 | currencyNumber }}</p>
               </h2>
             </div>
             <a
@@ -64,7 +64,7 @@
               <p class="font-medium text-gray-500 uppercase">1 Months</p>
 
               <h2 class="text-4xl mt-8 font-semibold text-gray-800 uppercase">
-                <p class="">৳{{ 1000 | currencyNumber }}</p>
+                <p class="">${{ 10 | currencyNumber }}</p>
               </h2>
             </div>
             <a
