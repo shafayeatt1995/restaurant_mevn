@@ -35,7 +35,10 @@
               }"
               target="_blank"
             >
-              <img
+              <nuxt-img
+                format="webp"
+                loading="lazy"
+                decode="async"
                 src="/images/demo/1.webp"
                 alt="demo image"
                 class="w-full h-60 lg:h-96 object-contain"
@@ -49,7 +52,10 @@
               }"
               target="_blank"
             >
-              <img
+              <nuxt-img
+                format="webp"
+                loading="lazy"
+                decode="async"
                 src="/images/demo/2.webp"
                 alt="demo image"
                 class="w-full h-60 lg:h-96 object-contain"
@@ -63,7 +69,10 @@
               }"
               target="_blank"
             >
-              <img
+              <nuxt-img
+                format="webp"
+                loading="lazy"
+                decode="async"
                 src="/images/demo/3.webp"
                 alt="demo image"
                 class="w-full h-60 lg:h-96 object-contain"

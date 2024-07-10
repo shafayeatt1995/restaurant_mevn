@@ -5,8 +5,10 @@
     >
       <div class="flex items-center justify-between">
         <nuxt-link :to="{ name: 'index' }">
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             class="lg:h-14 h-12 object-contain"
             src="/favicon.png"
             alt="logo"

@@ -12,7 +12,10 @@
       </div>
       <hr class="my-3" />
       <div class="flex justify-center items-center h-72" v-if="orderLoading">
-        <img
+        <nuxt-img
+          format="webp"
+          loading="lazy"
+          decode="async"
           class="size-20 animate-spin"
           src="/images/loading.svg"
           alt="Loading icon"

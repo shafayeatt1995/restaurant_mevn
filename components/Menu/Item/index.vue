@@ -85,8 +85,10 @@
               @click="imageModal = true"
               class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
             >
-              <img
+              <nuxt-img
+                format="webp"
                 loading="lazy"
+                decode="async"
                 :src="selected.url"
                 :alt="selected.url"
                 v-if="selected.url"

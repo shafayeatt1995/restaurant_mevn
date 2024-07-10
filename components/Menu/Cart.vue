@@ -62,8 +62,10 @@
       >
         <div class="h-full pt-5" v-if="cartItems && cartItems.length">
           <div class="flex justify-center items-center gap-4">
-            <img
+            <nuxt-img
+              format="webp"
               loading="lazy"
+              decode="async"
               alt="logo"
               :src="restaurant.logo"
               class="max-w-14 max-h-14"
@@ -221,8 +223,10 @@
             If your food is finished then click the button for request your bill
           </p>
           <div class="flex flex-col justify-center items-center mt-5">
-            <img
+            <nuxt-img
+              format="webp"
               loading="lazy"
+              decode="async"
               src="/images/eating.png"
               class="max-w-1/2 max-h-60"
               alt="eating image"
@@ -233,8 +237,10 @@
           </div>
         </div>
         <div class="h-full flex flex-col justify-center items-center" v-else>
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             src="/images/not-found.png"
             alt="not found image"
           />

@@ -15,8 +15,10 @@
             activeCategory === item._id ? 'bg-green-500' : 'bg-transparent'
           "
         >
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             :src="item.image"
             :alt="item.name"
             class="object-cover w-14 h-14"
@@ -56,8 +58,10 @@
             activeCategory === item._id ? 'bg-green-500' : 'bg-transparent'
           "
         >
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             :src="item.image"
             :alt="item.name"
             class="object-cover w-14 h-14"
@@ -126,8 +130,10 @@
           @click="imageModal = true"
           class="border rounded-lg flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
         >
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             :src="selected.url"
             :alt="selected.url"
             v-if="selected.url"
@@ -182,8 +188,10 @@
                       {{ getSerialNumber(item._id) + 1 }}
                     </p>
                   </div>
-                  <img
+                  <nuxt-img
+                    format="webp"
                     loading="lazy"
+                    decode="async"
                     :src="item.image"
                     :alt="item.name"
                     class="w-full object-cover"

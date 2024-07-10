@@ -4,11 +4,13 @@
       class="container flex flex-col items-center justify-between px-6 lg:py-8 mx-auto lg:flex-row"
     >
       <nuxt-link :to="{ name: 'index' }">
-        <img
+        <nuxt-img
+          format="webp"
+          loading="lazy"
+          decode="async"
           class="h-7 object-contain"
           src="/full-logo.png"
           alt="logo"
-          loading="lazy"
         />
       </nuxt-link>
 

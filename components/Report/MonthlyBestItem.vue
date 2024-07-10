@@ -57,10 +57,12 @@
             v-for="order in orders"
             :key="order._id"
           >
-            <img
+            <nuxt-img
+              format="webp"
+              loading="lazy"
+              decode="async"
               :src="order.itemImage"
               :alt="order.itemName"
-              loading="lazy"
               class="max-w-14"
             />
             <p class="flex-1">{{ order.itemName }}</p>

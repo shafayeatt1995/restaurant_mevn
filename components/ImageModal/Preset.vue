@@ -18,8 +18,10 @@
             <i class="text-2xl fas fa-circle-check" />
           </div>
         </transition>
-        <img
+        <nuxt-img
+          format="webp"
           loading="lazy"
+          decode="async"
           :src="image.url"
           alt="preset image"
           class="object-contain h-14 w-14"

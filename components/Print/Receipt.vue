@@ -8,7 +8,10 @@
       <tbody style="font-size: 12px">
         <tr v-if="restaurant.printImage">
           <td style="text-align: center; text-align: -webkit-center">
-            <img
+            <nuxt-img
+              format="webp"
+              loading="lazy"
+              decode="async"
               :src="restaurant.printImage"
               :alt="restaurant.name"
               style="max-width: 70%; max-height: 95px"

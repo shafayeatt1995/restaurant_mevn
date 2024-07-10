@@ -22,8 +22,10 @@
                     @click="checkSortable ? $emit('sorted', field) : null"
                   >
                     <slot :name="field.key + '-label'">
-                      <img
+                      <nuxt-img
+                        format="webp"
                         loading="lazy"
+                        decode="async"
                         v-if="field.title_image"
                         :src="field.title_image"
                         :alt="field.key"

@@ -84,16 +84,20 @@
               </div>
             </div>
           </div>
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             v-if="item.image"
             :src="item.image"
             :alt="item.name"
             class="w-full object-cover"
             :class="align === 'single' ? 'h-[200px]' : 'h-[130px]'"
           />
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             v-else
             src="/images/default-img.jpg"
             alt="default image"
@@ -177,15 +181,19 @@
         >
           <i class="fas fa-chevron-left" />
         </div>
-        <img
+        <nuxt-img
+          format="webp"
           loading="lazy"
+          decode="async"
           v-if="modalItem.image"
           :alt="modalItem.name"
           :src="modalItem.image"
           class="h-[250px] w-full object-cover"
         />
-        <img
+        <nuxt-img
+          format="webp"
           loading="lazy"
+          decode="async"
           v-else
           src="/images/default-img.jpg"
           alt="default img"
@@ -195,14 +203,18 @@
           class="flex justify-between items-center px-4 py-2 shadow-lg gap-3 sticky top-0 z-10 bg-white"
         >
           <div class="flex items-center">
-            <img
+            <nuxt-img
+              format="webp"
               loading="lazy"
+              decode="async"
               :src="categoryImage"
               alt="category image"
               class="object-cover w-12 h-12"
             />
-            <img
+            <nuxt-img
+              format="webp"
               loading="lazy"
+              decode="async"
               :src="categoryImage"
               class="object-cover w-12 h-12 absolute active-animation"
               v-for="(_, i) in showAnimation"

@@ -5,12 +5,21 @@
     class="flex flex-col w-64 h-screen px-4 pt-8 pb-16 lg:pb-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed inset-y-0 left-0 z-30 min-h-screen space-y-6 text-gray-100 transition duration-200 transform lg:translate-x-0 lg:relative lg:inset-0 border-solid border-1 border-gray-200"
   >
     <nuxt-link :to="{ name: 'dashboard' }" class="mx-auto">
-      <img loading="lazy" class="w-44" src="/full-logo.png" alt="logo" />
+      <nuxt-img
+        format="webp"
+        loading="lazy"
+        decode="async"
+        class="w-44"
+        src="/full-logo.png"
+        alt="logo"
+      />
     </nuxt-link>
 
     <div class="flex flex-col items-center mt-6 -mx-2">
-      <img
+      <nuxt-img
+        format="webp"
         loading="lazy"
+        decode="async"
         class="object-cover w-24 h-24 mx-2 rounded-full"
         :src="
           manager

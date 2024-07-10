@@ -24,8 +24,10 @@
         :skeleton="loading"
       >
         <template #image="{ item }">
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             :src="item.image"
             :alt="item.image"
             class="max-h-16"

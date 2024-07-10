@@ -16,8 +16,10 @@
       >
         <div class="flex flex-col justify-center items-center mb-8">
           <h2 class="text-2xl font-semibold mb-3">1. Get QR</h2>
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             src="/images/qr.webp"
             class="w-64 h-60 lg:h-96 object-contain"
             alt="qr code"
@@ -28,8 +30,10 @@
           </p>
         </div>
         <div class="lg:flex justify-center items-center hidden">
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             src="/images/arrow-top.png"
             class="w-52 object-contain"
             alt="arrow-top"
@@ -37,8 +41,10 @@
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
           <h2 class="text-2xl font-semibold mb-3">2. Add categories & items</h2>
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             src="/images/items.webp"
             class="w-64 h-60 lg:h-96 object-contain"
             alt="items"
@@ -49,8 +55,10 @@
           </p>
         </div>
         <div class="hidden lg:flex justify-center items-center">
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             src="/images/arrow-bottom.png"
             class="w-52 object-contain"
             alt="arrow-bottom"
@@ -58,8 +66,10 @@
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
           <h2 class="text-2xl font-semibold mb-3">3. Start receiving orders</h2>
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             src="/images/order.webp"
             class="w-64 h-60 lg:h-96 object-contain"
             alt="order"

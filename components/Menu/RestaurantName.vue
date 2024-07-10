@@ -2,12 +2,13 @@
   <div>
     <div class="flex justify-between bg-white items-center px-2 pt-3">
       <div class="flex items-center">
-        <img
+        <nuxt-img
+          format="webp"
           loading="lazy"
+          decode="async"
           class="object-cover w-auto h-12 mr-2 rounded-full"
           :src="restaurant.logo"
           :alt="restaurant.name"
-          alt="avatar"
         />
         <p class="text-xl font-semibold text-gray-700">
           {{ restaurant.name }}
@@ -37,8 +38,10 @@
           @click="imageModal = true"
           class="border flex flex-col items-center justify-center mt-3 h-60 cursor-pointer"
         >
-          <img
+          <nuxt-img
+            format="webp"
             loading="lazy"
+            decode="async"
             :src="selected.url"
             :alt="selected.url"
             v-if="selected.url"

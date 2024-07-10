@@ -18,8 +18,10 @@
             <i class="text-2xl fas fa-circle-check" />
           </div>
         </transition>
-        <img
+        <nuxt-img
+          format="webp"
           loading="lazy"
+          decode="async"
           :src="image.url"
           class="object-contain w-28 h-full"
           alt="delete image"

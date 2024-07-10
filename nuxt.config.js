@@ -124,7 +124,21 @@ export default {
     "vue2-editor/nuxt",
     "nuxt-svg-loader",
     "@nuxtjs/sitemap",
+    "@nuxt/image",
   ],
+
+  image: {
+    domains: ["utfs.io", "lh3.googleusercontent.com"],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      "2xl": 1536,
+    },
+  },
 
   sitemap: {
     hostname: "https://scaneating.com",
