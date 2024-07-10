@@ -51,7 +51,7 @@
               target="_blank"
               class="w-full px-4 py-2 mt-10 tracking-wide text-gray-900 capitalize transition-colors duration-300 transform bg-white rounded-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:ring focus:ring-gray-200 focus:ring-opacity-80 font-bold"
             >
-              Contact us
+              Active now
             </a>
           </div>
         </div>
@@ -72,7 +72,7 @@
               target="_blank"
               class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80"
             >
-              Contact us
+              Active now
             </a>
           </div>
         </div>
