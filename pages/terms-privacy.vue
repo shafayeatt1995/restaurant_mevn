@@ -6,18 +6,18 @@
 
     <h4 class="text-2xl mt-5">Introduction</h4>
     <p>
-      At ScanEating we are committed to the highest possible standards, and that
-      begins with protecting the privacy of everyone in our community. This
-      means that we’ll protect the personal information of all visitors and
-      customers who access our websites or services through any mobile
-      application, platform or device (collectively, the “Services”).This
-      Privacy Policy (“Privacy Policy”) explains how ScanEating collect, share,
-      and use your personal information. You’ll also find information about how
-      you can exercise your privacy rights. By using our Services you agree to
-      ScanEating using your personal information as described in this Privacy
-      Policy. The terms “we”, “us” or “our” are each intended as reference to
-      ScanEating.com and any terms not defined in this Privacy Policy are
-      defined in our Terms.
+      Scaneating, a product of <b>"Sanik Soft"</b>. At ScanEating we are
+      committed to the highest possible standards, and that begins with
+      protecting the privacy of everyone in our community. This means that we’ll
+      protect the personal information of all visitors and customers who access
+      our websites or services through any mobile application, platform or
+      device (collectively, the “Services”).This Privacy Policy (“Privacy
+      Policy”) explains how ScanEating collect, share, and use your personal
+      information. You’ll also find information about how you can exercise your
+      privacy rights. By using our Services you agree to ScanEating using your
+      personal information as described in this Privacy Policy. The terms “we”,
+      “us” or “our” are each intended as reference to ScanEating.com and any
+      terms not defined in this Privacy Policy are defined in our Terms.
     </p>
 
     <h4 class="text-2xl mt-5">1. Information we collect from you and why</h4>

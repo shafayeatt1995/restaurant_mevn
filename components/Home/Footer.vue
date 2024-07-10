@@ -60,7 +60,7 @@
           Contact
         </nuxt-link>
         <nuxt-link
-          :to="{ name: 'privacy-policy' }"
+          :to="{ name: 'terms-privacy' }"
           class="text-gray-700 transition-colors duration-300 hover:text-green-600"
         >
           Privacy policy
