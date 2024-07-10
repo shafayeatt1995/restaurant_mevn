@@ -30,7 +30,7 @@
             <nuxt-link
               :to="{
                 name: 'menu-slug-table',
-                params: { slug: '1c', table: 'table-1-lx' },
+                params: { slug: '1c', table: '1' },
                 query: { demo: true },
               }"
               target="_blank"
@@ -44,7 +44,7 @@
             <nuxt-link
               :to="{
                 name: 'menu-slug-table',
-                params: { slug: '3kf', table: 'table-31-ug' },
+                params: { slug: '1c', table: '1' },
                 query: { demo: true },
               }"
               target="_blank"
@@ -58,7 +58,7 @@
             <nuxt-link
               :to="{
                 name: 'menu-slug-table',
-                params: { slug: '2fa', table: 'table-11-fh' },
+                params: { slug: '1c', table: '1' },
                 query: { demo: true },
               }"
               target="_blank"
