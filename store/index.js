@@ -4,6 +4,7 @@ export const state = () => ({
   windowWidth: 0,
   baseUrl: process.env.BASE_URL,
   isDev: process.env.NODE_ENV,
+  appName: process.env.APP_NAME,
 });
 
 export const mutations = {
@@ -20,7 +21,7 @@ export const actions = {
 };
 
 export const getters = {
-  pageTitle: (state) => process.env.APP_NAME || "ScanEating",
+  pageTitle: (state) => state.appName || "ScanEating",
   windowWidth: (state) => state.windowWidth,
   admin: (state) =>
     (state.auth?.user?.is_admin && state.auth?.user?.type === "admin") || false,

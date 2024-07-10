@@ -9,6 +9,7 @@ const {
 const { paginate } = require("@/backend/utils");
 const webPush = require("web-push");
 const moment = require("moment");
+const mongoose = require("mongoose");
 
 const sendNotification = async (name, message = "", idList = []) => {
   try {
@@ -337,6 +338,8 @@ const controller = {
   },
 
   async updateOrderStatus(req, res) {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
       const {
         _id,
@@ -356,15 +359,19 @@ const controller = {
         restaurantID,
         isManager,
       } = req.user;
+
       const updateData = { status };
       const checkExist = await Order.findOne({
         _id,
         restaurantID,
         waiterID: { $exists: true },
-      });
+      }).session(session);
+
       if (currentStatus === "pending") {
         if (checkExist) {
           if (waiterID !== checkExist.waiterID && !isManager) {
+            await session.abortTransaction();
+            session.endSession();
             return res.status(422).json({
               success: false,
               message: "Someone already receive this order",
@@ -377,6 +384,8 @@ const controller = {
       }
       if (status === "cancel" && checkExist) {
         if (waiterID !== checkExist.waiterID && !isManager) {
+          await session.abortTransaction();
+          session.endSession();
           return res.status(422).json({
             success: false,
             message: "You can't cancel this order",
@@ -390,9 +399,31 @@ const controller = {
         updateData.paymentMethod = method;
         updateData.paymentReceivedAmount = amount;
       }
-      await Order.updateOne({ _id, restaurantID }, updateData);
+      await Order.updateOne({ _id, restaurantID }, updateData).session(session);
+
+      if (status === "complete") {
+        const restaurant = await Restaurant.findOne({
+          _id: restaurantID,
+        })
+          .select("+tokenPerOrder orderToken")
+          .session(session);
+        if (restaurant) {
+          const orderToken = Math.max(
+            0,
+            restaurant.orderToken - restaurant.tokenPerOrder
+          );
+          await Restaurant.findOneAndUpdate(
+            { _id: restaurantID },
+            { orderToken }
+          ).session(session);
+        }
+      }
+      await session.commitTransaction();
+      await session.endSession();
       res.status(200).json({ success: true });
     } catch (error) {
+      await session.abortTransaction();
+      await session.endSession();
       console.error(error);
       res
         .status(500)

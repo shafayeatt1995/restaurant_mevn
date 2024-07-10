@@ -534,7 +534,7 @@ export default {
       errors: {},
       cancelForm: { cancelReason: "Wrong order" },
       payment: { method: "Cash", amount: 0 },
-      paymentMethods: ["Cash", "bKash", "ATM Card"],
+      paymentMethods: ["Cash", "bKash", "Card"],
     };
   },
   computed: {
