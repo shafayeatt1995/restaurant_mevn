@@ -3,7 +3,17 @@
     class="flex items-center justify-between h-20 px-4 lg:px-6 bg-white sticky top-0 z-20 shadow-md"
   >
     <div class="relative flex flex-col items-start">
-      <template v-if="manager || waiter">
+      <p class="text-gray-700 text-xs lg:text-sm">
+        Order token:
+        <span
+          :class="
+            $auth.user?.restaurant?.orderToken > 50 ? '' : 'text-rose-500'
+          "
+          class="font-semibold"
+          >{{ $auth.user?.restaurant?.orderToken || 0 }}</span
+        >
+      </p>
+      <!-- <template v-if="manager || waiter">
         <p class="text-gray-700 text-xs lg:text-sm">
           Subscription {{ activeSubscription ? "Exp" : "Type" }}:
           <span
@@ -12,7 +22,7 @@
             >{{ activeSubscription ? showScanDate : "Free" }}</span
           >
         </p>
-      </template>
+      </template> -->
     </div>
 
     <div class="flex items-center">
@@ -93,33 +103,33 @@ export default {
   computed: {
     ...mapGetters(["manager", "waiter", "scanDate", "activeSubscription"]),
 
-    showScanDate() {
-      const timeDifference = this.scanDate - this.currentDate;
+    // showScanDate() {
+    //   const timeDifference = this.scanDate - this.currentDate;
 
-      if (timeDifference > 0) {
-        const seconds = Math.floor(timeDifference / 1000);
-        const days = Math.floor(seconds / 86400);
-        const hours = Math.floor((seconds % 86400) / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
+    //   if (timeDifference > 0) {
+    //     const seconds = Math.floor(timeDifference / 1000);
+    //     const days = Math.floor(seconds / 86400);
+    //     const hours = Math.floor((seconds % 86400) / 3600);
+    //     const minutes = Math.floor((seconds % 3600) / 60);
+    //     const remainingSeconds = seconds % 60;
 
-        return `${days}:${this.formatTime(hours)}:${this.formatTime(
-          minutes
-        )}:${this.formatTime(remainingSeconds)}`;
-      } else {
-        // Display negative countdown
-        const positiveTimeDifference = Math.abs(timeDifference);
-        const seconds = Math.floor(positiveTimeDifference / 1000);
-        const days = Math.floor(seconds / 86400);
-        const hours = Math.floor((seconds % 86400) / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
+    //     return `${days}:${this.formatTime(hours)}:${this.formatTime(
+    //       minutes
+    //     )}:${this.formatTime(remainingSeconds)}`;
+    //   } else {
+    //     // Display negative countdown
+    //     const positiveTimeDifference = Math.abs(timeDifference);
+    //     const seconds = Math.floor(positiveTimeDifference / 1000);
+    //     const days = Math.floor(seconds / 86400);
+    //     const hours = Math.floor((seconds % 86400) / 3600);
+    //     const minutes = Math.floor((seconds % 3600) / 60);
+    //     const remainingSeconds = seconds % 60;
 
-        return `-${days}:${this.formatTime(hours)}:${this.formatTime(
-          minutes
-        )}:${this.formatTime(remainingSeconds)}`;
-      }
-    },
+    //     return `-${days}:${this.formatTime(hours)}:${this.formatTime(
+    //       minutes
+    //     )}:${this.formatTime(remainingSeconds)}`;
+    //   }
+    // },
   },
   watch: {
     $route(val) {
