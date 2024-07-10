@@ -6,7 +6,7 @@
 
     <h4 class="text-2xl mt-5">Introduction</h4>
     <p>
-      Scaneating, a product of <b>"Sanik Soft"</b>. At ScanEating we are
+      Scaneating is a product of <b>"Sanik Soft"</b>. At ScanEating we are
       committed to the highest possible standards, and that begins with
       protecting the privacy of everyone in our community. This means that we’ll
       protect the personal information of all visitors and customers who access
