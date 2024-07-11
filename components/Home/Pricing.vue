@@ -36,6 +36,7 @@
               @click.native.prevent="processPayment(p)"
               class="mt-10"
               v-if="manager"
+              :loading="loading === p.price"
             >
               Active now
             </Button>
@@ -60,6 +61,7 @@ export default {
   data() {
     return {
       bd: true,
+      loading: "",
     };
   },
   computed: {
@@ -167,6 +169,7 @@ export default {
     async processPayment(pack) {
       try {
         if (this.bd) {
+          this.loading = pack.price;
           const body = { price: pack.price };
           const data = await this.$managerApi.purchasePackage(body);
           window.open(data.bkashURL, "_self");
@@ -177,6 +180,8 @@ export default {
           "error",
           error.response?.data?.message || "Something wrong please try again"
         );
+      } finally {
+        this.loading = "";
       }
     },
   },
