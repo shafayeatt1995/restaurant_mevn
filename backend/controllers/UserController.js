@@ -646,13 +646,21 @@ const controller = {
 
   async purchasePackage(req, res) {
     try {
-      const { _id, restaurantID } = req.user;
+      const { restaurantID } = req.user;
       const { price } = req.body;
       const otp = randomKey(10);
 
+      const protocol = req.protocol;
+      const host = req.get("host");
+      const fullUrl = `${protocol}://${host}`;
+
       await Restaurant.updateOne({ _id: restaurantID }, { otp });
 
-      const data = await generateBkashPaymentUrl(+price, { otp, restaurantID });
+      const data = await generateBkashPaymentUrl(
+        +price,
+        { otp, restaurantID },
+        fullUrl
+      );
 
       res.status(200).json({ ...data });
     } catch (error) {

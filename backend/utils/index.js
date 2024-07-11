@@ -171,7 +171,7 @@ const utils = {
     return value ? atob(value) : "";
   },
 
-  async generateBkashPaymentUrl(amount, value = {}) {
+  async generateBkashPaymentUrl(amount, value = {}, fullUrl) {
     try {
       const { postReq, randomKey, encode } = utils;
 
@@ -203,7 +203,7 @@ const utils = {
         {
           mode: "0011",
           payerReference: APP_NAME,
-          callbackURL: `${BASE_URL}/payment/verify/bkash/${encode(
+          callbackURL: `${fullUrl ?? BASE_URL}/payment/verify/bkash/${encode(
             JSON.stringify({ ...value, id_token })
           )}`,
           merchantAssociationInfo: "MI05MID54RF09123456One",
