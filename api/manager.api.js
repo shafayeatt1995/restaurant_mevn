@@ -224,4 +224,12 @@ export class ManagerApi extends BaseApi {
   fetchWaiterOrders(body) {
     return this.api.$post(`waiter-orders`, body);
   }
+
+  purchasePackage(body) {
+    return this.api.$post(`purchase-package`, body);
+  }
+
+  paymentVerify(body) {
+    return this.api.$post(`payment-verify`, body);
+  }
 }

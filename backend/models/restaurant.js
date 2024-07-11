@@ -26,6 +26,7 @@ const RestaurantSchema = new Schema(
     authOrder: { type: Boolean, default: false },
     orderToken: { type: Number, default: 0 },
     tokenPerOrder: { type: Number, default: 2, select: false },
+    otp: { type: String, select: false },
   },
   {
     strict: true,

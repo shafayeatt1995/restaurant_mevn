@@ -203,7 +203,7 @@ const utils = {
         {
           mode: "0011",
           payerReference: APP_NAME,
-          callbackURL: `${BASE_URL}/booking/verify/bkash/${encode(
+          callbackURL: `${BASE_URL}/payment/verify/bkash/${encode(
             JSON.stringify({ ...value, id_token })
           )}`,
           merchantAssociationInfo: "MI05MID54RF09123456One",

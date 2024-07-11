@@ -28,6 +28,8 @@ const {
   fetchWaiterOrders,
   toggleProtection,
   fetchAllEmployee,
+  purchasePackage,
+  paymentVerify,
 } = require("@/backend/controllers/UserController");
 const {
   fetchTable,
@@ -177,6 +179,9 @@ router.get("/toggle-protection", toggleProtection);
 router.post("/best-items", fetchBestItems);
 router.post("/chart-sales-report", chartSalesReport);
 router.post("/chart-order-report", chartOrderReport);
+
+router.post("/purchase-package", purchasePackage);
+router.post("/payment-verify", paymentVerify);
 
 router.post(
   "/update-restaurant-name",

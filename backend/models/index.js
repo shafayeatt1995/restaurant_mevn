@@ -13,4 +13,5 @@ module.exports = {
   Notification: require("./notification"),
   FeatureCategory: require("./featureCategory"),
   Contact: require("./contact"),
+  Transaction: require("./transaction"),
 };

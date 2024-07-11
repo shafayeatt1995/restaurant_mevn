@@ -25,9 +25,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import { getAuth, signInAnonymously } from "firebase/auth";
-// import { getMessaging, onMessage, getToken } from "firebase/messaging";
-// import { messaging } from "@/plugins/firebase";
 export default {
   name: "settings",
   layout: "dashboard",
@@ -73,26 +70,7 @@ export default {
       );
     },
   },
-  mounted() {
-    // const messaging = getMessaging();
-    // onMessage(messaging, (payload) => {
-    //   console.log("payload", payload);
-    // });
-  },
-  methods: {
-    // async aut() {
-    //   await signInAnonymously(getAuth());
-    //   this.active();
-    // },
-    // async active() {
-    //   const token = await getToken(messaging, {
-    //     vapidKey:
-    //       "BN4cXXQOSb4h9u1BP0RfEmWEqFtXer81m6aPtousiVFxc_TX6unhfweQe3pFBSj5-4IFJ0qYyxZOrGpdLluwjFU",
-    //   });
-    //   if (token) {
-    //     console.log(token);
-    //   }
-    // },
-  },
+  mounted() {},
+  methods: {},
 };
 </script>

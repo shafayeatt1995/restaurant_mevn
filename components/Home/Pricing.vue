@@ -32,7 +32,15 @@
                 <i class="fa-solid fa-check mr-2"></i> {{ data }}
               </p>
             </div>
+            <Button
+              @click.native.prevent="processPayment(p)"
+              class="mt-10"
+              v-if="manager"
+            >
+              Active now
+            </Button>
             <nuxt-link
+              v-else
               :to="{ name: 'dashboard-subscription' }"
               class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80 disabled:bg-gray-500"
             >
@@ -45,14 +53,21 @@
   </section>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import { setItem, encode } from "@/utils";
 export default {
   name: "Pricing",
+  data() {
+    return {
+      bd: true,
+    };
+  },
   computed: {
+    ...mapGetters(["manager"]),
     pricing() {
       if (process.client) {
         const subdomain = window.location.hostname.split(".")[0];
         if (subdomain === "bd") {
-          // "৳" : "$"
           return [
             {
               name: "STARTER - 250 TOKEN",
@@ -139,6 +154,29 @@ export default {
         }
       } else {
         return [];
+      }
+    },
+  },
+  mounted() {
+    if (process.client) {
+      const subdomain = window.location.hostname.split(".")[0];
+      this.bd = subdomain === "bd";
+    }
+  },
+  methods: {
+    async processPayment(pack) {
+      try {
+        if (this.bd) {
+          const body = { price: pack.price };
+          const data = await this.$managerApi.purchasePackage(body);
+          window.open(data.bkashURL, "_self");
+        }
+      } catch (error) {
+        console.error("Error occurred:", error);
+        this.$nuxt.$emit(
+          "error",
+          error.response?.data?.message || "Something wrong please try again"
+        );
       }
     },
   },

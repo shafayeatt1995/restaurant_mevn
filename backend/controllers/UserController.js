@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
-const { User, Restaurant, Order } = require("@/backend/models");
-const { paginate, stringSlug } = require("@/backend/utils");
+const { User, Restaurant, Order, Transaction } = require("@/backend/models");
+const {
+  paginate,
+  stringSlug,
+  generateBkashPaymentUrl,
+  randomKey,
+  postReq,
+} = require("@/backend/utils");
 const bcrypt = require("bcryptjs");
 const moment = require("moment");
 
@@ -631,6 +637,102 @@ const controller = {
       console.error(error);
       await session.abortTransaction();
       await session.endSession();
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
+  async purchasePackage(req, res) {
+    try {
+      const { _id, restaurantID } = req.user;
+      const { price } = req.body;
+      const otp = randomKey(10);
+
+      await Restaurant.updateOne({ _id: restaurantID }, { otp });
+
+      const data = await generateBkashPaymentUrl(+price, { otp, restaurantID });
+
+      res.status(200).json({ ...data });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
+
+  async paymentVerify(req, res) {
+    try {
+      const { restaurantID, otp, method, transactionNumber, id_token } =
+        req.body;
+      const { BKASH_APP_KEY, BKASH_EXECUTE_URL } = process.env;
+
+      const restaurant = await Restaurant.findOne({
+        _id: restaurantID,
+        otp,
+      }).select("otp orderToken");
+
+      if (restaurant) {
+        if (method === "bkash") {
+          const checkPayment = await postReq(
+            BKASH_EXECUTE_URL,
+            {
+              Authorization: id_token,
+              "X-App-Key": BKASH_APP_KEY,
+            },
+            { paymentID: transactionNumber }
+          );
+
+          const {
+            paymentID,
+            transactionStatus,
+            amount,
+            trxID,
+            currency,
+            customerMsisdn,
+          } = checkPayment.data;
+          if (paymentID === transactionNumber) {
+            const tokenIncrements = {
+              250: 250,
+              500: 500,
+              1000: 1250,
+            };
+
+            const tokenIncrement = tokenIncrements[amount] || 0;
+
+            const updateQuery = {
+              $unset: { otp: 1 },
+              $inc: { orderToken: tokenIncrement },
+            };
+            const details = {
+              transactionStatus,
+              trxID,
+              customerMsisdn,
+            };
+
+            await Restaurant.updateOne({ _id: restaurantID, otp }, updateQuery);
+            await Transaction.create({
+              restaurantID,
+              transactionNumber,
+              details,
+              amount,
+              currency,
+            });
+          } else {
+            await Restaurant.updateOne(
+              { _id: restaurantID, otp },
+              { $unset: { otp: 1 } }
+            );
+          }
+        }
+      }
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error(error);
       res.status(500).json({
         success: false,
         message: "Something wrong. Please try again",
