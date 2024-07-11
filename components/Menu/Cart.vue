@@ -25,7 +25,8 @@
         </p>
         <p class="text-xl" v-else-if="totalQuantity > 0">
           Order
-          {{ totalQuantity }} for ৳{{ subTotalPrice - totalDiscount }}
+          {{ totalQuantity }} for {{ $currency
+          }}{{ subTotalPrice - totalDiscount }}
         </p>
         <p class="text-xl" v-else>Order</p>
         <p class="text-2xl">
@@ -139,13 +140,15 @@
                     </div>
                   </td>
                   <td class="no-wrap">
-                    <p class="text-right">৳{{ singleItemPrice(key) }}</p>
+                    <p class="text-right">
+                      {{ $currency }}{{ singleItemPrice(key) }}
+                    </p>
                     <p
                       class="text-right mt-[-8px]"
                       v-if="singleItemDiscount(key) > 0"
                     >
                       <small class="text-rose-500"
-                        >(৳{{ singleItemDiscount(key) }})</small
+                        >({{ $currency }}{{ singleItemDiscount(key) }})</small
                       >
                     </p>
                   </td>
@@ -155,16 +158,16 @@
             <div class="border-t-2 border-gray-300 border-dashed my-3"></div>
             <!-- <div class="flex justify-between font-medium text-lg">
               <p>Total:</p>
-              <p>৳{{ subTotalPrice }}</p>
+              <p>{{ $currency }}{{ subTotalPrice }}</p>
             </div>
             <div class="flex justify-between text-md text-rose-500">
               <p>Discount:</p>
-              <p>৳{{ totalDiscount }}</p>
+              <p>{{ $currency }}{{ totalDiscount }}</p>
             </div> -->
             <!-- <div class="border-t-2 border-gray-300 border-dashed my-3"></div> -->
             <div class="flex justify-between font-medium text-xl">
               <p>Total:</p>
-              <p>৳{{ subTotalPrice - totalDiscount }}</p>
+              <p>{{ $currency }}{{ subTotalPrice - totalDiscount }}</p>
             </div>
             <!-- <div class="border-t-2 border-gray-300 border-dashed my-3"></div> -->
             <!-- <Input

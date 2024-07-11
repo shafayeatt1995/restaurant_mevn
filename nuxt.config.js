@@ -100,6 +100,7 @@ export default {
     "~/plugins/api.js",
     "~/plugins/filter.js",
     "~/plugins/slide.js",
+    "~/plugins/global-variable.js",
     { src: "~/plugins/toast.js", mode: "client" },
     { src: "~/plugins/apexChart.js", mode: "client" },
     { src: "~/plugins/datePicker.js", mode: "client" },
@@ -114,6 +115,14 @@ export default {
     "@nuxtjs/tailwindcss",
     "@nuxtjs/dotenv",
     "@/modules/generator",
+    [
+      "k-domains",
+      {
+        subDomains: [{ domain: "bd", path: "" }],
+        rootDomain: { domain: "", path: "" },
+      },
+    ],
+    ["@nuxtjs/router", { keepDefaultRouter: true }],
   ],
 
   modules: [

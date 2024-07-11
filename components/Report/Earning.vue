@@ -2,7 +2,8 @@
   <div class="rounded-xl shadow-lg bg-white p-3">
     <div class="flex flex-col lg:flex-row justify-between lg:items-center">
       <h1 class="font-bold text-xl text-gray-700 py-2 px-2">
-        Sales: ৳<span v-if="activeSubscription">
+        Sales: {{ $currency
+        }}<span v-if="activeSubscription">
           {{ totalSales | currencyNumber }}
         </span>
         <span v-else>0</span>

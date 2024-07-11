@@ -118,10 +118,12 @@
               </small>
               <div>
                 <small v-if="item.discount">
-                  <del class="text-rose-500">৳{{ item.price }}</del>
-                  ৳{{ item.price - item.discountAmount }}
+                  <del class="text-rose-500"
+                    >{{ $currency }}{{ item.price }}</del
+                  >
+                  {{ $currency }}{{ item.price - item.discountAmount }}
                 </small>
-                <small v-else> ৳{{ item.price }} </small>
+                <small v-else> {{ $currency }}{{ item.price }} </small>
               </div>
             </div>
           </div>
@@ -225,10 +227,10 @@
           </div>
           <div>
             <p v-if="modalItem.discount">
-              <del class="text-rose-500">৳{{ itemPrice }}</del>
-              ৳{{ itemPrice - modalItem.discountAmount }}
+              <del class="text-rose-500">{{ $currency }}{{ itemPrice }}</del>
+              {{ $currency }}{{ itemPrice - modalItem.discountAmount }}
             </p>
-            <p v-else>৳{{ itemPrice }}</p>
+            <p v-else>{{ $currency }}{{ itemPrice }}</p>
           </div>
         </div>
         <div class="flex justify-end items-center sticky top-16 z-20">
@@ -293,7 +295,7 @@
                 <p>{{ option.name }}</p>
               </div>
 
-              <p v-if="option.price > 0">+ ৳{{ option.price }}</p>
+              <p v-if="option.price > 0">+ {{ $currency }}{{ option.price }}</p>
             </div>
           </div>
           <hr class="my-5" v-if="modalItem.choices.length !== key + 1" />
@@ -322,7 +324,7 @@
                 <p>{{ option.name }}</p>
               </div>
 
-              <p v-if="option.price > 0">+ ৳{{ option.price }}</p>
+              <p v-if="option.price > 0">+ {{ $currency }}{{ option.price }}</p>
             </div>
           </div>
         </div>

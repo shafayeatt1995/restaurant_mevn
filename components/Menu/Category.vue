@@ -211,10 +211,12 @@
                       </small>
                       <div>
                         <small v-if="item.discount">
-                          <del class="text-rose-500">৳{{ item.price }}</del>
-                          ৳{{ item.price - item.discountAmount }}
+                          <del class="text-rose-500"
+                            >{{ $currency }}{{ item.price }}</del
+                          >
+                          {{ $currency }}{{ item.price - item.discountAmount }}
                         </small>
-                        <small v-else> ৳{{ item.price }} </small>
+                        <small v-else> {{ $currency }}{{ item.price }} </small>
                       </div>
                     </div>
                   </div>

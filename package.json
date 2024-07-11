@@ -32,6 +32,7 @@
     "express-validator": "^7.0.1",
     "firebase": "^10.9.0",
     "jsonwebtoken": "^9.0.2",
+    "k-domains": "^1.2.5",
     "module-alias": "^2.2.3",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.45",

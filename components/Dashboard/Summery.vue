@@ -16,7 +16,7 @@
         <p class="font-medium text-gray-700">Today's Sale</p>
         <h4 class="text-xl font-bold text-gray-700">
           <span v-if="activeSubscription">
-            ৳ {{ (today?.totalSale || 0) | currencyNumber }}
+            {{ $currency }} {{ (today?.totalSale || 0) | currencyNumber }}
           </span>
           <Upgrade v-else class="text-sm"> 🔒 Upgrade your account </Upgrade>
         </h4>
@@ -76,7 +76,7 @@
         <p class="text-sm font-medium text-gray-700">This Month Sale</p>
         <h4 class="text-xl font-bold text-gray-700">
           <span v-if="activeSubscription">
-            ৳ {{ (monthly?.totalSale || 0) | currencyNumber }}
+            {{ $currency }} {{ (monthly?.totalSale || 0) | currencyNumber }}
           </span>
           <Upgrade v-else class="text-sm"> 🔒 Upgrade your account </Upgrade>
         </h4>

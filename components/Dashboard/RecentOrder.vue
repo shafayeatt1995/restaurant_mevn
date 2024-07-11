@@ -37,7 +37,7 @@
               {{ order.status }}
             </td>
             <td class="pt-5 font-medium">
-              ৳{{ order.netPrice | currencyNumber }}
+              {{ $currency }}{{ order.netPrice | currencyNumber }}
             </td>
           </tr>
         </tbody>

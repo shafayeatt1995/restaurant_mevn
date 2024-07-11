@@ -2,7 +2,8 @@
   <section class="bg-white shadow-xl rounded-xl p-3">
     <div class="flex justify-between mb-3">
       <h2 class="text-gray-700 text-xl font-bold mb-1 text-center">
-        Waiter sales: ৳<span v-if="activeSubscription">
+        Waiter sales: {{ $currency
+        }}<span v-if="activeSubscription">
           {{ totalSales | currencyNumber }}
         </span>
         <span v-else>0</span>

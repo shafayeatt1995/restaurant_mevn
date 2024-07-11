@@ -132,13 +132,15 @@
               </p>
             </td>
             <td class="pl-3">
-              <p class="text-right">৳{{ singleItemPrice(cart) }}</p>
+              <p class="text-right">
+                {{ $currency }}{{ singleItemPrice(cart) }}
+              </p>
               <p
                 class="text-right mt-[-8px]"
                 v-if="singleItemDiscount(cart) > 0"
               >
                 <small class="text-rose-500"
-                  >-৳{{ singleItemDiscount(cart) }}</small
+                  >-{{ $currency }}{{ singleItemDiscount(cart) }}</small
                 >
               </p>
             </td>
@@ -159,16 +161,16 @@
           <div class="flex flex-col">
             <div class="flex justify-between font-bold">
               <p>Sub total price:</p>
-              <p>৳{{ subTotalPrice }}</p>
+              <p>{{ $currency }}{{ subTotalPrice }}</p>
             </div>
             <div class="flex justify-between mb-2">
               <p>Discount:</p>
-              <p class="text-rose-500">-৳{{ totalDiscount }}</p>
+              <p class="text-rose-500">-{{ $currency }}{{ totalDiscount }}</p>
             </div>
             <hr />
             <div class="flex justify-between font-bold">
               <p>Total price:</p>
-              <p>৳{{ subTotalPrice - totalDiscount }}</p>
+              <p>{{ $currency }}{{ subTotalPrice - totalDiscount }}</p>
             </div>
             <div v-if="orderDetails.status === 'billing'">
               <div class="flex justify-between mb-2 mt-1">
@@ -192,7 +194,7 @@
                     </select>
                   </template>
                 </div>
-                <p>৳{{ showVatAmount | number }}</p>
+                <p>{{ $currency }}{{ showVatAmount | number }}</p>
               </div>
             </div>
             <div
@@ -210,7 +212,7 @@
                   /></span>
                 </p>
               </div>
-              <p>৳{{ additional.charge | number }}</p>
+              <p>{{ $currency }}{{ additional.charge | number }}</p>
             </div>
             <div v-if="orderDetails.status === 'billing'">
               <div
@@ -231,7 +233,7 @@
                   />
                 </div>
                 <div class="flex">
-                  ৳
+                  {{ $currency }}
                   <input
                     v-model="charge.charge"
                     type="number"
@@ -251,7 +253,7 @@
           <hr class="mt-1" />
           <div class="flex justify-between text-lg font-bold">
             <p>Total Payable:</p>
-            <p>৳{{ totalPayable | number }}</p>
+            <p>{{ $currency }}{{ totalPayable | number }}</p>
           </div>
           <template v-if="orderDetails.status === 'billing'">
             <div class="flex justify-between mb-1">
@@ -273,7 +275,8 @@
                 </template>
               </div>
               <div>
-                ৳<input
+                {{ $currency
+                }}<input
                   v-model.number="payment.amount"
                   type="number"
                   class="border border-gray-700 rounded-lg w-20 text-right pl-1 appearance-none"
@@ -284,7 +287,9 @@
             <hr />
             <div class="flex justify-between text-lg font-bold">
               <p>Returned Amount:</p>
-              <p>৳{{ (payment.amount - totalPayable) | number }}</p>
+              <p>
+                {{ $currency }}{{ (payment.amount - totalPayable) | number }}
+              </p>
             </div>
           </template>
           <template v-if="orderDetails.status === 'complete'">
@@ -292,13 +297,14 @@
               <div class="flex">
                 <p>Pay by: {{ orderDetails.paymentMethod }}</p>
               </div>
-              <div>৳{{ orderDetails.paymentReceivedAmount }}</div>
+              <div>{{ $currency }}{{ orderDetails.paymentReceivedAmount }}</div>
             </div>
             <hr />
             <div class="flex justify-between text-lg font-bold">
               <p>Returned Amount:</p>
               <p>
-                ৳{{
+                {{ $currency
+                }}{{
                   (orderDetails.paymentReceivedAmount - totalPayable) | number
                 }}
               </p>
