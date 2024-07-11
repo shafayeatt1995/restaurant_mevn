@@ -100,7 +100,7 @@ export default {
     "~/plugins/api.js",
     "~/plugins/filter.js",
     "~/plugins/slide.js",
-    { src: "~/plugins/global-variable.js", mode: "client" },
+    "~/plugins/global-variable.js",
     { src: "~/plugins/toast.js", mode: "client" },
     { src: "~/plugins/apexChart.js", mode: "client" },
     { src: "~/plugins/datePicker.js", mode: "client" },

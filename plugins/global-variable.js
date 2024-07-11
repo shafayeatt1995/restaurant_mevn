@@ -5,8 +5,12 @@ const globalVal = {
     Vue.mixin({
       computed: {
         $currency() {
-          const subdomain = window.location.hostname.split(".")[0];
-          return subdomain === "bd" ? "৳" : "$";
+          if (process.client) {
+            const subdomain = window.location.hostname.split(".")[0];
+            return subdomain === "bd" ? "৳" : "$";
+          } else {
+            return "";
+          }
         },
       },
     });
