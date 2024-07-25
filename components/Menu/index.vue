@@ -32,6 +32,7 @@
       :featureCategories="featureCategories"
       :featureItems="featureItems"
       :isFeatureCategory="isFeatureCategory"
+      :restaurant="restaurant"
     />
 
     <p class="text-center py-5">

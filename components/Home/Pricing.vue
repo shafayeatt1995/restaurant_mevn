@@ -24,7 +24,7 @@
               <p class="font-medium text-gray-700 uppercase">{{ p.name }}</p>
 
               <h2 class="text-4xl font-semibold text-gray-800 uppercase mt-5">
-                {{ $currency }}{{ p.price }}
+                {{ $domainCurrency }}{{ p.price }}
               </h2>
             </div>
             <div class="text-left mt-3">

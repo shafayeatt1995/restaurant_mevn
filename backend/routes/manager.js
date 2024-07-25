@@ -30,6 +30,7 @@ const {
   fetchAllEmployee,
   purchasePackage,
   paymentVerify,
+  updateCurrency,
 } = require("@/backend/controllers/UserController");
 const {
   fetchTable,
@@ -182,6 +183,8 @@ router.post("/chart-order-report", chartOrderReport);
 
 router.post("/purchase-package", purchasePackage);
 router.post("/payment-verify", paymentVerify);
+
+router.post("/update-currency", updateCurrency);
 
 router.post(
   "/update-restaurant-name",

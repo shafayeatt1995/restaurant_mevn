@@ -117,10 +117,14 @@ export default {
   computed: {
     ...mapGetters(["baseUrl", "manager"]),
     url() {
-      return `${location.origin}/menu/${this.$auth.user?.restaurant?.slug}`;
+      if (process.client) {
+        return `${location.origin}/menu/${this.$auth.user?.restaurant?.slug}`;
+      }
     },
     onlineUrl() {
-      return `${location.origin}/menu/${this.$auth.user?.restaurant?.slug}?type=Parcel`;
+      if (process.client) {
+        return `${location.origin}/menu/${this.$auth.user?.restaurant?.slug}?type=Parcel`;
+      }
     },
   },
   methods: {

@@ -42,6 +42,7 @@
       :activeCategory="activeCategory"
       :activeSubCategory="activeSubCategory"
       :align="align"
+      :restaurant="restaurant"
       @editItem="setEditItem"
     />
 
@@ -159,6 +160,7 @@ export default {
     featureItems: Array,
     featureCategories: Array,
     isFeatureCategory: Boolean,
+    restaurant: Object,
   },
   data() {
     return {

@@ -6,6 +6,13 @@ const globalVal = {
       computed: {
         $currency() {
           if (process.client) {
+            return this.$auth?.user?.restaurant?.currency || "";
+          } else {
+            return "";
+          }
+        },
+        $domainCurrency() {
+          if (process.client) {
             const subdomain = window.location.hostname.split(".")[0];
             return subdomain === "bd" ? "৳" : "$";
           } else {

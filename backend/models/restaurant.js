@@ -24,9 +24,10 @@ const RestaurantSchema = new Schema(
     mushak: { type: String, default: "" },
     printWebsite: { type: String, default: "" },
     authOrder: { type: Boolean, default: false },
-    orderToken: { type: Number, default: 0 },
+    orderToken: { type: Number, default: 10 },
     tokenPerOrder: { type: Number, default: 2, select: false },
     otp: { type: String, select: false },
+    currency: { type: String, default: "$" },
   },
   {
     strict: true,

@@ -107,23 +107,27 @@
           v-model="qrCode"
           :errors="errors"
         />
-        <div class="flex flex-col items-center my-4">
+        <div class="flex justify-center items-center">
           <div
+            class="flex flex-col items-center my-4 bg-white"
             id="svgCode"
             ref="qrCode"
-            :style="`border: ${qrCode.margin}px solid ${qrCode.background}`"
           >
-            <QrcodeVue
-              :value="url"
-              :size="qrCode.size"
-              level="L"
-              render-as="svg"
-              :background="qrCode.background"
-              :foreground="qrCode.foreground"
-              margin="10"
-            />
+            <div
+              :style="`border: ${qrCode.margin}px solid ${qrCode.background}`"
+            >
+              <QrcodeVue
+                :value="url"
+                :size="qrCode.size"
+                level="L"
+                render-as="svg"
+                :background="qrCode.background"
+                :foreground="qrCode.foreground"
+                margin="10"
+              />
+            </div>
+            <p class="my-3 text-center">{{ name }}</p>
           </div>
-          <p class="my-3">{{ name }}</p>
         </div>
 
         <div class="mt-4 flex flex-col lg:flex-row items-center sm:-mx-2 gap-3">
@@ -316,7 +320,7 @@ export default {
       if (printContent) {
         const printWindow = window.open("", "_blank");
         printWindow.document.write(
-          `<html><body>${printContent.toString()}</body></html>`
+          `<html><body style="text-align: center;">${printContent.toString()}</body></html>`
         );
         printWindow.document.close();
         printWindow.print();

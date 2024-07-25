@@ -747,6 +747,21 @@ const controller = {
       });
     }
   },
+
+  async updateCurrency(req, res) {
+    try {
+      const { currency } = req.body;
+      const { restaurantID } = req.user;
+      await Restaurant.updateOne({ _id: restaurantID }, { currency });
+      res.json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
 };
 
 module.exports = controller;

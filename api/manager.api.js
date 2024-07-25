@@ -232,4 +232,8 @@ export class ManagerApi extends BaseApi {
   paymentVerify(body) {
     return this.api.$post(`payment-verify`, body);
   }
+
+  updateCurrency(body) {
+    return this.api.$post(`update-currency`, body);
+  }
 }

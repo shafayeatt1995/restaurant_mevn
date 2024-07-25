@@ -19,6 +19,7 @@ const controller = {
         authOrder: 1,
         orderToken: 1,
         tokenPerOrder: 1,
+        currency: 1,
       });
       if (restaurant.orderToken >= restaurant.tokenPerOrder) {
         let findTable;
@@ -61,7 +62,7 @@ const controller = {
           tableList: tableList || [],
         });
       } else {
-        throw new error("purchase new order token");
+        throw new Error("purchase new order token");
       }
     } catch (error) {
       res

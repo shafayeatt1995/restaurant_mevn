@@ -16,7 +16,7 @@
           <SettingsPrinting v-else-if="activeTab === 'Printing'" />
           <SettingsProfile v-else-if="activeTab === 'Profile'" />
           <SettingsPassword v-else-if="activeTab === 'Password'" />
-          <SettingsDomain v-else-if="activeTab === 'Domain'" />
+          <SettingsCurrency v-else-if="activeTab === 'Currency'" />
         </div>
       </div>
     </section>
@@ -54,8 +54,8 @@ export default {
         { title: "Printing", icon: "fas fa-newspaper", show: this.manager },
         { title: "Notification", icon: "far fa-bell", show: false },
         {
-          title: "Domain",
-          icon: "fas fa-globe",
+          title: "Currency",
+          icon: "fas fa-dollar",
           show: this.manager,
         },
       ];

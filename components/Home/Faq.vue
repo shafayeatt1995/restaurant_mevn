@@ -86,10 +86,6 @@ export default {
           answer: `As long as you keep using our service, your QR code and ScanEating menu link will remain active indefinitely.`,
         },
         {
-          question: "Would you be able to create a menu for me?",
-          answer: `Yes, I can help you to create a menu for your restaurant. If you have specific requirements or features you'd like to include, please provide us for make a better menu for you.`,
-        },
-        {
           question:
             "What are the preferred image size and format for ScanEating?",
           answer: `For optimal display, we accept all popular image formats like jpeg, png, webp, etc.`,
