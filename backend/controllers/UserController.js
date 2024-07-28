@@ -428,12 +428,10 @@ const controller = {
         printName,
         printAddress,
         printPhone,
-        customMessage,
         printImage,
         printEmail,
-        printWebsite,
-        bin,
-        mushak,
+        topPrintData,
+        bottomPrintData,
       } = req.body;
 
       await Restaurant.updateOne(
@@ -442,12 +440,10 @@ const controller = {
           printName,
           printAddress,
           printPhone,
-          customMessage,
           printImage,
           printEmail,
-          printWebsite,
-          bin,
-          mushak,
+          topPrintData,
+          bottomPrintData,
         }
       );
       res.status(200).json({ success: true });

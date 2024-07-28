@@ -1,0 +1,130 @@
+[
+  {
+    "label": "Dollar $",
+    "value": "$"
+  },
+  {
+    "label": "Taka ৳",
+    "value": "৳"
+  },
+  {
+    "label": "Euro €",
+    "value": "€"
+  },
+  {
+    "label": "Pound £",
+    "value": "£"
+  },
+  {
+    "label": "Rupee ₹",
+    "value": "₹"
+  },
+  {
+    "label": "Rupee ₨",
+    "value": "₨"
+  },
+  {
+    "label": "Afghani ؋",
+    "value": "؋"
+  },
+  {
+    "label": "Colon ₡",
+    "value": "₡"
+  },
+  {
+    "label": "Dong ₫",
+    "value": "₫"
+  },
+  {
+    "label": "Dram ֏",
+    "value": "֏"
+  },
+  {
+    "label": "Dram ֏",
+    "value": "֏"
+  },
+  {
+    "label": "Franc ₣",
+    "value": "₣"
+  },
+  {
+    "label": "Guilder ƒ",
+    "value": "ƒ"
+  },
+  {
+    "label": "Hryvnia ₴",
+    "value": "₴"
+  },
+  {
+    "label": "Kina K",
+    "value": "K"
+  },
+  {
+    "label": "Kip ₭",
+    "value": "₭"
+  },
+  {
+    "label": "Lari ₾",
+    "value": "₾"
+  },
+  {
+    "label": "Lek L",
+    "value": "L"
+  },
+  {
+    "label": "Lira ₺",
+    "value": "₺"
+  },
+  {
+    "label": "Manat ₼",
+    "value": "₼"
+  },
+  {
+    "label": "Naira ₦",
+    "value": "₦"
+  },
+  {
+    "label": "Peso $",
+    "value": "$"
+  },
+  {
+    "label": "Rial ﷼",
+    "value": "﷼"
+  },
+  {
+    "label": "Riel ៛",
+    "value": "៛"
+  },
+  {
+    "label": "Ruble ₽",
+    "value": "₽"
+  },
+  {
+    "label": "Rufiyaa ރ.",
+    "value": "ރ."
+  },
+  {
+    "label": "Shekel ₪",
+    "value": "₪"
+  },
+  {
+    "label": "Tenge ₸",
+    "value": "₸"
+  },
+  {
+    "label": "Yen ¥",
+    "value": "¥"
+  },
+  {
+    "label": "Yuan ¥",
+    "value": "¥"
+  },
+  {
+    "label": "Yuan 元",
+    "value": "元"
+  },
+  {
+    "label": "Zloty zł",
+    "value": "zł"
+  }
+]

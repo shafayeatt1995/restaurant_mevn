@@ -34,17 +34,11 @@
         <tr v-if="restaurant.printEmail">
           <td style="text-align: center">Email: {{ restaurant.printEmail }}</td>
         </tr>
-        <tr v-if="restaurant.printWebsite">
-          <td style="text-align: center">
-            Website: {{ restaurant.printWebsite }}
-          </td>
-        </tr>
-        <tr v-if="restaurant.bin">
-          <td style="text-align: center">BIN: {{ restaurant.bin }}</td>
-        </tr>
-        <tr v-if="restaurant.mushak">
-          <td style="text-align: center">Mushak: {{ restaurant.mushak }}</td>
-        </tr>
+        <template  v-if="restaurant.topPrintData">
+          <tr v-for="(topPrintData, i) in restaurant.topPrintData" :key="i + 'print'">
+            <td style="text-align: center"><span v-if="topPrintData.title">{{ topPrintData.title }}: </span><span v-if="topPrintData.body">{{ topPrintData.body }}</span></td>
+          </tr>
+        </template>
       </tbody>
     </table>
     <table style="width: 100%; margin-top: 10px">
@@ -254,10 +248,11 @@
       style="border-bottom: 1px solid #000"
       v-if="orderDetails.paymentMethod && orderDetails.status === 'complete'"
     ></div>
-    <p style="padding: 0 15px; text-align: center; font-size: 12px">
-      {{ restaurant.customMessage }}
-    </p>
-    <center style="font-size: 12px">Technology Partner "scaneating.com"</center>
+
+    <div style="margin-top: 12px" v-if="restaurant.bottomPrintData">
+      <p style="text-align: center; font-size: 12px; margin: 0" v-for="(bottomPrintData, i) in restaurant.bottomPrintData" :key="i + 'bottomPrintData'"><span v-if="bottomPrintData.title">{{ bottomPrintData.title }}: </span><span v-if="bottomPrintData.body">{{ bottomPrintData.body }}</span></p>
+        </div>
+    <center style="font-size: 12px; padding: 0 15px; margin: 10px 0">Technology Partner "scaneating.com"</center>
   </div>
 </template>
 

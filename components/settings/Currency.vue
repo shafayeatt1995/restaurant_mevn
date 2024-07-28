@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+import currencies from "~/assets/currencies.json";
 export default {
   name: "SettingsCurrency",
   data() {
@@ -34,10 +35,7 @@ export default {
           placeholder: "Restaurant currency",
           name: "currency",
           label: { id: "currency", title: "Restaurant currency" },
-          options: [
-            { label: "Dollar $", value: "$" },
-            { label: "Taka ৳", value: "৳" },
-          ],
+          options: currencies,
         },
       ];
     },
