@@ -45,7 +45,6 @@
   </div>
 </template>
 <script>
-import preset from "~/assets/preset.json";
 export default {
   name: "SelectImage",
   props: { multiple: Boolean, modal: Boolean, limit: Number },
@@ -59,9 +58,9 @@ export default {
       },
     },
     images() {
-      return preset.map(({ key }, _id) => ({
-        _id,
-        url: `https://utfs.io/f/${key}`,
+      return [...Array(231)].map((_, i) => ({
+        _id: i + 1,
+        url: `/images/preset/img${i + 1}.webp`,
       }));
     },
   },
