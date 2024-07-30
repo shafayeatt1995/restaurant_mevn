@@ -1,4 +1,4 @@
-const { randomKey, addDate } = require("@/backend/utils");
+const { randomKey, addDate, stringSlug } = require("@/backend/utils");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const { plugin } = require("mongoose-auto-increment");
@@ -7,7 +7,8 @@ const RestaurantSchema = new Schema(
   {
     userID: { type: String, unique: true, index: true },
     name: { type: String, required: true },
-    slug: { type: Number, unique: true, index: true },
+    slug: { type: String, unique: true, index: true },
+    serial: { type: Number, unique: true },
     logo: { type: String, default: "/images/logo/1.png" },
     waiter: { type: [String], default: [] },
     chef: { type: [String], default: [] },
@@ -35,8 +36,15 @@ const RestaurantSchema = new Schema(
 
 RestaurantSchema.plugin(plugin, {
   model: "Restaurant",
-  field: "slug",
+  field: "serial",
   startAt: 1,
+});
+
+RestaurantSchema.pre("save", function (next) {
+  const restaurant = this;
+  if (!restaurant.isModified("name")) return next();
+  restaurant.slug = `${stringSlug(restaurant.name)}_${restaurant.serial}`;
+  next();
 });
 
 module.exports = mongoose.model("Restaurant", RestaurantSchema);

@@ -111,7 +111,7 @@
               {{ item.name }}
             </p>
             <div class="flex justify-between text-gray-700">
-              <small>
+              <small v-if="item.estimateTime">
                 <i class="far fa-clock" />
                 {{ item.estimateTime }}
                 minutes

@@ -59,7 +59,7 @@ export default {
     },
     images() {
       return [...Array(231)].map((_, i) => ({
-        _id: i + 1,
+        _id: `preset${i + 1}`,
         url: `/images/preset/img${i + 1}.webp`,
       }));
     },

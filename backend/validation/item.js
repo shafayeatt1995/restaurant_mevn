@@ -14,7 +14,7 @@ const createItemVal = [
   check("price")
     .isNumeric()
     .withMessage("Price must be a number")
-    .isInt({ min: 1 })
+    .isFloat({ min: 0.01 })
     .withMessage("Price couldn't be a non-negative number or a decimal number"),
   check("discount").isBoolean().withMessage("Please select Discount"),
   check("discountAmount").custom((value, { req }) => {
