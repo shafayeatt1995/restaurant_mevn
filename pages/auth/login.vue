@@ -10,22 +10,29 @@
         Complete digital menu solution
       </h2>
     </div>
-    <div class="px-6 py-8 md:px-8 flex items-center flex-1">
+    <div class="px-2 py-8 md:px-8 flex items-center flex-1">
       <form class="w-full" @submit.prevent="login">
-        <nuxt-img
-          format="webp"
-          loading="lazy"
-          decode="async"
-          class="w-20"
-          src="/logo.png"
-          alt="logo"
-        />
+        <div class="flex justify-center">
+          <nuxt-img
+            format="webp"
+            loading="lazy"
+            decode="async"
+            class="w-20"
+            src="/logo.png"
+            alt="logo"
+          />
+        </div>
 
         <h1
-          class="mt-3 text-2xl font-semibold text-gray-700 capitalize sm:text-3xl"
+          class="mt-3 text-2xl font-semibold text-gray-700 capitalize sm:text-3xl text-center"
         >
-          sign In
+          sign in at <span class="text-green-500">ScanEating</span>
         </h1>
+        <p class="text-center mb-5 text-sm md:text-base">
+          Simply sign in with google. If you have no account,
+          <br />
+          It will automatically create an account for you.
+        </p>
         <div class="flex justify-center" v-if="$route.query.demo === true">
           <div class="flex flex-col justify-center max-w-96">
             <div class="grid grid-cols-2 gap-10 border py-2 px-3 items-center">
@@ -90,7 +97,7 @@
             <span class="mx-2">Sign in with Google</span>
           </button>
 
-          <div class="mt-6 text-center">
+          <!-- <div class="mt-6 text-center">
             <p class="text-gray-700 text-lg">
               Don’t have an account yet?
               <nuxt-link
@@ -100,7 +107,7 @@
                 Sign up
               </nuxt-link>
             </p>
-          </div>
+          </div> -->
         </div>
       </form>
     </div>
@@ -120,7 +127,7 @@ export default {
       fields: [
         {
           type: "text",
-          placeholder: "Email or phone",
+          placeholder: "Email or ID",
           icon: "far fa-envelope",
           name: "email",
         },

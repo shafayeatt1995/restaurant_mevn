@@ -101,7 +101,7 @@
             </div>
 
             <div class="mt-4">
-              <label class="block mb-2 text-gray-700">Email or Phone</label>
+              <label class="block mb-2 text-gray-700">Email or ID</label>
               <input
                 v-model="form.email"
                 type="text"

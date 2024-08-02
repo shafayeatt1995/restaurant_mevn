@@ -32,7 +32,7 @@ const createUserVal = [
     .trim(),
   check("email")
     .isLength({ min: 1 })
-    .withMessage("Email or phone required")
+    .withMessage("Email or ID required")
     .isLength({ max: 100 })
     .withMessage("Don't try to spam")
     .trim()
@@ -91,7 +91,7 @@ const createEmployeeVal = [
     .trim(),
   check("email")
     .isLength({ min: 1 })
-    .withMessage("Email or phone required")
+    .withMessage("Email or ID required")
     .isLength({ max: 100 })
     .withMessage("Don't try to spam")
     .trim()
@@ -108,7 +108,7 @@ const createEmployeeVal = [
         };
         const user = await User.findOne({ email: value.toLowerCase() });
         if (user || checkIsUserAllowed(value)) {
-          throw new Error("Email or phone already has an account!");
+          throw new Error("Email or ID already has an account!");
         }
         return true;
       } catch (err) {
@@ -131,7 +131,7 @@ const updateEmployeeVal = [
     .trim(),
   check("email")
     .isLength({ min: 1 })
-    .withMessage("Email or phone required")
+    .withMessage("Email or ID required")
     .isLength({ max: 100 })
     .withMessage("Don't try to spam")
     .trim()
@@ -157,7 +157,7 @@ const updateEmployeeVal = [
         }
         const user = await User.findOne(matchQuery);
         if (user || checkIsUserAllowed(value)) {
-          throw new Error("Email or phone already has an account!");
+          throw new Error("Email or ID already has an account!");
         }
 
         const restaurant = await Restaurant.findOne({ _id: restaurantID });

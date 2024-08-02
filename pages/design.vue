@@ -29,17 +29,15 @@
       <div
         class="bg-orange-500 col-span-11 row-span-8 grid-cols-[repeat(22,_minmax(0,_1fr))] grid-rows-[repeat(16,_minmax(0,_1fr))] grid gap-[1px]"
       >
-        <div class="bg-black col-span-3 row-span-8">
+        <div class="bg-black col-span-8 row-span-3">
           Wall <Block>Cabinet</Block> <Block> 1.5/4</Block>
         </div>
-        <div class="bg-transparent col-span-9 row-span-8"></div>
+        <div class="bg-transparent col-span-4 row-span-8"></div>
         <div class="bg-black col-span-10 row-span-16">
           Bed <Block> 5/8</Block>
         </div>
         <div class="bg-transparent col-span-12 row-span-2"></div>
-        <div class="bg-black col-span-1 row-span-6">
-          Door <Block> 1.5/4</Block>
-        </div>
+        <div class="bg-black col-span-1 row-span-6">Door <Block> 3</Block></div>
       </div>
       <div
         class="bg-blue-500 col-span-6 row-span-4 grid-cols-[repeat(12,_minmax(0,_1fr))] grid-rows-[repeat(8,_minmax(0,_1fr))] grid gap-[1px]"
@@ -85,16 +83,14 @@
       <div
         class="bg-yellow-500 col-span-11 row-span-8 grid-cols-[repeat(22,_minmax(0,_1fr))] grid-rows-[repeat(16,_minmax(0,_1fr))] grid gap-[1px]"
       >
-        <div class="bg-black col-span-1 row-span-6">
-          Door <Block> 1.5/4</Block>
-        </div>
+        <div class="bg-black col-span-1 row-span-6">Door <Block> 3</Block></div>
         <div class="bg-transparent col-span-11 row-span-6"></div>
         <div class="bg-black col-span-10 row-span-16">
           Bed <Block> 5/8</Block>
         </div>
-        <div class="bg-transparent col-span-12 row-span-2"></div>
-        <div class="bg-black col-span-3 row-span-8">
-          Wall <Block>Cabinet</Block> <Block> 1.5/4</Block>
+        <div class="bg-transparent col-span-12 row-span-7"></div>
+        <div class="bg-black col-span-8 row-span-3">
+          Wall Cabinet <Block> 1.5/4</Block>
         </div>
       </div>
     </div>
