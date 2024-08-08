@@ -18,7 +18,7 @@
           <carousel
             :stagePadding="50"
             :nav="false"
-            :dots="false"
+            :dots="true"
             :loop="true"
             :autoplay="true"
             :responsive="{
@@ -28,9 +28,11 @@
             }"
           >
             <nuxt-link
+              v-for="({ slug, image }, key) in items"
+              :key="key"
               :to="{
-                name: 'menu-slug-table',
-                params: { slug: '1', table: '1' },
+                name: 'menu-slug',
+                params: { slug },
                 query: { demo: true },
               }"
               target="_blank"
@@ -39,41 +41,7 @@
                 format="webp"
                 loading="lazy"
                 decode="async"
-                src="/images/demo/1.webp"
-                alt="demo image"
-                class="w-full h-60 lg:h-96 object-contain"
-              />
-            </nuxt-link>
-            <nuxt-link
-              :to="{
-                name: 'menu-slug-table',
-                params: { slug: '1', table: '1' },
-                query: { demo: true },
-              }"
-              target="_blank"
-            >
-              <nuxt-img
-                format="webp"
-                loading="lazy"
-                decode="async"
-                src="/images/demo/2.webp"
-                alt="demo image"
-                class="w-full h-60 lg:h-96 object-contain"
-              />
-            </nuxt-link>
-            <nuxt-link
-              :to="{
-                name: 'menu-slug-table',
-                params: { slug: '1', table: '1' },
-                query: { demo: true },
-              }"
-              target="_blank"
-            >
-              <nuxt-img
-                format="webp"
-                loading="lazy"
-                decode="async"
-                src="/images/demo/3.webp"
+                :src="image"
                 alt="demo image"
                 class="w-full h-60 lg:h-96 object-contain"
               />
@@ -89,5 +57,39 @@ import Wave from "~/static/images/wave.svg";
 export default {
   name: "Contact",
   components: { Wave },
+  data() {
+    return {
+      items: [
+        {
+          slug: "wagamama",
+          image: "/images/demo/1.webp",
+        },
+        {
+          slug: "theb_baked_potato_factory_58",
+          image: "/images/demo/7.webp",
+        },
+        {
+          slug: "european_bakery_105",
+          image: "/images/demo/6.webp",
+        },
+        {
+          slug: "gustelo_106",
+          image: "/images/demo/5.webp",
+        },
+        {
+          slug: "janan_restaurant_107",
+          image: "/images/demo/4.webp",
+        },
+        {
+          slug: "ice_berg_108",
+          image: "/images/demo/3.webp",
+        },
+        {
+          slug: "maritxu_109",
+          image: "/images/demo/2.webp",
+        },
+      ],
+    };
+  },
 };
 </script>

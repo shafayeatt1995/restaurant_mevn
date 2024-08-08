@@ -199,7 +199,7 @@ export default {
       lang: "en",
       name: process.env.APP_NAME || "ScanEating",
       short_name: process.env.APP_NAME || "ScanEating",
-      start_url: "/dashboard",
+      start_url: "/",
       theme_color: "#1F2937",
       background_color: "#FFFFFF",
       orientation: "portrait",

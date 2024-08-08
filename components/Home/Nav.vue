@@ -94,5 +94,10 @@ export default {
       isOpen: false,
     };
   },
+  watch: {
+    $route() {
+      this.isOpen = false;
+    },
+  },
 };
 </script>

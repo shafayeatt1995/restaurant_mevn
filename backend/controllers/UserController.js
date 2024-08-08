@@ -8,9 +8,43 @@ const {
   postReq,
 } = require("@/backend/utils");
 const bcrypt = require("bcryptjs");
-const moment = require("moment");
+const PaddleSDK = require("paddle-sdk");
+const client = new PaddleSDK(
+  process.env.PADDLE_VENDOR_ID,
+  process.env.PADDLE_API_KEY,
+  process.env.PADDLE_PUBLIC_KEY,
+  { sandbox: true }
+);
 
 const controller = {
+  async purchasePackage(req, res) {
+    try {
+      const { email } = req.user;
+      const domain = process.env.BASE_URL;
+      const product_id = "pro_01hbe9w0s3sbkr3be76t8eaxkk";
+      const price_id = "pri_01hbea44x1zh0frb9x0p0zpv6k";
+
+      const chargeData = await client.generatePayLink({
+        title: "my custom checkout",
+        custom_message: "some custom message",
+        passthrough: JSON.stringify({ user: req.user }),
+        return_url: domain + "/payment/success",
+        cancel_url: domain + "/profile",
+        prices: ["USD:19.99"],
+      });
+
+      const charge = await client.generatePayLink(chargeData);
+      console.log(charge);
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Something wrong. Please try again",
+      });
+    }
+  },
   async fetchDashboard(req, res) {
     try {
       const { today, month } = req.query;

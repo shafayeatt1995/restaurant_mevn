@@ -24,7 +24,7 @@
           decode="async"
           :src="image.url"
           alt="preset image"
-          class="object-contain h-14 w-14"
+          class="object-contain size-20"
         />
       </div>
     </div>
@@ -58,7 +58,7 @@ export default {
       },
     },
     images() {
-      return [...Array(231)].map((_, i) => ({
+      return [...Array(238)].map((_, i) => ({
         _id: `preset${i + 1}`,
         url: `/images/preset/img${i + 1}.webp`,
       }));
@@ -89,6 +89,7 @@ export default {
         }
       } else {
         this.selected = { _id, url };
+        this.select();
       }
     },
     checkId(_id) {

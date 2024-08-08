@@ -55,6 +55,7 @@
         </div>
       </div>
     </transition>
+    <KeyTrigger eventKey="Escape" @action="modal = false" />
   </div>
 </template>
 <script>

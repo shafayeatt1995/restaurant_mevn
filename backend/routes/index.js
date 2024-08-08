@@ -1,7 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const { isAuthenticated } = require("@/backend/middleware");
+const axios = require("axios");
 
+router.post("/proxy", async (req, res) => {
+  try {
+    const { url } = req.body;
+    const response = await axios.get(url);
+    return res.send(response.data);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Something wrong. Please try again" });
+  }
+});
 router.use("/auth", require("./auth"));
 router.use("/menu", require("./menu"));
 router.use("/contact", require("./contact"));

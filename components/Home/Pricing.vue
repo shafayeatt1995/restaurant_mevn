@@ -21,31 +21,43 @@
         >
           <div class="flex flex-col justify-between h-full">
             <div>
-              <p class="font-medium text-gray-700 uppercase">{{ p.name }}</p>
+              <p class="text-xl font-bold text-gray-700 uppercase">
+                {{ p.name }}
+              </p>
 
-              <h2 class="text-4xl font-semibold text-gray-800 uppercase mt-5">
+              <h2
+                class="text-5xl font-semibold uppercase mt-6 mb-10 text-green-600"
+              >
+                <del v-if="p.discount" class="text-rose-500"
+                  >{{ $domainCurrency }}{{ p.discount }}</del
+                >
                 {{ $domainCurrency }}{{ p.price }}
               </h2>
             </div>
             <div class="text-left mt-3">
-              <p v-for="(data, i) in p.options" :key="`${key}${i}val`">
-                <i class="fa-solid fa-check mr-2"></i> {{ data }}
+              <p
+                v-for="(data, i) in p.options"
+                :key="`${key}${i}val`"
+                class="flex items-center mb-1"
+              >
+                <i class="far fa-check-circle mr-2 text-green-600"></i>
+                {{ data }}
               </p>
             </div>
             <Button
               @click.native.prevent="processPayment(p)"
               class="mt-10"
-              v-if="manager"
+              v-if="$auth.loggedIn"
               :loading="loading === p.price"
             >
               Active now
             </Button>
             <nuxt-link
               v-else
-              :to="{ name: 'dashboard-subscription' }"
+              :to="{ name: 'auth-login' }"
               class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80 disabled:bg-gray-500"
             >
-              Active now
+              Active now anik
             </nuxt-link>
           </div>
         </div>
@@ -55,7 +67,6 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { setItem, encode } from "@/utils";
 export default {
   name: "Pricing",
   data() {
@@ -77,7 +88,7 @@ export default {
               options: [
                 `৳1 per token`,
                 `Ger Real-time order notification`,
-                `Change item price any time`,
+                `Change item name, price, etc any time`,
                 `Sorting items, categories and feature categories any time`,
                 `Monitoring waiter performance`,
                 `Detailed Business report`,
@@ -90,7 +101,7 @@ export default {
               options: [
                 `৳1 per token`,
                 `Ger Real-time order notification`,
-                `Change item price any time`,
+                `Change item name, price, etc any time`,
                 `Sorting items, categories and feature categories any time`,
                 `Monitoring waiter performance`,
                 `Detailed Business report`,
@@ -103,7 +114,7 @@ export default {
               options: [
                 `৳0.80 per token`,
                 `Ger Real-time order notification`,
-                `Change item price any time`,
+                `Change item name, price, etc any time`,
                 `Sorting items, categories and feature categories any time`,
                 `Monitoring waiter performance`,
                 `Detailed Business report`,
@@ -115,11 +126,12 @@ export default {
           return [
             {
               name: "STARTER - 500 TOKEN",
-              price: 5,
+              price: 4.99,
               options: [
                 `$0.01 per token`,
+                `2 tokens will be deducted per order`,
                 `Ger Real-time order notification`,
-                `Change item price any time`,
+                `Change item name, price, etc any time`,
                 `Sorting items, categories and feature categories any time`,
                 `Monitoring waiter performance`,
                 `Detailed Business report`,
@@ -127,12 +139,13 @@ export default {
               ],
             },
             {
-              name: "STANDARD - 1000 TOKEN",
-              price: 10,
+              name: "STANDARD - 2000 TOKEN",
+              price: 19.99,
               options: [
                 `$0.01 per token`,
+                `2 tokens will be deducted per order`,
                 `Ger Real-time order notification`,
-                `Change item price any time`,
+                `Change item name, price, etc any time`,
                 `Sorting items, categories and feature categories any time`,
                 `Monitoring waiter performance`,
                 `Detailed Business report`,
@@ -141,11 +154,13 @@ export default {
             },
             {
               name: "Premium - 3000 TOKEN",
-              price: 25,
+              price: 24.99,
+              discount: 30,
               options: [
-                `$0.0083 per token`,
+                `$0.008 per token`,
+                `2 tokens will be deducted per order`,
                 `Ger Real-time order notification`,
-                `Change item price any time`,
+                `Change item name, price, etc any time`,
                 `Sorting items, categories and feature categories any time`,
                 `Monitoring waiter performance`,
                 `Detailed Business report`,
@@ -168,11 +183,14 @@ export default {
   methods: {
     async processPayment(pack) {
       try {
+        this.click = false;
         if (this.bd) {
           this.loading = pack.price;
           const body = { price: pack.price };
           const data = await this.$managerApi.purchasePackage(body);
           window.open(data.bkashURL, "_self");
+        } else {
+          await this.createCharge();
         }
       } catch (error) {
         console.error("Error occurred:", error);
@@ -182,6 +200,17 @@ export default {
         );
       } finally {
         this.loading = "";
+        this.click = true;
+      }
+    },
+    async createCharge() {
+      try {
+        const data = await this.$userApi.purchasePackage();
+        console.log(data);
+        // const { payment_url, vendor } = await this.$userApi.buyPackage();
+        // return { payment_url, vendor: Number(vendor) };
+      } catch (error) {
+        console.error(error);
       }
     },
   },

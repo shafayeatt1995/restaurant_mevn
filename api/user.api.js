@@ -40,4 +40,8 @@ export class UserApi extends BaseApi {
   createRestaurant(body) {
     return this.api.$post(`create-restaurant`, body);
   }
+
+  purchasePackage(body = {}) {
+    return this.api.$post(`purchase-package`, body);
+  }
 }

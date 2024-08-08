@@ -77,7 +77,7 @@
       </div>
       <div
         v-if="editMode"
-        class="flex flex-col items-center justify-between relative"
+        class="flex flex-col items-center justify-between relative cursor-pointer"
         @click="openModal"
       >
         <div

@@ -119,11 +119,11 @@
               <div>
                 <small v-if="item.discount">
                   <del class="text-rose-500"
-                    >{{ currency }}{{ item.price }}</del
+                    >{{ currency }} {{ item.price }}</del
                   >
-                  {{ currency }}{{ item.price - item.discountAmount }}
+                  {{ currency }} {{ item.price - item.discountAmount }}
                 </small>
-                <small v-else> {{ currency }}{{ item.price }}</small>
+                <small v-else> {{ currency }} {{ item.price }}</small>
               </div>
             </div>
           </div>
@@ -227,10 +227,13 @@
           </div>
           <div>
             <p v-if="modalItem.discount">
-              <del class="text-rose-500">{{ currency }}{{ itemPrice }}</del>
-              {{ currency }}{{ itemPrice - modalItem.discountAmount }}
+              <del class="text-rose-500"
+                >{{ currency }}{{ itemPrice | currencyNumber }}</del
+              >
+              {{ currency
+              }}{{ (itemPrice - modalItem.discountAmount) | currencyNumber }}
             </p>
-            <p v-else>{{ currency }}{{ itemPrice }}</p>
+            <p v-else>{{ currency }}{{ itemPrice | currencyNumber }}</p>
           </div>
         </div>
         <div class="flex justify-end items-center sticky top-16 z-20">

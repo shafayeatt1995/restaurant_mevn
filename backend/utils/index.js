@@ -11,7 +11,7 @@ const utils = {
   stringSlug(string) {
     return string
       .toLowerCase()
-      .replace(/\s+/g, "-")
+      .replace(/\s+/g, "_")
       .replace(/[^\w\-]/g, "");
   },
 

@@ -99,6 +99,7 @@ export default {
         }
       } else {
         this.selected = { _id, url };
+        this.select();
       }
     },
     checkId(_id) {

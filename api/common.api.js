@@ -12,4 +12,8 @@ export class CommonApi extends BaseApi {
   requestContact(body) {
     return this.api.$post(`contact`, body);
   }
+
+  proxy(body) {
+    return this.api.$post(`proxy`, body);
+  }
 }

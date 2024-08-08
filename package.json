@@ -42,6 +42,7 @@
     "nuxt": "^2.15.8",
     "nuxt-client-init-module": "^0.3.0",
     "nuxt-svg-loader": "^1.2.0",
+    "paddle-sdk": "^3.3.0",
     "passport": "0.5",
     "passport-google-oauth2": "^0.2.0",
     "postcss": "^8.4.17",
