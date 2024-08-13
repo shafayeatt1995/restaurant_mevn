@@ -105,23 +105,28 @@ export function decode(value) {
 export async function refreshTokens() {
   try {
     if (process.client) {
-      const isTokenExpiring = (token) => {
-        if (!token) return false;
-        const [, payload] = token.split(".");
-        const decoded = JSON.parse(atob(payload));
-        const exp = decoded.exp * 1000;
-        const now = Date.now();
-        const twentyFourHours = 24 * 60 * 60 * 1000;
+      // const isTokenExpiring = (token) => {
+      //   if (!token) return false;
+      //   const [, payload] = token.split(".");
+      //   const decoded = JSON.parse(atob(payload));
+      //   const exp = decoded.exp * 1000;
+      //   const now = Date.now();
+      //   const twentyFourHours = 24 * 60 * 60 * 1000;
 
-        return exp - now < twentyFourHours;
-      };
+      //   return exp - now < twentyFourHours;
+      // };
+
+      // if (this.$auth.loggedIn) {
+      //   const token = this.$auth.strategy.token.get();
+      //   if (isTokenExpiring(token)) {
+      //     await this.$auth.refreshTokens();
+      //     await this.$auth.fetchUser();
+      //   }
+      // }
 
       if (this.$auth.loggedIn) {
-        const token = this.$auth.strategy.token.get();
-        if (isTokenExpiring(token)) {
-          await this.$auth.refreshTokens();
-          await this.$auth.fetchUser();
-        }
+        await this.$auth.refreshTokens();
+        await this.$auth.fetchUser();
       }
     }
   } catch (error) {

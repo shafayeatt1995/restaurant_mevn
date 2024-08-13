@@ -38,7 +38,7 @@ export default {
   name: "MenuPage",
   auth: false,
   head() {
-    return { title: this.restaurant.name };
+    return { title: `${this.restaurant.name} - ${this.pageTitle}` };
   },
   data() {
     return {

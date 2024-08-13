@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const { User, Restaurant, Order, Transaction } = require("@/backend/models");
 const {
@@ -790,6 +791,57 @@ const controller = {
         success: false,
         message: "Something wrong. Please try again",
       });
+    }
+  },
+
+  async refresh(req, res) {
+    try {
+      const bearer =
+        req.headers.authorization || req.cookies["auth._token.cookie"];
+      if (!bearer) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const token =
+        bearer.split(" ")[0].toLowerCase() === "bearer"
+          ? bearer.split(" ")[1]
+          : null;
+      if (!token) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      await jwt.verify(token, process.env.AUTH_SECRET);
+      const user = await User.findOne({ email: req.user.email }).select(
+        "+power"
+      );
+
+      const { _id, name, email, power, type } = user;
+      const payload = { _id, name, email, type };
+      const restaurant = await Restaurant.findOne({ userID: _id });
+
+      if (power === 420 && type === "admin") {
+        payload.isAdmin = true;
+      } else if (type === "manager" && restaurant) {
+        payload.restaurantID = restaurant._id;
+        payload.restaurantSlug = restaurant.slug;
+        payload.isManager = true;
+      } else if (type === "waiter") {
+        const waiterRestaurant = await Restaurant.findOne({ waiter: _id });
+        if (waiterRestaurant) {
+          payload.restaurantID = waiterRestaurant._id;
+          payload.restaurantSlug = waiterRestaurant.slug;
+          payload.isWaiter = true;
+        }
+      }
+
+      const refresh_token = jwt.sign(payload, process.env.AUTH_SECRET, {
+        expiresIn: "30 days",
+      });
+
+      return res.json({ token: refresh_token });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message });
     }
   },
 };

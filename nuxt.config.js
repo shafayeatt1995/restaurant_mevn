@@ -167,6 +167,7 @@ export default {
         endpoints: {
           login: { url: "auth/login", method: "post" },
           logout: { url: "auth/logout", method: "get" },
+          refresh: { url: "user/refresh", method: "post" },
           user: { url: "user/profile", method: "get" },
         },
         autoLogout: true,

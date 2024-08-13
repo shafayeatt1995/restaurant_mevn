@@ -16,10 +16,12 @@ const {
   updatePassword,
   createRestaurant,
   purchasePackage,
+  refresh,
 } = require("@/backend/controllers/UserController");
 
 router.get("/profile", profile);
 router.get("/order", getOrder);
+router.post("/refresh", refresh);
 router.get("/bill-request", billRequest);
 router.post("/purchase-package", purchasePackage);
 router.get("/update-profile", updateProfileVal, validation, updateProfile);

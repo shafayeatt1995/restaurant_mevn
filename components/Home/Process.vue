@@ -12,11 +12,20 @@
           Provide fantastic experience to your customers!
         </p>
       </div>
+      <div class="flex justify-center pb-10 lg:mt-8">
+        <nuxt-img
+          format="webp"
+          loading="lazy"
+          decode="async"
+          src="/images/process.png"
+          alt="process image"
+        />
+      </div>
       <div
         class="flex flex-col lg:flex-row justify-between text-gray-700 lg:mt-8"
       >
         <div class="flex flex-col justify-center items-center mb-8">
-          <h2 class="text-2xl font-semibold mb-3">1. Get QR</h2>
+          <h2 class="text-2xl font-semibold mb-3">1. Generate QR code</h2>
           <nuxt-img
             format="webp"
             loading="lazy"

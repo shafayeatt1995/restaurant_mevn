@@ -1057,5 +1057,8 @@ export default {
   name: "PrivacyPolicyPage",
   auth: false,
   layout: "home",
+  head() {
+    return { title: `Terms & privacy - ${this.pageTitle}` };
+  },
 };
 </script>

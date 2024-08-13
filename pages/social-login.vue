@@ -13,6 +13,9 @@
 export default {
   name: "socialLogin",
   auth: false,
+  head() {
+    return { title: `Social login verification - ${this.pageTitle}` };
+  },
   async mounted() {
     await this.loadLottieAnimation();
     await this.getDetails();

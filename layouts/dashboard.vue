@@ -8,6 +8,7 @@
     >
       <DashboardTopbar />
       <Nuxt />
+      <CreateRestaurant />
     </main>
     <RealtimeOrderNotification />
     <RealtimePrintItemList />
