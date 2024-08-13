@@ -38,7 +38,7 @@ const isAuthenticated = async (req, res, next) => {
       throw new Error("Token not found");
     }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(401).send({ success: false, message: "Unauthorized" });
   }
 };

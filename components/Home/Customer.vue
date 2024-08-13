@@ -16,11 +16,11 @@
       <div class="w-full my-8 gap-5">
         <client-only>
           <carousel
+            :autoplay="true"
             :stagePadding="50"
             :nav="false"
-            :dots="true"
+            :dots="false"
             :loop="true"
-            :autoplay="true"
             :responsive="{
               0: { items: 1 },
               600: { items: 3 },
@@ -43,7 +43,7 @@
                 decode="async"
                 :src="image"
                 alt="demo image"
-                class="w-full h-60 lg:h-96 object-contain"
+                class="w-full h-72 lg:h-[28rem] object-contain"
               />
             </nuxt-link>
           </carousel>
