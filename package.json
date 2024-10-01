@@ -3,11 +3,11 @@
   "version": "1.0",
   "private": true,
   "scripts": {
-    "dev": "node index.js --trace-warnings",
+    "dev": "node app.js --trace-warnings",
     "dev2": "nuxt",
     "build": "nuxt build",
     "ana": "ANALYZE=true nuxt build",
-    "start": "node index.js",
+    "start": "node app.js",
     "generate": "nuxt generate"
   },
   "dependencies": {
