@@ -3,6 +3,15 @@ const router = express.Router();
 const { isAuthenticated } = require("@/backend/middleware");
 const axios = require("axios");
 
+router.get("/", async (req, res) => {
+  try {
+    return res.json({ message: "Hello world" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Something wrong. Please try again" });
+  }
+});
 router.post("/proxy", async (req, res) => {
   try {
     const { url } = req.body;
