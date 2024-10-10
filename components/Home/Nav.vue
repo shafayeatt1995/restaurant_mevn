@@ -77,7 +77,7 @@
         <div class="flex justify-center lg:block">
           <nuxt-link
             class="px-7 py-2 mt-6 text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-gray-900 rounded-lg lg:w-auto hover:bg-gray-800 focus:outline-none focus:bg-gray-800 font-bold"
-            :to="{ name: 'auth-login' }"
+            :to="{ name: $auth.loggedIn ? 'dashboard' : 'auth-login' }"
           >
             {{ $auth.loggedIn ? "Dashboard" : "Login" }}
           </nuxt-link>

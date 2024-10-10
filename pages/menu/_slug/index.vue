@@ -35,6 +35,7 @@
 import { mapActions } from "vuex";
 import axios from "axios";
 export default {
+  ssr: false,
   name: "MenuPage",
   auth: false,
   head() {
@@ -60,7 +61,7 @@ export default {
   async asyncData({ route, error, store }) {
     try {
       const { params } = route;
-      let res = await axios.get(store.state.baseUrl + "/api/menu", {
+      let res = await axios.get(store.state.apiUrl + "/api/menu", {
         params,
       });
       if (res.data.table) {

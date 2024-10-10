@@ -5,6 +5,7 @@ export const state = () => ({
   baseUrl: process.env.BASE_URL,
   isDev: process.env.NODE_ENV,
   appName: process.env.APP_NAME,
+  apiUrl: process.env.API_URL || "https://api.scaneating.com",
 });
 
 export const mutations = {
@@ -45,4 +46,5 @@ export const getters = {
   isDev: (state) => state.isDev === "development",
   isMobile: (state) => state.windowWidth < 992,
   baseUrl: (state) => state.baseUrl,
+  apiUrl: (state) => state.apiUrl,
 };

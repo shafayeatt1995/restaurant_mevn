@@ -1,8 +1,8 @@
 import BaseApi from "./base.api";
 export class ManagerApi extends BaseApi {
-  constructor($axios) {
+  constructor($axios, apiUrl) {
     super($axios);
-    this.api.setBaseURL(`/api/manager/`);
+    this.api.setBaseURL(`${apiUrl}/api/manager/`);
   }
 
   getCategory() {

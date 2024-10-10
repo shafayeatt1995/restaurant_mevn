@@ -1,8 +1,8 @@
 import BaseApi from "./base.api";
 export class AdminApi extends BaseApi {
-  constructor($axios) {
+  constructor($axios, apiUrl) {
     super($axios);
-    this.api.setBaseURL(`/api/admin/`);
+    this.api.setBaseURL(`${apiUrl}/api/admin/`);
   }
 
   fetchUser(params) {

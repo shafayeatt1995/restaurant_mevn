@@ -57,7 +57,7 @@
               :to="{ name: 'auth-login' }"
               class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80 disabled:bg-gray-500"
             >
-              Active now anik
+              Active now
             </nuxt-link>
           </div>
         </div>
@@ -71,127 +71,65 @@ export default {
   name: "Pricing",
   data() {
     return {
-      bd: true,
       loading: "",
+      pricing: [
+        {
+          name: "STARTER - 1000 TOKEN",
+          price: 9.99,
+          options: [
+            `$0.01 per token`,
+            `1 tokens will be deducted per order`,
+            `Ger Real-time order notification`,
+            `Change item name, price, etc any time`,
+            `Dine-in & Take-out order receive`,
+            `Sorting items, categories and feature categories any time`,
+            `Monitoring waiter performance`,
+            `Detailed Business report`,
+            `Token never expire`,
+          ],
+        },
+        {
+          name: "STANDARD - 2500 TOKEN",
+          price: 24.99,
+          options: [
+            `$0.01 per token`,
+            `1 tokens will be deducted per order`,
+            `Ger Real-time order notification`,
+            `Change item name, price, etc any time`,
+            `Dine-in & Take-out order receive`,
+            `Sorting items, categories and feature categories any time`,
+            `Monitoring waiter performance`,
+            `Detailed Business report`,
+            `Token never expire`,
+          ],
+        },
+        {
+          name: "Premium - 6000 TOKEN",
+          price: 49.99,
+          discount: 30,
+          options: [
+            `$0.008 per token`,
+            `1 tokens will be deducted per order`,
+            `Ger Real-time order notification`,
+            `Change item name, price, etc any time`,
+            `Dine-in & Take-out order receive`,
+            `Sorting items, categories and feature categories any time`,
+            `Monitoring waiter performance`,
+            `Detailed Business report`,
+            `Token never expire`,
+          ],
+        },
+      ],
     };
   },
   computed: {
     ...mapGetters(["manager"]),
-    pricing() {
-      if (process.client) {
-        const subdomain = window.location.hostname.split(".")[0];
-        if (subdomain === "bd") {
-          return [
-            {
-              name: "STARTER - 250 TOKEN",
-              price: 250,
-              options: [
-                `৳1 per token`,
-                `Ger Real-time order notification`,
-                `Change item name, price, etc any time`,
-                `Sorting items, categories and feature categories any time`,
-                `Monitoring waiter performance`,
-                `Detailed Business report`,
-                `Token never expire`,
-              ],
-            },
-            {
-              name: "STANDARD - 500 TOKEN",
-              price: 500,
-              options: [
-                `৳1 per token`,
-                `Ger Real-time order notification`,
-                `Change item name, price, etc any time`,
-                `Sorting items, categories and feature categories any time`,
-                `Monitoring waiter performance`,
-                `Detailed Business report`,
-                `Token never expire`,
-              ],
-            },
-            {
-              name: "Premium - 1250 TOKEN",
-              price: 1000,
-              options: [
-                `৳0.80 per token`,
-                `Ger Real-time order notification`,
-                `Change item name, price, etc any time`,
-                `Sorting items, categories and feature categories any time`,
-                `Monitoring waiter performance`,
-                `Detailed Business report`,
-                `Token never expire`,
-              ],
-            },
-          ];
-        } else {
-          return [
-            {
-              name: "STARTER - 500 TOKEN",
-              price: 4.99,
-              options: [
-                `$0.01 per token`,
-                `2 tokens will be deducted per order`,
-                `Ger Real-time order notification`,
-                `Change item name, price, etc any time`,
-                `Sorting items, categories and feature categories any time`,
-                `Monitoring waiter performance`,
-                `Detailed Business report`,
-                `Token never expire`,
-              ],
-            },
-            {
-              name: "STANDARD - 2000 TOKEN",
-              price: 19.99,
-              options: [
-                `$0.01 per token`,
-                `2 tokens will be deducted per order`,
-                `Ger Real-time order notification`,
-                `Change item name, price, etc any time`,
-                `Sorting items, categories and feature categories any time`,
-                `Monitoring waiter performance`,
-                `Detailed Business report`,
-                `Token never expire`,
-              ],
-            },
-            {
-              name: "Premium - 3000 TOKEN",
-              price: 24.99,
-              discount: 30,
-              options: [
-                `$0.008 per token`,
-                `2 tokens will be deducted per order`,
-                `Ger Real-time order notification`,
-                `Change item name, price, etc any time`,
-                `Sorting items, categories and feature categories any time`,
-                `Monitoring waiter performance`,
-                `Detailed Business report`,
-                `Token never expire`,
-              ],
-            },
-          ];
-        }
-      } else {
-        return [];
-      }
-    },
-  },
-  mounted() {
-    if (process.client) {
-      const subdomain = window.location.hostname.split(".")[0];
-      this.bd = subdomain === "bd";
-    }
   },
   methods: {
     async processPayment(pack) {
       try {
         this.click = false;
-        if (this.bd) {
-          this.loading = pack.price;
-          const body = { price: pack.price };
-          const data = await this.$managerApi.purchasePackage(body);
-          window.open(data.bkashURL, "_self");
-        } else {
-          await this.createCharge();
-        }
+        await this.createCharge();
       } catch (error) {
         console.error("Error occurred:", error);
         this.$nuxt.$emit(

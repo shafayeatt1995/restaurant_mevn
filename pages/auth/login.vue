@@ -115,6 +115,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { setItem } from "~/utils";
 export default {
   name: "Login",
   auth: "guest",
@@ -147,7 +148,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["pageTitle"]),
+    ...mapGetters(["pageTitle", "apiUrl"]),
     imageUrl() {
       const randomNumber = Math.floor(Math.random() * 3) + 1;
       return `background-image: url('/images/slider/${randomNumber}.jpg');`;
@@ -168,7 +169,8 @@ export default {
       }
     },
     socialLogin() {
-      window.open("/api/auth/social-login/google", "_self");
+      setItem("socialLogin", JSON.stringify({ name: "dashboard" }));
+      window.open(`${this.apiUrl}/api/auth/social-login/google`, "_self");
     },
     async demoSign(type) {
       if (type === "manager") {
@@ -180,7 +182,10 @@ export default {
           data: { email: "waiter@demo.com", password: "12345678" },
         });
       }
-      this.$router.push({ name: "dashboard" });
+      // this.$router.push({ name: "dashboard" });
+      window.location.href = this.$router.resolve({
+        name: "dashboard",
+      }).href;
     },
   },
 };

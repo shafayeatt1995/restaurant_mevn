@@ -1,8 +1,8 @@
 import BaseApi from "./base.api";
 export class CommonApi extends BaseApi {
-  constructor($axios) {
+  constructor($axios, apiUrl) {
     super($axios);
-    this.api.setBaseURL(`/api/`);
+    this.api.setBaseURL(`${apiUrl}/api/`);
   }
 
   testNotification() {

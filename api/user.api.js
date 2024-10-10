@@ -1,8 +1,8 @@
 import BaseApi from "./base.api";
 export class UserApi extends BaseApi {
-  constructor($axios) {
+  constructor($axios, apiUrl) {
     super($axios);
-    this.api.setBaseURL(`/api/user/`);
+    this.api.setBaseURL(`${apiUrl}/api/user/`);
   }
 
   fetchImage(params) {

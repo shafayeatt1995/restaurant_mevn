@@ -285,7 +285,7 @@ export default {
       editItem: false,
       featureMode: false,
       showItems: false,
-      align: "anik",
+      align: "",
       selectedItems: [],
       form: { name: "" },
       search: { search: "" },

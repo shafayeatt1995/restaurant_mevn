@@ -1,6 +1,6 @@
 export default {
-  ssr: process.env.MODE === "universal" ? true : false, //universal / spa
-  target: process.env.TARGET ?? "server", // static / server
+  ssr: process.env.MODE === "universal" ? true : false,
+  target: process.env.TARGET ?? "server",
   generate: { interval: 1000 },
   server: {
     host: process.env.HOST || "0.0.0.0",
@@ -70,12 +70,6 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.jpeg" }],
     script: [
       {
-        head: true,
-        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3898820315557241",
-        async: true,
-        crossorigin: "anonymous",
-      },
-      {
         type: "text/javascript",
         src: `/gtag-head.js`,
         head: true,
@@ -115,14 +109,6 @@ export default {
     "@nuxtjs/tailwindcss",
     "@nuxtjs/dotenv",
     "@/modules/generator",
-    [
-      "k-domains",
-      {
-        subDomains: [{ domain: "bd", path: "" }],
-        rootDomain: { domain: "", path: "" },
-      },
-    ],
-    ["@nuxtjs/router", { keepDefaultRouter: true }],
   ],
 
   modules: [
@@ -156,14 +142,14 @@ export default {
     defaults: { changefreq: "daily", priority: 1, lastmod: new Date() },
   },
 
-  axios: { proxy: true },
+  axios: { proxy: true, baseURL: process.env.API_URL },
 
   auth: {
     strategies: {
       cookie: {
         provider: "laravel/jwt",
         scheme: "refresh",
-        url: "api/",
+        url: `${process.env.API_URL}/api/`,
         endpoints: {
           login: { url: "auth/login", method: "post" },
           logout: { url: "auth/logout", method: "get" },
@@ -218,6 +204,4 @@ export default {
       }
     },
   },
-
-  serverMiddleware: [{ path: "/api", handler: "~/backend" }],
 };

@@ -6,7 +6,7 @@
           class="text-lg font-medium leading-6 text-gray-700 capitalize"
           id="modal-title"
         >
-          Create restaurant
+          Create your restaurant
         </h1>
       </div>
       <Input

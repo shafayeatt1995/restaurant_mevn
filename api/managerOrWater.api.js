@@ -1,8 +1,8 @@
 import BaseApi from "./base.api";
 export class MowApi extends BaseApi {
-  constructor($axios) {
+  constructor($axios, apiUrl) {
     super($axios);
-    this.api.setBaseURL(`/api/mow/`);
+    this.api.setBaseURL(`${apiUrl}/api/mow/`);
   }
 
   fetchTable() {

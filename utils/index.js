@@ -74,6 +74,7 @@ export function changeRoute(value) {
 }
 
 export function getItem(key, defaultValue = "") {
+  if (typeof window === "undefined") return;
   const item = localStorage.getItem(key);
   return item ?? defaultValue;
 }

@@ -1,10 +1,12 @@
+import { getItem } from "~/utils";
+
 class BaseApi {
   constructor($axios) {
-    this.api = $axios.create();
-  }
+    const config = { withCredentials: false, headers: {} };
+    const token = getItem("auth._token.cookie");
+    if (token) config.headers.Authorization = token;
 
-  setBaseURL(baseURL) {
-    this.api.setBaseURL(baseURL);
+    this.api = $axios.create(config);
   }
 }
 

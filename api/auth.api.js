@@ -1,8 +1,8 @@
 import BaseApi from "./base.api";
 export class AuthApi extends BaseApi {
-  constructor($axios) {
+  constructor($axios, apiUrl) {
     super($axios);
-    this.api.setBaseURL(`/api/auth/`);
+    this.api.setBaseURL(`${apiUrl}/api/auth/`);
   }
 
   signup(body) {

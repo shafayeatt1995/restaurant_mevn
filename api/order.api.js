@@ -1,8 +1,8 @@
 import BaseApi from "./base.api";
 export class OrderApi extends BaseApi {
-  constructor($axios) {
+  constructor($axios, apiUrl) {
     super($axios);
-    this.api.setBaseURL(`/api/order/`);
+    this.api.setBaseURL(`${apiUrl}/api/order/`);
   }
 
   createOrder(body) {

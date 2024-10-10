@@ -19,7 +19,7 @@ export default function () {
     const iframe = document.createElement("iframe");
     iframe.setAttribute(
       "src",
-      "https://www.googletagmanager.com/ns.html?id=GTM-5LTXXCZ6"
+      "https://www.googletagmanager.com/ns.html?id=GTM-KRX36ZC8"
     );
     iframe.setAttribute("height", "0");
     iframe.setAttribute("width", "0");

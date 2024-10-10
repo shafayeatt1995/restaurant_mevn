@@ -1,8 +1,8 @@
 import BaseApi from "./base.api";
 export class ItemApi extends BaseApi {
-  constructor($axios) {
+  constructor($axios, apiUrl) {
     super($axios);
-    this.api.setBaseURL(`/api/item/`);
+    this.api.setBaseURL(`${apiUrl}/api/item/`);
   }
 
   fetchCategory(params) {
